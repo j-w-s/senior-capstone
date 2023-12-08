@@ -4,10 +4,12 @@
     "\\src",
     "\\src\\app",
     "\\src\\app\\components",
+    "\\src\\app\\components\\explore-page",
+    "\\src\\app\\components\\explore-page\\explore-page-frame",
     "\\src\\app\\components\\landing-page",
     "\\src\\app\\components\\navbar",
     "\\src\\assets"
   ],
-  "SelectedNode": "\\src\\app\\components\\landing-page\\landing-page.component.scss",
+  "SelectedNode": "\\src\\app\\app.routes.ts",
   "PreviewInSolutionExplorer": false
 }
