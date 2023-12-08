@@ -4,8 +4,10 @@
     "\\src",
     "\\src\\app",
     "\\src\\app\\components",
-    "\\src\\app\\components\\landing-page"
+    "\\src\\app\\components\\landing-page",
+    "\\src\\app\\components\\navbar",
+    "\\src\\assets"
   ],
-  "SelectedNode": "\\package.json",
+  "SelectedNode": "\\src\\app\\components\\landing-page\\landing-page.component.scss",
   "PreviewInSolutionExplorer": false
 }

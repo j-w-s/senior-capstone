@@ -1,3 +1,137 @@
-.example-spacer {
-  flex: 1 1 auto;
+.image-container {
+  background-image: linear-gradient(rgba(226, 115, 150, 0.4), rgba(226, 115, 150, 0.4)), url('/assets/dogs-in-pound.jpg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+  height: 60vh;
+  width: 100%;
 }
+
+.title {
+  position: relative;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+  font-size: 10vh;
+}
+
+.landing-card-ad {
+  height: 25vh;
+  width: 25vh;
+  background-color: #ea9ab2;
+  color: white;
+  border-radius: 2vh;
+  transform: translateY(15%);
+}
+
+.card-header, .card-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-header {
+  font-size: 3vh;
+}
+
+.card-content {
+  font-size: 2.5vh;
+}
+
+.text-card {
+  width: 40%;
+  margin-top: 1.5%;
+  height: 60vh;
+  border-radius: 2vh;
+  margin-left: 10%;
+  background-color: #ea9ab2;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  font-size: 5vh;
+}
+
+.image-card {
+  width: 30%;
+  height: 60vh;
+  margin-top: 1.5%;
+  background-image: linear-gradient(rgba(226, 115, 150, 0.2), rgba(226, 115, 150, 0.2)), url('/assets/pugster.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: 2vh;
+  margin-right: 10%;
+}
+
+.diagonal-split-background {
+  background-color: #E27396;
+  background-image: -webkit-linear-gradient(105deg, #EFCFE3 50%, #E27396 50%);
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  height: 25vh;
+  width: 100%;
+  background-color: #EA9AB2;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-section1 {
+  width: 40%;
+  color: white;
+  font-size: 5vh;
+  margin-left: 10%;
+}
+
+.footer-section2, .footer-section3 {
+  width: 15%;
+  color: white;
+  font-size: 3vh;
+  margin-right: 10%;
+}
+
+.footer-bottom {
+  height: 10vh;
+  width: 100%;
+  background-color: #EA9AB2;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-divider {
+  width: 80%;
+  height: 0.5vh;
+  background-color: white;
+  margin: 0 auto;
+  border-radius: 0.25vh;
+}
+
+.basic-notice-footer{
+  margin-top: 1.5%;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  color:white;
+  font-size: 2.25vh;
+}
+
+.rounded-button {
+  margin-right: 5%;
+  color: white;
+  background-color: #E27396;
+  font-size: 2vh;
+  border-radius: 0.5vh;
+  transition: background-color 0.25s ease-in-out;
+  float: right;
+}
+
+
+.rounded-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+
