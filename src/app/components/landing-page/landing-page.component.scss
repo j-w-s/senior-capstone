@@ -1,5 +1,5 @@
 .image-container {
-  background-image: linear-gradient(rgba(226, 115, 150, 0.4), rgba(226, 115, 150, 0.4)), url('/assets/dogs-in-pound.jpg');
+  background-image: linear-gradient(rgba(31, 42, 43, 0.5), rgba(31, 42, 43, 0.5)), url('/assets/dogs-in-pound.jpg');
   background-repeat: no-repeat;
   background-size: 100%;
   background-position: center;
@@ -20,7 +20,7 @@
 .landing-card-ad {
   height: 25vh;
   width: 25vh;
-  background-color: #ea9ab2;
+  background-color: #5c6e7f;
   color: white;
   border-radius: 2vh;
   transform: translateY(15%);
@@ -46,7 +46,7 @@
   height: 60vh;
   border-radius: 2vh;
   margin-left: 10%;
-  background-color: #ea9ab2;
+  background-color: #5c6e7f;
   color: white;
   justify-content: center;
   align-items: center;
@@ -57,7 +57,7 @@
   width: 30%;
   height: 60vh;
   margin-top: 1.5%;
-  background-image: linear-gradient(rgba(226, 115, 150, 0.2), rgba(226, 115, 150, 0.2)), url('/assets/pugster.webp');
+  background-image: linear-gradient(rgba(31, 42, 43, 0.25), rgba(31, 42, 43, 0.25)), url('/assets/pugster.webp');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -66,8 +66,8 @@
 }
 
 .diagonal-split-background {
-  background-color: #E27396;
-  background-image: -webkit-linear-gradient(105deg, #EFCFE3 50%, #E27396 50%);
+  background-color: #1f2a2b;
+  background-image: -webkit-linear-gradient(105deg, #aaafc2 50%, #1f2a2b 50%);
 }
 
 .footer-top {
@@ -75,7 +75,7 @@
   justify-content: space-between;
   height: 25vh;
   width: 100%;
-  background-color: #EA9AB2;
+  background-color: #5c6e7f;
   justify-content: center;
   align-items: center;
 }
@@ -97,7 +97,7 @@
 .footer-bottom {
   height: 10vh;
   width: 100%;
-  background-color: #EA9AB2;
+  background-color: #5c6e7f;
   justify-content: center;
   align-items: center;
 }
@@ -122,7 +122,7 @@
 .rounded-button {
   margin-right: 5%;
   color: white;
-  background-color: #E27396;
+  background-color: #1f2a2b;
   font-size: 2vh;
   border-radius: 0.5vh;
   transition: background-color 0.25s ease-in-out;
