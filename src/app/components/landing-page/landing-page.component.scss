@@ -125,13 +125,66 @@
   background-color: #1f2a2b;
   font-size: 2vh;
   border-radius: 0.5vh;
-  transition: background-color 0.25s ease-in-out;
+  transition: background-color 0.1s ease-in-out;
   float: right;
+  transform: translateY(-2vh);
 }
-
 
 .rounded-button:hover {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
+.animals-explore-page-cards {
+  height: 50vh;
+  width: 40vh;
+  background-color: #5c6e7f;
+  color: white;
+  border-radius: 2vh;
+  cursor: pointer;
+  transition: background-color 0.1s ease-in-out;
+}
 
+.animals-explore-page-cards:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+mat-card img {
+  object-fit: cover;
+  width: 100%;
+  max-height: 20vh;
+}
+
+.example-full-width {
+  width: 90%;
+}
+
+.side-navigation {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #5c6e7f;
+  height: 100%;
+  width: 20%;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+
+animal-page-card {
+  width: 40%;
+  height: 100%;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  background-color: #1f2a2b;
+  background-image: -webkit-linear-gradient(105deg, #aaafc2 50%, #1f2a2b 50%);
+}
+
+.rounded-image {
+  border-radius: 4vh;
+  height: 50vh;
+  width: 50vh;
+}

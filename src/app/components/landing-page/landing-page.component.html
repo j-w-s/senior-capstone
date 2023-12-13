@@ -1,4 +1,4 @@
-<div style="height: 100%; width: 100%;">
+<div style="height: 100%; width: 100%;" *ngIf="tabIndex === 0">
 
   <div class="image-container">
     <div class="title">Animal Adopt</div>
@@ -46,7 +46,7 @@
       <p style="font-size: 3vh; margin-left: 5%; margin-right: 5%;">
         Found wandering the streets, Percy caught the attention of Emma, a compassionate rescuer. Their connection led to Percy finding a forever home filled with love and care. Since adoption, Percy's transformation has been remarkable—his health restored, his dull coat now shining. With Emma's support, Percy has become a local ambassador for adoption, inspiring others to consider giving pets a second chance. Follow Percy's journey and discover the joy of adopting a furry friend in need.
       </p>
-      <button mat-button class="rounded-button">Learn More (Demo!)</button>
+      <button mat-button class="rounded-button" style="color: white" (click)="selectTab(1)">Learn More (Demo!)</button>
     </div>
     <div class="image-card">
     </div>
@@ -69,6 +69,81 @@
     <div class="basic-notice-footer">
       Louisiana Tech University &#64; 2023 | Software Engineering Capstone Project
     </div>
+  </div>
+
+</div>
+
+<div style="height: 100%; width: 100%;" *ngIf="tabIndex === 1">
+
+  <div style="height: 110vh; display: flex; flex-direction: row;">
+
+    <div style="background-color: #5c6e7f; height: 100%; width: 20%; justify-content: center; align-content: center; align-items: center;">
+
+      <mat-form-field style="margin-left: 12.5%;">
+        <input matInput [(ngModel)]="filterType" placeholder="Filter by type">
+      </mat-form-field>
+
+      <mat-form-field style="margin-left: 12.5%;">
+        <input matInput [(ngModel)]="filterBreeds" placeholder="Filter by breeds">
+      </mat-form-field>
+
+      <mat-form-field style="margin-left: 12.5%;">
+        <input matInput [(ngModel)]="filterSex" placeholder="Filter by sex">
+      </mat-form-field>
+
+      <mat-form-field style="margin-left: 12.5%;">
+        <input matInput [(ngModel)]="filterZip" placeholder="Filter by zip">
+      </mat-form-field>
+
+      <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+        <button mat-button class="rounded-button" style="color:white;" (click)="updateFilter()">Apply Filter</button>
+        <button mat-button class="rounded-button" style="color:white;" (click)="resetFilter()">Reset filter</button>
+      </div>
+
+    </div>
+
+    <div style="margin-left: 1%; margin-top: 1%; max-width: 80%; overflow: hidden; max-height: 100%; display: flex; flex-wrap: wrap; justify-content: space-evenly;">
+
+      <mat-card class="animals-explore-page-cards" *ngFor="let animal of filteredResults | slice:currentPage*8:(currentPage+1)*8" (click)="loadAnimalDataForDisplay(animal)">
+        <mat-card-header>
+          <div mat-card-avatar [style.background-image]="'url(' + animal.owner_image + ')'" style="background-size: cover;"></div>
+          <mat-card-title>{{animal.animal_name}}</mat-card-title>
+          <mat-card-subtitle>{{animal.owner}}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image [src]="animal.image" alt="{{animal.animal_name}}">
+        <mat-card-content>
+          <p style="overflow: hidden; text-overflow: ellipsis;">
+            Type: {{animal.animal_type}} | Breeds: {{animal.animal_breeds}} |
+            Weight: {{animal.animal_weight}} | Sex: {{animal.animal_sex}} |
+            Zip: {{animal.zip}} | About: {{animal.about}} |
+            Medical History: {{animal.medical_history}}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <!--
+            <button mat-button>SHARE</button>
+            <button mat-button>LEARN MORE</button>
+      -->
+        </mat-card-actions>
+      </mat-card>
+
+      <div style="position: relative; display: flex; margin-top: 1%; flex-direction: row; justify-content: center; align-items: center;">
+
+        <button mat-button class="rounded-button" style="color: white;" (click)="lastPage()" [disabled]="isFirstPage()">Back</button>
+        <button mat-button class="rounded-button" style="color: white;" (click)="nextPage()" [disabled]="isLastPage()">Next</button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div style="height: 100%; width: 100%;" *ngIf="tabIndex === 2">
+
+  <div class="animal-page-card">
+    <img [src]="animal.image" class="rounded-image">
   </div>
 
 </div>
