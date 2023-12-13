@@ -52,25 +52,6 @@
     </div>
   </div>
 
-  <div style="height: 8vh; width: 100%;"></div>
-
-  <div class="footer-top">
-    <div class="footer-section1">
-      Animal Adopt with Tech
-    </div>
-    <div class="footer-section2">Resources</div>
-    <div class="footer-section3">Contact Us</div>
-  </div>
-
-  <div class="footer-bottom">
-    <div class="custom-divider">
-
-    </div>
-    <div class="basic-notice-footer">
-      Louisiana Tech University &#64; 2023 | Software Engineering Capstone Project
-    </div>
-  </div>
-
 </div>
 
 <div style="height: 100%; width: 100%;" *ngIf="tabIndex === 1">
@@ -121,9 +102,9 @@
         </mat-card-content>
         <mat-card-actions>
           <!--
-            <button mat-button>SHARE</button>
-            <button mat-button>LEARN MORE</button>
-      -->
+                <button mat-button>SHARE</button>
+                <button mat-button>LEARN MORE</button>
+          -->
         </mat-card-actions>
       </mat-card>
 
@@ -140,10 +121,60 @@
 
 </div>
 
-<div style="height: 100%; width: 100%;" *ngIf="tabIndex === 2">
+<div style="height: 100%; width: 100%; display: flex; flex-direction: row; justify-content: space-evenly; align-items: center; align-content: center;" *ngIf="tabIndex === 2">
 
   <div class="animal-page-card">
-    <img [src]="animal.image" class="rounded-image">
+
+    <div style="justify-content: center; align-content: center; align-items: center;">
+      <img [src]="animal.image" class="rounded-image">
+    </div>
+
   </div>
 
+  <div>
+
+    <mat-card>
+      <mat-card-header>
+        <div mat-card-avatar [style.background-image]="'url(' + this.animal.owner_image + ')'" style="background-size: cover;"></div>
+        <mat-card-subtitle>{{this.animal.owner}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-card-title style="font-size: 3vh">{{this.animal.animal_name}}</mat-card-title>
+        <p>Type: {{this.animal.animal_type}}</p>
+        <p>Breeds: {{this.animal.animal_breeds}}</p>
+        <p>Weight: {{this.animal.animal_weight}}</p>
+        <p>Sex: {{this.animal.animal_sex}}</p>
+        <p>Zip: {{this.animal.zip}}</p>
+        <p>About: {{this.animal.about}}</p>
+        <p>Medical History: {{this.animal.medical_history}}</p>
+      </mat-card-content>
+      <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
+        <button mat-icon-button style="float:right;" (click)="selectTab(3)">
+          <mat-icon>message</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+  </div>
+
+</div>
+
+
+<div style="height: 8vh; width: 100%;"></div>
+
+<div class="footer-top">
+  <div class="footer-section1">
+    Animal Adopt with Tech
+  </div>
+  <div class="footer-section2">Resources</div>
+  <div class="footer-section3">Contact Us</div>
+</div>
+
+<div class="footer-bottom">
+  <div class="custom-divider">
+
+  </div>
+  <div class="basic-notice-footer">
+    Louisiana Tech University &#64; 2023 | Software Engineering Capstone Project
+  </div>
 </div>

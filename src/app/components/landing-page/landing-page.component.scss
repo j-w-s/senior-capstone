@@ -172,19 +172,21 @@ mat-card img {
   align-items: center;
 }
 
-
-animal-page-card {
-  width: 40%;
-  height: 100%;
+.animal-page-card {
+  height: 65vh;
+  width: 80vh;
   justify-content: center;
   align-content: center;
   align-items: center;
-  background-color: #1f2a2b;
-  background-image: -webkit-linear-gradient(105deg, #aaafc2 50%, #1f2a2b 50%);
+  background-image: -webkit-linear-gradient(130deg, #aaafc2 50%, #1f2a2b 50%);
 }
 
 .rounded-image {
+  z-index: 2;
   border-radius: 4vh;
   height: 50vh;
   width: 50vh;
+  transform: translateX(33.33%);
+  margin-top: 7.5%;
 }
+
