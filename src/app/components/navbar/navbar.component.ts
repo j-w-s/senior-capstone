@@ -17,12 +17,12 @@ import { CommonModule } from '@angular/common';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
-
 export class NavbarComponent {
+  showPopup = false;
   menuListItems = [
-    { menuLinkText: 'Settings', menuIcon: 'settings', isDisabled: false },
-    { menuLinkText: 'AboutUs', menuIcon: 'people', isDisabled: false },
-    { menuLinkText: 'Help', menuIcon: 'help', isDisabled: false },
+    { menuLinkText: 'Settings', menuIcon: 'settings', isDisabled: true },
+    { menuLinkText: 'About Us', menuIcon: 'people', isDisabled: true },
+    { menuLinkText: 'Help', menuIcon: 'help', isDisabled: true },
     { menuLinkText: 'Contact', menuIcon: 'contact', isDisabled: true }
   ];
 }

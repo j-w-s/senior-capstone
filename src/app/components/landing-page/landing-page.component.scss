@@ -71,6 +71,8 @@
 }
 
 .footer-top {
+  border-top-right-radius: 2vh;
+  border-top-left-radius: 2vh;
   display: flex;
   justify-content: space-between;
   height: 25vh;
@@ -178,7 +180,6 @@ mat-card img {
   justify-content: center;
   align-content: center;
   align-items: center;
-  background-image: -webkit-linear-gradient(130deg, #aaafc2 50%, #1f2a2b 50%);
 }
 
 .rounded-image {
@@ -186,7 +187,64 @@ mat-card img {
   border-radius: 4vh;
   height: 50vh;
   width: 50vh;
-  transform: translateX(33.33%);
   margin-top: 7.5%;
 }
 
+.rounded-button-2 {
+  margin-right: 1vh;
+  margin-bottom: 1vh;
+  color: white;
+  background-color: #1f2a2b;
+  font-size: 2vh;
+  border-radius: 0.5vh;
+  transition: background-color 0.1s ease-in-out;
+}
+
+.rounded-button-2:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.image-container-edit {
+  position: relative;
+  width: 80%;
+  height: 80%;
+}
+
+.profile-image {
+  transition: filter 0.3s ease;
+}
+
+.image-container-edit:hover .profile-image {
+  filter: brightness(70%);
+}
+
+.edit-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+.image-container-edit:hover .edit-icon {
+  display: block;
+}
+
+.white-icon {
+  color: white;
+}
+
+.white-icon svg {
+  fill: white;
+}
+
+.white-icon {
+  background-color: #5c6e7f;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.1s ease-in-out;
+}
+
+.white-icon:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}

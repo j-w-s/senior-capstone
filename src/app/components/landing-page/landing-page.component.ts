@@ -12,6 +12,7 @@ import { NgZone } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
+import { MatMenuModule } from '@angular/material/menu';
 
 interface Animal {
   owner: string;
@@ -34,13 +35,14 @@ interface Animal {
   imports: [MatToolbarModule, CommonModule,
     MatTabsModule, MatButtonModule, MatIconModule,
     MatGridListModule, MatCardModule, FlexLayoutModule,
-    MatExpansionModule, MatInputModule, MatFormFieldModule, FormsModule,],
+    MatExpansionModule, MatInputModule, MatFormFieldModule, FormsModule,
+    MatMenuModule  ],
   standalone: true
 })
 
 export class LandingPageComponent {
 
-
+  showDialog = false;
   constructor(private ngZone: NgZone) { }
   filterType?: string;
   filterBreeds?: string;
@@ -354,6 +356,19 @@ export class LandingPageComponent {
   loadAnimalDataForDisplay(animal: Animal) {
     this.animal = animal;
     this.selectTab(2);
+  }
+
+  message = '';
+  user_messages: object[] = [];
+
+  sendMessage() {
+    if (this.message) {
+      this.user_messages.push({
+        owner_image: 'default_image.jpg',
+        owner: this.message
+      });
+      this.message = '';
+    }
   }
 
   updateFilter() {

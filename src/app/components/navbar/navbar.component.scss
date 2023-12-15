@@ -1,3 +1,11 @@
 .spacing {
   flex: 1 1 auto;
 }
+
+.popup {
+  background-color: white;
+  border: 1px solid black;
+  padding: 1vh;
+  z-index: 4;
+  transform: translateY(-5vh);
+}

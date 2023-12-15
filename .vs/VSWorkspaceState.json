@@ -3,13 +3,11 @@
     "",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\components",
     "\\src\\app\\components\\explore-page",
     "\\src\\app\\components\\explore-page\\explore-page-frame",
     "\\src\\app\\components\\landing-page",
-    "\\src\\app\\components\\navbar",
-    "\\src\\assets"
+    "\\src\\app\\components\\navbar"
   ],
-  "SelectedNode": "\\src\\app\\components\\landing-page\\landing-page.component.scss",
+  "SelectedNode": "\\src\\app\\services",
   "PreviewInSolutionExplorer": false
 }

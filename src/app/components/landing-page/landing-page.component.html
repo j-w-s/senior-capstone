@@ -56,9 +56,62 @@
 
 <div style="height: 100%; width: 100%;" *ngIf="tabIndex === 1">
 
+  <div *ngIf="showDialog" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(31, 42, 43, 0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
+
+    <div style="display: flex; flex-direction: row; background-color: #5c6e7f; border-radius: 2vh; height: 80vh; width: 80vh; margin-left: 4%; margin-top: 4%; ">
+
+      <div style="overflow: auto; margin-left: 1%; margin-top: 5%; height: 90%; justify-content: center; margin-right: 1%; display: flex; flex-direction: column; width: 48%;">
+
+        <mat-form-field style="margin-top: 30%;">
+          <input matInput placeholder="Animal Type">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Animal Breeds">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Animal Name">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Animal Weight">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Animal Sex">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Zip">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="About">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Medical History">
+        </mat-form-field>
+
+      </div>
+
+      <div style="display: flex; flex-direction: column; margin-left: 1%; margin-top: 5%; height: 90%; justify-content: center; margin-right: 1%; display: flex; flex-direction: column; width: 48%;">
+        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+          <div>
+            <img [src]="'https://t3.ftcdn.net/jpg/02/48/42/64/360_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg'" alt="Owner" style="height: 20vh; width: 20vh; cursor: pointer; border-radius: 50%;">
+            <mat-form-field>
+              <input matInput placeholder="Name">
+            </mat-form-field>
+          </div>
+          <button mat-button [ngClass]="'rounded-button-2'" style="color: white;" (click)="showDialog = !showDialog">Discard Changes</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
   <div style="height: 110vh; display: flex; flex-direction: row;">
 
-    <div style="background-color: #5c6e7f; height: 100%; width: 20%; justify-content: center; align-content: center; align-items: center;">
+    <div style="background-color: #5c6e7f; height: 100%; width: 20%; margin-top: 1%; justify-content: center; align-content: center; align-items: center; border-radius: 2vh;">
+
+      <p style="align-items: center; margin-top: 5%; justify-content: center; text-align: center; align-content: center; font-size: 2vh; color: white; ">
+        Search
+      </p>
 
       <mat-form-field style="margin-left: 12.5%;">
         <input matInput [(ngModel)]="filterType" placeholder="Filter by type">
@@ -77,8 +130,28 @@
       </mat-form-field>
 
       <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
-        <button mat-button class="rounded-button" style="color:white;" (click)="updateFilter()">Apply Filter</button>
-        <button mat-button class="rounded-button" style="color:white;" (click)="resetFilter()">Reset filter</button>
+        <button mat-button class="rounded-button-2" style="color:white;" (click)="updateFilter()">Apply Filter</button>
+        <button mat-button class="rounded-button-2" style="color:white;" (click)="resetFilter()">Reset filter</button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+
+        <p style="align-items: center; justify-content: center; text-align: center; align-content: center; font-size: 2vh; color: white;">
+          Create or Edit
+        </p>
+
+        <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+
+          <button mat-icon-button class="white-icon" (click)="showDialog = !showDialog">
+            <mat-icon>add</mat-icon>
+          </button>
+
+          <button [disabled]=true mat-icon-button class="white-icon">
+            <mat-icon>edit</mat-icon>
+          </button>
+
+        </div>
+
       </div>
 
     </div>
@@ -90,6 +163,9 @@
           <div mat-card-avatar [style.background-image]="'url(' + animal.owner_image + ')'" style="background-size: cover;"></div>
           <mat-card-title>{{animal.animal_name}}</mat-card-title>
           <mat-card-subtitle>{{animal.owner}}</mat-card-subtitle>
+          <button style="position:absolute; top: 1vh; right: 1vh;" mat-icon-button>
+            <mat-icon>favorite</mat-icon>
+          </button>
         </mat-card-header>
         <img mat-card-image [src]="animal.image" alt="{{animal.animal_name}}">
         <mat-card-content>
@@ -101,17 +177,14 @@
           </p>
         </mat-card-content>
         <mat-card-actions>
-          <!--
-                <button mat-button>SHARE</button>
-                <button mat-button>LEARN MORE</button>
-          -->
+
         </mat-card-actions>
       </mat-card>
 
       <div style="position: relative; display: flex; margin-top: 1%; flex-direction: row; justify-content: center; align-items: center;">
 
-        <button mat-button class="rounded-button" style="color: white;" (click)="lastPage()" [disabled]="isFirstPage()">Back</button>
-        <button mat-button class="rounded-button" style="color: white;" (click)="nextPage()" [disabled]="isLastPage()">Next</button>
+        <button mat-button class="rounded-button-2" style="color: white;" (click)="lastPage()" [disabled]="isFirstPage()">Back</button>
+        <button mat-button class="rounded-button-2" style="color: white;" (click)="nextPage()" [disabled]="isLastPage()">Next</button>
 
       </div>
 
@@ -121,7 +194,7 @@
 
 </div>
 
-<div style="height: 100%; width: 100%; display: flex; flex-direction: row; justify-content: space-evenly; align-items: center; align-content: center;" *ngIf="tabIndex === 2">
+<div style="height: 100%; width: 100%; display: flex; margin-top: 1%; flex-direction: row; justify-content: space-evenly; align-items: center; align-content: center; background-image: -webkit-linear-gradient(120deg, #aaafc2 50%, #1f2a2b 50%); border-bottom-left-radius: 2vh; border-top-right-radius: 2vh;" *ngIf="tabIndex === 2">
 
   <div class="animal-page-card">
 
@@ -159,8 +232,144 @@
 
 </div>
 
+<div style="height: 100%; width: 100%; display: flex; flex-direction: row; align-items: center; align-content: center; border: 10vh;" *ngIf="tabIndex === 3">
 
-<div style="height: 8vh; width: 100%;"></div>
+  <div style="display: flex; margin-top: 1%; flex-direction: row; height: 100%; width: 100%;">
+    <div style="width: 80vh; margin-top: 1%; height: 86vh; background-color: #5c6e7f; overflow: auto; border-top-left-radius: 2vh; border-bottom-left-radius: 2vh;">
+      <button mat-button style="height:16vh; width: 100%; display: flex; flex-direction: row;" *ngFor="let animal of animals">
+        <div style="height: 16vh; width: 100%; display: flex; justify-content: space-between;">
+          <div style="align-content: start; align-items: start;">
+            <img [src]="animal.owner_image" alt="Owner" style="height: 10vh; width: 10vh; border-radius: 50%;">
+          </div>
+          <div style="align-content: end; align-items: end;">
+            <p style="color:white; font-size: 2vh; text-align: end;">{{animal.owner}}</p>
+          </div>
+        </div>
+      </button>
+    </div>
+
+    <div style="width: 130vh; height: 86vh; margin-top: 1%; background-color: white; border-top-right-radius: 2vh; border-bottom-right-radius: 2vh;">
+      <div style="width: 100%; height: 78vh;">
+        <div style="display: flex; flex-direction: column">
+          <div style="display: flex; flex-direction: row; background-color: steelblue; justify-content: space-between;">
+            <div style="display: flex; flex-direction: column; margin-left: 1vh; justify-content: space-between;">
+              <img [src]="animal.owner_image" alt="Owner" style="height: 10vh; cursor: pointer; width: 10vh; border-radius: 50%;" (click)="selectTab(4)">
+              <p style="color: white; font-size: 2vh;">{{this.animal.owner}}</p>
+            </div>
+            <p style="color: white; font-size: 2vh; margin-right: 1vh;"> Hey, I heard you were interested. Let's talk! </p>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column">
+          <div style="display: flex; flex-direction: row; background-color: lightsteelblue; justify-content: space-between; ">
+            <div style="display: flex; flex-direction: column; margin-left: 1vh;">
+              <img [src]="'https://media.licdn.com/dms/image/D5603AQEoX-nW0BTv2g/profile-displayphoto-shrink_200_200/0/1680935125538?e=2147483647&v=beta&t=EjspuTdQFEYAzq6mgNsG2KF9Jg5ll7T-COBPoh4tXlg'" alt="Owner" style="height: 10vh; width: 10vh; cursor: pointer; border-radius: 50%;" (click)="selectTab(5);">
+              <p style="color: white; font-size: 2vh;">Cordus Bailey</p>
+            </div>
+            <p style="color: white; font-size: 2vh; margin-right: 1vh;"> I am! Let's meet! </p>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 0%; width: 100%; height: 4vh; margin-bottom: 4vh;">
+        <mat-form-field appearance="fill" style="width: 89%; margin-left: 1%;">
+          <input matInput [(ngModel)]="message" placeholder="Type a message">
+        </mat-form-field>
+        <button mat-button style="height: 100%; width: 9%; margin-right: 1%;" (click)="sendMessage()">Send</button>
+      </div>
+
+
+    </div>
+
+  </div>
+
+</div>
+
+<div style="height: 100%; width: 100%; display: flex; flex-direction: column; align-items: center; align-content: center; border: 10vh; position: relative;" *ngIf="tabIndex === 4">
+
+  <div style="margin-top: 1vh; background-color: #5c6e7f; border-radius: 2vh; color: white; height: 70vh; width: 50%; display: flex; flex-direction: row;">
+
+    <div style="margin-left: 2vh; margin-top: 2vh; z-index: 2; border-radius: 4vh; height: 60vh; width: 50vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <img style="border-radius: 50%; height: 100%; width: 100%; object-fit: cover;" [src]="animal.owner_image">
+      <p style="text-align: center; font-size: 3vh; color: white;">{{animal.owner}}</p>
+      <p style="text-align: center; font-size: 2vh; color: white;">Director at Company Name</p>
+    </div>
+
+    <div style="margin-left: 2vh; margin-top: 2vh; z-index: 2; border-radius: 4vh; height: 65vh; width: 50vh; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
+      <p style="text-align: center; font-size: 2vh; color: white;">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum.
+      </p>
+      <button mat-button class="rounded-button-2" style="position: absolute; bottom: 0; right: 1vh; color: white;" (click)="selectTab(3);">Contact</button>
+    </div>
+
+  </div>
+
+</div>
+
+<div style="height: 100%; width: 100%; display: flex; flex-direction: column; align-items: center; align-content: center; border: 10vh; position: relative;" *ngIf="tabIndex === 5">
+
+  <div style="margin-top: 1vh; background-color: #5c6e7f; border-radius: 2vh; color: white; height: 70vh; width: 50%; display: flex; flex-direction: row;">
+
+    <div style="margin-left: 2vh; margin-top: 2vh; z-index: 2; border-radius: 4vh; height: 60vh; width: 50vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <img style="border-radius: 50%; height: 100%; width: 100%; object-fit: cover;" [src]="'https://media.licdn.com/dms/image/D5603AQEoX-nW0BTv2g/profile-displayphoto-shrink_200_200/0/1680935125538?e=2147483647&v=beta&t=EjspuTdQFEYAzq6mgNsG2KF9Jg5ll7T-COBPoh4tXlg'">
+      <p style="text-align: center; font-size: 3vh; color: white;">Cordus Bailey</p>
+      <p style="text-align: center; font-size: 2vh; color: white;">Professional Hustler</p>
+    </div>
+
+    <div style="margin-left: 2vh; margin-top: 2vh; z-index: 2; border-radius: 4vh; height: 65vh; width: 50vh; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
+      <p style="text-align: center; font-size: 2vh; color: white;">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum.
+      </p>
+      <button mat-button class="rounded-button-2" style="position: absolute; bottom: 0; right: 1vh; color: white;" (click)="selectTab(6);">Edit Profile</button>
+    </div>
+
+  </div>
+
+</div>
+
+<div style="height: 100%; width: 100%; display: flex; flex-direction: column; align-items: center; align-content: center; border: 10vh; position: relative;" *ngIf="tabIndex === 6">
+
+  <div style="margin-top: 1vh; background-color: #5c6e7f; border-radius: 2vh; color: white; height: 70vh; width: 70%; display: flex; flex-direction: row;">
+
+    <div style="margin-left: 1vh; margin-top: 2vh; z-index: 2; border-radius: 4vh; height: 65vh; width: 40vh; display: flex; overflow: auto; flex-direction: column; align-items: center; justify-content: center;">
+      <button mat-button style="color: white; width: 75%; height: 20vh;" class="rounded-button-2">Settings</button>
+      <button mat-button style="color: white; width: 75%; height: 20vh; " class="rounded-button-2">Privacy</button>
+      <button mat-button style="color: white; width: 75%; height: 20vh; " class="rounded-button-2">Favorites</button>
+      <button mat-button style="color: white; width: 75%; height: 20vh; " class="rounded-button-2">Preferences</button>
+      <button mat-button style="color: white; width: 75%; height: 20vh; " class="rounded-button-2">Tools</button>
+    </div>
+
+    <div style="margin-left: 2vh; margin-top: 2vh; z-index: 2; border-radius: 4vh; height: 65vh; width: 50vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+
+      <div class="image-container-edit" style="display: flex; justify-content: center; align-items: center;">
+        <img class="profile-image" style="border-radius: 50%; cursor: pointer; height: 80%; width: 80%; object-fit: cover;" [src]="'https://media.licdn.com/dms/image/D5603AQEoX-nW0BTv2g/profile-displayphoto-shrink_200_200/0/1680935125538?e=2147483647&v=beta&t=EjspuTdQFEYAzq6mgNsG2KF9Jg5ll7T-COBPoh4tXlg'">
+        <div class="edit-icon" style="cursor: pointer;">Edit</div>
+      </div>
+
+      <mat-form-field>
+        <input matInput placeholder="Cordus Bailey">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Professional Hustler">
+      </mat-form-field>
+
+    </div>
+
+    <div style="margin-left: 2vh; margin-top: 2vh; z-index: 2; border-radius: 4vh; height: 65vh; width: 40vh; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; ">
+
+      <mat-form-field style="margin-top: 1vh; width: 90%; height: 80%; position: absolute; right: 1vh;">
+        <textarea style="height: 45vh;" matInput placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum."></textarea>
+      </mat-form-field>
+
+      <button mat-button class="rounded-button-2" style="position: absolute; bottom: 0; right: 1vh; color: white;" (click)="selectTab(5);">Save</button>
+    </div>
+
+
+  </div>
+</div>
+
+<div style="height: 4vh; width: 100%;"></div>
 
 <div class="footer-top">
   <div class="footer-section1">
