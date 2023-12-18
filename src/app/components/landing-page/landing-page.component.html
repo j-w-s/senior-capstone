@@ -89,14 +89,13 @@
 
       </div>
 
-      <div style="display: flex; flex-direction: column; margin-left: 1%; margin-top: 5%; height: 90%; justify-content: center; margin-right: 1%; display: flex; flex-direction: column; width: 48%;">
+      <div style="display: flex; flex-direction: column; margin-left: 1%; margin-top: 5%; height: 90%; justify-content: center;  align-items: center; align-content: center; margin-right: 1%; display: flex; flex-direction: column; width: 48%;">
         <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-          <div>
-            <img [src]="'https://t3.ftcdn.net/jpg/02/48/42/64/360_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg'" alt="Owner" style="height: 20vh; width: 20vh; cursor: pointer; border-radius: 50%;">
-            <mat-form-field>
-              <input matInput placeholder="Name">
-            </mat-form-field>
-          </div>
+          <img [src]="'https://t3.ftcdn.net/jpg/02/48/42/64/360_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg'" alt="Owner" style="justify-content: center; align-items: center; align-content: center; height: 20vh; width: 20vh; cursor: pointer; border-radius: 50%; margin-bottom: 5%;">
+          <mat-form-field>
+            <input matInput placeholder="Name">
+          </mat-form-field>
+          <button mat-button [ngClass]="'rounded-button-2'" style="color: white;" [disabled]=true (click)="showDialog = !showDialog">Publish</button>
           <button mat-button [ngClass]="'rounded-button-2'" style="color: white;" (click)="showDialog = !showDialog">Discard Changes</button>
         </div>
       </div>
