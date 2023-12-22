@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="login-container">
+    <h2 style="justify-content: center; text-align: center; color:white;">{{ formType.charAt(0).toUpperCase() + formType.slice(1) }}</h2>
+    <form [formGroup]="formType === 'login' ? loginForm : registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <input class="input" type="text" formControlName="usernameOrEmail" placeholder="Enter username or email">
+      </div>
+      <div class="form-group">
+        <input class="input" type="password" formControlName="password" placeholder="Enter password">
+      </div>
+      <div style="display: flex; flex-direction: column; justify-content: center;">
+        <button class="login-register-button" mat-button type="submit">{{ formType.charAt(0).toUpperCase() + formType.slice(1) }}</button>
+        <div style="margin-top: 1vh; display: flex; flex-direction: row; justify-content: center;">
+          <button class="toggle">Forgot Password?</button>
+          <button class="toggle" (click)="toggleForm()">Switch to {{ formType === 'login' ? 'Register' : 'Login' }}</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

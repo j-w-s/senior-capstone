@@ -13,6 +13,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
+import { LoginRegisterComponent } from '../login-register/login-register.component';
+import { FooterComponent } from '../footer/footer.component';
+
 
 interface Animal {
   owner: string;
@@ -36,7 +39,7 @@ interface Animal {
     MatTabsModule, MatButtonModule, MatIconModule,
     MatGridListModule, MatCardModule, FlexLayoutModule,
     MatExpansionModule, MatInputModule, MatFormFieldModule, FormsModule,
-    MatMenuModule  ],
+    MatMenuModule, LoginRegisterComponent, FooterComponent ],
   standalone: true
 })
 

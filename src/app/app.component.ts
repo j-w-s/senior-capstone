@@ -14,14 +14,15 @@ import { MatMenuModule } from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
 import { ExplorePageFrameComponent } from "../../src/app/components/explore-page/explore-page-frame/explore-page-frame.component";
 import { MatTabsModule } from '@angular/material/tabs';
-
+import { FooterComponent } from './components/footer/footer.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, RouterOutlet, LandingPageComponent, MatToolbarModule, MatButtonModule,
     MatIconModule, MatGridListModule, MatCardModule, FlexLayoutModule, MatExpansionModule, NavbarComponent, MatMenuModule,
-    RouterModule, ExplorePageFrameComponent, MatTabsModule],
+    RouterModule, ExplorePageFrameComponent,
+    MatTabsModule, FooterComponent ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

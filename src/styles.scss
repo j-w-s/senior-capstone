@@ -34,11 +34,17 @@ $Web-Application-Capstone-theme: mat.define-light-theme((
 @include mat.all-component-themes($Web-Application-Capstone-theme);
 
 /* You can add global styles to this file, and also import other style files */
+$color-lightest: #F5FFF2;
+$color-lighter: #EAF9E3;
+$color-medium: #C2D1B6;
+$color-darker: #6B7C56;
+$color-darkest: #22261A;
+
 body {
   margin: 0;
   padding: 0;
-  color: #aaafc2;
-  background-color: #aaafc2 !important;
+  color: white;
+  background-color: $color-lightest !important;
 }
 
 * {
@@ -46,5 +52,18 @@ body {
   box-shadow: none;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@font-face {
+  font-family: 'LibreBaskerville';
+  src: url('./fonts/LibreBaskerville-Regular.ttf') format('truetype');
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'LibreBaskerville', sans-serif;
+}
+
+
