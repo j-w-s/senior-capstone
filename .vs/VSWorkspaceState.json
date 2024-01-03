@@ -4,10 +4,13 @@
     "\\src",
     "\\src\\app",
     "\\src\\app\\components",
-    "\\src\\app\\components\\landing-page",
+    "\\src\\app\\components\\explore-page",
     "\\src\\app\\components\\login-register",
-    "\\src\\app\\services"
+    "\\src\\app\\components\\navbar",
+    "\\src\\app\\services",
+    "\\src\\assets",
+    "\\src\\fonts"
   ],
-  "SelectedNode": "\\src\\app\\app.routes.ts",
+  "SelectedNode": "\\src\\app\\components\\navbar\\navbar.component.scss",
   "PreviewInSolutionExplorer": false
 }
