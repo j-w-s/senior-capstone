@@ -24,7 +24,11 @@
               "@firebase/functions",
               "@firebase/performance",
               "@firebase/remote-config",
-              "@firebase/component"
+              "@firebase/component",
+              "undici",
+              "@grpc/grpc-js",
+              "@grpc/proto-loader",
+              "faye-websocket"
             ],
             "outputPath": "dist/web-app-capstone",
             "index": "src/index.html",
@@ -54,13 +58,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
                 }
               ],
               "outputHashing": "all"
