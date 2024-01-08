@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Web-Application-Capstone": {
+    "web-app-capstone": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,16 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/web-application-capstone",
+            "allowedCommonJsDependencies": [
+              "firebase",
+              "@firebase/app",
+              "firebase/app",
+              "@firebase/functions",
+              "@firebase/performance",
+              "@firebase/remote-config",
+              "@firebase/component"
+            ],
+            "outputPath": "dist/web-app-capstone",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -68,10 +77,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Web-Application-Capstone:build:production"
+              "buildTarget": "web-app-capstone:build:production"
             },
             "development": {
-              "buildTarget": "Web-Application-Capstone:build:development"
+              "buildTarget": "web-app-capstone:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -79,7 +88,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "Web-Application-Capstone:build"
+            "buildTarget": "web-app-capstone:build"
           }
         },
         "test": {
@@ -100,6 +109,23 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "version": 2
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "web-app-capstone:build:production",
+              "serveTarget": "web-app-capstone:serve:production"
+            },
+            "development": {
+              "buildTarget": "web-app-capstone:build:development",
+              "serveTarget": "web-app-capstone:serve:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }

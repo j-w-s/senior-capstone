@@ -32,9 +32,24 @@ export class LoginRegisterComponent implements OnInit {
     lastname: ['', Validators.required],
   });
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) {
 
-  ngOnInit(): void {
+
   }
 
+  ngOnInit(): void {
+
+
+
+  }
+
+  validateLogin() {
+    // if api call with info == true, return true; else, false
+    return true;
+  }
+
+  validateRegistration() {
+    // if api call with info == true, return true; else, false
+    return true;
+  }
 }

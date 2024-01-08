@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "animal-adopt-d41d0": {
+      "hosting": {
+        "web-app-capstone": [
+          "animal-adopt-d41d0"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "animal-adopt-d41d0"
+  }
+}
