@@ -3,14 +3,8 @@
     "",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\components",
-    "\\src\\app\\components\\explore-page",
-    "\\src\\app\\components\\login-register",
-    "\\src\\app\\components\\navbar",
-    "\\src\\app\\services",
-    "\\src\\assets",
-    "\\src\\fonts"
+    "\\src\\app\\services"
   ],
-  "SelectedNode": "\\src\\app\\components\\navbar\\navbar.component.scss",
+  "SelectedNode": "\\src\\app\\animal-adopt-d41d0-firebase-adminsdk-j4rie-d72cb5cd55.json",
   "PreviewInSolutionExplorer": false
 }
