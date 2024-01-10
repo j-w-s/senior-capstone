@@ -17,7 +17,7 @@
       <h1>Login</h1>
 
       <div class="form-container">
-        <form [formGroup]="loginForm" style="display: flex; flex-direction: column;">
+        <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()" style="display: flex; flex-direction: column;">
           <mat-form-field>
             <mat-label>Username or Email</mat-label>
             <input matInput formControlName="usernameoremail">
@@ -59,8 +59,7 @@
 
       <h1>Register</h1>
       <div style=" display: flex; flex-direction: row;">
-        <form [formGroup]="registerForm" style="display: flex; flex-direction: column;">
-
+<form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()" style="display: flex; flex-direction: column;">
           <mat-form-field>
             <mat-label>Username</mat-label>
             <input matInput formControlName="username">
