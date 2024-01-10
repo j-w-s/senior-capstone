@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { LoginRegisterService } from '../../services/login-register.service'; // Corrected import statement
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,11 +10,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login-register',
-  imports: [ MatFormFieldModule,
+  imports: [MatFormFieldModule,
     MatInputModule,
-    MatButtonModule,     CommonModule,
+    MatButtonModule, CommonModule,
     ReactiveFormsModule],
-    standalone: true,
+  standalone: true,
   templateUrl: './login-register.component.html',
 })
 export class LoginRegisterComponent implements OnInit {
@@ -32,24 +34,53 @@ export class LoginRegisterComponent implements OnInit {
     lastname: ['', Validators.required],
   });
 
-  constructor(private fb: FormBuilder) {
-
-
-  }
+  constructor(private fb: FormBuilder, private loginRegisterService: LoginRegisterService, private router: Router) { }
 
   ngOnInit(): void {
 
-
-
   }
 
-  validateLogin() {
-    // if api call with info == true, return true; else, false
-    return true;
+  onLoginSubmit() {
+    const usernameOrEmail = this.loginForm?.get('usernameoremail')?.value;
+    const password = this.loginForm?.get('password')?.value;
+    if (!usernameOrEmail || !password) {
+      alert('Please enter both username or email and password');
+      return;
+    }
+    this.loginRegisterService.validateLogin(usernameOrEmail, password) // Corrected usage
+      .then(isValid => {
+        if (isValid) {
+          //this.router.navigate(['/home']);
+        }
+        else {
+          alert('Invalid username or password');
+        }
+      });
   }
 
-  validateRegistration() {
-    // if api call with info == true, return true; else, false
-    return true;
+  onRegisterSubmit() {
+    const username = this.registerForm?.get('username')?.value;
+    const email = this.registerForm?.get('email')?.value;
+    const registrationData = this.registerForm?.value;
+    if (!username || !email || !registrationData) {
+      alert('Please fill out all fields');
+      return;
+    }
+    this.loginRegisterService.checkRegistration(username, email) // Corrected usage
+      .then(result => {
+        if (result.isValid) {
+          this.loginRegisterService.registerUser(username, registrationData) // Corrected usage
+            .then(response => {
+              if (response.success) {
+                //this.router.navigate(['/home']);
+              }
+              else {
+                alert('Error creating account');
+              }
+            });
+        } else {
+          alert(result.message);
+        }
+      });
   }
 }

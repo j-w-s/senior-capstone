@@ -1,6 +1,6 @@
-import UserPreferences from './user-preferences.ts';
+import UserPreferences from './user-preferences';
 import UserRating from './user-ratings';
-import Animal from './animal.ts';
+import Animal from './animal';
 
 interface User {
   userId: string;
