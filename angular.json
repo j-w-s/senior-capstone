@@ -48,10 +48,8 @@
             ],
             "scripts": [],
             "server": "src/main.server.ts",
-            "prerender": true,
-            "ssr": {
-              "entry": "server.ts"
-            }
+            "prerender": false,
+            "ssr": false,
           },
           "configurations": {
             "production": {
@@ -130,11 +128,23 @@
             }
           },
           "defaultConfiguration": "production"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
   "cli": {
-    "analytics": "266fefd1-74b4-441a-92fe-26e11ec5df92"
+    "analytics": "266fefd1-74b4-441a-92fe-26e11ec5df92",
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }
