@@ -34,7 +34,7 @@ export class LoginRegisterComponent implements OnInit {
     lastname: ['', Validators.required],
   });
 
-  constructor(private fb: FormBuilder, private loginRegisterService: LoginRegisterService, private router: Router) { }
+  constructor(private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
 
@@ -47,15 +47,6 @@ export class LoginRegisterComponent implements OnInit {
       alert('Please enter both username or email and password');
       return;
     }
-    this.loginRegisterService.validateLogin(usernameOrEmail, password) // Corrected usage
-      .then(isValid => {
-        if (isValid) {
-          //this.router.navigate(['/home']);
-        }
-        else {
-          alert('Invalid username or password');
-        }
-      });
   }
 
   onRegisterSubmit() {
@@ -66,21 +57,5 @@ export class LoginRegisterComponent implements OnInit {
       alert('Please fill out all fields');
       return;
     }
-    this.loginRegisterService.checkRegistration(username, email) // Corrected usage
-      .then(result => {
-        if (result.isValid) {
-          this.loginRegisterService.registerUser(username, registrationData) // Corrected usage
-            .then(response => {
-              if (response.success) {
-                //this.router.navigate(['/home']);
-              }
-              else {
-                alert('Error creating account');
-              }
-            });
-        } else {
-          alert(result.message);
-        }
-      });
   }
 }
