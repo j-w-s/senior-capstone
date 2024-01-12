@@ -42,7 +42,7 @@
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 2vh; background-color: rgb(34, 38, 26, 0.9); backdrop-filter: blur(0.8vw); border: 1px solid rgba(255, 255, 255, 0.2); width: 39vw; height: 79vh; ">
       <h1>New here?</h1>
       <h3>Register now to make a difference!</h3>
-      <button mat-raised-button color="primary" (click)="formType = 'register'">Sign Up</button>
+      <button mat-raised-button color="primary" (click)="formType = 'registerType'">Sign Up</button>
     </div>
 
   </div>
@@ -59,7 +59,14 @@
 
       <h1>Register</h1>
       <div style=" display: flex; flex-direction: row;">
-<form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()" style="display: flex; flex-direction: column;">
+        <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()" style="display: flex; flex-direction: column;">
+          
+          <div style="display: flex; flex-direction: row;">
+            <button mat-raised-button color="secondary" style="flex: 1;" disabled>User Account</button>
+            <!-- <input type="checkbox" name="option1" value="Option 1"> -->
+            <button mat-raised-button (click)="formType = 'registerBusiness'" color="primary" style="flex: 1;">Business Account</button>
+          </div>
+
           <mat-form-field>
             <mat-label>Username</mat-label>
             <input matInput formControlName="username">
@@ -93,6 +100,89 @@
           </mat-form-field>
 
           <button mat-raised-button color="primary" type="submit" [disabled]="!registerForm.valid">Register</button>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div style="width: 80vw; height: 80vh; border-radius: 2vh; display: flex; flex-direction: row; justify-content: space-evenly; justify-items: center; align-content: center; align-items: center; background-color: rgba(255, 255, 255, 0.1); backdrop-filter: blur(0.8vw); border: 1px solid rgba(255, 255, 255, 0.2);" *ngIf="formType === 'registerBusiness'">
+
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 2vh; background-color: rgb(34, 38, 26, 0.9); backdrop-filter: blur(0.8vw); border: 1px solid rgba(255, 255, 255, 0.2); width: 39vw; height: 79vh; ">
+      <h1>Existing member?</h1>
+      <h3>Let's get you back in!</h3>
+      <button mat-raised-button color="primary" (click)="formType = 'login'">Sign In</button>
+    </div>
+
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 2vh; width: 39vw; height: 79vh;">
+
+      <h1>Register</h1>
+      <div style=" display: flex; flex-direction: row;">
+        <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()" style="display: flex; flex-direction: column;">
+          
+          <div style="display: flex; flex-direction: row;">
+            <button mat-raised-button (click)="formType = 'register'" color="primary" style="flex: 1;">User Account</button>
+            <button mat-raised-button color="primary" style="flex: 1;" disabled>Business Account</button>
+          </div>
+
+          <mat-form-field>
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Phone Number</mat-label>
+            <input matInput type="tel" formControlName="phonenumber">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Address</mat-label>
+            <input matInput type="tel" formControlName="phonenumber">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Verify Later</mat-label>
+            <input matInput>
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" type="submit" [disabled]="!registerForm.valid">Register</button>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div style="width: 80vw; height: 80vh; border-radius: 2vh; display: flex; flex-direction: row; justify-content: space-evenly; justify-items: center; align-content: center; align-items: center; background-color: rgba(255, 255, 255, 0.1); backdrop-filter: blur(0.8vw); border: 1px solid rgba(255, 255, 255, 0.2);" *ngIf="formType === 'registerType'">
+
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 2vh; background-color: rgb(34, 38, 26, 0.9); backdrop-filter: blur(0.8vw); border: 1px solid rgba(255, 255, 255, 0.2); width: 39vw; height: 79vh; ">
+      <h1>Existing member?</h1>
+      <h3>Let's get you back in!</h3>
+      <button mat-raised-button color="primary" (click)="formType = 'login'">Sign In</button>
+    </div>
+
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 2vh; width: 39vw; height: 79vh;">
+
+      <h1>Register</h1>
+      <div style=" display: flex; flex-direction: row;">
+        <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()" style="display: flex; flex-direction: column;">
+          
+          <div style="display: flex; flex-direction: row;">
+            <button mat-raised-button (click)="formType = 'register'" color="primary" style="flex: 1;">User Account</button>
+            <button mat-raised-button (click)="formType = 'registerBusiness'" color="primary" style="flex: 1;">Business Account</button>
+          </div>
+         
         </form>
       </div>
 
