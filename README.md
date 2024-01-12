@@ -9,7 +9,8 @@
 # Animal Adopt | Pet Adoption and Rescue in Ruston<br/>Senior Capstone Project at Louisiana Tech University
 
 ## Links and Resources
-  [Sprint Planning Spreadsheet](https://docs.google.com/spreadsheets/d/1_6T-ZQahHiYX3u0BWAZIKlBXlH1P0tN7j2BRdPc-34k/edit#gid=672367071)
+  [Sprint Planning Spreadsheet](https://docs.google.com/spreadsheets/d/1_6T-ZQahHiYX3u0BWAZIKlBXlH1P0tN7j2BRdPc-34k/edit#gid=672367071)<br>
+  [Documentation](https://animal-adopt.gitbook.io/animal-adopt/)
 
 ## Contributors
 <a href="https://github.com/aem1226">
