@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { LoginRegisterService } from '../../services/login-register.service'; // Corrected import statement
+import { LoginRegisterService } from '../../services/login-register.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -34,7 +34,7 @@ export class LoginRegisterComponent implements OnInit {
     lastname: ['', Validators.required],
   });
 
-  constructor(private fb: FormBuilder, private router: Router) { }
+  constructor(private fb: FormBuilder, private loginRegisterService: LoginRegisterService, private router: Router) { }
 
   ngOnInit(): void {
 

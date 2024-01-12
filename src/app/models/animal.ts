@@ -15,6 +15,6 @@ interface Animal {
   adoptionStatus: number;
   dateOfBirth?: Date;
   color?: string;
-  vaccinationStatus?: string;
+  vaccinationStatus?: boolean;
 }
 export default Animal;

@@ -1,16 +1,35 @@
-// login-register.service.ts
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database'; // Updated import statement
 import 'firebase/database';
 import { Observable } from 'rxjs';
 import * as bcrypt from 'bcryptjs';
+import { initializeApp } from 'firebase/app';
+import {
+  UserCredential,
+  createUserWithEmailAndPassword,
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+} from 'firebase/auth';
+import { doc, getFirestore, setDoc } from 'firebase/firestore';
+import { getFunctions, httpsCallable } from 'firebase/functions';
+import { environment } from '../../environments/environment'
+import { from, switchMap, of } from 'rxjs';
+import { forkJoin } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+
+const app = initializeApp(environment.firebase);
+const auth = getAuth();
+const db = getFirestore(app);
+const functions = getFunctions(app, 'us-central1');
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginRegisterService {
 
-  constructor(private db: AngularFireDatabase) { }
+  constructor(private afs: AngularFirestore) { }
 
   // hash password (security)
   async hashPassword(password: string): Promise<string> {
@@ -21,7 +40,7 @@ export class LoginRegisterService {
 
   // validate login credentials
   async validateLogin(usernameOrEmail: string, password: string): Promise<boolean> {
-    const storedCredentials = await this.getLoginCredentials(usernameOrEmail).toPromise();
+    const storedCredentials = await this.getLoginCredentials("User", usernameOrEmail);
     if (storedCredentials && password) {
       return await bcrypt.compare(password, storedCredentials.password);
     }
@@ -30,17 +49,17 @@ export class LoginRegisterService {
 
   // retrieve user information based on username or email
   getUserInfoForLogin(usernameOrEmail: string): Observable<any> {
-    return this.getUserData(usernameOrEmail);
+    return this.getUserData("User", usernameOrEmail);
   }
 
   // check if registration details are valid
   async checkRegistration(username: string, email: string): Promise<{ isValid: boolean, message: string }> {
     try {
-      const existingUser = await this.getUserData(username).toPromise();
+      const existingUser = await this.getUserData("User", username);
       if (existingUser) {
         return { isValid: false, message: 'Username already exists.' };
       }
-      const existingEmail = await this.getRegistrationDetails(email).toPromise();
+      const existingEmail = await this.getRegistrationDetails(email);
       if (existingEmail) {
         return { isValid: false, message: 'Email already exists.' };
       }
@@ -64,20 +83,30 @@ export class LoginRegisterService {
     }
   }
 
-  getLoginCredentials(usernameOrEmail: string): Observable<any> {
-    return this.db.object(`users/${usernameOrEmail}`).valueChanges();
+  async getLoginCredentials(collectionName: string, usernameOrEmail: string): Promise<any> {
+    const snapshot = await this.afs.collection('User').ref.where('userEmail', '==', usernameOrEmail).get();
+    if (!snapshot.empty) {
+      return snapshot.docs[0].data();
+    } else {
+      throw new Error(`No account associated with ${usernameOrEmail}`);
+    }
   }
 
-  getUserData(usernameOrEmail: string): Observable<any> {
-    return this.db.object(`users/${usernameOrEmail}`).valueChanges();
+  getUserData(collectionName: string, usernameOrEmail: string): Observable<any> {
+    return this.afs.collection(collectionName).doc(usernameOrEmail).valueChanges();
   }
 
-  storeUserData(username: string, userData: any): Promise<void> {
-    return this.db.object(`users/${username}`).set(userData);
+  async getRegistrationDetails(email: string): Promise<any> {
+    const snapshot = await this.afs.collection('User').ref.where('userEmail', '==', email).get();
+    if (!snapshot.empty) {
+      return snapshot.docs[0].data();
+    } else {
+      throw new Error(`No account associated with ${email}`);
+    }
   }
 
-  getRegistrationDetails(email: string): Observable<any> {
-    return this.db.list('users', ref => ref.orderByChild('email').equalTo(email).limitToFirst(1)).valueChanges();
+  async storeUserData(username: string, userData: any): Promise<void> {
+    await this.afs.collection('User').doc(username).set(userData);
   }
 
 }
