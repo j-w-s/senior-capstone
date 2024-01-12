@@ -4,11 +4,12 @@
     "\\src",
     "\\src\\app",
     "\\src\\app\\components",
-    "\\src\\app\\components\\landing-page",
-    "\\src\\app\\components\\login-register",
-    "\\src\\app\\models",
-    "\\src\\app\\services"
+    "\\src\\app\\components\\explore-page",
+    "\\src\\app\\components\\explore-page\\explore-page-frame",
+    "\\src\\app\\components\\footer",
+    "\\src\\app\\services",
+    "\\src\\assets",
+    "\\src\\environments"
   ],
-  "SelectedNode": "\\src\\app\\components\\login-register\\login-register.component.html",
   "PreviewInSolutionExplorer": false
 }
