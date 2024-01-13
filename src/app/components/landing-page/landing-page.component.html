@@ -1,10 +1,10 @@
-<div style="height: 100%; width: 100%;" *ngIf="tabIndex === 0">
+<div style="height: 100%; width: 100%;" *ngIf="this.loginRegService.tabIndex === 9">
 
   <app-login-register></app-login-register>
 
 </div>
 
-<div style="height: 100%; width: 100%;" *ngIf="tabIndex === 9">
+<div style="height: 100%; width: 100%;" *ngIf="this.loginRegService.tabIndex === 0">
 
   <div class="image-container">
     <div class="title">Animal Adopt</div>
@@ -60,7 +60,7 @@
 
 </div>
 
-<div style="height: 100%; width: 100%;" *ngIf="tabIndex === 1">
+<div style="height: 100%; width: 100%;" *ngIf="this.loginRegService.tabIndex === 1">
 
   <div *ngIf="showDialog" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(31, 42, 43, 0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
 
@@ -199,7 +199,7 @@
 
 </div>
 
-<div style="height: 100%; width: 100%; display: flex; margin-top: 1%; flex-direction: row; justify-content: space-evenly; align-items: center; align-content: center; background-image: -webkit-linear-gradient(120deg, #aaafc2 50%, #1f2a2b 50%); border-bottom-left-radius: 2vh; border-top-right-radius: 2vh;" *ngIf="tabIndex === 2">
+<div style="height: 100%; width: 100%; display: flex; margin-top: 1%; flex-direction: row; justify-content: space-evenly; align-items: center; align-content: center; background-image: -webkit-linear-gradient(120deg, #aaafc2 50%, #1f2a2b 50%); border-bottom-left-radius: 2vh; border-top-right-radius: 2vh;" *ngIf="this.loginRegService.tabIndex === 2">
 
   <div class="animal-page-card">
 
@@ -237,7 +237,7 @@
 
 </div>
 
-<div style="height: 100%; width: 100%; display: flex; flex-direction: row; align-items: center; align-content: center; border: 10vh;" *ngIf="tabIndex === 3">
+<div style="height: 100%; width: 100%; display: flex; flex-direction: row; align-items: center; align-content: center; border: 10vh;" *ngIf="this.loginRegService.tabIndex === 3">
 
   <div style="display: flex; margin-top: 1%; flex-direction: row; height: 100%; width: 100%;">
     <div style="width: 80vh; margin-top: 1%; height: 86vh; background-color: #5c6e7f; overflow: auto; border-top-left-radius: 2vh; border-bottom-left-radius: 2vh;">
@@ -290,7 +290,7 @@
 
 </div>
 
-<div style="height: 100%; width: 100%; display: flex; flex-direction: column; align-items: center; align-content: center; border: 10vh; position: relative;" *ngIf="tabIndex === 4">
+<div style="height: 100%; width: 100%; display: flex; flex-direction: column; align-items: center; align-content: center; border: 10vh; position: relative;" *ngIf="this.loginRegService.tabIndex === 4">
 
   <div style="margin-top: 1vh; background-color: #5c6e7f; border-radius: 2vh; color: white; height: 70vh; width: 50%; display: flex; flex-direction: row;">
 
@@ -311,7 +311,7 @@
 
 </div>
 
-<div style="height: 100%; width: 100%; display: flex; flex-direction: column; align-items: center; align-content: center; border: 10vh; position: relative;" *ngIf="tabIndex === 5">
+<div style="height: 100%; width: 100%; display: flex; flex-direction: column; align-items: center; align-content: center; border: 10vh; position: relative;" *ngIf="this.loginRegService.tabIndex === 5">
 
   <div style="margin-top: 1vh; background-color: #5c6e7f; border-radius: 2vh; color: white; height: 70vh; width: 50%; display: flex; flex-direction: row;">
 
@@ -332,7 +332,7 @@
 
 </div>
 
-<div style="height: 100%; width: 100%; display: flex; flex-direction: column; align-items: center; align-content: center; border: 10vh; position: relative;" *ngIf="tabIndex === 6">
+<div style="height: 100%; width: 100%; display: flex; flex-direction: column; align-items: center; align-content: center; border: 10vh; position: relative;" *ngIf="this.loginRegService.tabIndex === 6">
 
   <div style="margin-top: 1vh; background-color: #5c6e7f; border-radius: 2vh; color: white; height: 70vh; width: 70%; display: flex; flex-direction: row;">
 

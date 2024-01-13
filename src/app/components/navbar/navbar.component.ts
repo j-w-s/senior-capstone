@@ -9,6 +9,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { LoginRegService } from '../../services/login-reg.service';
+
 
 @Component({
   selector: 'app-navbar',
@@ -18,6 +20,9 @@ import { CommonModule } from '@angular/common';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
+  constructor(public loginRegService: LoginRegService) {
+
+  }
   showPopup = false;
   menuListItems = [
     { menuLinkText: 'Settings', menuIcon: 'settings', isDisabled: true },
@@ -25,4 +30,12 @@ export class NavbarComponent {
     { menuLinkText: 'Help', menuIcon: 'help', isDisabled: true },
     { menuLinkText: 'Contact', menuIcon: 'contact', isDisabled: true }
   ];
+
+  updateTabIndex(): void {
+    if (this.loginRegService.tabIndex === 9) {
+      this.loginRegService.tabIndex = 0;
+    } else {
+      this.loginRegService.tabIndex = 9;
+    }
+  }
 }

@@ -19,7 +19,7 @@ import { getRemoteConfig, provideRemoteConfig } from '@angular/fire/remote-confi
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes), provideClientHydration(), provideAnimations(), importProvidersFrom(provideFirebaseApp(() => initializeApp({"projectId":"animal-adopt-d41d0","appId":"1:365373523489:web:e8db7a7cb903c823640560","databaseURL":"https://animal-adopt-d41d0-default-rtdb.firebaseio.com","storageBucket":"animal-adopt-d41d0.appspot.com","apiKey":"AIzaSyAUxQ8rHeBD8VwHJ2Cu4nMYenkEHFjQPQw","authDomain":"animal-adopt-d41d0.firebaseapp.com","messagingSenderId":"365373523489","measurementId":"G-34K0D0GLV0"}))), importProvidersFrom(provideAuth(() => getAuth())), importProvidersFrom(provideAnalytics(() => getAnalytics())), ScreenTrackingService, UserTrackingService, importProvidersFrom(provideAppCheck(() => {
   // TODO get a reCAPTCHA Enterprise here https://console.cloud.google.com/security/recaptcha?project=_
-    const provider = new ReCaptchaEnterpriseProvider("6LdaXkkpAAAAAISgQEwPBvGPX9u_r3qkQyQI92iK");
+    const provider = new ReCaptchaEnterpriseProvider("8893450a-265c-4e3f-b16c-ef1974044c28");
   return initializeAppCheck(undefined, { provider, isTokenAutoRefreshEnabled: true });
 })), importProvidersFrom(provideFirestore(() => getFirestore())), importProvidersFrom(provideDatabase(() => getDatabase())), importProvidersFrom(provideFunctions(() => getFunctions())), importProvidersFrom(provideMessaging(() => getMessaging())), importProvidersFrom(providePerformance(() => getPerformance())), importProvidersFrom(provideStorage(() => getStorage())), importProvidersFrom(provideRemoteConfig(() => getRemoteConfig()))]
 };

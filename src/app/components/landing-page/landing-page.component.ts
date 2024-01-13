@@ -15,7 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
 import { LoginRegisterComponent } from '../login-register/login-register.component';
 import { FooterComponent } from '../footer/footer.component';
-
+import { LoginRegService } from '../../services/login-reg.service';
 
 interface Animal {
   owner: string;
@@ -46,13 +46,12 @@ interface Animal {
 export class LandingPageComponent {
 
   showDialog = false;
-  constructor(private ngZone: NgZone) { }
+  constructor(private ngZone: NgZone, public loginRegService: LoginRegService) { }
   filterType?: string;
   filterBreeds?: string;
   filterSex?: string;
   filterZip?: string;
   currentPage = 0;
-  tabIndex: number = 0;
 
   animal: Animal = {
     "owner": "Carter Simmons",
@@ -336,7 +335,7 @@ export class LandingPageComponent {
 
   selectTab(updatedIndex: number): void {
     this.ngZone.run(() => {
-      this.tabIndex = updatedIndex;
+      this.loginRegService.tabIndex = updatedIndex;
     });
   }
 

@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { LoginRegisterService } from '../../services/login-register.service';
+import { LoginRegService } from '../../services/login-reg.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -34,20 +34,24 @@ export class LoginRegisterComponent implements OnInit {
     lastname: ['', Validators.required],
   });
 
-  constructor(private fb: FormBuilder, private loginRegisterService: LoginRegisterService, private router: Router) { }
+  constructor(private fb: FormBuilder, private loginRegService: LoginRegService,  private router: Router) { }
 
   ngOnInit(): void {
-
   }
 
-  onLoginSubmit() {
+  async onLoginSubmit() {
     const usernameOrEmail = this.loginForm?.get('usernameoremail')?.value;
     const password = this.loginForm?.get('password')?.value;
-    if (!usernameOrEmail || !password) {
-      alert('Please enter both username or email and password');
-      return;
+
+    if (usernameOrEmail && password) {
+      const isInDatabase = await this.loginRegService.checkIfUserExists(usernameOrEmail, password);
+      if (isInDatabase) {
+        const information = await this.loginRegService.getUserData(usernameOrEmail);
+        console.log(information);
+      }
     }
   }
+
 
   onRegisterSubmit() {
     const username = this.registerForm?.get('username')?.value;
