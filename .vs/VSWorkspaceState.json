@@ -4,12 +4,10 @@
     "\\src",
     "\\src\\app",
     "\\src\\app\\components",
-    "\\src\\app\\components\\explore-page",
     "\\src\\app\\components\\explore-page\\explore-page-frame",
-    "\\src\\app\\components\\footer",
-    "\\src\\app\\services",
-    "\\src\\assets",
-    "\\src\\environments"
+    "\\src\\app\\components\\login-register",
+    "\\src\\app\\services"
   ],
+  "SelectedNode": "\\src",
   "PreviewInSolutionExplorer": false
 }

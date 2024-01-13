@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/compat/database'; // Updated import statement
+npm 
+import { AngularFireDatabase } from '@angular/fire/compat/database'; 
 import 'firebase/database';
 import { Observable } from 'rxjs';
 import * as bcrypt from 'bcryptjs';
@@ -12,17 +12,12 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from 'firebase/auth';
-import { doc, getFirestore, setDoc } from 'firebase/firestore';
+import { doc, getFirestore, onSnapshot, query, where, addDoc, deleteDoc, collection,  setDoc } from 'firebase/firestore';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { environment } from '../../environments/environment'
 import { from, switchMap, of } from 'rxjs';
 import { forkJoin } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-
-const app = initializeApp(environment.firebase);
-const auth = getAuth();
-const db = getFirestore(app);
-const functions = getFunctions(app, 'us-central1');
 
 @Injectable({
   providedIn: 'root'
