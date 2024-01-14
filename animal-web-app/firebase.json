@@ -1,0 +1,9 @@
+{
+  "hosting": [
+    {
+      "target": "animal-web-app",
+      "source": ".",
+      "frameworksBackend": {}
+    }
+  ]
+}
