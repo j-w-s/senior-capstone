@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "animal-adopt-d41d0": {
+      "hosting": {
+        "animal-web-app": [
+          "animal-adopt-d41d0"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "animal-adopt-d41d0"
+  }
+}
