@@ -27,9 +27,26 @@
           </button>
         </mat-menu>
   
-        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="updateTabIndex()">
+        
+        <!-- Login button -->
+        <button *ngIf="!userLoggedIn()" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="[updateTabIndex()]">
           <mat-icon>account_circle</mat-icon>
         </button>
+        
+        <!-- Account menu -->
+        <button *ngIf="userLoggedIn()" mat-icon-button [matMenuTriggerFor]="clickaccount">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+        <mat-menu #clickaccount="matMenu">
+        <button mat-menu-item *ngFor="let item of accountListItems"
+                [disabled]="item.isDisabled"
+                (click)="item.onClick()">
+          <mat-icon>{{ item.menuIcon }}</mat-icon>
+          <span>{{ item.menuLinkText }}</span>
+        </button>
+        </mat-menu>
+
+        
       </div>
   
     </mat-toolbar>
