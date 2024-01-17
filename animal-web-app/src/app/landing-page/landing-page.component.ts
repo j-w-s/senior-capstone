@@ -1,6 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgZone } from '@angular/core';
 import { LoginRegisterService } from '../services/login-register.service';
+import { Router } from '@angular/router';
+
 
 interface Animal {
   owner: string;
@@ -25,12 +27,16 @@ interface Animal {
 export class LandingPageComponent {
 
   showDialog = false;
-  constructor(private ngZone: NgZone, public loginRegService: LoginRegisterService) { }
+  constructor(private ngZone: NgZone, public loginRegService: LoginRegisterService, private router: Router) { }
   filterType?: string;
   filterBreeds?: string;
   filterSex?: string;
   filterZip?: string;
   currentPage = 0;
+
+  handleButtonClick(action: string): void {
+    this.router.navigate(['/login'], { state: { action } });
+  }
 
   animal: Animal = {
     "owner": "Carter Simmons",
