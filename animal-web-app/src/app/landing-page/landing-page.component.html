@@ -4,61 +4,20 @@
   
   </div>
   
-  <div style="height: 100%; width: 100%;" *ngIf="this.loginRegService.tabIndex === 0">
-  
-    <div class="image-container">
-      <div class="title">Animal Adopt</div>
-    </div>
-  
-    <div style="height: 32vh; width: 100%; background-color: #1f2a2b;">
-  
-      <div fxLayout="row wrap" fxLayoutGap="12.5%" style="margin-left: 5%; margin-right: 5%;">
-  
-        <mat-card class="landing-card-ad" fxFlex="25%">
-          <mat-card-header class="card-header">
-            <mat-card-title>Adoption Process</mat-card-title>
-          </mat-card-header>
-          <mat-card-content class="card-content">
-            <p>Learn about the steps involved in the adoption process. From the initial application to meeting your new furry friend, we guide you every step of the way.</p>
-          </mat-card-content>
-        </mat-card>
-  
-        <mat-card class="landing-card-ad" fxFlex="25%">
-          <mat-card-header class="card-header">
-            <mat-card-title>Our Mission</mat-card-title>
-          </mat-card-header>
-          <mat-card-content class="card-content">
-            <p>Our mission is to create a world where every animal has a loving home. We strive to provide the best care and resources for our animals and their new families.</p>
-          </mat-card-content>
-        </mat-card>
-  
-        <mat-card class="landing-card-ad" fxFlex="25%">
-          <mat-card-header class="card-header">
-            <mat-card-title>Our Impact</mat-card-title>
-          </mat-card-header>
-          <mat-card-content class="card-content">
-            <p>Dive into the success stories of our adoptees. Their stories are a testament to the love and care we provide to our animals and the joy they bring to their new families.</p>
-          </mat-card-content>
-        </mat-card>
-      </div>
-  
-    </div>
-  
-    <div class="diagonal-split-background" style="height: 62vh; width: 100%; display: flex; justify-content: space-between;">
-      <div class="text-card">
-        <p style="font-size: 5vh; text-align: center;">
-          Meet Percy
-        </p>
-        <p style="font-size: 3vh; margin-left: 5%; margin-right: 5%;">
-          Found wandering the streets, Percy caught the attention of Emma, a compassionate rescuer. Their connection led to Percy finding a forever home filled with love and care. Since adoption, Percy's transformation has been remarkable—his health restored, his dull coat now shining. With Emma's support, Percy has become a local ambassador for adoption, inspiring others to consider giving pets a second chance. Follow Percy's journey and discover the joy of adopting a furry friend in need.
-        </p>
-        <button mat-button class="rounded-button" style="color: white" (click)="selectTab(1)">Learn More (Demo!)</button>
-      </div>
-      <div class="image-card">
+<div style="height: 100%; width: 100%;" *ngIf="this.loginRegService.tabIndex === 0">
+
+  <div class="hero min-h-screen bg-base-200 relative" style="background-image: url('/assets/dogs-in-pound.jpg'); background-size: cover; background-position: center;">
+    <div class="absolute inset-0 bg-base-100/50"></div>
+    <div class="hero-content text-center relative z-10">
+      <div class="max-w-md">
+        <h1 class="text-5xl font-bold">Animal Adopt</h1>
+        <p class="py-6">Join us in making a difference in the lives of animals. Sign up today and become a part of our mission.</p>
+        <a class="btn btn-neutral" [routerLink]="['/login']" routerLinkActive="active" (click)="handleButtonClick('register')">Get Started</a>
       </div>
     </div>
-  
   </div>
+
+</div>
   
   <div style="height: 100%; width: 100%;" *ngIf="this.loginRegService.tabIndex === 1">
   
@@ -374,5 +333,4 @@
     </div>
   </div>
 
-  
   

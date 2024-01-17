@@ -2,14 +2,17 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { LoginRegisterService } from '../services/login-register.service';
+import { Location } from '@angular/common';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-login-register',
   templateUrl: './login-register.component.html',
-  styleUrl: './login-register.component.scss'
+  styleUrls: ['./login-register.component.scss']
 })
 export class LoginRegisterComponent implements OnInit {
-  formType = 'login';
+  action!: string;
+  formType: string = 'login';
 
   loginForm = this.fb.group({
     usernameoremail: ['', Validators.required],
@@ -25,9 +28,13 @@ export class LoginRegisterComponent implements OnInit {
     lastname: ['', Validators.required],
   });
 
-  constructor(private fb: FormBuilder, private loginRegService: LoginRegisterService, private router: Router) { }
+  constructor(private fb: FormBuilder, private loginRegService: LoginRegisterService, private router: Router, private location: Location) { }
 
   ngOnInit(): void {
+    const state = this.location.getState() as Record<string, unknown>;
+    this.action = state ? (state['action'] as string) : 'login';
+    this.formType = this.action;
+    console.log(this.formType); // Add this line
   }
 
   onLoginSubmit() {
@@ -50,8 +57,6 @@ export class LoginRegisterComponent implements OnInit {
     }
    }
    
-
-
   onRegisterSubmit() {
     const email = this.registerForm?.get('email')?.value;
     const password = this.registerForm?.get('password')?.value;

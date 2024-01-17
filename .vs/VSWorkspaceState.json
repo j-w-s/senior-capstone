@@ -1,7 +1,12 @@
 {
   "ExpandedNodes": [
     "",
-    "\\animal-web-app"
+    "\\animal-web-app",
+    "\\animal-web-app\\src",
+    "\\animal-web-app\\src\\app",
+    "\\animal-web-app\\src\\app\\login-register",
+    "\\animal-web-app\\src\\app\\navbar"
   ],
+  "SelectedNode": "\\animal-web-app\\src\\app\\login-register\\login-register.component.ts",
   "PreviewInSolutionExplorer": false
 }
