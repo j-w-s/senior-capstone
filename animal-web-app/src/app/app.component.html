@@ -1,22 +1,23 @@
 <!-- THIS IS THE MAIN FILE. ALL COMPONENTS WILL BE IMPORTED HERE VIA THE .TS FILE AND PLACED BELOW AS A TAG COMPONENT.
   YOU DO NOT STYLE COMPONENTS HERE, JUST PLACE THEM. IF THERE'S A SIZING ERROR, ETC, USE A DIV AND DISPLAY:FLEX, ETC TO MAKE ADJUSTMENTS
   -->
+<!-- THIS IS THE MAIN FILE. ALL COMPONENTS WILL BE IMPORTED HERE VIA THE .TS FILE AND PLACED BELOW AS A TAG COMPONENT.
+  YOU DO NOT STYLE COMPONENTS HERE, JUST PLACE THEM. IF THERE'S A SIZING ERROR, ETC, USE A DIV AND DISPLAY:FLEX, ETC TO MAKE ADJUSTMENTS
+  -->
+<!-- THIS IS THE MAIN FILE. ALL COMPONENTS WILL BE IMPORTED HERE VIA THE .TS FILE AND PLACED BELOW AS A TAG COMPONENT.
+  YOU DO NOT STYLE COMPONENTS HERE, JUST PLACE THEM. IF THERE'S A SIZING ERROR, ETC, USE A DIV AND DISPLAY:FLEX, ETC TO MAKE ADJUSTMENTS
+  -->
 
-  <main>
+<main style="display: flex; flex-direction: column; height: 100%;" data-theme="lofi">
+  <div style="flex: 0 0 auto;">
+    <app-navbar></app-navbar>
+  </div>
 
-    <div style="height: 15%; width: 100%;">
-      <app-navbar></app-navbar>
-    </div>
+  <div style="flex: 0 0 content;">
+    <router-outlet></router-outlet>
+  </div>
 
-    <div style="margin-left: 1%; margin-right: 1%; overflow: auto;">
-      <router-outlet></router-outlet>
-    </div>
-
-    <div style="width: 100%; height: 100%;">
-      <app-footer></app-footer>
-    </div>
-  
-  </main>
-  
-  
-  
+  <div style="flex: 0 0 unset; ">
+    <app-footer></app-footer>
+  </div>
+</main>
