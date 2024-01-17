@@ -40,6 +40,10 @@ $color-medium: #C2D1B6;
 $color-darker: #6B7C56;
 $color-darkest: #22261A;
 
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
 body {
   margin: 0;
   padding: 0;
