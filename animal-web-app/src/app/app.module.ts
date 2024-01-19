@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideAnimations, BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -33,6 +33,8 @@ import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LoginRegisterComponent } from './login-register/login-register.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { LoginRegisterComponent } from './login-register/login-register.componen
     FooterComponent,
     NavbarComponent,
     LandingPageComponent,
-    LoginRegisterComponent
+    LoginRegisterComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +63,7 @@ import { LoginRegisterComponent } from './login-register/login-register.componen
     providePerformance(() => getPerformance()),
     MatToolbarModule, MatButtonModule, MatIconModule, MatGridListModule, MatCardModule, FlexLayoutModule, 
     MatExpansionModule, MatMenuModule, CommonModule, RouterModule, MatFormFieldModule, FormsModule, 
-    ReactiveFormsModule, MatTabsModule, MatInputModule
+    ReactiveFormsModule, MatTabsModule, MatInputModule, BrowserAnimationsModule
   ],
   providers: [
     ScreenTrackingService,
