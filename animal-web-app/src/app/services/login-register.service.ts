@@ -40,7 +40,7 @@ export class LoginRegisterService {
 
         try {
           const db = getFirestore();
-          const docRef = await setDoc(doc(db, "Users", user+''), {
+          const docRef = await setDoc(doc(db, "User", user+''), {
             firstname: firstname,
             lastname: lastname,
             phonenumber: phonenumber,
