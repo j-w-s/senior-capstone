@@ -6,6 +6,7 @@ import { LoginRegisterComponent } from './login-register/login-register.componen
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { MessengerComponent } from './messenger/messenger.component';
+import { GroupsPageComponent } from './groups-page/groups-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'messenger', component: MessengerComponent },
+  { path: 'groups', component: GroupsPageComponent},
 ];
 
 @NgModule({

@@ -35,6 +35,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LoginRegisterComponent } from './login-register/login-register.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { GroupsPageComponent } from './groups-page/groups-page.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { RegisterComponent } from './register/register.component';
     LandingPageComponent,
     LoginRegisterComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    GroupsPageComponent
   ],
   imports: [
     BrowserModule,
