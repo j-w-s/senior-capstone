@@ -4,12 +4,12 @@
     "\\animal-web-app",
     "\\animal-web-app\\src",
     "\\animal-web-app\\src\\app",
-    "\\animal-web-app\\src\\app\\dashboard",
-    "\\animal-web-app\\src\\app\\footer",
     "\\animal-web-app\\src\\app\\landing-page",
-    "\\animal-web-app\\src\\app\\messenger",
+    "\\animal-web-app\\src\\app\\login",
+    "\\animal-web-app\\src\\app\\login-register",
     "\\animal-web-app\\src\\app\\navbar",
-    "\\animal-web-app\\src\\app\\services"
+    "\\animal-web-app\\src\\app\\register",
+    "\\animal-web-app\\src\\assets"
   ],
   "SelectedNode": "\\animal-web-app\\src\\app\\dashboard\\dashboard.component.html",
   "PreviewInSolutionExplorer": false

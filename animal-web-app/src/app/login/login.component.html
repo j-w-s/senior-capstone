@@ -22,9 +22,27 @@
           </div>
 
           <div class='text-right text-primary'>
-            <a routerLink="/forgot-password">
-              <span class="text-sm inline-block hover:text-primary hover:underline hover:cursor-pointer transition duration-200">Forgot Password?</span>
-            </a>
+            <button class="btn" onclick="forgot_modal.showModal()">
+              <a>Forgot Password?</a>
+            </button>
+            <dialog id="forgot_modal" class="modal modal-bottom sm:modal-middle">
+              <div class="modal-box flex items-center justify-center">
+                <div class="w-1/2 px-4">
+                  <form class="flex flex-col items-center">
+                    <input type="text" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <button type="submit" class="btn btn-primary w-full mt-4">Send Instructions</button>
+                  </form>
+                  <button type="button" class="btn btn-base-100 w-full mt-4" onclick="location.href='/login';">
+                    Back to Login
+                  </button>
+                </div>
+                <div class="divider lg:divider-horizontal"></div>
+                <div class="w-1/2 px-4">
+                  <h2 class="font-bold text-lg" style="text-align: center;">Recover Your Password</h2>
+                  <p class="py-4" style="text-align: center;">Please enter the email address associated with your account and we'll send you an email with instructions to reset your password.</p>
+                </div>
+              </div>
+            </dialog>
           </div>
 
           <button type="submit" class="btn mt-2 w-full btn-primary">Login</button>
