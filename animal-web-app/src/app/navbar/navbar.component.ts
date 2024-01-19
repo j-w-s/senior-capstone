@@ -14,7 +14,7 @@ export class NavbarComponent {
   }
 
   handleButtonClick(action: string): void {
-    this.router.navigate(['/login'], { state: { action } });
+    this.router.navigate([action]);
   }
 
   userLoggedIn() {
