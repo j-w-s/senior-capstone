@@ -37,6 +37,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ExploreComponent } from './explore/explore.component';
 import { SettingsComponent } from './settings/settings.component';
+import { GroupsPageComponent } from './groups-page/groups-page.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { SettingsComponent } from './settings/settings.component';
     LoginComponent,
     RegisterComponent,
     ExploreComponent,
-    SettingsComponent
+    SettingsComponent,
+    GroupsPageComponent
   ],
   imports: [
     BrowserModule,
