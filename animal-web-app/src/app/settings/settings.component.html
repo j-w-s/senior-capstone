@@ -1,0 +1,74 @@
+<div class="flex h-screen bg-gray-200">
+  <div class="w-64 bg-white">
+    <!-- sidebar -->
+    <nav class="p-6 space-y-2">
+      <a class="block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded" (click)="selectedTab='profile'">Profile</a>
+      <a class="block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded" (click)="selectedTab='account'">Account</a>
+    </nav>
+  </div>
+  <div class="flex-1 overflow-auto">
+    <!-- main content -->
+    <div *ngIf="selectedTab=='profile'" class="p-6">
+      <!-- profile tab content -->
+      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+        <!-- profile form fields -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <div>
+            <label>Name</label>
+            <input class="form-control block w-full sm:text-sm border-gray-300 rounded-md" formControlName="name">
+          </div>
+          <div>
+            <label>Email</label>
+            <input class="form-control block w-full sm:text-sm border-gray-300 rounded-md" formControlName="email">
+          </div>
+          <div>
+            <label>Title</label>
+            <input class="form-control block w-full sm:text-sm border-gray-300 rounded-md" formControlName="title">
+          </div>
+          <div>
+            <label>Place</label>
+            <input class="form-control block w-full sm:text-sm border-gray-300 rounded-md" formControlName="place">
+          </div>
+          <div>
+            <label>About</label>
+            <textarea class="form-control block w-full sm:text-sm border-gray-300 rounded-md" formControlName="about"></textarea>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label>Language</label>
+            <input class="form-control block w-full sm:text-sm border-gray-300 rounded-md" formControlName="language">
+          </div>
+          <div>
+            <label>Timezone</label>
+            <input class="form-control block w-full sm:text-sm border-gray-300 rounded-md" formControlName="timezone">
+          </div>
+          <div>
+            <label>Sync Data</label>
+            <input type="checkbox" class="form-control block w-full sm:text-sm border-gray-300 rounded-md" formControlName="syncData">
+          </div>
+        </div>
+        <div class="mt-16"><button class="btn btn-primary float-right" type="submit">Update</button></div>
+      </form>
+    </div>
+
+    <div *ngIf="selectedTab=='account'" class="p-6">
+      <!-- ACCOUNT TAB CONTENT (PLACEHOLDER) -->
+      <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+
+
+        <!-- ACCOUNT FORM FIELDS-->
+
+      </form>
+
+
+    </div>
+
+
+    <!-- add more divs for more tabs -->
+
+
+  </div>
+</div>
