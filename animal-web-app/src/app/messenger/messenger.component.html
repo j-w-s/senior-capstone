@@ -1,35 +1,76 @@
 <div class="flex flex-row h-screen bg-base-200">
   <!-- sidebar -->
   <div class="w-1/4 bg-base-200 flex flex-col gap-4 overflow-y-auto">
-    <div class="flex flex-col gap-4">
-      <!-- Repeat this block as many times as needed -->
+    <div class="flex flex-col gap-4 justify-content items-center pt-2 pb-2 pl-2 pr-2">
 
       <!-- NGFOR HERE -->
-      <a href="#" class="card card-side w-full bg-gray-100">
-        <figure><img src="./assets/pugster.webp" alt="User Icon" class="rounded-full shadow-md h-16 w-16"></figure>
-        <div class="card-body whitespace-nowrap overflow-ellipsis" style="align-items: end;">
-          <h2 class="card-title">Username</h2>
-          <p>Preview Text</p>
-        </div>
-      </a>
+      <ng-container *ngFor="let conversation of conversations$ | async">
+        <ng-container *ngFor="let contact of conversation.contactsList">
+          <a class="rounded-box card card-side w-11/12
+               hover:brightness-90"
+             [class.bg-gray-300]="selectedContact === contact" 
+             [class.bg-gray-100]="selectedContact !== contact"
+             (click)="selectContact(contact)">
+            <figure style="align-items: center; align-content: center;" class="px-6"><img src="{{contact.userImage}}" alt="User Icon" class="rounded-full shadow-md h-16 w-16"></figure>
+            <div style="align-items: end;" class="card-body whitespace-nowrap overflow-ellipsis">
+              <h2 class="card-title">{{contact.userFirstName}} {{contact.userLastName}}</h2>
+              <p>{{ contact.userBiography | slice:0:20 }}</p>
+            </div>
+          </a>
+        </ng-container>
+      </ng-container>
 
-      <!-- Rest of the blocks <a> blocks -->
+
+
     </div>
   </div>
 
 
 
-
-
-
-
   <!-- main content -->
-  <div class="w-3/4 bg-white flex-grow flex flex-col">
+  <div class="w-3/4 h-full bg-white  flex flex-col">
+
+    <!-- TOP BAR -->
+    <div class="bg-white p-4 flex justify-between items-center">
+      <div class="w-1/3 flex flex-row items-center">
+        <figure *ngIf="selectedContact" style="align-items: start; justify-content: center;">
+          <img src="{{selectedContact.userImage}}" class="rounded-full shadow-md h-16 w-16">
+        </figure>
+        <h1 class='text-2xl font-semibold mb-2'>{{ selectedContact?.userFirstName }} {{ selectedContact?.userLastName }}</h1>
+      </div>
+
+      <div *ngIf="selectedContact" class="w-2/3 flex justify-end items-center">
+        <div class="flex space-x-4">
+          <input type="text" id="search" name="search" placeholder="Search..." class="py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+      </div>
+    </div>
 
 
+    <!-- chat log structure -->
+    <div class="overflow-auto h-3/4" #chatLog>
+      <div *ngFor="let message of messages">
+        <div class="chat chat-start">
+          <div class="chat-header">
+            {{ selectedContact?.userFirstName }} {{ selectedContact?.userLastName }}
+            <time class="text-xs opacity-50">{{ message.timeSent | date:'shortTime' }}</time>
+          </div>
+          <div class="chat-bubble">{{ message.messageContent }}</div>
+          <div class="chat-footer opacity-50">
+            Seen
+          </div>
+        </div>
+      </div>
+    </div>
 
+
+    <div *ngIf="selectedContact" class="flex bg-white flex flex-row mt-4 relative w-full pr-2">
+      <input [(ngModel)]="newMessage" class="py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Type your message here...">
+      <button (click)="sendMessage()" class="btn btn-primary">Send</button>
+    </div>
 
   </div>
 
-</div>
+ </div>
 

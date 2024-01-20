@@ -3,6 +3,7 @@ import UserRating from './user-ratings';
 import Animal from './animal';
 
 interface User {
+  userId: string;
   userFirstName: string;
   userLastName: string;
   userPhoneNumber: string;
