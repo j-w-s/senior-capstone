@@ -38,6 +38,7 @@ import { RegisterComponent } from './register/register.component';
 import { ExploreComponent } from './explore/explore.component';
 import { SettingsComponent } from './settings/settings.component';
 import { GroupsPageComponent } from './groups-page/groups-page.component';
+import { MessengerComponent } from './messenger/messenger.component';
 
 @NgModule({
   declarations: [
