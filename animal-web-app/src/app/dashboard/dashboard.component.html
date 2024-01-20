@@ -1,6 +1,6 @@
 <!-- NOTE TO SELF: don't forget to change widget routing later, placeholder atm due to component restrictions '-->
 <h2 class="text-center mb-4">Widgets</h2>
-<div class="container mx-auto px-4 flex items-center justify-center min-h-screen">
+<div class="container bg-base-200 mx-auto px-4 flex items-center justify-center min-h-screen">
   <div class="grid grid-cols-2 gap-6">
     <!-- Explore Card -->
     <a routerLink="/explore">
@@ -71,6 +71,21 @@
         </div>
       </div>
     </a>
+
+    <!-- Groups Card -->
+    <a routerLink="/groups">
+      <div class="card card-side w-96 h-48 bg-base-100 shadow-xl">
+        <figure class="relative">
+          <div class="absolute inset-0 bg-gradient-to-r from-red-300 to-red-600 opacity-50"></div>
+          <img src="assets/groups-gs.gif" alt="Groups" class="w-full h-full object-cover">
+        </figure>
+        <div class="card-body">
+          <h2 class="card-title">Groups</h2>
+          <p>Join and Manage Groups</p>
+        </div>
+      </div>
+    </a>
+
 
   </div>
 </div>
