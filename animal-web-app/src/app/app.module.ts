@@ -51,7 +51,8 @@ import { MessengerComponent } from './messenger/messenger.component';
     RegisterComponent,
     ExploreComponent,
     SettingsComponent,
-    GroupsPageComponent
+    GroupsPageComponent,
+    MessengerComponent,
   ],
   imports: [
     BrowserModule,
