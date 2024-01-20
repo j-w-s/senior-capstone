@@ -24,6 +24,7 @@
     "@angular/router": "^17.0.0",
     "autoprefixer": "^10.4.16",
     "daisyui": "^4.6.0",
+    "faker": "^6.6.6",
     "material-icons": "^1.13.12",
     "postcss": "^8.4.33",
     "rxjs": "~7.8.0",
