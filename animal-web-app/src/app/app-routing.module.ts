@@ -8,6 +8,7 @@ import { RegisterComponent } from './register/register.component';
 import { MessengerComponent } from './messenger/messenger.component';
 import { ExploreComponent } from './explore/explore.component';
 import { SettingsComponent } from './settings/settings.component';
+import { GroupsPageComponent } from './groups-page/groups-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'messenger', component: MessengerComponent },
   { path: 'explore', component: ExploreComponent },
   { path: 'settings', component: SettingsComponent },
+  { path: 'groups', component: GroupsPageComponent },
 ];
 
 @NgModule({
