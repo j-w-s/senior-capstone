@@ -1,22 +1,23 @@
-<div class="flex flex-row h-screen bg-gray-200">
-  <!-- sidebar -->
-  <div class="w-32 bg-white">
-    <!-- increase the width here -->
-    <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
-      <!-- sidebar content here -->
-      <li><a>Sidebar Item 1</a></li>
-      <li><a>Sidebar Item 2</a></li>
-    </ul>
+<div class="flex flex-col w-full lg:flex-row bg-base-100">
 
+  <!-- sidebar -->
+  <div class="w-1/4 flex flex-col justify-center items-center bg-white">
+    <div class="bg-white p-4 flex justify-between items-center">
+      <h2 class="text-left">Sidebar</h2>
+    </div>
+    <app-sidebar></app-sidebar>
   </div>
 
+  <!-- divider between side bar and main content-->
+  <div class="divider lg:divider-horizontal"></div>
+
   <!-- main content -->
-  <div class="ml-32 w-80 bg-white flex-grow flex flex-col">
+  <div class="container">
 
     <!-- TOP BAR -->
     <div class="bg-white p-4 flex justify-between items-center">
       <div class="w-1/3 justify-center">
-        <h1 class='text-2xl font-semibold mb-2'>Explore Page - {{currentPage}} </h1>
+        <h2 class="text-left">Explore Page - {{currentPage}} </h2>
       </div>
 
       <div class="w-2/3 flex justify-end items-center">
@@ -27,26 +28,26 @@
       </div>
     </div>
 
-    <!-- Actual Content -->
-    <div class="flex-grow overflow-auto bg-base-200 relative grid grid-cols-4 gap-4 justify-items-center align-items-center" style="margin-left: 1vw; margin-right: 1vh;">
-      <div *ngFor="let card of getDisplayedCards()">
-        <div class="card w-64 bg-base-100 shadow-xl">
-          <figure class="h-1/2"><img class="w-full h-full object-cover" [src]="card.image" alt="Animal" /></figure>
-          <div class="card-body">
-            <h2 class="card-title">{{ card.animalName }}</h2>
-            <p>Some description for card {{ card.id }}</p>
-            <div class="card-actions justify-end">
-              <button class="btn btn-primary">Learn More</button>
-            </div>
-          </div>
+    <!-- CARDS -->
+    <div class="flex flex-wrap justify-around items-center">
+      <div *ngFor="let card of getDisplayedCards()" class="max-w-sm rounded overflow-auto shadow-lg m-4">
+        <img class="w-64 h-48" [src]="card.image" alt="Card image">
+        <div class="px-6 py-4">
+          <div class="font-bold text-xl mb-2">{{ card.animalName }}</div>
+          <p class="text-gray-700 text-base">
+            Some description for card {{ card.id }}
+          </p>
         </div>
       </div>
-
     </div>
 
-    <div class="flex bg-white justify-center flex flex-row items-center mt-4 relative w-full">
-      <button class="btn btn-secondary" (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
-      <button class="btn btn-secondary" (click)="nextPage()" [disabled]="currentPage === gettotalPages()">Next</button>
+    <!-- BUTTONS FOR NAVIGATION-->
+    <div class="join bg-white p-4 flex justify-between items-center">
+      <button class="join-item btn" (click)="previousPage()" [disabled]="currentPage === 1">«</button>
+      <div class="flex overflow-ellipsis">
+        <button class="join-item btn" *ngFor="let page of getVisiblePages()" [disabled]="currentPage === page" (click)="goToPage(page)">{{page}}</button>
+      </div>
+      <button class="join-item btn" (click)="nextPage()" [disabled]="currentPage === gettotalPages()">»</button>
     </div>
 
 

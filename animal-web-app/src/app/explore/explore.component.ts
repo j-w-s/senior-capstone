@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 @Component({
   selector: 'app-explore',
@@ -55,6 +59,20 @@ export class ExploreComponent {
 
   searchFunction(event: any) {
     console.log(event.target.value);
+  }
+
+  getTotalPagesArray(): number[] {
+    return Array.from({ length: this.gettotalPages() }, (_, i) => i + 1);
+  }
+
+  goToPage(page: number): void {
+    this.currentPage = page;
+  }
+
+  getVisiblePages(): number[] {
+    let start = Math.max(this.currentPage - 2, 1);
+    let end = Math.min(this.currentPage + 2, this.gettotalPages());
+    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
   }
 
 }

@@ -1,61 +1,109 @@
-<div class="flex h-screen bg-gray-200">
-  <div class="w-64 bg-white">
-    <!-- sidebar -->
-    <nav class="p-6 space-y-2">
-      <a class="block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded" (click)="selectedTab='profile'">Profile</a>
-      <a class="block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded" (click)="selectedTab='account'">Account</a>
-    </nav>
-  </div>
-  <div class="flex-1 overflow-auto">
-    <!-- main content -->
-    <div *ngIf="selectedTab=='profile'" class="p-6">
-      <!-- profile tab content -->
-      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-        <!-- profile form fields -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- NOTE TO SELF: don't forget to change widget routing later, placeholder atm due to component restrictions '-->
+<div class="flex flex-col w-full lg:flex-row bg-base-100">
 
-          <div>
-            <label>Name</label>
-            <input class="form-control block w-full sm:text-sm border-gray-300 rounded-md" formControlName="name">
+  <!-- sidebar -->
+  <div class="w-1/4 flex flex-col justify-center items-center bg-white">
+
+    <div class="bg-white p-4 flex justify-between items-center">
+      <h2 class="text-left">Sidebar</h2>
+    </div>
+
+    <div class="drawer lg:drawer-open">
+
+      <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-content flex flex-col items-center justify-center">
+
+        <!-- page content here -->
+        <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">Open drawer</label>
+
+      </div>
+
+      <div class="drawer-side">
+
+        <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
+
+        <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+
+          <!-- sidebar content here -->
+          <li><a (click)="selectedTab='profile'">Profile</a></li>
+          <li><a (click)="selectedTab='account'">Account</a></li>
+
+        </ul>
+
+      </div>
+
+    </div>
+
+  </div>
+  <!-- end sidebar -->
+  <!-- divider between side bar and main content-->
+  <div class="divider lg:divider-horizontal"></div>
+
+  <!-- main content -->
+  <div class="container">
+
+    <!-- TOP BAR -->
+    <div class="bg-white p-4 flex justify-between items-center">
+      <div class="w-1/3 justify-center">
+        <h2 class="text-left">{{selectedTab}}</h2>
+      </div>
+    </div>
+
+    <!-- PROFILE TAB CONTENT -->
+    <div *ngIf="selectedTab=='profile'" class="p-6 container">
+      <!-- profile tab content -->
+      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="card max-h-60">
+        <div class="card-body">
+
+          <div class="form-control">
+            <label class="label" for="userImage">Photo</label>
+            <div class="mt-2 flex items-center gap-x-3">
+              <div class="avatar">
+                <figure class="w-16 h-16">
+                  <img [src]="(profileForm.get('userImage')?.value ?? '')" alt="User Photo">
+                </figure>
+              </div>
+              <input type="file" id="imageUpload" hidden (change)="updatePhoto($event)" />
+              <label for="imageUpload" >Change</label>
+            </div>
           </div>
-          <div>
-            <label>Email</label>
-            <input class="form-control block w-full sm:text-sm border-gray-300 rounded-md" formControlName="email">
+
+          <div class="form-control">
+            <label class="label" for="userFirstName">First Name</label>
+            <input type="text" formControlName="userFirstName" id="userFirstName" class="input input-bordered">
           </div>
-          <div>
-            <label>Title</label>
-            <input class="form-control block w-full sm:text-sm border-gray-300 rounded-md" formControlName="title">
+
+          <div class="form-control">
+            <label class="label" for="userLastName">Last Name</label>
+            <input type="text" formControlName="userLastName" id="userLastName" class="input input-bordered">
           </div>
-          <div>
-            <label>Place</label>
-            <input class="form-control block w-full sm:text-sm border-gray-300 rounded-md" formControlName="place">
+
+          <div class="form-control">
+            <label class="label" for="userEmail">Email</label>
+            <input type="email" formControlName="userEmail" id="userEmail" class="input input-bordered">
           </div>
-          <div>
-            <label>About</label>
-            <textarea class="form-control block w-full sm:text-sm border-gray-300 rounded-md" formControlName="about"></textarea>
+
+          <div class="form-control">
+            <label class="label" for="userDisplayName">Display Name</label>
+            <input type="text" formControlName="userDisplayName" id="userDisplayName" class="input input-bordered">
+          </div>
+
+          <div class="form-control">
+            <label class="label" for="userBiography">Biography</label>
+            <textarea formControlName="userBiography" id="userBiography" class="input input-bordered"></textarea>
+          </div>
+
+          <div class="form-control mt-4 flex flex-row">
+            <button type="submit" class="btn btn-accent">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save</button>
           </div>
         </div>
-        <div class="divider"></div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label>Language</label>
-            <input class="form-control block w-full sm:text-sm border-gray-300 rounded-md" formControlName="language">
-          </div>
-          <div>
-            <label>Timezone</label>
-            <input class="form-control block w-full sm:text-sm border-gray-300 rounded-md" formControlName="timezone">
-          </div>
-          <div>
-            <label>Sync Data</label>
-            <input type="checkbox" class="form-control block w-full sm:text-sm border-gray-300 rounded-md" formControlName="syncData">
-          </div>
-        </div>
-        <div class="mt-16"><button class="btn btn-primary float-right" type="submit">Update</button></div>
       </form>
     </div>
 
-    <div *ngIf="selectedTab=='account'" class="p-6">
-      <!-- ACCOUNT TAB CONTENT (PLACEHOLDER) -->
+    <!-- ACCOUNT TAB CONTENT (PLACEHOLDER) -->
+    <div *ngIf="selectedTab=='account'" class="p-6 container">
+      <!-- account tab content -->
       <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
 
 
@@ -66,9 +114,7 @@
 
     </div>
 
-
     <!-- add more divs for more tabs -->
-
 
   </div>
 </div>
