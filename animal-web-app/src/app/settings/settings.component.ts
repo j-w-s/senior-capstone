@@ -13,14 +13,13 @@ export class SettingsComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {
     this.profileForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      title: ['', Validators.required],
-      place: ['', Validators.required],
-      about: ['', Validators.required],
-      language: ['', Validators.required],
-      timezone: ['', Validators.required],
-      syncData: [false, Validators.requiredTrue]
+      userFirstName: ['', Validators.required],
+      userLastName: ['', Validators.required],
+      userPhoneNumber: ['', Validators.required],
+      userEmail: ['', [Validators.required, Validators.email]],
+      userDisplayName: ['', Validators.required],
+      userBiography: ['', Validators.required],
+      userImage: ['https://www.shutterstock.com/image-photo/photo-cheerful-joyful-mixedrace-woman-260nw-1563641263.jpg', Validators.required]
     });
 
     this.accountForm = this.fb.group({
@@ -41,4 +40,16 @@ export class SettingsComponent implements OnInit {
       console.log(this.accountForm.value);
     }
   }
+
+  updatePhoto(event: Event) {
+    const file = (event.target as HTMLInputElement)?.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        this.profileForm.get('userImage')?.setValue((reader.result as string) ?? '');
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
 }

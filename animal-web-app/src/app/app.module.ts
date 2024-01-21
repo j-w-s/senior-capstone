@@ -39,6 +39,8 @@ import { ExploreComponent } from './explore/explore.component';
 import { SettingsComponent } from './settings/settings.component';
 import { GroupsPageComponent } from './groups-page/groups-page.component';
 import { MessengerComponent } from './messenger/messenger.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +55,8 @@ import { MessengerComponent } from './messenger/messenger.component';
     SettingsComponent,
     GroupsPageComponent,
     MessengerComponent,
+    SidebarComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
