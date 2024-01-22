@@ -9,11 +9,12 @@ import { MessengerComponent } from './messenger/messenger.component';
 import { ExploreComponent } from './explore/explore.component';
 import { SettingsComponent } from './settings/settings.component';
 import { GroupsPageComponent } from './groups-page/groups-page.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  //{ path: 'home', component: LandingPageComponent },
-  { path: 'home', component: DashboardComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'messenger', component: MessengerComponent },

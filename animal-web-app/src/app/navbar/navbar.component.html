@@ -1,15 +1,46 @@
 <div class="navbar bg-base-100">
   <div class="navbar-start">
+    <div class="btn btn-ghost w-auto h-auto" onclick="document.getElementById('my-drawer').click();">
+      <img class="h-6 w-6" src="../assets/menu.png" />
+    </div>
     <a class="btn btn-ghost text-xl" routerLink="/home">Animal Adopt</a>
   </div>
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal px-1">
       <li><a href="https://animal-adopt.gitbook.io/animal-adopt/" target="_blank">About</a></li>
+      <li>
+        <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      </li>
     </ul>
   </div>
   <div class="navbar-end">
     <a class="btn btn-primary" [routerLink]="['/login']" routerLinkActive="active" (click)="handleButtonClick('login')">Login</a>
     <a class="btn btn-accent" [routerLink]="['/register']" routerLinkActive="active" (click)="handleButtonClick('register')">Register</a>
+  </div>
+
+</div>
+
+<div class="drawer" role="dialog" style="z-index: 9999;">
+  <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+
+  <div class="drawer-content">
+  </div>
+
+  <div class="drawer-side">
+
+    <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+
+    <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+      <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+      <li><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
+      <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
+      <li><a routerLink="/register" routerLinkActive="active">Register</a></li>
+      <li><a routerLink="/messenger" routerLinkActive="active">Messenger</a></li>
+      <li><a routerLink="/explore" routerLinkActive="active">Explore</a></li>
+      <li><a routerLink="/settings" routerLinkActive="active">Settings</a></li>
+      <li><a routerLink="/groups" routerLinkActive="active">Groups</a></li>
+    </ul>
+
   </div>
 
 </div>
