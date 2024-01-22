@@ -5,7 +5,43 @@
     <div class="bg-white p-4 flex justify-between items-center">
       <h2 class="text-left">Sidebar</h2>
     </div>
-    <app-sidebar></app-sidebar>
+
+    <div class="drawer lg:drawer-open">
+      <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-content flex flex-col items-center justify-center">
+        <!-- page content here -->
+        <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">Open drawer</label>
+
+      </div>
+      <div class="drawer-side">
+        <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
+        <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content items-center">
+
+          <button (click)="clearFilters()" class="btn btn-accent">Clear Filters</button>
+
+          <!-- dropdown menu for animal types -->
+          <label for="animalTypes" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an animal type</label>
+          <select id="animalTypes" (change)="handleSelectChange($event)" class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+            <option selected value=""></option>
+            <!-- options will be dynamically generated -->
+          </select>
+
+          <label for="animalBreeds" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a breed</label>
+          <select id="animalBreeds" (change)="handleSelectChange($event)" class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+            <option selected value=""></option>
+          </select>
+
+          <label for="animalWeights" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a weight</label>
+          <select id="animalWeights" (change)="handleSelectChange($event)" class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+            <option selected value=""></option>
+          </select>
+
+
+        </ul>
+
+      </div>
+    </div>
+
   </div>
 
   <!-- divider between side bar and main content-->

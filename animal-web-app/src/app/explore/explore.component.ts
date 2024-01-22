@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
   templateUrl: './explore.component.html',
   styleUrl: './explore.component.scss'
 })
-export class ExploreComponent implements OnInit {
+export class ExploreComponent implements OnInit, AfterViewInit{
 
   animals$!: Observable<Animal[]>;
 
@@ -37,9 +37,22 @@ export class ExploreComponent implements OnInit {
   }));
 
   animals!: Animal[];
+  uniqueTypes: string[] = [];
+  uniqueBreeds: string[] = [];
+  uniqueWeights: number[] = [];
+  uniqueSexes: string[] = [];
+  uniqueTemperaments: string[] = [];
+  uniqueLocations: string[] = [];
+  uniqueZipCodes: number[] = [];
+  uniqueAdoptionStatuses: number[] = [];
+  uniqueDatesOfBirth: Date[] = [];
+  uniqueColors: string[] = [];
+  uniqueVaccinationStatuses: boolean[] = [];
+
   currentPage = 1;
   cardsPerPage = 8;
   totalPages = 0;
+  searchTerm = '';
 
   constructor(private exploreService: ExploreService) { }
 
@@ -47,12 +60,28 @@ export class ExploreComponent implements OnInit {
     this.exploreService.getAnimals().subscribe(animals => {
       this.animals = animals;
       this.totalPages = Math.ceil(this.animals.length / this.cardsPerPage);
+
+      // create a list of unique types for all categories
+      this.uniqueTypes = Array.from(new Set(this.animals.filter(animal => animal.animalType !== undefined).map(animal => animal.animalType))) as string[];
+      this.uniqueBreeds = Array.from(new Set(this.animals.flatMap(animal => animal.animalBreed))).filter(breed => breed !== undefined) as string[];
+      this.uniqueWeights = Array.from(new Set(this.animals.map(animal => animal.animalWeight))) as number[];
+      this.uniqueSexes = Array.from(new Set(this.animals.map(animal => animal.animalSex))) as string[];
+      this.uniqueTemperaments = Array.from(new Set(this.animals.flatMap(animal => animal.temperament))) as string[];
+      this.uniqueLocations = Array.from(new Set(this.animals.map(animal => animal.location))) as string[];
+      this.uniqueZipCodes = Array.from(new Set(this.animals.map(animal => animal.zipCode))) as number[];
+      this.uniqueAdoptionStatuses = Array.from(new Set(this.animals.map(animal => animal.adoptionStatus))) as number[];
+      this.uniqueDatesOfBirth = Array.from(new Set(this.animals.filter(animal => animal.dateOfBirth !== undefined).map(animal => animal.dateOfBirth))).filter(date => date !== undefined) as Date[];
+      this.uniqueColors = Array.from(new Set(this.animals.filter(animal => animal.color !== undefined).map(animal => animal.color))).filter(color => color !== undefined) as string[];
+      this.uniqueVaccinationStatuses = Array.from(new Set(this.animals.filter(animal => animal.vaccinationStatus !== undefined).map(animal => animal.vaccinationStatus))).filter(status => status !== undefined) as boolean[];
     });
   }
 
   getDisplayedCards() {
+    const filteredAnimals = this.animals.filter(animal => {
+      return Object.values(animal).some(val => String(val).toLowerCase().includes(this.searchTerm));
+    });
     const start = (this.currentPage - 1) * this.cardsPerPage;
-    return this.animals.slice(start, start + this.cardsPerPage);
+    return filteredAnimals.slice(start, start + this.cardsPerPage);
   }
 
   gettotalPages(): number {
@@ -74,7 +103,7 @@ export class ExploreComponent implements OnInit {
   }
 
   searchFunction(event: any) {
-    console.log(event.target.value);
+    this.searchTerm = event.target.value.toLowerCase();
   }
 
   getTotalPagesArray(): number[] {
@@ -89,6 +118,51 @@ export class ExploreComponent implements OnInit {
     let start = Math.max(this.currentPage - 2, 1);
     let end = Math.min(this.currentPage + 2, this.gettotalPages());
     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+  }
+
+  ngAfterViewInit(): void {
+    // get the select element
+    const selectElement = document.getElementById('animalTypes') as HTMLSelectElement;
+
+    // gen options for animal types
+    this.uniqueTypes.forEach(type => {
+      const option = document.createElement('option');
+      option.value = type;
+      option.textContent = type;
+      selectElement.appendChild(option);
+    });
+  }
+
+  handleSelectChange(event: Event): void {
+    // get the selected type
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedType = selectElement.value;
+
+    // update the search term based on the selected type
+    this.searchTerm = selectedType;
+
+    // reset the current page to 1
+    this.currentPage = 1;
+
+    // recalc the total pages based on the number of filtered results
+    this.totalPages = Math.ceil(this.getDisplayedCards().length / this.cardsPerPage);
+  }
+
+  clearFilters(): void {
+    // clear all filters
+    this.searchTerm = '';
+
+    // reset the current page to 1
+    this.currentPage = 1;
+
+    // recalc the total pages based on the number of filtered results
+    this.totalPages = Math.ceil(this.getDisplayedCards().length / this.cardsPerPage);
+
+    // conv HTMLCollectionOf<HTMLSelectElement> to an array and iterate over it
+    const selectElements = Array.from(document.getElementsByTagName('select'));
+    for (const selectElement of selectElements) {
+      selectElement.value = '';
+    }
   }
 
 }
