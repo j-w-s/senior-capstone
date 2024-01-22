@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-settings',
@@ -23,7 +23,13 @@ export class SettingsComponent implements OnInit {
     });
 
     this.accountForm = this.fb.group({
-      name: ['', Validators.required],
+      userPassword: ['', Validators.required],
+      userFirstName: ['', Validators.required],
+      userLastName: ['', Validators.required],
+      userEmail: ['', [Validators.required, Validators.email]],
+      userDisplayName: ['', Validators.required],
+      userBiography: ['', Validators.required]
+
     });
 
     this.selectedTab = 'profile';
