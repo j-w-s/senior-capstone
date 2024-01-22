@@ -4,13 +4,9 @@
     "\\animal-web-app",
     "\\animal-web-app\\src",
     "\\animal-web-app\\src\\app",
-    "\\animal-web-app\\src\\app\\footer",
-    "\\animal-web-app\\src\\app\\home",
-    "\\animal-web-app\\src\\app\\landing-page",
-    "\\animal-web-app\\src\\app\\sidebar",
-    "\\animal-web-app\\src\\environments",
-    "\\animal-web-app\\src\\models"
+    "\\animal-web-app\\src\\app\\navbar",
+    "\\animal-web-app\\src\\app\\settings",
+    "\\animal-web-app\\src\\environments"
   ],
-  "SelectedNode": "\\animal-web-app\\src\\app\\sidebar\\sidebar.component.html",
   "PreviewInSolutionExplorer": false
 }
