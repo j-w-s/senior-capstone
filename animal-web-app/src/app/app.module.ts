@@ -43,6 +43,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { HomeComponent } from './home/home.component';
+import { ExploreCreatePostComponent } from './explore-create-post/explore-create-post.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,8 @@ import { HomeComponent } from './home/home.component';
     SidebarComponent,
     DashboardComponent,
     HomeComponent,
+    GroupsPageComponent,
+    ExploreCreatePostComponent
   ],
   imports: [
     BrowserModule,
