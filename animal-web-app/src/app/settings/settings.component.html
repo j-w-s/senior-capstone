@@ -63,8 +63,8 @@
                   <img [src]="(profileForm.get('userImage')?.value ?? '')" alt="User Photo">
                 </figure>
               </div>
-              <input type="file" id="imageUpload" hidden (change)="updatePhoto($event)" />
-              <label for="imageUpload" >Change</label>
+              <input type="file" class="file-input w-full max-w-xs" id="imageUpload" hidden (change)="updatePhoto($event)" />
+              <label for="imageUpload">Change</label>
             </div>
           </div>
 
