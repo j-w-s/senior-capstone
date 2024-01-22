@@ -41,6 +41,7 @@ import { GroupsPageComponent } from './groups-page/groups-page.component';
 import { MessengerComponent } from './messenger/messenger.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { AngularFireModule } from '@angular/fire/compat';
 
 @NgModule({
   declarations: [
@@ -62,10 +63,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     BrowserModule,
     AppRoutingModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
     provideAuth(() => getAuth()),
     provideAnalytics(() => getAnalytics()),
     provideAppCheck(() => {
-      // TODO get a reCAPTCHA Enterprise here https://console.cloud.google.com/security/recaptcha?project=_
       const provider = new ReCaptchaEnterpriseProvider('6LdaXkkpAAAAAISgQEwPBvGPX9u_r3qkQyQI92iK');
       return initializeAppCheck(initializeApp(environment.firebaseConfig), { provider, isTokenAutoRefreshEnabled: true });
     }),
@@ -73,8 +74,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     provideDatabase(() => getDatabase()),
     provideMessaging(() => getMessaging()),
     providePerformance(() => getPerformance()),
-    MatToolbarModule, MatButtonModule, MatIconModule, MatGridListModule, MatCardModule, FlexLayoutModule, 
-    MatExpansionModule, MatMenuModule, CommonModule, RouterModule, MatFormFieldModule, FormsModule, 
+    MatToolbarModule, MatButtonModule, MatIconModule, MatGridListModule, MatCardModule, FlexLayoutModule,
+    MatExpansionModule, MatMenuModule, CommonModule, RouterModule, MatFormFieldModule, FormsModule,
     ReactiveFormsModule, MatTabsModule, MatInputModule, BrowserAnimationsModule
   ],
   providers: [

@@ -25,6 +25,7 @@
     "autoprefixer": "^10.4.16",
     "daisyui": "^4.6.0",
     "faker": "^5.5.3",
+    "firebase": "^10.7.2",
     "material-icons": "^1.13.12",
     "postcss": "^8.4.33",
     "rxjs": "~7.8.0",
