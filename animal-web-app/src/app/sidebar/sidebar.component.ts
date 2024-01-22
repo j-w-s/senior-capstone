@@ -8,25 +8,18 @@ import { filter } from 'rxjs/operators';
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })
-export class SidebarComponent {
-  closeMenu: boolean;
-  currentUrl: string = "";
-
-  constructor(private router: Router, private location: Location) {
-    this.closeMenu = false;
-  }
+export class SidebarComponent implements OnInit {
+  isOpen = false;
 
   ngOnInit() {
-    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
-      this.currentUrl = this.location.path();
-    });
+    this.isOpen = false;
   }
 
-  handleCloseMenu(): void {
-    this.closeMenu = !this.closeMenu;
+  openDrawer() {
+    this.isOpen = true;
   }
 
-  getActiveClass(route: string): string {
-    return this.currentUrl === route ? 'active' : '';
+  closeDrawer() {
+    this.isOpen = false;
   }
 }

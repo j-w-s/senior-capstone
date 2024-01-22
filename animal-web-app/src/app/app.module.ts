@@ -42,6 +42,7 @@ import { MessengerComponent } from './messenger/messenger.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AngularFireModule } from '@angular/fire/compat';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { AngularFireModule } from '@angular/fire/compat';
     MessengerComponent,
     SidebarComponent,
     DashboardComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
