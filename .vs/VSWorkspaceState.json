@@ -6,11 +6,11 @@
     "\\animal-web-app\\src\\app",
     "\\animal-web-app\\src\\app\\dashboard",
     "\\animal-web-app\\src\\app\\login",
-    "\\animal-web-app\\src\\app\\login-register",
     "\\animal-web-app\\src\\app\\messenger",
     "\\animal-web-app\\src\\app\\services",
+    "\\animal-web-app\\src\\app\\sidebar",
     "\\animal-web-app\\src\\models"
   ],
-  "SelectedNode": "\\animal-web-app\\src\\app\\messenger\\messenger.component.html",
+  "SelectedNode": "\\animal-web-app",
   "PreviewInSolutionExplorer": false
 }

@@ -1,15 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
+import { ExploreService } from '../services/explore.service';
+import Animal from '../../models/animal';
+import { LoginRegisterService } from '../services/login-register.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-explore',
   templateUrl: './explore.component.html',
   styleUrl: './explore.component.scss'
 })
-export class ExploreComponent {
+export class ExploreComponent implements OnInit {
+
+  animals$!: Observable<Animal[]>;
+
   images = [
     'https://www.randomlists.com/img/animals/octopus.webp',
     'https://www.randomlists.com/img/animals/squirrel.webp',
@@ -29,31 +36,40 @@ export class ExploreComponent {
     image: this.images[Math.floor(Math.random() * this.images.length)],
   }));
 
-
+  animals!: Animal[];
   currentPage = 1;
   cardsPerPage = 8;
-  rowsPerPage = 2;
-  cardsPerRow = 4;
-  totalPages = this.allCards.length / this.cardsPerPage;
+  totalPages = 0;
 
-  gettotalPages(): number {
-    return Math.ceil(this.allCards.length / this.cardsPerPage);
+  constructor(private exploreService: ExploreService) { }
+
+  ngOnInit(): void {
+    this.exploreService.getAnimals().subscribe(animals => {
+      this.animals = animals;
+      this.totalPages = Math.ceil(this.animals.length / this.cardsPerPage);
+    });
   }
 
-  getDisplayedCards(){
+  getDisplayedCards() {
     const start = (this.currentPage - 1) * this.cardsPerPage;
-    return this.allCards.slice(start, start + this.cardsPerPage);
+    return this.animals.slice(start, start + this.cardsPerPage);
+  }
+
+  gettotalPages(): number {
+    return Math.ceil(this.animals.length / this.cardsPerPage);
   }
 
   nextPage() {
-    if (this.currentPage < this.totalPages) {
+    if (this.currentPage < this.gettotalPages()) {
       this.currentPage++;
+      this.totalPages = this.gettotalPages();
     }
   }
 
   previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
+      this.totalPages = this.gettotalPages();
     }
   }
 

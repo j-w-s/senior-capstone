@@ -30,16 +30,19 @@
 
     <!-- CARDS -->
     <div class="flex flex-wrap justify-around items-center">
-      <div *ngFor="let card of getDisplayedCards()" class="max-w-sm rounded overflow-auto shadow-lg m-4">
-        <img class="w-64 h-48" [src]="card.image" alt="Card image">
+      <div *ngFor="let animal of getDisplayedCards()" class="w-64 h-auto rounded overflow-auto shadow-lg m-4">
+        <img class="w-64 h-48 object-cover" [src]="animal.images[animal.primaryImage]" alt="Animal image">
         <div class="px-6 py-4">
-          <div class="font-bold text-xl mb-2">{{ card.animalName }}</div>
-          <p class="text-gray-700 text-base">
-            Some description for card {{ card.id }}
+          <div class="font-bold text-xl mb-2">{{ animal.animalName }}</div>
+          <p class="text-gray-700 text-base animal-info">
+            Owner: {{ animal.owner }} Type: {{ animal.animalType }} Breed: {{ animal.animalBreed ? animal.animalBreed.join(', ') : '' }} Weight: {{ animal.animalWeight }} Sex: {{ animal.animalSex }} Temperament: {{ animal.temperament ? animal.temperament.join(', ') : '' }} About: {{ animal.about }} Location: {{ animal.location }} Zip Code: {{ animal.zipCode }} Adoption Status: {{ animal.adoptionStatus }} Date Of Birth: {{ animal.dateOfBirth }} Color: {{ animal.color }} Vaccination Status: {{ animal.vaccinationStatus }}
           </p>
         </div>
       </div>
     </div>
+
+
+
 
     <!-- BUTTONS FOR NAVIGATION-->
     <div class="join bg-white p-4 flex justify-between items-center">

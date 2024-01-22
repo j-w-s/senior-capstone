@@ -12,6 +12,7 @@ import { faker } from "@faker-js/faker/locale/en";
   providedIn: 'root'
 })
 export class MessengerService {
+
   private conversationsSource = new BehaviorSubject<Messages[]>([]);
   private selectedConversationSource = new BehaviorSubject<Messages | null>(null);
   public currentUser!: User;

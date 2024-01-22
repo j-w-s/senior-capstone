@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 import { doc, getFirestore, setDoc } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
-import { LoginRegisterComponent } from '../login-register/login-register.component';
 
 @Injectable({
   providedIn: 'root'
@@ -12,23 +11,26 @@ export class LoginRegisterService {
   public tabIndex = 0;
   public isLoggedIn = false;
   public currentUser = '';
+  //public currentUserObject: any;
 
-  constructor() {  
+  constructor() {
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
-
-      if(user != undefined || user != null) {
+      if (user != undefined || user != null) {
         console.log('Service detected change: ' + user.uid);
         this.isLoggedIn = true;
         this.currentUser = user.uid;
+        //this.currentUserObject = user;
       }
       else {
         // User is signed out
         this.isLoggedIn = false;
         this.currentUser = '';
+        //this.currentUserObject = null;
       }
     });
   }
+
 
   registerUser(email: string, password: string, firstname: string, lastname: string, phonenumber: string, username: string): Promise<any> {
     const auth = getAuth();
@@ -97,5 +99,23 @@ export class LoginRegisterService {
     }
   }
 
+  public getCurrentUser(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const auth = getAuth();
+      onAuthStateChanged(auth, (user) => {
+        if (user != undefined || user != null) {
+          this.isLoggedIn = true;
+          this.currentUser = user.uid;
+          resolve(this.currentUser);
+        }
+        else {
+          // User is signed out
+          this.isLoggedIn = false;
+          this.currentUser = '';
+          reject('User is not logged in');
+        }
+      });
+    });
+  }
 
 }
