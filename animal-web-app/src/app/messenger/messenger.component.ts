@@ -5,6 +5,7 @@ import { filter, map, take, tap } from 'rxjs/operators';
 import Messages from '../../models/messages';
 import Message from '../../models/message';
 import User from '../../models/user';
+import { ViewChild, ElementRef, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-messenger',
@@ -12,13 +13,14 @@ import User from '../../models/user';
   styleUrls: ['./messenger.component.scss']
 })
 export class MessengerComponent implements OnInit {
+  @ViewChild('chatLog') chatLog!: ElementRef;
   conversations$: Observable<Messages[]>;
   selectedConversation$ = new BehaviorSubject<Messages | null>(null);
   selectedContact: User | null = null;
   messages: Message[] = [];
   newMessage: string = '';
 
-  constructor(private messengerService: MessengerService) {
+  constructor(public messengerService: MessengerService, private renderer: Renderer2) {
     this.conversations$ = this.messengerService.conversations;
     this.selectedConversation$.subscribe(conversation => {
       if (conversation) {
@@ -51,12 +53,16 @@ export class MessengerComponent implements OnInit {
     ).subscribe(result => {
       this.selectedConversation$.next(result || null);
     });
+    setTimeout(() => {
+      this.renderer.setProperty(this.chatLog.nativeElement, 'scrollTop', this.chatLog.nativeElement.scrollHeight);
+    }, 0);
   }
 
   sendMessage(): void {
     if (this.newMessage && this.selectedContact) {
+
       const newMessage: Message = {
-        userId: this.selectedContact.userId,
+        userId: this.messengerService.dummyPrimaryUser.userId,
         messageContent: this.newMessage,
         timeSent: new Date(),
       };
@@ -66,36 +72,16 @@ export class MessengerComponent implements OnInit {
 
       // clear
       this.newMessage = '';
+
+      // scroll down
+      setTimeout(() => {
+        this.renderer.setProperty(this.chatLog.nativeElement, 'scrollTop', this.chatLog.nativeElement.scrollHeight);
+      }, 0);
     }
-    /*
-    if (this.newMessage && this.selectedContact) {
-      const newMessage: Message = {
-        userId: this.selectedContact.userId,
-        messageContent: this.newMessage,
-        timeSent: new Date(),
-      };
-
-      // find the selected conversation
-      let selectedConversation = this.conversations$.pipe(
-        map((conversations: Messages[]) => conversations.find((conversation: Messages) =>
-          conversation.userId === this.selectedContact?.userId)),
-        filter(conversation => conversation !== undefined), // Exclude undefined values
-        take(1)
-      );
-
-      // add the new message to the messagesList of the selected conversation
-      selectedConversation.subscribe(conversation => {
-        if (conversation) {
-          conversation.messagesList.push(newMessage);
-        }
-      });
-
-      // clear newMessage variable
-      this.newMessage = '';
-    }*/
   }
 
   filterConversations = (conversation: any) => {
     return conversation.contactsList.some((contact: any) => contact.userId === this.messengerService.currentUser.userId);
   };
+
 }
