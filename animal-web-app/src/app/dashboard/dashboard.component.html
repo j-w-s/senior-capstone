@@ -2,7 +2,7 @@
 <div class="container min-h-screen flex flex-col w-full lg:flex-row bg-base-100">
 
   <!-- sidebar -->
-  <div class="w-1/4 flex flex-col justify-center items-center bg-white">
+  <div class="w-1/4 h-1/8 flex flex-col justify-center items-center bg-white">
     <div class="bg-white p-4 flex justify-between items-center">
       <h2 class="text-left">Sidebar</h2>
     </div>
@@ -13,23 +13,21 @@
   <div class="divider lg:divider-horizontal"></div>
 
   <!-- main content -->
-  <div class="container bg-base-200 ">
+  <div class="container bg-base-200">
 
     <!-- TOP BAR -->
-    <div class="bg-white p-4 flex h-1/8 w-full justify-between items-center">
-      <div class="w-full justify-start">
+    <div class="w-full h-1/8 bg-white flex flex-row justify-between">
 
+      <div class="bg-white p-4">
         <h2 class="text-left">Dashboard</h2>
-        <div>Welcome back, {{ this.messengerService.dummyPrimaryUser.userFirstName }} {{ this.messengerService.dummyPrimaryUser.userLastName }}.</div>
-
       </div>
 
-      <div class="justify-end">
-        <img [src]="this.messengerService.dummyPrimaryUser.userImage" class="w-16 h-16 rounded-full shrink-0">
+      <div class="bg-white p-4 flex justify-center items-center">
+        <span class="text-left">Welcome back, {{ this.messengerService.dummyPrimaryUser.userFirstName }} {{ this.messengerService.dummyPrimaryUser.userLastName }}.</span>
+        <img [src]="this.messengerService.dummyPrimaryUser.userImage" class="w-12 h-12 rounded-full shrink-0 ml-4 justify-center items-center">
       </div>
 
     </div>
-
 
     <!-- CARDS START  -->
     <div class="flex relative w-full justify-around items-center parent px-4 py-2">
@@ -233,9 +231,8 @@
           <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Sun</span>
         </div>
 
-        <!-- Calendar Days -->
         <div *ngFor="let row of days; let i = index" class="flex justify-between mb-4 items-center">
-          <!-- Loop over days in row -->
+          <!-- loop over days in row -->
           <span *ngFor="let day of row" class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md hover:bg-blue-300 cursor-pointer">
             {{ day }}
           </span>
@@ -297,4 +294,4 @@
 
     </div>
 
-</div>
+  </div>
