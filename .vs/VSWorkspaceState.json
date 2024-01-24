@@ -4,13 +4,13 @@
     "\\animal-web-app",
     "\\animal-web-app\\src",
     "\\animal-web-app\\src\\app",
-    "\\animal-web-app\\src\\app\\dashboard",
-    "\\animal-web-app\\src\\app\\forums",
+    "\\animal-web-app\\src\\app\\explore",
     "\\animal-web-app\\src\\app\\login",
     "\\animal-web-app\\src\\app\\messenger",
     "\\animal-web-app\\src\\app\\register",
-    "\\animal-web-app\\src\\app\\services"
+    "\\animal-web-app\\src\\app\\services",
+    "\\animal-web-app\\src\\models"
   ],
-  "SelectedNode": "\\animal-web-app\\src\\app\\dashboard\\dashboard.component.html",
+  "SelectedNode": "\\animal-web-app\\src\\app\\services\\explore.service.ts",
   "PreviewInSolutionExplorer": false
 }

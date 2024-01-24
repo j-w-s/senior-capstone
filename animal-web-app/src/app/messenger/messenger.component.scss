@@ -3,3 +3,21 @@ a {
   color: inherit;
   cursor: pointer;
 }
+
+.chat-log {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-start {
+  align-self: flex-end;
+}
+
+.chat-end {
+  align-self: flex-start;
+}
+
+input {
+  white-space: nowrap;
+  overflow-x: auto;
+}
