@@ -2,7 +2,7 @@
 <div class="container min-h-screen flex flex-col w-full lg:flex-row bg-base-100">
 
   <!-- sidebar -->
-  <div class="w-1/4 flex flex-col justify-center items-center bg-white">
+  <div class="w-1/4 h-1/8 flex flex-col justify-center items-center bg-white">
     <div class="bg-white p-4 flex justify-between items-center">
       <h2 class="text-left">Sidebar</h2>
     </div>
@@ -13,34 +13,42 @@
   <div class="divider lg:divider-horizontal"></div>
 
   <!-- main content -->
-  <div class="container">
+  <div class="container bg-base-200">
 
     <!-- TOP BAR -->
-    <div class="bg-white p-4 flex justify-between items-center">
-      <div class="w-1/3 justify-center">
+    <div class="w-full h-1/8 bg-white flex flex-row justify-between">
+
+      <div class="bg-white p-4">
         <h2 class="text-left">Dashboard</h2>
       </div>
+
+      <div class="bg-white p-4 flex justify-center items-center">
+        <span class="text-left">Welcome back, {{ this.messengerService.dummyPrimaryUser.userFirstName }} {{ this.messengerService.dummyPrimaryUser.userLastName }}.</span>
+        <img [src]="this.messengerService.dummyPrimaryUser.userImage" class="w-12 h-12 rounded-full shrink-0 ml-4 justify-center items-center">
+      </div>
+
     </div>
 
-    <div class="flex flex-wrap justify-around items-center">
-      <div class="flex flex-wrap justify-around items-center">
+    <!-- CARDS START  -->
+    <div class="flex relative w-full justify-around items-center parent px-4 py-2">
+      <div class="flex flex-wrap justify-around items-center child">
         <!-- Explore Card -->
         <a routerLink="/explore">
-          <div class="card card-side w-96 h-48 bg-base-100 shadow-xl">
+          <div class="card card-side w-96 h-48 bg-base-100 shadow-xl px-4 py-2">
             <figure class="relative">
               <div class="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 opacity-50"></div>
               <img src="assets/explore-gs.gif" alt="Explore" class="w-full h-full object-cover">
             </figure>
             <div class="card-body">
               <h2 class="card-title">Explore</h2>
-              <p>Explore Animals in Your Area</p>
+              <p>Explore Animals in <br /> Your Area</p>
             </div>
           </div>
         </a>
 
         <!-- Forums Card -->
         <a routerLink="/forums">
-          <div class="card card-side w-96 h-48 bg-base-100 shadow-xl">
+          <div class="card card-side w-96 h-48 bg-base-100 shadow-xl px-4 py-2">
             <figure class="relative">
               <div class="absolute inset-0 bg-gradient-to-r from-orange-300 to-orange-600 opacity-50"></div>
               <img src="assets/forums-gs.gif" alt="Forums" class="w-full h-full object-cover">
@@ -54,7 +62,7 @@
 
         <!-- Messenger Card -->
         <a routerLink="/messenger">
-          <div class="card card-side w-96 h-48 bg-base-100 shadow-xl">
+          <div class="card card-side w-96 h-48 bg-base-100 shadow-xl px-4 py-2">
             <figure class="relative">
               <div class="absolute inset-0 bg-gradient-to-r from-green-300 to-green-600 opacity-50"></div>
               <img src="assets/chat-gs.gif" alt="Messenger" class="w-full h-full object-cover">
@@ -68,7 +76,7 @@
 
         <!-- Scheduler Card -->
         <a routerLink="/login">
-          <div class="card card-side w-96 h-48 bg-base-100 shadow-xl">
+          <div class="card card-side w-96 h-48 bg-base-100 shadow-xl px-4 py-2">
             <figure class="relative">
               <div class="absolute inset-0 bg-gradient-to-r from-pink-300 to-pink-600 opacity-50"></div>
               <img src="assets/calendar-gs.gif" alt="Scheduler" class="w-full h-full object-cover">
@@ -82,21 +90,112 @@
 
         <!-- Settings Card -->
         <a routerLink="/settings">
-          <div class="card card-side w-96 h-48 bg-base-100 shadow-xl">
+          <div class="card card-side w-96 h-48 bg-base-100 shadow-xl px-4 py-2">
             <figure class="relative">
               <div class="absolute inset-0 bg-gradient-to-r from-purple-300 to-purple-600 opacity-50"></div>
               <img src="assets/settings-gs.gif" alt="Settings" class="w-full h-full object-cover">
             </figure>
             <div class="card-body">
               <h2 class="card-title">Settings</h2>
-              <p>Settings and Preferences Manager</p>
+              <p>Settings and Preferences <br /> Manager</p>
             </div>
           </div>
         </a>
 
         <!-- Groups Card -->
         <a routerLink="/groups">
-          <div class="card card-side w-96 h-48 bg-base-100 shadow-xl">
+          <div class="card card-side w-96 h-48 bg-base-100 shadow-xl px-4 py-2">
+            <figure class="relative">
+              <div class="absolute inset-0 bg-gradient-to-r from-red-300 to-red-600 opacity-50"></div>
+              <img src="assets/groups-gs.gif" alt="Groups" class="w-full h-full object-cover">
+            </figure>
+            <div class="card-body">
+              <h2 class="card-title">Groups</h2>
+              <p>Join and Manage Groups</p>
+            </div>
+          </div>
+        </a>
+
+
+      </div>
+
+    </div>
+
+    <div class="flex relative w-full transform translate-y-[-100%] justify-around items-center parent px-4 py-2">
+      <div class="flex flex-wrap justify-around items-center child-2">
+        <!-- Explore Card -->
+        <a routerLink="/explore">
+          <div class="card card-side w-96 h-48 bg-base-100 shadow-xl px-4 py-2">
+            <figure class="relative">
+              <div class="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 opacity-50"></div>
+              <img src="assets/explore-gs.gif" alt="Explore" class="w-full h-full object-cover">
+            </figure>
+            <div class="card-body">
+              <h2 class="card-title">Explore</h2>
+              <p>Explore Animals in <br /> Your Area</p>
+            </div>
+          </div>
+        </a>
+
+        <!-- Forums Card -->
+        <a routerLink="/forums">
+          <div class="card card-side w-96 h-48 bg-base-100 shadow-xl px-4 py-2">
+            <figure class="relative">
+              <div class="absolute inset-0 bg-gradient-to-r from-orange-300 to-orange-600 opacity-50"></div>
+              <img src="assets/forums-gs.gif" alt="Forums" class="w-full h-full object-cover">
+            </figure>
+            <div class="card-body">
+              <h2 class="card-title">Forums</h2>
+              <p>Forums Discussions</p>
+            </div>
+          </div>
+        </a>
+
+        <!-- Messenger Card -->
+        <a routerLink="/messenger">
+          <div class="card card-side w-96 h-48 bg-base-100 shadow-xl px-4 py-2">
+            <figure class="relative">
+              <div class="absolute inset-0 bg-gradient-to-r from-green-300 to-green-600 opacity-50"></div>
+              <img src="assets/chat-gs.gif" alt="Messenger" class="w-full h-full object-cover">
+            </figure>
+            <div class="card-body">
+              <h2 class="card-title">Messenger</h2>
+              <p>App Messenger</p>
+            </div>
+          </div>
+        </a>
+
+        <!-- Scheduler Card -->
+        <a routerLink="/login">
+          <div class="card card-side w-96 h-48 bg-base-100 shadow-xl px-4 py-2">
+            <figure class="relative">
+              <div class="absolute inset-0 bg-gradient-to-r from-pink-300 to-pink-600 opacity-50"></div>
+              <img src="assets/calendar-gs.gif" alt="Scheduler" class="w-full h-full object-cover">
+            </figure>
+            <div class="card-body">
+              <h2 class="card-title">Scheduler</h2>
+              <p>Scheduler for Appointments</p>
+            </div>
+          </div>
+        </a>
+
+        <!-- Settings Card -->
+        <a routerLink="/settings">
+          <div class="card card-side w-96 h-48 bg-base-100 shadow-xl px-4 py-2">
+            <figure class="relative">
+              <div class="absolute inset-0 bg-gradient-to-r from-purple-300 to-purple-600 opacity-50"></div>
+              <img src="assets/settings-gs.gif" alt="Settings" class="w-full h-full object-cover">
+            </figure>
+            <div class="card-body">
+              <h2 class="card-title">Settings</h2>
+              <p>Settings and Preferences <br /> Manager</p>
+            </div>
+          </div>
+        </a>
+
+        <!-- Groups Card -->
+        <a routerLink="/groups">
+          <div class="card card-side w-96 h-48 bg-base-100 shadow-xl px-4 py-2">
             <figure class="relative">
               <div class="absolute inset-0 bg-gradient-to-r from-red-300 to-red-600 opacity-50"></div>
               <img src="assets/groups-gs.gif" alt="Groups" class="w-full h-full object-cover">
@@ -112,7 +211,87 @@
       </div>
     </div>
 
+    <!-- END CARDS, REST OF DASHBOARD CONTENT HERE -->
+
+    <div class="container mx-auto shadow-xl px-4 py-2 relative w-full h-9/12 transform translate-y-[-50%] justify-around items-center flex flex-row">
+
+      <!-- this is a static calendar until i find something better -->
+      <div class="flex flex-col w-1/2 items-center bg-base-100 h-1/2">
+        <!-- month -->
+        <h2 class="font-bold text-2xl mb-4">January</h2>
+
+        <!-- days -->
+        <div class="flex justify-between mb-4">
+          <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Mon</span>
+          <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Tue</span>
+          <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Wed</span>
+          <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Thu</span>
+          <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Fri</span>
+          <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Sat</span>
+          <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Sun</span>
+        </div>
+
+        <div *ngFor="let row of days; let i = index" class="flex justify-between mb-4 items-center">
+          <!-- loop over days in row -->
+          <span *ngFor="let day of row" class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md hover:bg-blue-300 cursor-pointer">
+            {{ day }}
+          </span>
+        </div>
+
+
+      </div>
+
+
+      <div class="divider lg:divider-horizontal"></div>
+
+      <div class="flex flex-col w-1/2 items-center bg-base-100">
+
+        <div class="overflow-x-auto lex justify-between mb-4">
+          <table class="table max-h-1/2 overflow-y-auto">
+            <!-- head -->
+            <thead>
+              <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Job</th>
+                <th>Favorite Color</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- row 1 -->
+              <tr class="bg-base-200">
+                <th>1</th>
+                <td>Cy Ganderton</td>
+                <td>Quality Control Specialist</td>
+                <td>Blue</td>
+              </tr>
+              <!-- row 2 -->
+              <tr>
+                <th>2</th>
+                <td>Hart Hagerty</td>
+                <td>Desktop Support Technician</td>
+                <td>Purple</td>
+              </tr>
+              <!-- row 3 -->
+              <tr>
+                <th>3</th>
+                <td>Brice Swyre</td>
+                <td>Tax Accountant</td>
+                <td>Red</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+
+
+
+
+
+
+
+    </div>
 
   </div>
-
-</div>
