@@ -6,23 +6,22 @@
 
       <!-- NGFOR HERE -->
       <!-- CONTACTS -->
-      <ng-container *ngFor="let conversation of conversations$ | async">
-        <ng-container *ngFor="let contact of conversation.contactsList">
-          <div class="rounded-box card card-side w-11/12 hover:brightness-90"
-               [class.bg-gray-300]="selectedContact === contact"
-               [class.bg-gray-100]="selectedContact !== contact"
-               (click)="selectContact(contact)">
-            <div class="flex items-center gap-4 p-4">
-              <img class="w-12 h-12 rounded-full" [src]="contact.userImage">
-              <div class="flex flex-col">
-                <strong>{{contact.userFirstName}} {{contact.userLastName}}</strong>
-                <span>
-                  <p>{{ contact.userBiography | slice:0:20 }}</p>
-                </span>
-              </div>
+
+      <ng-container *ngFor="let contact of contacts">
+        <div class="rounded-box card card-side w-11/12 hover:brightness-90"
+              [class.bg-gray-300]="selectedContact === contact"
+              [class.bg-gray-100]="selectedContact !== contact"
+              (click)="selectContact(contact)">
+          <div class="flex items-center gap-4 p-4">
+            <img class="w-12 h-12 rounded-full" [src]="contact.userImage">
+            <div class="flex flex-col">
+              <strong>{{contact.userFirstName}} {{contact.userLastName}}</strong>
+              <span>
+                <p>{{ contact.userBiography | slice:0:20 }}</p>
+              </span>
             </div>
           </div>
-        </ng-container>
+        </div>
       </ng-container>
 
     </div>
@@ -67,12 +66,11 @@
     </div>
 
     <div class="overflow-auto h-3/4 w-11/12 chat-log" style="margin-left: auto; margin-right: auto;" #chatLog>
-      <div *ngFor="let message of messages" class="container h-full w-full flex flex-col px-6 py-2"
-           [class.chat-end]="message.userId == this.messengerService.dummyPrimaryUser.userId"
-           [class.chat-start]="message.userId != this.messengerService.dummyPrimaryUser.userId">
+      <div *ngFor="let message of selectedConversation" class="container h-full w-full flex flex-col px-6 py-2"
+           [class.chat-end]="message.senderId == this.messengerService.demoPrimaryUserId"
+           [class.chat-start]="message.senderId != this.messengerService.demoPrimaryUserId">
         <div class="chat-header">
-          {{ message.userId == this.messengerService.dummyPrimaryUser.userId ? 'Me' : selectedContact?.userFirstName + ' ' + selectedContact?.userLastName }}
-          <time class="text-xs opacity-50">{{ message.timeSent | date:'shortTime' }}</time>
+          {{ message.senderId == this.messengerService.demoPrimaryUserId ? 'Me' : selectedContact?.userFirstName + ' ' + selectedContact?.userLastName }}
         </div>
         <div class="chat-bubble bg-base-300 text-black">{{ message.messageContent }}</div>
         <div class="chat-footer opacity-50">
@@ -80,8 +78,6 @@
         </div>
       </div>
     </div>
-
-
 
     <div *ngIf="selectedContact" class="container w-full flex flex-row px-6 py-2">
       <input [(ngModel)]="newMessage" class="py-2 px-3 w-11/12 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Type your message here...">

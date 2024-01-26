@@ -1,78 +1,157 @@
-<!-- Carousel -->
-<div class="flex justify-center">
-    <div class="carousel center-carousel carousel-horizontal border rounded bg-primary p-4 w-[70%] mx-auto px-4 min-h-[200px] max-h-[200px]" data-theme="cupcake">
-        <!-- Loop through user's groups here -->
-        <div class="grid grid-cols-3 gap-4">
-            <div *ngFor="let group of groups" class="carousel-item bg-blue-500 mx-2" (click)="selectGroup(group)">
-            <div class="carousel-caption">
-                <h3>{{ group.name }}</h3>
-                <p>{{ group.description }}</p>
+<!-- NOTE TO SELF: don't forget to change widget routing later, placeholder atm due to component restrictions '-->
+<div class="container min-h-screen flex flex-col w-full lg:flex-row bg-base-100">
+  <!-- sidebar -->
+  <div class="w-1/4 h-1/8 flex flex-col justify-center items-center bg-white">
+    <div class="bg-white p-4 flex justify-between items-center">
+      <h2 class="text-left">Sidebar</h2>
+    </div>
+    <app-sidebar></app-sidebar>
+  </div>
+  <!-- divider between side bar and main content-->
+  <div class="divider lg:divider-horizontal"></div>
+  <!-- main content -->
+  <div class="container bg-base-200">
+    <!-- TOP BAR -->
+    <div class="w-full h-1/8 bg-white flex flex-row justify-between">
+      <div class="bg-white p-4">
+        <h2 class="text-left">Groups</h2>
+      </div>
+    </div>
+
+    <div class="flex relative w-full h-full px-4 py-2">
+      <!-- Carousel -->
+      <div class="container w-1/2 h-1/2">
+        <div class="carousel w-full h-full flex justify-center items-center">
+          <ng-container *ngFor="let group of groups; let i = index">
+            <div *ngIf="i === currentIndex" id="{{'group'+i}}" class="carousel-item bg-cover mx-2 w-full h-full flex items-center justify-between" style="background-image: url('https://flashbak.com/wp-content/uploads/2015/01/1974.png')" (click)="selectGroup(group)">
+              <div class="relative justify-between items-center">
+                <button class="btn btn-ghost justify-start" (click)="prev(i)">❮</button>
+              </div>
+              <div class="items-center justify-center">
+                <div class="prose items-center justify-center">
+                  <h2 class="text-center">{{group.name}}</h2>
+                  <p class="text-center">{{group.description}}</p>
+                </div>
+              </div>
+              <div class="relative justify-between items-center">
+                <button class="btn btn-ghost rounded justify-end" (click)="next(i)">❯</button>
+              </div>
             </div>
-            </div>
+          </ng-container>
         </div>
-        <!-- End loop -->
+      </div
+>
+      <div class="container w-1/2 h-1/2">
+        <div class="w-full h-full p-4">
+
+          <!-- Group Information Section -->
+          <div class="flex justify-between mt-10 p-4">
+            <div role="tablist" class="tabs tabs-lifted">
+
+              <input type="radio" name="my_tabs" role="tab" class="tab bg-base-100 border-base-300 rounded-box" aria-label="Create Group" checked />
+              <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6 w-full h-full" *ngIf="selectedGroup">
+
+                <!-- Create New Group Section -->
+                <div class="w-full h-full border p-4">
+                  <form (ngSubmit)="createGroup(groupName.value, groupDescription.value, city.value, state.value)" class="form form-default">
+                    <div class="form-control">
+                      <label class="label">
+                        <span class="label-text">Group Name</span>
+                      </label>
+                      <input type="text" #groupName id="groupName" name="groupName" required class="input input-bordered">
+                    </div>
+                    <div class="form-control">
+                      <label class="label">
+                        <span class="label-text">Group Description</span>
+                      </label>
+                      <textarea #groupDescription id="groupDescription" name="groupDescription" required class="input input-bordered"></textarea>
+                    </div>
+                    <div class="form-control">
+                      <label class="label">
+                        <span class="label-text">City</span>
+                      </label>
+                      <input type="text" #city id="city" name="city" required class="input input-bordered">
+                    </div>
+                    <div class="form-control">
+                      <label class="label">
+                        <span class="label-text">State</span>
+                      </label>
+                      <input type="text" #state id="state" name="state" required class="input input-bordered">
+                    </div>
+                    <div class="form-control mt-6">
+                      <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <input type="radio" name="my_tabs" role="tab" class="tab bg-base-100 border-base-300 rounded-box" aria-label="Display Group Info" />
+              <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6 w-full h-full" *ngIf="selectedGroup">
+                <!-- Display Selected Group Information Section -->
+                <div>
+                  <!-- Left Column: Group Information -->
+                  <div class="w-full h-full border p-4">
+                    <!-- Loop through selected group's information here -->
+                    <div class="form-control">
+                      <label class="label">
+                        <span class="label-text">Group Name</span>
+                      </label>
+                      <input type="text" [(ngModel)]="selectedGroup.name" readonly disabled class="input input-bordered">
+                    </div>
+                    <div class="form-control">
+                      <label class="label">
+                        <span class="label-text">Group Description</span>
+                      </label>
+                      <textarea [(ngModel)]="selectedGroup.description" readonly disabled class="input input-bordered"></textarea>
+                    </div>
+                    <div class="form-control">
+                      <label class="label">
+                        <span class="label-text">City</span>
+                      </label>
+                      <input type="text" [(ngModel)]="selectedGroup.city" readonly disabled class="input input-bordered">
+                    </div>
+                    <div class="form-control">
+                      <label class="label">
+                        <span class="label-text">State</span>
+                      </label>
+                      <input type="text" [(ngModel)]="selectedGroup.state" readonly disabled class="input input-bordered">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <input type="radio" name="my_tabs" role="tab" class="tab bg-base-100 border-base-300 rounded-box" aria-label="Add Users" />
+              <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6 w-full h-full" *ngIf="selectedGroup">
+                <!-- Right Column: Add Users to Group -->
+                <div class="w-full h-full border p-4">
+                  <form action="/add-user-to-group" method="post" (ngSubmit)="addUser(selectedGroup, username.value)" class="form form-default">
+                    <div class="form-control">
+                      <label class="label">
+                        <span class="label-text">Username</span>
+                      </label>
+                      <input type="text" #username id="username" name="username" required class="input input-bordered">
+                    </div>
+                    <div class="form-control mt-6">
+                      <button type="submit" class="btn btn-primary">Add User</button>
+                    </div>
+                    <ul>
+                      <li *ngFor="let user of usernames">{{ user }}</li>
+                    </ul>
+                  </form>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 </div>
-   
-   <!-- Group Information Section -->
-<div class="flex justify-between mt-10 p-4" data-theme="cupcake">
-    <!-- Create New Group Section -->
-    <div class="w-1/3 border p-4">
-        <form (ngSubmit)="createGroup(groupName.value, groupDescription.value, city.value, state.value)" class="flex flex-col">
-            <label for="groupName">Group Name</label>
-            <input type="text" #groupName id="groupName" name="groupName" required>
-        
-            <label for="groupDescription">Group Description</label>
-            <textarea #groupDescription id="groupDescription" name="groupDescription" required></textarea>
-        
-            <label for="city">City</label>
-            <input type="text" #city id="city" name="city" required>
-        
-            <label for="state">State</label>
-            <input type="text" #state id="state" name="state" required>
-        
-            <button type="submit" class="btn btn-primary">Create</button>
-        </form>
-    </div>
-   
-    <!-- Display Selected Group Information Section -->
-    <div class="w-2/3 border p-4 flex" *ngIf="selectedGroup">
-        <!-- Left Column: Group Information -->
-        <div class="w-1/2 border p-4 flex flex-col">
-            <!-- Loop through selected group's information here -->
-            <label for="groupName">Group Name</label>
-            <input type="text" [(ngModel)]="selectedGroup.name" readonly disabled class="border bg-white border-gray-500">
-
-            <label for="groupDescription">Group Description</label>
-            <textarea [(ngModel)]="selectedGroup.description" readonly disabled class="border bg-white border-gray-500"></textarea>
-
-            <label for="city">City</label>
-            <input type="text" [(ngModel)]="selectedGroup.city" readonly disabled class="border bg-white border-gray-500">
-
-            <label for="state">State</label>
-            <input type="text" [(ngModel)]="selectedGroup.state" readonly disabled class="border bg-white border-gray-500">
-            <!-- End loop -->
-        </div>
-
-        <!-- Right Column: Add Users to Group -->
-        <div class="w-1/2 border p-4 flex flex-col" *ngIf="selectedGroup">
-            <form action="/add-user-to-group" method="post" (ngSubmit)="addUser(selectedGroup, username.value)">
-                <label for="username">Username</label>
-                <input type="text" #username id="username" name="username" required>
-                <button type="submit" class="btn btn-primary">Add User</button>
-
-                <ul>
-                    <li *ngFor="let user of usernames">{{ user }}</li>
-                </ul>
-
-        
-            </form>
-        </div>
-
-    </div>
 
 
 
-</div>
-   
-   
+
+
+
+
+

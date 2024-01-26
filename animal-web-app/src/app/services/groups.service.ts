@@ -31,7 +31,7 @@ export class GroupsService {
        throw new Error('No user is currently signed in.');
     }
    
-    const userDocRef = doc(getFirestore(), 'User', this.loginRegService.currentUser);
+    const userDocRef = doc(getFirestore(), 'User/' + 'xYt04uxvcVZBOMHCTWtiNFHlqh32');
    
     return new Observable(observer => {
        const unsubscribe = onSnapshot(userDocRef, async (userDoc) => {
