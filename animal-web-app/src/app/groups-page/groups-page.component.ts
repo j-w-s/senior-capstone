@@ -27,6 +27,8 @@ export class GroupsPageComponent implements OnInit {
   usernames: string[] | null = null;
   private destroy$ = new Subject<void>();
   private subscriptions: Array<Subscription> = [];
+  currentIndex = 0; // Initialize the current index
+  i!: number;
  
   constructor(private groupService: GroupsService) { }
 
@@ -94,4 +96,17 @@ export class GroupsPageComponent implements OnInit {
   addOwner(group: Group, docRef: string) {
     this.groupService.addOwner(docRef);
   }
+
+  prev(index: number) {
+    this.currentIndex = (index + this.groups.length - 1) % this.groups.length;
+  }
+
+  next(index: number) {
+    this.currentIndex = (index + 1) % this.groups.length;
+  }
+
+  trackByGroups(index: number, group: any): string {
+    return group.name;
+  }
+
  }
