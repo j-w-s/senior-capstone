@@ -7,6 +7,8 @@ import { ExploreService } from '../services/explore.service';
 import Animal from '../../models/animal';
 import { LoginRegisterService } from '../services/login-register.service';
 import { Observable } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-explore',
@@ -16,6 +18,8 @@ import { Observable } from 'rxjs';
 export class ExploreComponent implements OnInit, AfterViewInit{
 
   animals$!: Observable<Animal[]>;
+
+  animalCreateForm: FormGroup;
 
   images = [
     'https://www.randomlists.com/img/animals/octopus.webp',
@@ -54,10 +58,35 @@ export class ExploreComponent implements OnInit, AfterViewInit{
   totalPages = 0;
   searchTerm = '';
 
-  constructor(private exploreService: ExploreService) { }
+  constructor(private exploreService: ExploreService, private fb: FormBuilder) {
+    this.animalCreateForm = new FormGroup({
+      animalId: new FormControl('', Validators.required),
+      owner: new FormControl(''),
+      animalType: new FormControl('', Validators.required),
+      animalBreed: new FormControl([''], Validators.required),
+      animalName: new FormControl('', Validators.required),
+      animalWeight: new FormControl(0, Validators.required),
+      animalSex: new FormControl('', Validators.required),
+      temperament: new FormControl([''], Validators.required),
+      about: new FormControl('', Validators.required),
+      images: new FormControl([''], Validators.required),
+      primaryImage: new FormControl(0, Validators.required),
+      location: new FormControl('', Validators.required),
+      zipCode: new FormControl(0, Validators.required),
+      adoptionStatus: new FormControl(0, Validators.required),
+      dateOfBirth: new FormControl(new Date(), Validators.required),
+      color: new FormControl(''),
+      vaccinationStatus: new FormControl(false)
+    });
+
+  }
+
+  generateUUID(): void {
+    this.animalCreateForm.get('animalId')!.setValue(uuidv4());
+  }
 
   ngOnInit(): void {
-    this.exploreService.getAnimals().subscribe(animals => {
+    this.exploreService.getAnimals().subscribe((animals: Animal[]) => {
       this.animals = animals;
       this.totalPages = Math.ceil(this.animals.length / this.cardsPerPage);
 
