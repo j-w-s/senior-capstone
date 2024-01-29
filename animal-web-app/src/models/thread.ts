@@ -4,7 +4,7 @@ import Comment from './comment';
 interface Thread {
   publisher: string;
   users: User[];
-  comments: Comment[];
+  comments?: Comment[];
   tags: string[];
   title: string;
   threadContent: string;
