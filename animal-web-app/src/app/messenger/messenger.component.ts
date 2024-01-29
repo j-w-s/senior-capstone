@@ -6,6 +6,7 @@ import Messages from '../../models/messages';
 import Message from '../../models/message';
 import User from '../../models/user';
 import { ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-messenger',
@@ -14,64 +15,94 @@ import { ViewChild, ElementRef, Renderer2 } from '@angular/core';
 })
 export class MessengerComponent implements OnInit {
   @ViewChild('chatLog') chatLog!: ElementRef;
-  conversations$: Observable<Messages[]>;
+  conversations$: Observable<Message[]>;
   selectedConversation$ = new BehaviorSubject<Messages | null>(null);
   selectedContact: User | null = null;
-  messages: Message[] = [];
   newMessage: string = '';
+
+  userMessages$: Observable<Messages | null>;
+  contacts: User[] = [];
+  messages: Message[] = [];
+  selectedConversation: Message[] = [];
+  loading: boolean = true;
 
   constructor(public messengerService: MessengerService, private renderer: Renderer2) {
     this.conversations$ = this.messengerService.conversations;
-    this.selectedConversation$.subscribe(conversation => {
-      if (conversation) {
-        this.messages = conversation.messagesList;
+    
+    this.userMessages$ = this.messengerService.messages;
+    this.userMessages$.subscribe(messages => {
+      if (messages !== null) {
+        console.log('FROM THIS SHITHOLE', messages);
+        this.messages = messages.messagesList;
+        this.contacts = messages.contactsList;
+        this.loading = false;
+        if (this.selectedContact) {
+          this.selectContact(this.selectedContact);
+        }
       }
     });
   }
 
   ngOnInit(): void {
+    this.userMessages$ = this.messengerService.messages;
+    this.userMessages$.subscribe(messages => {
+      if (messages !== null) {
+        console.log('FROM THIS SHITHOLE', messages);
+        this.messages = messages.messagesList;
+        this.contacts = messages.contactsList;
+      }
+    });
+
     this.conversations$.subscribe(conversations => {
     });
   }
 
   selectContact(contact: User) {
     this.selectedContact = contact;
-    this.conversations$.pipe(
-      map((conversations: Messages[]) => conversations.find((conversation: Messages) =>
-        conversation.contactsList.some((contact: User) => contact.userId === this.selectedContact?.userId))
-      ),
-      filter(conversation => conversation !== undefined), // Exclude undefined values
-      tap(conversation => {
-        if (conversation === undefined) {
-          console.error('No matching conversation found');
-          // Handle the error appropriately here
+    this.userMessages$.pipe(
+      map((messages: Messages | null) => {
+        if (messages !== null) {
+          return messages.messagesList.filter((message: Message) =>
+            message.senderId === contact.userId || message.receiverId === contact.userId
+          );
+        }
+        return [];
+      }),
+      tap(messages => {
+        if (messages.length === 0) {
+          console.log('MESSAGES FILTERED', messages);
+          console.error('No matching messages found');
+          // handle the error appropriately here
         } else {
-          console.log('Selected conversation:', conversation);
+          console.log('Selected messages:', messages);
+          this.selectedConversation = messages;
+          // scroll down
+          setTimeout(() => {
+            this.renderer.setProperty(this.chatLog.nativeElement, 'scrollTop', this.chatLog.nativeElement.scrollHeight);
+          }, 0);
         }
       }),
       take(1)
-    ).subscribe(result => {
-      this.selectedConversation$.next(result || null);
-    });
-    setTimeout(() => {
-      this.renderer.setProperty(this.chatLog.nativeElement, 'scrollTop', this.chatLog.nativeElement.scrollHeight);
-    }, 0);
+    ).subscribe();
   }
 
   sendMessage(): void {
     if (this.newMessage && this.selectedContact) {
-
       const newMessage: Message = {
-        userId: this.messengerService.dummyPrimaryUser.userId,
+        messageId: uuidv4(),
+        senderId: this.messengerService.demoPrimaryUserId,
+        receiverId: this.selectedContact.userId,
         messageContent: this.newMessage,
         timeSent: new Date(),
       };
 
       // push the new message to the messages array
-      this.messages.push(newMessage);
+      this.messengerService.addMessage(newMessage);
 
       // clear
       this.newMessage = '';
+
+      this.selectContact(this.selectedContact);
 
       // scroll down
       setTimeout(() => {

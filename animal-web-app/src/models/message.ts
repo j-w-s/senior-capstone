@@ -1,5 +1,7 @@
 interface Message {
-  userId: string;
+  messageId: string;
+  senderId: string;
+  receiverId: string;
   messageContent: string;
   timeSent: Date;
 }
