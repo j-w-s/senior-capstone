@@ -3,7 +3,7 @@ import { getAuth } from "firebase/auth";
 import { LoginRegisterService } from './login-register.service';
 import { AngularFirestore, DocumentReference } from '@angular/fire/compat/firestore';
 import { combineLatest, Observable } from 'rxjs';
-import { Group } from '../groups-page/groups-page.component';
+import { Group, Use } from '../groups-page/groups-page.component';
 import { arrayUnion } from '@angular/fire/firestore';
 import { doc, DocumentData, getDoc, getFirestore, onSnapshot } from 'firebase/firestore';
 
@@ -22,24 +22,23 @@ export class GroupsService {
   // Get groups function
   // Returns an observable and array of groups to display groups
   async getGroups(): Promise<Observable<unknown>> {
+    await this.sleep(1000)
     const auth = getAuth();
     const user = auth.currentUser?.uid;
-
-    await this.sleep(1000)
    
     if (!this.loginRegService.isLoggedIn) {
        throw new Error('No user is currently signed in.');
     }
    
-    const userDocRef = doc(getFirestore(), 'User/' + 'xYt04uxvcVZBOMHCTWtiNFHlqh32');
-   
+    const userDocRef = doc(getFirestore(), 'User/' + user);
+    
     return new Observable(observer => {
        const unsubscribe = onSnapshot(userDocRef, async (userDoc) => {
          if (!userDoc.exists()) {
            throw new Error('No such document!');
          }
    
-         const documentReferencesArray = userDoc.data()['groups'];
+         const documentReferencesArray = userDoc.data()['userGroups'];
          const observables = documentReferencesArray.map((docRef: any) => {
            return new Observable(observer => {
              const unsubscribe = onSnapshot(doc(getFirestore(), docRef.path), (doc) => observer.next({ useId: doc.id, ...doc.data() }));
@@ -151,15 +150,26 @@ export class GroupsService {
   }
 
   // Resolves a user DocumentReference array into an array of usernames
-  async resolveUsernames(docRefs: DocumentReference<DocumentData>[]): Promise<string[]> {
-    const usernames: string[] = [];
+  async resolveUsernames(docRefs: DocumentReference<DocumentData>[]): Promise<Use[]> {
+    //const usernames: string[] = [];
+    let users: Use[] = [];
     for (let i = 0; i < docRefs.length; i++) {
        const doc = await getDoc(docRefs[i]);
        if (doc.exists()) {
         // Gets the username stored in the document
-         usernames.push(doc.data()['username']); 
+        const newUser: Use = {
+          firstname: doc.data()['userFirstName'],
+          lastname: doc.data()['userLastName'],
+          email: doc.data()['userEmail'],
+          phonenumber: doc.data()['userPhoneNumber'],
+          username: doc.data()['userDisplayName'],
+          groups: doc.data()['userGroups'],
+          image: doc.data()['userImage']
+        }
+        
+         users.push(newUser); 
        }
     }
-    return usernames;
+    return users;
    }
  }

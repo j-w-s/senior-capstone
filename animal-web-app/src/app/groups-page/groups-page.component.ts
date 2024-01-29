@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DocumentReference } from '@angular/fire/compat/firestore';
+import { getDownloadURL, getStorage, ref } from 'firebase/storage';
 import { Subject, Subscription, takeUntil } from 'rxjs';
 import { GroupsService } from '../services/groups.service';
 
@@ -11,6 +12,16 @@ import { GroupsService } from '../services/groups.service';
   state: string;
   users: DocumentReference[];
  }
+
+export interface Use {
+  firstname: string;
+  lastname: string;
+  email: string;
+  phonenumber: string;
+  username: string;
+  groups: DocumentReference[];
+  image: string;
+}
 
 @Component({
   selector: 'app-groups-page',
@@ -24,7 +35,8 @@ export class GroupsPageComponent implements OnInit {
   // used to display the group info at the bottom
   selectedGroup: Group | null = null;
   // Stores the resolved usernames from the group.users DocRef array
-  usernames: string[] | null = null;
+  users: Use[] = [];
+  img: HTMLElement | null = null;
   private destroy$ = new Subject<void>();
   private subscriptions: Array<Subscription> = [];
   currentIndex = 0; // Initialize the current index
@@ -42,7 +54,7 @@ export class GroupsPageComponent implements OnInit {
          console.log('Received groups:');
          groups.forEach(async (group: any) => {
            console.log('Group ID:', group.useId);
-           //this.usernames = await this.groupService.resolveUsernames(group.users);
+          
          });
          this.groups = groups;
       }, error => {
@@ -66,8 +78,19 @@ export class GroupsPageComponent implements OnInit {
   // Resolves the usernames to display
   async selectGroup(group: Group) {
     this.selectedGroup = group;
-    this.usernames = await this.groupService.resolveUsernames(group.users);
-}
+
+    this.users = await this.groupService.resolveUsernames(group.users);
+
+    const storage = getStorage();
+    const pathReference = ref(storage, this.users[0].image);
+    getDownloadURL(ref(storage, 'pugster.webp')).then((url) => {
+        console.log('URL: ', url)
+        for(let i = 0; i < this.users.length; i++)
+        {
+          this.users[i].image = url;
+        }
+    })
+  }
  
   // Creates a group using the input fields on the page
   createGroup(name: string, description: string, city: string, state: string) {
