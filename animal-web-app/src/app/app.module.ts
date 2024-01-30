@@ -44,6 +44,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { HomeComponent } from './home/home.component';
 import { ExploreCreatePostComponent } from './explore-create-post/explore-create-post.component';
+import { ForumsComponent } from './forums/forums.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { ExploreCreatePostComponent } from './explore-create-post/explore-create
     DashboardComponent,
     HomeComponent,
     GroupsPageComponent,
-    ExploreCreatePostComponent
+    ExploreCreatePostComponent,
+    ForumsComponent
   ],
   imports: [
     BrowserModule,
