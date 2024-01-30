@@ -26,6 +26,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getDatabase, provideDatabase } from '@angular/fire/database';
 import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 import { getPerformance, providePerformance } from '@angular/fire/performance';
+import { getStorage, provideStorage } from "@angular/fire/storage";
 
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment.development';
@@ -81,6 +82,7 @@ import { ForumsComponent } from './forums/forums.component';
     provideDatabase(() => getDatabase()),
     provideMessaging(() => getMessaging()),
     providePerformance(() => getPerformance()),
+    provideStorage(() => getStorage()),
     MatToolbarModule, MatButtonModule, MatIconModule, MatGridListModule, MatCardModule, FlexLayoutModule,
     MatExpansionModule, MatMenuModule, CommonModule, RouterModule, MatFormFieldModule, FormsModule,
     ReactiveFormsModule, MatTabsModule, MatInputModule, BrowserAnimationsModule

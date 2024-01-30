@@ -44,11 +44,20 @@ export class LoginRegisterService {
           const db = getFirestore();
           // Creates a document named after 'const user' in the User collection
           await setDoc(doc(db, "User", user+''), {
-            firstname: firstname,
-            lastname: lastname,
-            phonenumber: phonenumber,
-            username: username,
-            email: email,
+            userId: user,
+            userFirstName: firstname,
+            userLastName: lastname,
+            userPhoneNumber: phonenumber,
+            userEmail: email,
+            userDisplayName: username,
+            userBiography: '',
+            userImage: 'pugster.webp',
+            userAccountTypes: 1,
+            userPreferences: [],
+            userRatings: [],
+            petsOwned: [],
+            petsLost: [],
+            userGroups: [],
           });
           console.log("User Account Created!");
 
@@ -100,7 +109,7 @@ export class LoginRegisterService {
           const userDoc = await getDoc(userRef);
           if (userDoc.exists()) {
             // Saves the email in the database to the email variable to be used for login
-            email = userDoc.data()['email']
+            email = userDoc.data()['userEmail']
             console.log('Email: ' + email)
           }
         }
