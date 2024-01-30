@@ -1,37 +1,42 @@
 <!-- APP PARENT CONTAINER -->
-<div class="container min-h-screen flex flex-col justify-center  w-full lg:flex-row bg-base-100">
-  <div class="overflow-x-auto min-h-screen flex flex-col justify-center  w-full lg:flex-row bg-base-100">
-    <table class="table">
-      <!-- header -->
-      <thead>
-        <tr>
-          <th>Title</th>
-          <td>Most Recent User</td>
-          <td>Post Time</td>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container>
-        </ng-container>
-        <tr class="hover">
-          <th>Cy Ganerdton</th>
-          <td>Ganerdton</td>
-          <td>1 month ago</td>
-        </tr>
-        <!-- row 2 -->
-        <tr class="hover">
-          <th>Hart Hagerty</th>
-          <td>Hagerty</td>
-          <td>2 hours ago</td>
-        </tr>
-        <!-- row 3 -->
-        <tr class="hover">
-          <th>Brice Swyre</th>
-          <td>Swyre</td>
-          <td>Less than a minute ago</td>
-        </tr>
-      </tbody>
-    </table>
+<div *ngIf="!selectedThread">
+  <div class="container min-h-screen flex flex-col justify-center w-full lg:flex-row bg-base-100">
+    <div class="overflow-x-auto min-h-screen flex flex-col justify-center w-full lg:flex-row bg-base-100">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <td>Tags</td>
+            <td>Post Time</td>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let forumThread of forum">
+            <tr class="hover" (click)="onRowClick(forumThread.threads[0])">
+              <th>{{ forumThread.threads[0].title }}</th>
+              <td>{{ forumThread.threads[0].tags }}</td>
+              <td>{{ forumThread.threads[0].timeSent | date: 'medium' }}</td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
+<!-- Show a threads contents when selected-->
+<div *ngIf="selectedThread">
+  <div class="container min-h-screen flex flex-col justify-center w-full lg:flex-row bg-base-100">
+    <div class="overflow-x-auto min-h-screen flex flex-col justify-center w-full lg:flex-row bg-base-100">
+      <div>
+        <h2>{{ selectedThread.title }}</h2>
+        <p><b>From:</b>{{ selectedThread.publisher}}</p>
+        <p><b>Message:</b> {{selectedThread.threadContent}}</p>
+        <p><b>Time Sent:</b> {{ selectedThread.timeSent | date: 'medium' }}</p>
+        <div class="back-to-forum">
+        <button (click)="resetSelection()">Back to Forum</button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

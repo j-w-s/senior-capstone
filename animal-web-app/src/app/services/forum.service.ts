@@ -4,8 +4,6 @@ import Forum from '../../models/forum';
 import Thread from '../../models/thread';
 import User from '../../models/user'; 
 import UserPreferences from '../../models/user-preferences';
-import Animal from '../../models/animal';
-import UserRating from '../../models/user-ratings';
 import { faker } from "@faker-js/faker/locale/en";
 
 @Injectable({
@@ -14,10 +12,10 @@ import { faker } from "@faker-js/faker/locale/en";
 
 export class ForumService {
   private threadSource = new BehaviorSubject<Forum[]>([]);
-  private selectedThreadSource = new BehaviorSubject<Forum | null>(null);
+  private selectedThreadSource = new BehaviorSubject<Thread | null>(null);
   public dummyPrimaryUser!: User;
   public dummyThreadUsers: User[] = [];
-  threads = this.threadSource.asObservable();
+  thread = this.threadSource.asObservable();
   selectedThread = this.selectedThreadSource.asObservable();
 
   constructor() {
@@ -28,7 +26,7 @@ export class ForumService {
     this.threadSource.next(threads);
   }
 
-  updateSelectedThread(threads: Forum) {
+  updateSelectedThread(threads: Thread) {
     this.selectedThreadSource.next(threads);
   }
 
@@ -43,12 +41,12 @@ export class ForumService {
         isPrimaryUserTurn = !isPrimaryUserTurn;
 
         return {
-          publisher: faker.lorem.words(Math.floor(Math.random() * 5)),
+          publisher: faker.lorem.words(1),
           users: [user],
           comments: undefined,
-          title: faker.lorem.words(Math.floor(Math.random() * 5)),
-          tags: [faker.lorem.words(Math.floor(Math.random() * 2))],
-          threadContent: faker.lorem.words(Math.floor(Math.random() * 10)),
+          title: faker.lorem.words(Math.floor(1 * 5)),
+          tags: [faker.lorem.words(Math.floor(1)), faker.lorem.words(Math.floor(1)), faker.lorem.words(Math.floor(1))],
+          threadContent: faker.lorem.words(Math.floor(Math.random() * 20)),
           timeSent: faker.date.past(),
         };
       });
@@ -57,6 +55,9 @@ export class ForumService {
         threads: threads
       });
     }
+
+    // Update the threadSource with the generated dummy data
+    this.updateForum(allThreads);
   }
 
 
@@ -128,17 +129,14 @@ export class ForumService {
   }
 
   async seedThreads(): Promise<void> {
-
     this.dummyPrimaryUser = await this.generateDummyUser();
 
     for (let i = 0; i < 10; i++) {
-
       const user: User = await this.generateDummyUser();
       this.dummyThreadUsers.push(user);
-
     }
 
-    this.generateDummyData();
+    this.generateDummyData();  // Call generateDummyData here
 
   }
 }

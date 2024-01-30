@@ -28,7 +28,6 @@ export class MessengerComponent implements OnInit {
 
   constructor(public messengerService: MessengerService, private renderer: Renderer2) {
     this.conversations$ = this.messengerService.conversations;
-    
     this.userMessages$ = this.messengerService.messages;
     this.userMessages$.subscribe(messages => {
       if (messages !== null) {
