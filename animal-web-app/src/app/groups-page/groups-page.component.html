@@ -135,8 +135,67 @@
                       <button type="submit" class="btn btn-primary">Add User</button>
                     </div>
                     <ul>
-                      <li *ngFor="let user of usernames">{{ user }}</li>
+
+                    <div class="overflow-x-auto">
+                      <table class="table">
+                        <!-- head -->
+                        <thead>
+                          <tr>
+                            <th>
+                              <label>
+                                <input type="checkbox" class="checkbox" />
+                              </label>
+                            </th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <!-- row 1 -->
+                          <tr *ngFor="let user of users; let i = index">
+                            <th>
+                              <label>
+                                <input type="checkbox" class="checkbox" />
+                              </label>
+                            </th>
+                            <td>
+                              <div class="flex items-center gap-3">
+                                <div class="avatar">
+                                  <div class="mask mask-squircle w-12 h-12">
+                                    <!-- -->
+                                    <img [src]="user.image" />  
+                                  </div>
+                                </div>
+                                <div>
+                                  <div class="font-bold">{{ user.firstname }} {{ user.lastname }}</div>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              {{ user.username }}
+                            </td>
+                          </tr>
+
+                        </tbody>
+                        <!-- foot -->
+                        <tfoot>
+                          <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th></th>
+                          </tr>
+                        </tfoot>
+                        
+                      </table>
+                    </div>
+                  
                     </ul>
+
+
+
+
                   </form>
                 </div>
               </div>
