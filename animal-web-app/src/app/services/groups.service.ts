@@ -59,6 +59,12 @@ export class GroupsService {
     // Returns the document ID of the new document
     return this.db.collection('Groups').add(group);
   }
+
+  updateGroup(group: Group, docId: string) {
+    console.log(docId)
+    this.db.collection('Groups').doc(docId).update(group);
+
+  }
  
   /*
   // Update group
