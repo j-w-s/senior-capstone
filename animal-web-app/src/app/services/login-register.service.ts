@@ -52,7 +52,7 @@ export class LoginRegisterService {
             userDisplayName: username,
             userBiography: '',
             userImage: 'pugster.webp',
-            userAccountTypes: 1,
+            userAccountType: 1,
             userPreferences: [],
             userRatings: [],
             petsOwned: [],
