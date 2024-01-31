@@ -85,6 +85,32 @@ export class ExploreComponent implements OnInit, AfterViewInit{
     this.animalCreateForm.get('animalId')!.setValue(uuidv4());
   }
 
+  displayModal = false;
+  selectedAnimal: Animal | null = null;
+  editAnimal(animal: Animal) {
+    this.selectedAnimal = animal;
+    this.animalCreateForm.setValue({
+      animalId: this.selectedAnimal.animalId,
+      owner: this.selectedAnimal.owner,
+      animalType: this.selectedAnimal.animalType,
+      animalBreed: this.selectedAnimal.animalBreed,
+      animalName: this.selectedAnimal.animalName,
+      animalWeight: this.selectedAnimal.animalWeight,
+      animalSex: this.selectedAnimal.animalSex,
+      temperament: this.selectedAnimal.temperament,
+      about: this.selectedAnimal.about,
+      images: this.selectedAnimal.images,
+      primaryImage: this.selectedAnimal.primaryImage,
+      location: this.selectedAnimal.location,
+      zipCode: this.selectedAnimal.zipCode,
+      adoptionStatus: this.selectedAnimal.adoptionStatus,
+      dateOfBirth: this.selectedAnimal.dateOfBirth,
+      color: this.selectedAnimal.color,
+      vaccinationStatus: this.selectedAnimal.vaccinationStatus
+    });
+    this.displayModal = true;
+  }
+
   ngOnInit(): void {
     this.exploreService.getAnimals().subscribe((animals: Animal[]) => {
       this.animals = animals;
