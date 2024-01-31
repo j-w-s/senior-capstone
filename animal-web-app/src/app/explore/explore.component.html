@@ -209,6 +209,9 @@
           <p class="text-gray-700 text-base animal-info">
             Owner: {{ animal.owner }} Type: {{ animal.animalType }} Breed: {{ animal.animalBreed ? animal.animalBreed.join(', ') : '' }} Weight: {{ animal.animalWeight }} Sex: {{ animal.animalSex }} Temperament: {{ animal.temperament ? animal.temperament.join(', ') : '' }} About: {{ animal.about }} Location: {{ animal.location }} Zip Code: {{ animal.zipCode }} Adoption Status: {{ animal.adoptionStatus }} Date Of Birth: {{ animal.dateOfBirth }} Color: {{ animal.color }} Vaccination Status: {{ animal.vaccinationStatus }}
           </p>
+          <div class="edit-button">
+            <button class="btn btn-primary" onclick=" my_modal_5.showModal();" (click)="editAnimal(animal)" >Edit</button>
+          </div>
         </div>
       </div>
     </div>
