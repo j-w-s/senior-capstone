@@ -50,7 +50,7 @@
     </div>
 
     <!-- PROFILE TAB CONTENT -->
-    <div *ngIf="selectedTab=='profile'" class="p-6 container">
+    <div *ngIf="selectedTab=='profile' && imgUrl != ''" class="p-6 container">
       <!-- profile tab content -->
       <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="card max-h-60">
         <div class="card-body">
