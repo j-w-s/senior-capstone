@@ -106,7 +106,7 @@ export class GroupsService {
     const split = uPath.split("/");
     const ref = this.db.collection(split[0]).doc(split[1]);
     ref.update({
-      groups: arrayUnion(groupDocRef.ref)
+      userGroups: arrayUnion(groupDocRef.ref)
     }).then(() => {
         console.log('Document successfully updated!');
     }).catch((error) => {
@@ -140,7 +140,7 @@ export class GroupsService {
 
     // Updates the user document by adding the new group document reference to the groups field
     userDocRef.update({
-      groups: arrayUnion(groupDocRef.ref)
+      userGroups: arrayUnion(groupDocRef.ref)
     }).then(() => {
         console.log('Document successfully updated!');
     }).catch((error) => {

@@ -34,6 +34,7 @@ export class GroupsPageComponent implements OnInit {
   // Stores the currently selected group from the carousel;
   // used to display the group info at the bottom
   selectedGroup: Group | null = null;
+  creatingGroup = false;
   // Stores the resolved usernames from the group.users DocRef array
   users: Use[] = [];
   img: HTMLElement | null = null;
@@ -82,14 +83,17 @@ export class GroupsPageComponent implements OnInit {
     this.users = await this.groupService.resolveUsernames(group.users);
 
     const storage = getStorage();
-    const pathReference = ref(storage, this.users[0].image);
-    getDownloadURL(ref(storage, 'pugster.webp')).then((url) => {
+    for(let i = 0; i < this.users.length; i++)
+    {
+      //const pathReference = ref(storage, this.users[i].image);
+      //console.log('User image: ', this.users[i].image)
+      getDownloadURL(ref(storage, this.users[i].image)).then((url) => {
         console.log('URL: ', url)
-        for(let i = 0; i < this.users.length; i++)
-        {
-          this.users[i].image = url;
-        }
+
+        this.users[i].image = url;
+        
     })
+    }
   }
  
   // Creates a group using the input fields on the page
@@ -108,6 +112,7 @@ export class GroupsPageComponent implements OnInit {
      this.groupService.createGroup(newGroup).then((groupRef) => {
        this.addOwner(newGroup, groupRef.path)
      });
+     this.creatingGroup = false;
   }
  
   // Adds a user to the group based on their username
@@ -130,6 +135,27 @@ export class GroupsPageComponent implements OnInit {
 
   trackByGroups(index: number, group: any): string {
     return group.name;
+  }
+
+  goBack() {
+    this.selectedGroup = null;
+  }
+
+  goBack2() {
+    this.creatingGroup = false;
+  }
+
+  updateGroup(group: Group) {
+    for (let key in group) {
+      if (group.hasOwnProperty(key)) {
+         let propertyValue = group[key as keyof Group];
+         console.log(`${key}: ${propertyValue}`);
+      }
+     }
+  }
+
+  gotoCreateGroup() {
+    this.creatingGroup = true;
   }
 
  }
