@@ -60,7 +60,7 @@
             <div class="mt-2 flex items-center gap-x-3">
               <div class="avatar">
                 <figure class="w-16 h-16">
-                  <img [src]="(profileForm.get('userImage')?.value ?? '')" alt="User Photo">
+                  <img [src]="imgUrl" alt="User Photo">
                 </figure>
               </div>
               <input type="file" class="file-input w-full max-w-xs" id="imageUpload" hidden (change)="updatePhoto($event)" />
@@ -68,29 +68,18 @@
             </div>
           </div>
 
-          <div class="form-control">
-            <label class="label" for="userFirstName">First Name</label>
-            <input type="text" formControlName="userFirstName" id="userFirstName" class="input input-bordered">
-          </div>
-
-          <div class="form-control">
-            <label class="label" for="userLastName">Last Name</label>
-            <input type="text" formControlName="userLastName" id="userLastName" class="input input-bordered">
-          </div>
-
-          <div class="form-control">
-            <label class="label" for="userEmail">Email</label>
-            <input type="email" formControlName="userEmail" id="userEmail" class="input input-bordered">
-          </div>
+          
 
           <div class="form-control">
             <label class="label" for="userDisplayName">Display Name</label>
-            <input type="text" formControlName="userDisplayName" id="userDisplayName" class="input input-bordered">
+            <input type="text" formControlName="userDisplayName" id="userDisplayName" class="input input-bordered" readonly>
+            <button>Change</button>
           </div>
 
           <div class="form-control">
             <label class="label" for="userBiography">Biography</label>
-            <textarea formControlName="userBiography" id="userBiography" class="input input-bordered"></textarea>
+            <textarea formControlName="userBiography" readonly id="userBiography" class="input input-bordered"></textarea>
+            <button>Change</button>
           </div>
 
           <div class="form-control mt-4 flex flex-row">
@@ -106,43 +95,33 @@
       <!-- account tab content -->
       <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
         <div class="card-body">
-          
+          <!---
           <div class="form-control" style="width: 80%; display: flex; justify-content: space-between;">
             <label class="label" for="userPassword">Password</label>
             <input type="text" formControlName="userPassword" id="userPassword" class="input input-bordered" style="flex-grow: 1;">
             <button>Change</button>
-          </div> 
+          </div>    -->
 
 
           <div class="form-control" style="width: 80%; display: flex; justify-content: space-between;">
             <label class="label" for="userFirstName">First Name</label>
-            <input type="text" formControlName="userFirstName" id="userFirstName" class="input input-bordered" style="flex-grow: 1;">
+            <input type="text" readonly formControlName="userFirstName" id="userFirstName" class="input input-bordered" style="flex-grow: 1;">
             <button>Change</button>
           </div>
 
           <div class="form-control" style="width: 80%; display: flex; justify-content: space-between;">
             <label class="label" for="userLastName">Last Name</label>
-            <input type="text" formControlName="userLastName" id="userLastName" class="input input-bordered">
+            <input type="text" readonly formControlName="userLastName" id="userLastName" class="input input-bordered">
             <button>Change</button>
           </div>
 
           <div class="form-control" style="width: 80%; display: flex; justify-content: space-between;">
             <label class="label" for="userEmail">Email</label>
-            <input type="email" formControlName="userEmail" id="userEmail" class="input input-bordered">
+            <input type="email" readonly formControlName="userEmail" id="userEmail" class="input input-bordered">
             <button>Change</button>
           </div>
 
-          <div class="form-control" style="width: 80%; display: flex; justify-content: space-between;">
-            <label class="label" for="userDisplayName">Display Name</label>
-            <input type="text" formControlName="userDisplayName" id="userDisplayName" class="input input-bordered">
-            <button>Change</button>
-          </div>
-
-          <div class="form-control" style="width: 80%; display: flex; justify-content: space-between;">
-            <label class="label" for="userBiography">Biography</label>
-            <textarea formControlName="userBiography" id="userBiography" class="input input-bordered"></textarea>
-            <button>Change</button>
-          </div>
+          
 
           <div class="form-control mt-4 flex flex-row">
             <button type="submit" class="btn btn-accent">Cancel</button>
