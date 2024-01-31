@@ -114,6 +114,20 @@ export class GroupsPageComponent implements OnInit {
      });
      this.creatingGroup = false;
   }
+
+  updateGroup(group: any) {
+    const updatedGroup: Group = {
+      name: group.name,
+      description: group.description,
+      city: group.city,
+      state: group.state,
+      users: group.users
+    }
+    const docId = group.useId;
+    
+    this.groupService.updateGroup(updatedGroup, docId)
+    
+  }
  
   // Adds a user to the group based on their username
   addUser(group: any, username: string) {
@@ -145,14 +159,7 @@ export class GroupsPageComponent implements OnInit {
     this.creatingGroup = false;
   }
 
-  updateGroup(group: Group) {
-    for (let key in group) {
-      if (group.hasOwnProperty(key)) {
-         let propertyValue = group[key as keyof Group];
-         console.log(`${key}: ${propertyValue}`);
-      }
-     }
-  }
+  
 
   gotoCreateGroup() {
     this.creatingGroup = true;
