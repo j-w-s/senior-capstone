@@ -31,11 +31,14 @@
       <div>
         <h2>{{ selectedThread.title }}</h2>
         <p><b>From:</b>{{ selectedThread.publisher}}</p>
-        <p><b>Message:</b> {{selectedThread.threadContent}}</p>
+        <div class="flex flex-col w-full">
+          <div class="divider"></div>
+          <div class="grid card bg-base-300 rounded-box height:auto"><b>Message:</b> {{selectedThread.threadContent}}</div>
+          <div class="divider"></div>
+        </div>
         <p><b>Time Sent:</b> {{ selectedThread.timeSent | date: 'medium' }}</p>
-        <div class="back-to-forum">
-        <button (click)="resetSelection()">Back to Forum</button>
-          </div>
+        <textarea class="textarea textarea-bordered w-full" placeholder="Type Comment Here"></textarea>
+          <button class="btn btn-active btn-accent" (click)="resetSelection()">Back to Forum</button>
       </div>
     </div>
   </div>
