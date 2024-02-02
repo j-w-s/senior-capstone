@@ -246,8 +246,7 @@ export class MessengerService {
         };
       }),
       petsLost: Array.from({ length: Math.floor(Math.random() * 10) + 1 }).map(() => {
-        let images = Array.from({ length: Math.floor(Math.random() * 5) + 1 }).map(() => faker.image.imageUrl());
-        return {
+        let images = Array.from({ length: Math.floor(Math.random() * 5) + 1 }).map(() => faker.image.imageUrl());        return {
           animalId: faker.datatype.uuid(),
           animalType: faker.random.word(),
           animalWeight: faker.datatype.number({ min: 0, max: 20 }),
