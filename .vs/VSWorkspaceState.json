@@ -4,13 +4,13 @@
     "\\animal-web-app",
     "\\animal-web-app\\src",
     "\\animal-web-app\\src\\app",
-    "\\animal-web-app\\src\\app\\dashboard",
-    "\\animal-web-app\\src\\app\\navbar",
-    "\\animal-web-app\\src\\app\\register",
-    "\\animal-web-app\\src\\app\\services",
+    "\\animal-web-app\\src\\app\\groups-page",
+    "\\animal-web-app\\src\\app\\home",
+    "\\animal-web-app\\src\\app\\messenger",
     "\\animal-web-app\\src\\app\\settings",
+    "\\animal-web-app\\src\\assets",
     "\\animal-web-app\\src\\models"
   ],
-  "SelectedNode": "\\animal-web-app\\src\\models\\animal.ts",
+  "SelectedNode": "\\animal-web-app\\src\\assets\\la-tech.svg",
   "PreviewInSolutionExplorer": false
 }

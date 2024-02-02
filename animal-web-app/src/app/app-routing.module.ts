@@ -11,6 +11,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { GroupsPageComponent } from './groups-page/groups-page.component';
 import { HomeComponent } from './home/home.component';
 import { ForumsComponent } from './forums/forums.component';
+import { MapComponent } from './map/map.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -22,7 +23,8 @@ const routes: Routes = [
   { path: 'explore', component: ExploreComponent },
   { path: 'settings', component: SettingsComponent },
   { path: 'groups', component: GroupsPageComponent },
-  { path: 'forums', component: ForumsComponent }
+  { path: 'forums', component: ForumsComponent },
+  { path: 'map', component: MapComponent }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
