@@ -36,7 +36,7 @@ export class SettingsComponent implements OnInit {
 
     });
 
-    this.selectedTab = 'profile';
+    this.selectedTab = 'Profile';
 
   }
 
