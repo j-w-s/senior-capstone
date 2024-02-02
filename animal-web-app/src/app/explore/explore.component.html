@@ -22,18 +22,17 @@
 
           <!-- dropdown menu for animal types -->
           <label for="animalTypes" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Select an animal type</label>
-          <select id="animalTypes" (change)="handleSelectChange($event)" class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+          <select id="animalTypes" (change)="handleSelectChange($event)" class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52" disabled>
             <option selected value=""></option>
-            <!-- options will be dynamically generated -->
           </select>
 
           <label for="animalBreeds" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Select a breed</label>
-          <select id="animalBreeds" (change)="handleSelectChange($event)" class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+          <select id="animalBreeds" (change)="handleSelectChange($event)" class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52" disabled>
             <option selected value=""></option>
           </select>
 
           <label for="animalWeights" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Select a weight</label>
-          <select id="animalWeights" (change)="handleSelectChange($event)" class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+          <select id="animalWeights" (change)="handleSelectChange($event)" class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52" disabled>
             <option selected value=""></option>
           </select>
 
