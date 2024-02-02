@@ -144,21 +144,23 @@ export class ExploreComponent implements OnInit, AfterViewInit{
     let animalTemps = Array.isArray(formValues.temperament) ? formValues.temperament : formValues.temperament.split(/[\s,]+/);
 
     // get the image file from the event
-    //const imageFiles = formValues.images;
+    let imageFiles = formValues.images;
 
     // prepare an array to hold the image URLs
-    //const imageUrls = await this.handleFileInput(imageFiles);
+    const image = [imageFiles]
 
     // add the image URLs to the form values
     //formValues.images = imageUrls;
 
     delete formValues.animalBreed;
     delete formValues.temperament;
+    delete formValues.images;
 
     this.exploreService.createAnimal({
       ...formValues,
       animalBreed: animalBreeds,
       temperament: animalTemps,
+      images: image,
     });
   }
 
