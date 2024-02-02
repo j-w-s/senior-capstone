@@ -22,9 +22,9 @@
         <h2 class="text-left">Dashboard</h2>
       </div>
 
-      <div class="bg-white p-4 flex justify-center items-center">
-        <span class="text-left">Welcome back, {{ this.messengerService.dummyPrimaryUser.userFirstName }} {{ this.messengerService.dummyPrimaryUser.userLastName }}.</span>
-        <img [src]="this.messengerService.dummyPrimaryUser.userImage" class="w-12 h-12 rounded-full shrink-0 ml-4 justify-center items-center">
+      <div class="bg-white p-4 flex justify-center items-center" *ngIf="this.primaryUser != undefined">
+        <span class="text-left">Welcome back, {{ this.primaryUser.userFirstName }} {{ this.primaryUser.userLastName }}.</span>
+        <img [src]="this.primaryUser.userImage" class="w-12 h-12 rounded-full shrink-0 ml-4 justify-center items-center">
       </div>
 
     </div>
