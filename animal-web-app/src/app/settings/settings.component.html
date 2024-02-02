@@ -25,8 +25,8 @@
         <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
 
           <!-- sidebar content here -->
-          <li><a (click)="selectedTab='profile'">Profile</a></li>
-          <li><a (click)="selectedTab='account'">Account</a></li>
+          <li><a (click)="selectedTab='Profile'">Profile</a></li>
+          <li><a (click)="selectedTab='Account'">Account</a></li>
 
         </ul>
 
@@ -50,7 +50,7 @@
     </div>
 
     <!-- PROFILE TAB CONTENT -->
-    <div *ngIf="selectedTab=='profile' && imgUrl != ''" class="p-6 container">
+    <div *ngIf="selectedTab=='Profile' && imgUrl != ''" class="p-6 container">
       <!-- profile tab content -->
       <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="card max-h-60">
         <div class="card-body">
@@ -64,38 +64,32 @@
                 </figure>
               </div>
               <input type="file" class="file-input w-full max-w-xs" id="imageUpload" hidden (change)="updatePhoto($event)" />
-              <label for="imageUpload">Change</label>
+              <label for="imageUpload" class="btn btn-accent">Change</label>
             </div>
           </div>
 
-          
-
           <div class="form-control">
             <label class="label" for="userDisplayName">Display Name</label>
-            <input type="text" formControlName="userDisplayName" id="userDisplayName" class="input input-bordered" readonly>
-            <button>Change</button>
+            <input type="text" formControlName="userDisplayName" id="userDisplayName" class="input input-bordered">
+            <button (click)="updateDisplayName()" class="btn btn-accent">Change</button>
           </div>
 
           <div class="form-control">
             <label class="label" for="userBiography">Biography</label>
-            <textarea formControlName="userBiography" readonly id="userBiography" class="input input-bordered"></textarea>
-            <button>Change</button>
+            <textarea formControlName="userBiography" id="userBiography" class="input input-bordered"></textarea>
+            <button (click)="updateBiography()" class="btn btn-accent">Change</button>
           </div>
-
-          <div class="form-control mt-4 flex flex-row">
-            <button type="submit" class="btn btn-accent">Cancel</button>
-            <button type="submit" class="btn btn-primary">Save</button>
-          </div>
+          
         </div>
       </form>
     </div>
 
     <!-- ACCOUNT TAB CONTENT (PLACEHOLDER) -->
-    <div *ngIf="selectedTab=='account'" class="p-6 container">
+    <div *ngIf="selectedTab=='Account'" class="p-6 container">
       <!-- account tab content -->
       <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
         <div class="card-body">
-          <!---
+          <!--- We do not store passwords so this will be done later
           <div class="form-control" style="width: 80%; display: flex; justify-content: space-between;">
             <label class="label" for="userPassword">Password</label>
             <input type="text" formControlName="userPassword" id="userPassword" class="input input-bordered" style="flex-grow: 1;">
@@ -105,28 +99,24 @@
 
           <div class="form-control" style="width: 80%; display: flex; justify-content: space-between;">
             <label class="label" for="userFirstName">First Name</label>
-            <input type="text" readonly formControlName="userFirstName" id="userFirstName" class="input input-bordered" style="flex-grow: 1;">
-            <button>Change</button>
+            <input type="text" formControlName="userFirstName" id="userFirstName" class="input input-bordered" style="flex-grow: 1;">
+            <button (click)="updateFirstName()" class="btn btn-accent">Change</button>
           </div>
 
           <div class="form-control" style="width: 80%; display: flex; justify-content: space-between;">
             <label class="label" for="userLastName">Last Name</label>
-            <input type="text" readonly formControlName="userLastName" id="userLastName" class="input input-bordered">
-            <button>Change</button>
+            <input type="text" formControlName="userLastName" id="userLastName" class="input input-bordered">
+            <button (click)="updateLastName()" class="btn btn-accent">Change</button>
           </div>
 
           <div class="form-control" style="width: 80%; display: flex; justify-content: space-between;">
             <label class="label" for="userEmail">Email</label>
-            <input type="email" readonly formControlName="userEmail" id="userEmail" class="input input-bordered">
-            <button>Change</button>
+            <input type="email" formControlName="userEmail" id="userEmail" class="input input-bordered">
+            <button (click)="updateEmail()" class="btn btn-accent">Change</button>
           </div>
 
           
-
-          <div class="form-control mt-4 flex flex-row">
-            <button type="submit" class="btn btn-accent">Cancel</button>
-            <button type="submit" class="btn btn-primary">Save</button>
-          </div>
+          
         </div>
 
 

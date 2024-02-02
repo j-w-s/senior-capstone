@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { takeUntil, Subject } from 'rxjs';
 import { getDownloadURL, getStorage, ref } from 'firebase/storage';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { getAuth } from 'firebase/auth';
+
 
 
 @Component({
@@ -19,7 +22,7 @@ export class SettingsComponent implements OnInit {
   
 
 
-  constructor(private fb: FormBuilder, private userService: UserService) {
+  constructor(private fb: FormBuilder, private userService: UserService, private db: AngularFirestore) {
     this.profileForm = this.fb.group({
       userDisplayName: ['', Validators.required],
       userBiography: ['', Validators.required],
@@ -48,7 +51,7 @@ export class SettingsComponent implements OnInit {
           this.imgUrl = url
         })
 
-        this.userService.sleep(1000)
+        //this.userService.sleep(1000)
 
         this.profileForm = this.fb.group({
           userDisplayName: [value.userDisplayName, Validators.required],
@@ -83,7 +86,97 @@ export class SettingsComponent implements OnInit {
       console.log(this.accountForm.value);
     }
   }
+  //Allows users to change their FirstName on their account
+  updateFirstName() {
+    const firstNameControl = this.accountForm.get('userFirstName');
 
+    if (firstNameControl) {
+      const newFirstName = firstNameControl.value;
+      const auth = getAuth();
+      const user = auth.currentUser?.uid;
+      console.log('ID: ', user);
+      const userDoc = this.db.doc('/User/' + user);
+
+      userDoc.update({
+        userFirstName: newFirstName
+      });
+    } else {
+      console.error("Could not find 'userFirstName' form control");
+    }
+  }
+  //Allows users to change their LastName on their account
+  updateLastName() {
+    const lastNameControl = this.accountForm.get('userLastName');
+
+    if (lastNameControl) {
+      const newLastName = lastNameControl.value;
+      const auth = getAuth();
+      const user = auth.currentUser?.uid;
+      console.log('ID: ', user);
+      const userDoc = this.db.doc('/User/' + user);
+
+      userDoc.update({
+        userLastName: newLastName
+      });
+    } else {
+      console.error("Could not find 'userLastName' form control");
+    }
+  }
+  //Allows users to change their Email on their account
+  updateEmail() {
+    const emailControl = this.accountForm.get('userEmail');
+
+    if (emailControl) {
+      const newEmail = emailControl.value;
+      const auth = getAuth();
+      const user = auth.currentUser?.uid;
+      console.log('ID: ', user);
+      const userDoc = this.db.doc('/User/' + user);
+
+      userDoc.update({
+        userEmail: newEmail
+      });
+    } else {
+      console.error("Could not find 'userEmail' form control");
+    }
+  }
+  //Allows users to change their DisplayName on their account
+  updateDisplayName() {
+    const displayNameControl = this.profileForm.get('userDisplayName');
+
+    if (displayNameControl) {
+      const newDisplayName = displayNameControl.value;
+      const auth = getAuth();
+      const user = auth.currentUser?.uid;
+      console.log('ID: ', user);
+      const userDoc = this.db.doc('/User/' + user);
+
+      userDoc.update({
+        userDisplayName: newDisplayName
+      });
+    } else {
+      console.error("Could not find 'userDisplayName' form control");
+    }
+  }
+  //Allows users to change their Biography on their account
+  updateBiography() {
+    const biographyControl = this.profileForm.get('userBiography');
+
+    if (biographyControl) {
+      const newBiography = biographyControl.value;
+      const auth = getAuth();
+      const user = auth.currentUser?.uid;
+      console.log('ID: ', user);
+      const userDoc = this.db.doc('/User/' + user);
+
+      userDoc.update({
+        userBiography: newBiography
+      });
+    } else {
+      console.error("Could not find 'userBiography' form control");
+    }
+  }
+  //Allows users to change their profilepic on their account(Doesnt work)
   updatePhoto(event: Event) {
     const file = (event.target as HTMLInputElement)?.files?.[0];
     if (file) {
