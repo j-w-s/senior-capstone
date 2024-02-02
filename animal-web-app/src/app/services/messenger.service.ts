@@ -29,7 +29,7 @@ export class MessengerService {
   constructor(private firestore: AngularFirestore) {
     //this.seedUsers();
     (async () => {
-      const dummyPrimaryUser = await this.getUserById(this.demoPrimaryUserId);
+      const dummyPrimaryUser = await this.getUserById("2d8bbf01-40b2-4fb6-aaad-428e96cbf158");
       console.log('DUMMY USER', dummyPrimaryUser);
       const dummyMessages = await this.getMessagesByUserId(this.demoPrimaryUserId);
       console.log('DUMMY MESSAGES', dummyMessages);

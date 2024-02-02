@@ -6,9 +6,10 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import { ExploreService } from '../services/explore.service';
 import Animal from '../../models/animal';
 import { LoginRegisterService } from '../services/login-register.service';
-import { Observable } from 'rxjs';
+import { finalize, Observable, Subscription } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { v4 as uuidv4 } from 'uuid';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 
 @Component({
   selector: 'app-explore',
@@ -18,29 +19,10 @@ import { v4 as uuidv4 } from 'uuid';
 export class ExploreComponent implements OnInit, AfterViewInit{
 
   animals$!: Observable<Animal[]>;
-
+  animalsSubscription: Subscription | undefined;
   animalCreateForm: FormGroup;
 
-  images = [
-    'https://www.randomlists.com/img/animals/octopus.webp',
-    'https://www.randomlists.com/img/animals/squirrel.webp',
-    'https://www.randomlists.com/img/animals/mouse.webp',
-    'https://www.randomlists.com/img/animals/tiger.webp',
-    'https://www.randomlists.com/img/animals/goat.webp',
-    'https://www.randomlists.com/img/animals/snowy_owl.webp',
-  ];
-
-  names = ['James', 'Robert', 'John', 'Michael', 'David', 'William', 'Richard', 'Joseph', 'Thomas', 'Christopher', 'Charles', 'Daniel', 'Matthew', 'Anthony', 'Mark', 'Donald', 'Steven', 'Andrew', 'Paul', 'Joshua', 'Kenneth', 'Kevin', 'Brian', 'George', 'Timothy', 'Ronald', 'Jason', 'Edward', 'Jeffrey', 'Ryan', 'Jacob', 'Gary', 'Nicholas', 'Eric', 'Jonathan', 'Stephen', 'Larry', 'Justin', 'Scott', 'Brandon', 'Benjamin', 'Samuel', 'Gregory', 'Alexander', 'Patrick', 'Frank', 'Raymond', 'Jack', 'Dennis', 'Jerry', 'Tyler', 'Aaron', 'Jose', 'Adam', 'Nathan', 'Henry', 'Zachary', 'Douglas'];
-
-  allCards = Array.from({ length: 79 }).map((_, i) => ({
-    id: i + 1,
-    title: `Title ${i + 1}`,
-    description: `Description for card ${i + 1}`,
-    animalName: this.names[Math.floor(Math.random() * this.names.length)],
-    image: this.images[Math.floor(Math.random() * this.images.length)],
-  }));
-
-  animals!: Animal[];
+  animals: Animal[] = [];
   uniqueTypes: string[] = [];
   uniqueBreeds: string[] = [];
   uniqueWeights: number[] = [];
@@ -58,7 +40,11 @@ export class ExploreComponent implements OnInit, AfterViewInit{
   totalPages = 0;
   searchTerm = '';
 
-  constructor(private exploreService: ExploreService, private fb: FormBuilder) {
+  displayModal = false;
+  selectedAnimal: Animal | null = null;
+
+  constructor(private exploreService: ExploreService, private fb: FormBuilder,
+    private storage: AngularFireStorage  ) {
     this.animalCreateForm = new FormGroup({
       animalId: new FormControl('', Validators.required),
       owner: new FormControl(''),
@@ -69,7 +55,7 @@ export class ExploreComponent implements OnInit, AfterViewInit{
       animalSex: new FormControl('', Validators.required),
       temperament: new FormControl([''], Validators.required),
       about: new FormControl('', Validators.required),
-      images: new FormControl([''], Validators.required),
+      images: new FormControl([], Validators.required),
       primaryImage: new FormControl(0, Validators.required),
       location: new FormControl('', Validators.required),
       zipCode: new FormControl(0, Validators.required),
@@ -78,15 +64,18 @@ export class ExploreComponent implements OnInit, AfterViewInit{
       color: new FormControl(''),
       vaccinationStatus: new FormControl(false)
     });
+    this.getDisplayedCards();
+  }
 
+  // for single breed types
+  convertToArray(value: any): Array<any> {
+    return Array.isArray(value) ? value : [value];
   }
 
   generateUUID(): void {
     this.animalCreateForm.get('animalId')!.setValue(uuidv4());
   }
 
-  displayModal = false;
-  selectedAnimal: Animal | null = null;
   editAnimal(animal: Animal) {
     this.selectedAnimal = animal;
     this.animalCreateForm.setValue({
@@ -111,8 +100,74 @@ export class ExploreComponent implements OnInit, AfterViewInit{
     this.displayModal = true;
   }
 
+  closeAnimalModal(): void {
+    this.animalCreateForm = new FormGroup({
+      animalId: new FormControl('', Validators.required),
+      owner: new FormControl(''),
+      animalType: new FormControl('', Validators.required),
+      animalBreed: new FormControl([''], Validators.required),
+      animalName: new FormControl('', Validators.required),
+      animalWeight: new FormControl(0, Validators.required),
+      animalSex: new FormControl('', Validators.required),
+      temperament: new FormControl([''], Validators.required),
+      about: new FormControl('', Validators.required),
+      images: new FormControl([], Validators.required),
+      primaryImage: new FormControl(0, Validators.required),
+      location: new FormControl('', Validators.required),
+      zipCode: new FormControl(0, Validators.required),
+      adoptionStatus: new FormControl(0, Validators.required),
+      dateOfBirth: new FormControl(new Date(), Validators.required),
+      color: new FormControl(''),
+      vaccinationStatus: new FormControl(false)
+    });
+  }
+
+  /*async handleFileInput(files: File[]) {
+    const promises = [];
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const filePath = `/images/${Date.now()}_${file.name}`;
+      const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, file);
+
+      promises.push(task.snapshotChanges().pipe(finalize(() => fileRef.getDownloadURL())).toPromise());
+    }
+    return Promise.all(promises);
+  }*/
+
+  async addAnimalToCollection(): Promise<void> {
+    // get the form values
+    const formValues = this.animalCreateForm.value;
+
+    // ensure animalBreed and temperament are arrays
+    let animalBreeds = Array.isArray(formValues.animalBreed) ? formValues.animalBreed : formValues.animalBreed.split(/[\s,]+/);
+    let animalTemps = Array.isArray(formValues.temperament) ? formValues.temperament : formValues.temperament.split(/[\s,]+/);
+
+    // get the image file from the event
+    //const imageFiles = formValues.images;
+
+    // prepare an array to hold the image URLs
+    //const imageUrls = await this.handleFileInput(imageFiles);
+
+    // add the image URLs to the form values
+    //formValues.images = imageUrls;
+
+    delete formValues.animalBreed;
+    delete formValues.temperament;
+
+    this.exploreService.createAnimal({
+      ...formValues,
+      animalBreed: animalBreeds,
+      temperament: animalTemps,
+    });
+  }
+
+
+
   ngOnInit(): void {
-    this.exploreService.getAnimals().subscribe((animals: Animal[]) => {
+    this.animals$ = this.exploreService.getAnimals();
+
+    this.animalsSubscription = this.animals$.subscribe((animals: Animal[]) => {
       this.animals = animals;
       this.totalPages = Math.ceil(this.animals.length / this.cardsPerPage);
 
@@ -128,6 +183,9 @@ export class ExploreComponent implements OnInit, AfterViewInit{
       this.uniqueDatesOfBirth = Array.from(new Set(this.animals.filter(animal => animal.dateOfBirth !== undefined).map(animal => animal.dateOfBirth))).filter(date => date !== undefined) as Date[];
       this.uniqueColors = Array.from(new Set(this.animals.filter(animal => animal.color !== undefined).map(animal => animal.color))).filter(color => color !== undefined) as string[];
       this.uniqueVaccinationStatuses = Array.from(new Set(this.animals.filter(animal => animal.vaccinationStatus !== undefined).map(animal => animal.vaccinationStatus))).filter(status => status !== undefined) as boolean[];
+
+      this.getDisplayedCards();
+      console.log(this.animals$);
     });
   }
 

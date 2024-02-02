@@ -1,18 +1,19 @@
 <div class="flex flex-col w-full min-h-screen lg:flex-row bg-base-100">
 
   <!-- sidebar -->
-  <div class="w-1/4 flex flex-col justify-center items-center bg-white">
-    <div class="bg-white p-4 flex justify-between items-center">
+  <div class="w-1/4 min-h-full flex flex-col justify-center items-center bg-white">
+    <div class="bg-white h-20 p-4 flex justify-between items-center">
       <h2 class="text-left">Sidebar</h2>
     </div>
 
-    <div class="drawer lg:drawer-open">
+    <div class="drawer lg:drawer-open h-full">
       <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content flex flex-col items-center justify-center">
         <!-- page content here -->
         <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">Open drawer</label>
 
       </div>
+
       <div class="drawer-side">
         <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
         <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content items-center">
@@ -35,7 +36,6 @@
           <select id="animalWeights" (change)="handleSelectChange($event)" class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
             <option selected value=""></option>
           </select>
-
 
         </ul>
 
@@ -63,14 +63,17 @@
           </button>
           <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
             <div class="modal-box w-50 h-50 overflow-auto justify-center items-center">
-              <div class="modal-action justify-center items-center">
+              <div class="modal-action flex flex-col">
+
+                <button class="absolute top-0 right-0 mr-2 mt-2 btn btn-accent max-w-xs" onclick="my_modal_5.close()" (click)="this.closeAnimalModal();">Close</button>
+
                 <form class="flex flex-col justify-center items-center" method="dialog" [formGroup]="animalCreateForm">
 
                   <label class="form-control w-full max-w-xs">
                     <div class="label">
                       <span class="label-text">Animal ID</span>
                     </div>
-                    <input type="text" formControlName="animalId" class="input input-bordered w-full max-w-xs" [disabled]="true"/>
+                    <input type="text" formControlName="animalId" class="input input-bordered w-full max-w-xs" [disabled]="true" />
                   </label>
 
                   <label class="form-control w-full max-w-xs">
@@ -185,9 +188,8 @@
                     <input type="text" formControlName="vaccinationStatus" class="input input-bordered w-full max-w-xs" />
                   </label>
 
-                  <div class="flex flex-row p-6">
-                    <button type="submit" class="btn btn-primary ">Submit</button>
-                    <button class="btn btn-accent" onclick="my_modal_5.close()">Close</button>
+                  <div class="flex flex-row p-6 justify-center items-center">
+                    <button type="submit" class="btn btn-primary" (click)="addAnimalToCollection();">Submit</button>
                   </div>
 
                 </form>
@@ -210,14 +212,11 @@
             Owner: {{ animal.owner }} Type: {{ animal.animalType }} Breed: {{ animal.animalBreed ? animal.animalBreed.join(', ') : '' }} Weight: {{ animal.animalWeight }} Sex: {{ animal.animalSex }} Temperament: {{ animal.temperament ? animal.temperament.join(', ') : '' }} About: {{ animal.about }} Location: {{ animal.location }} Zip Code: {{ animal.zipCode }} Adoption Status: {{ animal.adoptionStatus }} Date Of Birth: {{ animal.dateOfBirth }} Color: {{ animal.color }} Vaccination Status: {{ animal.vaccinationStatus }}
           </p>
           <div class="edit-button">
-            <button class="btn btn-primary" onclick=" my_modal_5.showModal();" (click)="editAnimal(animal)" >Edit</button>
+            <button class="btn btn-primary" onclick=" my_modal_5.showModal();" (click)="editAnimal(animal)">Edit</button>
           </div>
         </div>
       </div>
     </div>
-
-
-
 
     <!-- BUTTONS FOR NAVIGATION-->
     <div class="join bg-white p-4 flex justify-between items-center">
