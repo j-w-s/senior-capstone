@@ -46,7 +46,7 @@ export class ForumService {
           comments: undefined,
           title: faker.lorem.words(Math.floor(1 * 5)),
           tags: [faker.lorem.words(Math.floor(1)), faker.lorem.words(Math.floor(1)), faker.lorem.words(Math.floor(1))],
-          threadContent: faker.lorem.words(Math.floor(Math.random() * 20)),
+          threadContent: faker.lorem.words(Math.floor(Math.random() * 100)),
           timeSent: faker.date.past(),
         };
       });

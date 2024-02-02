@@ -5,6 +5,7 @@ import { getAuth } from 'firebase/auth';
 import { doc, DocumentData, getDoc, getFirestore, onSnapshot } from 'firebase/firestore';
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,13 +17,15 @@ export class UserService {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
+  //Function to actually retrieve the users data
   async getUserData(): Promise<Observable<unknown>> {
     await this.sleep(1000);
     const auth = getAuth();
     const user = auth.currentUser?.uid;
 
+    //Proper reference to the Firestore database
     const userDocRef = doc(getFirestore(), 'User/' + user);
-
+    //Observable for the users account/profile information
     return new Observable(observer => {
       const unsubscribe = onSnapshot(userDocRef, async (userDoc) => observer.next({ ...userDoc.data()}));
       return unsubscribe;
@@ -30,6 +33,8 @@ export class UserService {
     });
 
   }
+
+  
 
 }
 
