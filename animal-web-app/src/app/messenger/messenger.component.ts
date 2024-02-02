@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MessengerService } from '../services/messenger.service';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { filter, map, take, tap } from 'rxjs/operators';
-import Messages from '../../models/messages';
 import Message from '../../models/message';
 import User from '../../models/user';
 import { ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { v4 as uuidv4 } from 'uuid';
+import { Subject, takeUntil } from 'rxjs';
+import { GroupsService } from '../services/groups.service';
 
 @Component({
   selector: 'app-messenger',
@@ -15,76 +14,125 @@ import { v4 as uuidv4 } from 'uuid';
 })
 export class MessengerComponent implements OnInit {
   @ViewChild('chatLog') chatLog!: ElementRef;
-  conversations$: Observable<Message[]>;
-  selectedConversation$ = new BehaviorSubject<Messages | null>(null);
   selectedContact: User | null = null;
   newMessage: string = '';
 
-  userMessages$: Observable<Messages | null>;
-  contacts: User[] = [];
-  messages: Message[] = [];
-  selectedConversation: Message[] = [];
-  loading: boolean = true;
+  private destroy$ = new Subject<void>();
+  private messages: Message[] = [];
+  public contacts: any[] = [];
+  public selectedConversation: any[] = [];
+  
 
-  constructor(public messengerService: MessengerService, private renderer: Renderer2) {
-    this.conversations$ = this.messengerService.conversations;
-    this.userMessages$ = this.messengerService.messages;
-    this.userMessages$.subscribe(messages => {
-      if (messages !== null) {
-        console.log('FROM THIS SHITHOLE', messages);
-        this.messages = messages.messagesList;
-        this.contacts = messages.contactsList;
-        this.loading = false;
-        if (this.selectedContact) {
-          this.selectContact(this.selectedContact);
+  constructor(public messengerService: MessengerService, private renderer: Renderer2, private groupsService: GroupsService ) { }
+
+  async ngOnInit(): Promise<void> {
+
+    await this.groupsService.sleep(1000)
+
+    // Updates our data any time there is a change in the document for the current users Messages
+    this.messengerService.getMessages().then((observable$) => {
+      observable$.pipe(takeUntil(this.destroy$)).subscribe(async (messages: any) => {
+        console.log('Gotten mess: ', messages)
+        this.contacts = []
+        this.messages = messages.messagesList
+
+        for(let i = 0; i < messages.contactsList.length; i++)
+        {
+          this.messengerService.getUserById(messages.contactsList[i].path.split('/')[1]).then(async (user) => {
+            if (user && user.userImage) {
+              user.userImage = await this.messengerService.resolveProfilePicture(user)
+             }
+            
+            this.contacts.push(user);
+          });
         }
+
+        if(this.selectedContact)
+        {
+          for(let i = 0; i < messages.contactsList.length; i++)
+          {
+            if(messages.contactsList[i].path.split('/')[1] == this.messengerService.prevContact)
+            {
+              
+              this.messengerService.getUserById(messages.contactsList[i].path.split('/')[1]).then(user => {
+                this.selectContact(user);
+              })
+              
+              break;
+            }
+          }
+        }
+        
+        
+      }, error => {
+         console.error('Error getting groups:', error);
+      });
+    });
+
+    //this.messengerService.t();
+
+    // Makes sure ngDestroy is called before reloaded a page
+    window.onbeforeunload = () => this.ngOnDestroy();
+  }
+
+  // Gets rid of the listeners when the page is destroyed (refreshed, unloaded, etc.)
+  ngOnDestroy() {
+    this.destroy$.next()
+    this.destroy$.complete()
+  }
+
+  // Used to add a new contact to the users contact list
+  addContact(user: string) {
+    this.messengerService.addContact(user)
+  }
+
+  // Selects the contact and gets the messages between the users
+  selectContact(contact: User | null) {
+    //this.selectedConversation = [];
+    if(contact != undefined)
+    {
+      this.messengerService.getUserById(contact?.userId).then(async (user) => {
+        if (user && user.userImage) {
+          user.userImage = await this.messengerService.resolveProfilePicture(user)
+         }
+        
+         this.selectedContact = user;
+       
+      });
+    }
+  
+    if(contact == null)
+    {
+      throw 'contact is null'
+    }
+    this.messengerService.setContact(contact.userId)
+
+    let selConv2 = []
+
+    for(let i = 0; i < this.messages.length; i++)
+    {
+      
+      if(this.messages[i] != null && 
+        ((this.messages[i].receiverId == this.messengerService.demoPrimaryUserId && this.messages[i].senderId == contact.userId)
+        || (this.messages[i].senderId == this.messengerService.demoPrimaryUserId && this.messages[i].receiverId == contact.userId))) {
+
+          
+          selConv2.push(this.messages[i]);
+         
       }
-    });
+    }
+
+    this.selectedConversation = [...selConv2]
+
+    // scroll down
+    setTimeout(() => {
+      this.renderer.setProperty(this.chatLog.nativeElement, 'scrollTop', this.chatLog.nativeElement.scrollHeight);
+    }, 0);
+    
+ 
   }
 
-  ngOnInit(): void {
-    this.userMessages$ = this.messengerService.messages;
-    this.userMessages$.subscribe(messages => {
-      if (messages !== null) {
-        console.log('FROM THIS SHITHOLE', messages);
-        this.messages = messages.messagesList;
-        this.contacts = messages.contactsList;
-      }
-    });
-
-    this.conversations$.subscribe(conversations => {
-    });
-  }
-
-  selectContact(contact: User) {
-    this.selectedContact = contact;
-    this.userMessages$.pipe(
-      map((messages: Messages | null) => {
-        if (messages !== null) {
-          return messages.messagesList.filter((message: Message) =>
-            message.senderId === contact.userId || message.receiverId === contact.userId
-          );
-        }
-        return [];
-      }),
-      tap(messages => {
-        if (messages.length === 0) {
-          console.log('MESSAGES FILTERED', messages);
-          console.error('No matching messages found');
-          // handle the error appropriately here
-        } else {
-          console.log('Selected messages:', messages);
-          this.selectedConversation = messages;
-          // scroll down
-          setTimeout(() => {
-            this.renderer.setProperty(this.chatLog.nativeElement, 'scrollTop', this.chatLog.nativeElement.scrollHeight);
-          }, 0);
-        }
-      }),
-      take(1)
-    ).subscribe();
-  }
-
+  // Sends the new message object to be stored in the database
   sendMessage(): void {
     if (this.newMessage && this.selectedContact) {
       const newMessage: Message = {
@@ -96,7 +144,7 @@ export class MessengerComponent implements OnInit {
       };
 
       // push the new message to the messages array
-      this.messengerService.addMessage(newMessage);
+      this.messengerService.addMessage(newMessage, this.selectedContact.userId);
 
       // clear
       this.newMessage = '';
@@ -109,9 +157,5 @@ export class MessengerComponent implements OnInit {
       }, 0);
     }
   }
-
-  filterConversations = (conversation: any) => {
-    return conversation.contactsList.some((contact: any) => contact.userId === this.messengerService.currentUser.userId);
-  };
 
 }
