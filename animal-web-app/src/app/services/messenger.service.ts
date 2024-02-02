@@ -3,81 +3,111 @@ import { BehaviorSubject, map, Observable, switchMap } from 'rxjs';
 import Message from '../../models/message';
 import Messages from '../../models/messages';
 import User from '../../models/user';
-import UserPreferences from '../../models/user-preferences';
-import Animal from '../../models/animal';
-import UserRating from '../../models/user-ratings';
-import { faker } from "@faker-js/faker/locale/en";
 import { AngularFirestore, DocumentReference } from '@angular/fire/compat/firestore';
+import { LoginRegisterService } from './login-register.service';
+import { getAuth } from 'firebase/auth';
+import { arrayUnion, doc, getFirestore, onSnapshot } from 'firebase/firestore';
+import { getDownloadURL, getStorage, ref } from 'firebase/storage';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessengerService {
 
-  private conversationsSource = new BehaviorSubject<Message[]>([]);
-  private selectedConversationSource = new BehaviorSubject<Message[] | null>(null);
-  public currentUser!: User;
-  public dummyPrimaryUser!: User;
-  public demoPrimaryUserId = "2d8bbf01-40b2-4fb6-aaad-428e96cbf158";
+  // Lets us reference the current User later
+  public demoPrimaryUserId = '';
   public dummyConversationUsers: User[] = [];
   private messagesSubject = new BehaviorSubject<Messages | null>(null);
+  public prevContact = ''
 
-  conversations = this.conversationsSource.asObservable();
-  selectedConversation = this.selectedConversationSource.asObservable();
   messages = this.messagesSubject.asObservable();
 
-  constructor(private firestore: AngularFirestore) {
-    //this.seedUsers();
-    (async () => {
-      const dummyPrimaryUser = await this.getUserById(this.demoPrimaryUserId);
-      console.log('DUMMY USER', dummyPrimaryUser);
-      const dummyMessages = await this.getMessagesByUserId(this.demoPrimaryUserId);
-      console.log('DUMMY MESSAGES', dummyMessages);
-      const userIds = dummyMessages?.contactsList.map(contact => contact.userId);
+  constructor(private firestore: AngularFirestore, private loginRegService: LoginRegisterService) { }
 
-      // loop through the userIds
-      userIds?.forEach(async (userId) => {
-        // get the user by userId
-        const user = await this.getUserById(userId);
-        if (user != null) {
-          // push the user into dummyConversationUsers
-          this.dummyConversationUsers.push(user);
-        }
-        else {
-          console.log("no user");
-        }
+  // Saves the last selected contact
+  setContact(oldID: string) {
+    this.prevContact = oldID
+  }
+
+  async getMessages(): Promise<Observable<unknown>> {
+    const auth = getAuth();
+    const user = auth.currentUser?.uid;
+    this.demoPrimaryUserId = user+'';
+    
+    // Gets the document in the Messages collection for the current user
+    const userDocRef = doc(getFirestore(), 'Messages/' + user);
+
+    // Returns an observable for the file to update it whenever there is a change
+    return new Observable(observer => {
+      const unsubscribe = onSnapshot(userDocRef, async (userDoc) => {
+         const data = { ...userDoc.data()};
+         console.log(data); // This will print the data
+         observer.next(data);
+      });
+      return unsubscribe;
+     });
+  }
+
+  // Resolves the image path to the URL for the image in firebase storage
+  resolveProfilePicture(user: User | null): Promise<string> {
+    const storage = getStorage();
+  
+    // Gets and returns the URL of the image from the storage
+    return getDownloadURL(ref(storage, user?.userImage)).then((url) => {
+      console.log('URL: ', url)
+
+      return url
+    })
+  }
+
+  // Adds new contact to the contactsList of current user and adds
+  // currentUser to contactsList of new contact
+  async addContact(user: string) {
+    const auth = getAuth();
+    const currUser = auth.currentUser?.uid;
+
+    //const split = user.split("/");
+    const usernameDocRef = this.firestore.collection('UsernameMapping').doc(user);
+    let newContact: DocumentReference | any = null;
+    await usernameDocRef.get().toPromise().then(docData => {
+      if (docData && docData.exists) {
+         let data = docData.data() as {userID: DocumentReference};
+         newContact = data.userID;
+         console.log('UsernameMapping: ', docData)
+      } else {
+         console.log('No such document!');
       }
-      );
-      console.log(this.dummyConversationUsers);
-      if (dummyMessages) {
-        this.messagesSubject.next(dummyMessages);
-        console.log(this.messagesSubject);
-      }
-    })();
+     });
+
+    if(newContact != null)
+    {
+      // Adds current user to new contact's contacts
+      const userDocRef = this.firestore.doc('Messages/'+ newContact.path.split('/')[1])
+      userDocRef.update({
+        contactsList: arrayUnion(this.firestore.doc('User/'+ currUser).ref)
+      }).then(() => {
+          console.log('Document successfully updated!');
+      }).catch((error) => {
+          console.error('Error updating document: ', error);
+      });
+  
+      // Adds new contact to current users contacts
+      const currUserDocRef = this.firestore.doc('Messages/'+ currUser)
+      currUserDocRef.update({
+        contactsList: arrayUnion(this.firestore.doc('User/'+ newContact.path.split('/')[1]).ref)
+      }).then(() => {
+          console.log('Document successfully updated!');
+      }).catch((error) => {
+          console.error('Error updating document: ', error);
+      });
+    }
+    
   }
 
-  // may come back to this at some point...
-  getMessagesById(id: string): Observable<Message[]> {
-    return this.firestore.collection<Messages>('Messages', ref => ref.where('userId', '==', id)).valueChanges().pipe(
-      map((messages: Messages[]) => {
-        if (!messages || messages.length === 0) {
-          throw new Error(`No messages found with id ${id}`);
-        }
-        console.log('messages:', messages);
-        console.log('messages[0].messagesList', messages[0].messagesList);
-        return messages[0].messagesList;
-      })
-    );
-  }
-
-  addUser(user: User): Promise<any> {
-    return this.firestore.collection('User').add(user);
-  }
-
-  async addMessage(message: Message): Promise<any> {
+  // Adds message to the database
+  async addMessage(message: Message, contact: string): Promise<any> {
     // messages doc ref
-    const userId = "2d8bbf01-40b2-4fb6-aaad-428e96cbf158";
-    const docRef = this.firestore.collection('Messages').doc(userId);
+    const docRef = this.firestore.collection('Messages').doc(this.demoPrimaryUserId);
     const docSnapshot = await docRef.get().toPromise();
     const messageAsMessageList: Message[] = [];
     messageAsMessageList.push(message);
@@ -100,8 +130,38 @@ export class MessengerService {
     } else {
       return;
     }
+    this.addToOtherUser(message, contact)
   }
 
+  // Adds the message to the user it was sent to as well in there messagesList
+  async addToOtherUser(message: Message, contact: string): Promise<any> {
+    const docRef = this.firestore.collection('Messages').doc(contact);
+    const docSnapshot = await docRef.get().toPromise();
+    const messageAsMessageList: Message[] = [];
+    messageAsMessageList.push(message);
+
+    // check if the document exists
+    if (docSnapshot?.exists) {
+      
+      // if it exists, fetch the existing 'Messages' object
+      const existingConversation: Messages = docSnapshot.data() as Messages;
+
+      // append the new messages to the existing 'messagesList'
+      existingConversation.messagesList = [...existingConversation.messagesList, ...messageAsMessageList];
+
+      // save the updated 'Messages' object back to Firestore
+      const result = await docRef.set(existingConversation, { merge: true });
+
+      // if the operation was successful, update the BehaviorSubject
+      this.messagesSubject.next(existingConversation);
+
+    } else {
+      return;
+    }
+    
+  }
+
+  // Returns a user object based on the userId given
   async getUserById(userId: string): Promise<User | null> {
     // query the 'User' collection where 'userId' equals the provided userId
     const querySnapshot = await this.firestore.collection('User', ref => ref.where('userId', '==', userId)).get().toPromise();
@@ -116,177 +176,14 @@ export class MessengerService {
     }
   }
 
-  async getMessagesByUserId(userId: string): Promise<Messages | null> {
-    // get the 'Messages' document for the user
-    const docRef = this.firestore.collection('Messages').doc(userId);
-    const docSnapshot = await docRef.get().toPromise();
+  // Returns a user object based on the userId given
+  async getUserById2(userId: string): Promise<User> {
+    // query the 'User' collection where 'userId' equals the provided userId
+    const querySnapshot = await this.firestore.collection('User', ref => ref.where('userId', '==', userId)).get().toPromise();
 
-    // check if the document exists
-    if (docSnapshot?.exists) {
-      // if it exists, return the 'Messages' object
-      return docSnapshot?.data() as Messages;
-    } else {
-      // if it doesn't exist, return null
-      return null;
-    }
-  }
-
-  // problem with this initially was that it would override existing data for
-  // contacts and messages, so we have to do it this way.
-  // we will probably need to implement similar solutions for
-  // all collections storing *lists* of a certain type by reference.
-  async addOrUpdateConversation(conversation: Messages): Promise<any> {
-    // get the existing 'Messages' document for the user
-    const docRef = this.firestore.collection('Messages').doc(conversation.userId);
-    const docSnapshot = await docRef.get().toPromise();
-
-    // check if the document exists
-    if (docSnapshot?.exists) {
-      // if it exists, fetch the existing 'Messages' object
-      const existingConversation: Messages = docSnapshot.data() as Messages;
-
-      // append the new messages to the existing 'messagesList'
-      existingConversation.messagesList = [...existingConversation.messagesList, ...conversation.messagesList];
-
-      //update contacts if necessary
-      existingConversation.contactsList = [...existingConversation.contactsList, ...conversation.contactsList.filter(newContact => !existingConversation.contactsList.some(existingContact => existingContact.userId === newContact.userId))];
-
-      // save the updated 'Messages' object back to Firestore
-      return docRef.set(existingConversation, { merge: true });
-    } else {
-      // if it doesn't exist, simply add the new 'Messages' object to Firestore
-      return docRef.set(conversation, { merge: true });
-    }
-  }
-
-  /*updateConversations(conversations: Messages[]) {
-    this.conversationsSource.next(conversations);
-  }
-
-  updateSelectedConversation(conversation: Message[]) {
-    this.selectedConversationSource.next(conversation);
-  }*/
-
-  async generateDummyData() {
-    let allConversations: Messages[] = [];
-
-    for (let user of this.dummyConversationUsers) {
-      let isPrimaryUserTurn = true;
-
-      const messages: Message[] = Array.from({ length: Math.floor(Math.random() * 2) + 20 }, () => {
-        isPrimaryUserTurn = !isPrimaryUserTurn;
-
-        return {
-          messageId: faker.datatype.uuid(),
-          senderId: isPrimaryUserTurn ? this.dummyPrimaryUser.userId : user.userId,
-          receiverId: isPrimaryUserTurn ? user.userId : this.dummyPrimaryUser.userId,
-          messageContent: faker.lorem.words(Math.floor(Math.random() * 5)),
-          timeSent: faker.date.past(),
-        };
-      });
-
-      allConversations.push({
-        userId: isPrimaryUserTurn ? this.dummyPrimaryUser.userId : user.userId,
-        messagesList: messages,
-        contactsList: [user]
-      });
-      console.log(allConversations);
-    }
-
-    for (let convo of allConversations) {
-      await this.addOrUpdateConversation(convo);
-    }
-
-    //this.updateConversations(allConversations);
-    //this.updateSelectedConversation(allConversations[0]);
-
-    //console.log(allConversations);
-  }
-
-  async generateDummyUser(): Promise<User> {
+    // if documents were found, return the first 'User' object
+    return querySnapshot?.docs[0].data() as User;
     
-    const user: User = {
-      userId: faker.datatype.uuid(),
-      userFirstName: faker.name.firstName(),
-      userLastName: faker.name.lastName(),
-      userPhoneNumber: faker.phone.number(),
-      userEmail: faker.internet.email(),
-      userDisplayName: faker.internet.userName(),
-      userBiography: faker.lorem.paragraph(),
-      userImage: faker.image.avatar(),
-      userAccountType: Math.floor(Math.random() * 10),
-      userPreferences: {
-        zipCode: faker.datatype.number({ min: 71270, max: 71275 }),
-        geoCoordinates: [faker.address.latitude(), faker.address.longitude()] as [number, number],
-        pushNotifications: faker.datatype.boolean(),
-      },
-      userRatings: Array.from({ length: Math.floor(Math.random() * 10) + 1 }).map(() => ({
-        ratingId: faker.datatype.uuid(),
-        ratedBy: faker.name.firstName() + faker.name.lastName(),
-        ratingValue: faker.datatype.number({ min: 1, max: 5 }),
-        timeSent: faker.date.past(),
-      })),
-      petsOwned: Array.from({ length: Math.floor(Math.random() * 10) + 1 }).map(() => {
-        let images = Array.from({ length: Math.floor(Math.random() * 5) + 1 }).map(() => faker.image.imageUrl());
-        return {
-          animalId: faker.datatype.uuid(),
-          animalType: faker.random.word(),
-          animalWeight: faker.datatype.number({ min: 0, max: 20 }),
-          animalSex: ['male', 'female'][Math.floor(Math.random() * 2)],
-          temperament: Array.from({ length: Math.floor(Math.random() * 5) + 1 }).map(() => faker.random.word()),
-          about: faker.lorem.paragraph(),
-          images: images,
-          primaryImage: Math.floor(Math.random() * images.length),
-          location: faker.address.streetAddress(),
-          zipCode: faker.datatype.number({ min: 71270, max: 71275 }),
-          adoptionStatus: faker.datatype.number({ min: 1, max: 3 }),
-          dateOfBirth: faker.date.past(),
-          color: faker.color.human(),
-          vaccinationStatus: faker.datatype.boolean(),
-        };
-      }),
-      petsLost: Array.from({ length: Math.floor(Math.random() * 10) + 1 }).map(() => {
-        let images = Array.from({ length: Math.floor(Math.random() * 5) + 1 }).map(() => faker.image.imageUrl());
-        return {
-          animalId: faker.datatype.uuid(),
-          animalType: faker.random.word(),
-          animalWeight: faker.datatype.number({ min: 0, max: 20 }),
-          animalSex: ['male', 'female'][Math.floor(Math.random() * 2)],
-          temperament: Array.from({ length: Math.floor(Math.random() * 5) + 1 }).map(() => faker.random.word()),
-          about: faker.lorem.paragraph(),
-          images: images,
-          primaryImage: Math.floor(Math.random() * images.length),
-          location: faker.address.streetAddress(),
-          zipCode: faker.datatype.number({ min: 71270, max: 71275 }),
-          adoptionStatus: faker.datatype.number({ min: 1, max: 3 }),
-          dateOfBirth: faker.date.past(),
-          color: faker.color.human(),
-          vaccinationStatus: faker.datatype.boolean(),
-        };
-      })
-    };
-
-    return user;
-
   }
-
-  async seedUsers(): Promise<void> {
-
-    this.dummyPrimaryUser = await this.generateDummyUser();
-    console.log(this.dummyPrimaryUser);
-    this.addUser(this.dummyPrimaryUser).then(() => console.log('User added successfully', this.dummyPrimaryUser.userId)).catch(error => console.error('Error adding user: ', error));
-
-    for (let i = 0; i < 10; i++) {
-
-      const user: User = await this.generateDummyUser();
-      this.addUser(user).then(() => console.log('User added successfully', user.userId)).catch(error => console.error('Error adding user: ', error));
-      this.dummyConversationUsers.push(user);
-
-    }
-
-    this.generateDummyData();
-
-  }
-
 }
 
