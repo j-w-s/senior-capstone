@@ -5,12 +5,12 @@
     "\\animal-web-app\\src",
     "\\animal-web-app\\src\\app",
     "\\animal-web-app\\src\\app\\dashboard",
-    "\\animal-web-app\\src\\app\\explore-create-post",
-    "\\animal-web-app\\src\\app\\home",
     "\\animal-web-app\\src\\app\\map",
     "\\animal-web-app\\src\\app\\services",
-    "\\animal-web-app\\src\\app\\sidebar"
+    "\\animal-web-app\\src\\app\\sidebar",
+    "\\animal-web-app\\src\\assets",
+    "\\animal-web-app\\src\\models"
   ],
-  "SelectedNode": "\\animal-web-app\\src\\app\\dashboard\\dashboard.component.scss",
+  "SelectedNode": "\\animal-web-app\\src\\app\\dashboard\\dashboard.component.html",
   "PreviewInSolutionExplorer": false
 }
