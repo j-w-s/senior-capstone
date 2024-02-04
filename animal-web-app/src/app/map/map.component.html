@@ -1,1 +1,53 @@
-<p>map works!</p>
+<!-- NOTE TO SELF: don't forget to change widget routing later, placeholder atm due to component restrictions '-->
+<div class="container min-h-full flex flex-col w-full lg:flex-row bg-base-100">
+
+  <!-- sidebar -->
+  <div class="w-1/4 h-full flex flex-col justify-center items-center bg-white">
+    <div class="bg-white h-20 p-4 flex justify-between items-center">
+      <h2 class="text-left">Map</h2>
+    </div>
+
+    <div class="drawer lg:drawer-open h-full">
+      <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-content flex flex-col items-center justify-center">
+        <!-- page content here -->
+        <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">Open drawer</label>
+
+      </div>
+
+      <div class="drawer-side justify-center items-center">
+        <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
+
+        <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content items-center">
+        </ul>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- divider between side bar and main content-->
+  <div class="divider lg:divider-horizontal"></div>
+
+  <!-- main content -->
+  <div class="container bg-base-200 h-full flex flex-col">
+
+    <!-- TOP BAR -->
+    <div class="w-full h-1/8 bg-white flex flex-row justify-between">
+
+      <div class="bg-white p-4">
+        <h2 class="text-left">Map</h2>
+      </div>
+
+    </div>
+
+    <!-- MAP CONTAINER -->
+    <div class="w-full h-7/8 flex overflow-auto">
+
+      <div id="map" style="height: 100vh; overflow: hidden;"></div>
+
+    </div>
+
+  </div>
+
+</div>
