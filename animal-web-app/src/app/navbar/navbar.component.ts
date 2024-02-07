@@ -22,17 +22,4 @@ export class NavbarComponent {
     return this.loginRegService.isLoggedIn;
   }
 
-  // add a method to get user details including the role
-  async getUserDetails(uid: string): Promise<any> {
-    const db = getFirestore();
-    const userRef = doc(db, "User", uid);
-    const userSnap = await getDoc(userRef);
-
-    if (userSnap.exists()) {
-      return userSnap.data();
-    } else {
-      throw new Error('User does not exist');
-    }
-  }
-
 }

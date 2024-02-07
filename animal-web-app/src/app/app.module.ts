@@ -48,6 +48,7 @@ import { ExploreCreatePostComponent } from './explore-create-post/explore-create
 import { ForumsComponent } from './forums/forums.component';
 import { MapComponent } from './map/map.component';
 import { AuthguardService } from './services/authguard.service';
+import { UnathorizedComponent } from './unathorized/unathorized.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { AuthguardService } from './services/authguard.service';
     GroupsPageComponent,
     ExploreCreatePostComponent,
     ForumsComponent,
-    MapComponent
+    MapComponent,
+    UnathorizedComponent
   ],
   imports: [
     BrowserModule,

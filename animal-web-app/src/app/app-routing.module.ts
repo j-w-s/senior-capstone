@@ -14,18 +14,21 @@ import { ForumsComponent } from './forums/forums.component';
 import { MapComponent } from './map/map.component';
 import { AuthguardService } from './services/authguard.service';
 import { AuthGuard } from './auth/auth.guard';
+import { UnathorizedComponent } from './unathorized/unathorized.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], data: { expectedRole: "1" } },  { path: 'login', component: LoginComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], data: { expectedRole: "1" } },
+  { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'messenger', component: MessengerComponent },
   { path: 'explore', component: ExploreComponent },
   { path: 'settings', component: SettingsComponent },
   { path: 'groups', component: GroupsPageComponent },
   { path: 'forums', component: ForumsComponent },
-  { path: 'map', component: MapComponent }
+  { path: 'map', component: MapComponent },
+  { path: 'unauthorized', component: UnathorizedComponent },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
