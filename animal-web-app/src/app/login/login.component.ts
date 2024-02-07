@@ -38,11 +38,7 @@ export class LoginComponent implements OnInit {
     if (typeof usernameOrEmail === 'string' && typeof password === 'string') {
       this.loginRegService.loginUser(usernameOrEmail, password).then(() => {
         // Handle successful login
-        if (this.loginRegService.tabIndex === 9) {
-          this.loginRegService.tabIndex = 0;
-        } else {
-          this.loginRegService.tabIndex = 9;
-        }
+        this.router.navigate(['/dashboard']); 
 
       }).catch((error) => {
         // Handle login error

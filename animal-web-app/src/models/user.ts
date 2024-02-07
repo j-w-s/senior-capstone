@@ -11,7 +11,7 @@ interface User {
   userDisplayName: string;
   userBiography: string;
   userImage: string;
-  userAccountType: number;
+  userAccountType?: number;
   userPreferences: UserPreferences;
   userRatings: UserRating[];
   petsOwned: Animal[];

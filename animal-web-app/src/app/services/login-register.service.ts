@@ -21,6 +21,7 @@ export class LoginRegisterService {
         this.isLoggedIn = true;
         this.currentUser = user.uid;
         //this.currentUserObject = user;
+        this.getUserDetails(user.uid);
       }
       else {
         // User is signed out
@@ -33,16 +34,16 @@ export class LoginRegisterService {
 
   registerUser(email: string, password: string, firstname: string, lastname: string, phonenumber: string, username: string): Promise<any> {
     const auth = getAuth();
-    // Creates a user account user firebase function
+    // creates a user account user firebase function
     return createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
-        // Gets the UID of the signed in user
+        // gets the UID of the signed in user
         const user = userCredential.user.uid;
 
         try {
-          // Gets the firestore data
+          // gets the firestore data
           const db = getFirestore();
-          // Creates a document named after 'const user' in the User collection
+          // creates a document named after 'const user' in the User collection
           await setDoc(doc(db, "User", user+''), {
             userId: user,
             userFirstName: firstname,
@@ -61,7 +62,7 @@ export class LoginRegisterService {
           });
           console.log("User Account Created!");
 
-          // Calls function to map username to document in User collection
+          // calls function to map username to document in User collection
           this.createUsernameMapping(user, username);
         } catch (e) {
           console.error("Error creating account: ", e);
@@ -90,44 +91,34 @@ export class LoginRegisterService {
 
   async loginUser(usernameOrEmail: string, password: string): Promise<any> {
     const auth = getAuth();
-    // Stores usernameOrEmail and has it changed to an email if its the username
     let email = usernameOrEmail;
-    // Gets the firestore database
     const db = getFirestore();
 
-    try {
-      // Gets a reference to a document, in the UserMapping collection
-      const usernameMappingRef = doc(db, "UsernameMapping", usernameOrEmail);
-      await getDoc(usernameMappingRef).then(async (usernameMappingDoc) => {
-        // Checks to see if the UsernameMaping exists
-        if (usernameMappingDoc.exists()) {
-          // Gets the reference to the document in the User collection
-          const pathToUserDoc = usernameMappingDoc.data()['userID']
-          // Creates reference to the document in the User collection
-          const userRef = doc(db, pathToUserDoc.path);
-          // Gets the document in the User collection that contains the email for that user
-          const userDoc = await getDoc(userRef);
-          if (userDoc.exists()) {
-            // Saves the email in the database to the email variable to be used for login
-            email = userDoc.data()['userEmail']
-            console.log('Email: ' + email)
-          }
-        }
-      })
-    } catch (error) {
-      console.log('Error: ' + error);
+    // fetch the user's email from Firestore
+    const usernameMappingRef = doc(db, "UsernameMapping", usernameOrEmail);
+    const usernameMappingDoc = await getDoc(usernameMappingRef);
+
+    if (usernameMappingDoc.exists()) {
+      const pathToUserDoc = usernameMappingDoc.data()['userID'];
+      const userRef = doc(db, pathToUserDoc.path);
+      const userDoc = await getDoc(userRef);
+
+      if (userDoc.exists()) {
+        email = userDoc.data()['userEmail'];
+      }
     }
 
+    // Now that we have the email, proceed with the sign-in
     return signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user.uid;
-      console.log('User was signed in!');
-    })
-    .catch((error) => {
-      console.log('Error: ' + error);
-    });
+      .then((userCredential) => {
+        const user = userCredential.user.uid;
+        console.log('User was signed in!');
+      })
+      .catch((error) => {
+        console.log('Error: ' + error);
+      });
   }
+
 
   signoutUser() {
     const auth = getAuth();
@@ -166,6 +157,19 @@ export class LoginRegisterService {
         }
       });
     });
+  }
+
+  // method to get user details including the role
+  async getUserDetails(uid: string): Promise<any> {
+    const db = getFirestore();
+    const userRef = doc(db, "User", uid);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+      return userSnap.data();
+    } else {
+      throw new Error('User does not exist');
+    }
   }
 
 }

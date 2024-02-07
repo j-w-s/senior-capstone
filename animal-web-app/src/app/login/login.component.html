@@ -12,7 +12,7 @@
 
         <h2 class='text-2xl font-semibold mb-2 text-center'>Login</h2>
 
-        <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+        <form [formGroup]="loginForm" (ngSubmit)="this.onLoginSubmit()">
 
           <div class="mb-4">
             <label for="usernameoremail" class="block text-sm font-medium text-gray-700">Username or Email</label>
@@ -32,7 +32,7 @@
                     <input type="text" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     <button type="submit" class="btn btn-primary w-full mt-4">Send Instructions</button>
                   </form>
-                  <button type="button" class="btn btn-base-100 w-full mt-4" onclick="location.href='/login';">
+                  <button type="button" class="btn btn-base-100 w-full mt-4" onclick="forgot_modal.close()">
                     Back to Login
                   </button>
                 </div>
@@ -45,7 +45,7 @@
             </dialog>
           </div>
 
-          <button type="submit" class="btn mt-2 w-full btn-primary" routerLink="/dashboard">Login</button>
+          <button type="submit" class="btn mt-2 w-full btn-primary">Login</button>
 
           <div class='text-center mt-4'>
 

@@ -39,7 +39,13 @@ export class RegisterComponent implements OnInit{
 
     if (typeof email === 'string' && typeof password === 'string' && typeof firstname == 'string' && typeof lastname == 'string' && typeof phonenumber == 'string' && typeof username == 'string') {
       this.loginRegService.registerUser(email, password, firstname, lastname, phonenumber, username).then(() => {
-        // Handle successful registration
+        this.loginRegService.loginUser(email, password).then(() => {
+          // login after creating an account
+          this.router.navigate(['/dashboard']);
+
+        }).catch((error) => {
+          // Handle login error
+        });
       }).catch((error) => {
         // Handle registration error
       });
