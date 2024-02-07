@@ -47,6 +47,7 @@ import { HomeComponent } from './home/home.component';
 import { ExploreCreatePostComponent } from './explore-create-post/explore-create-post.component';
 import { ForumsComponent } from './forums/forums.component';
 import { MapComponent } from './map/map.component';
+import { AuthguardService } from './services/authguard.service';
 
 @NgModule({
   declarations: [
@@ -92,7 +93,8 @@ import { MapComponent } from './map/map.component';
   providers: [
     ScreenTrackingService,
     UserTrackingService,
-    provideAnimations()
+    provideAnimations(),
+    AuthguardService,
   ],
   bootstrap: [AppComponent]
 })

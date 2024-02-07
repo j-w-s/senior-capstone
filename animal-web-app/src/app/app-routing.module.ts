@@ -12,12 +12,13 @@ import { GroupsPageComponent } from './groups-page/groups-page.component';
 import { HomeComponent } from './home/home.component';
 import { ForumsComponent } from './forums/forums.component';
 import { MapComponent } from './map/map.component';
+import { AuthguardService } from './services/authguard.service';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'login', component: LoginComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], data: { expectedRole: "1" } },  { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'messenger', component: MessengerComponent },
   { path: 'explore', component: ExploreComponent },
