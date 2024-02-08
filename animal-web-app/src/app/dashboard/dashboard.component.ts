@@ -4,6 +4,7 @@ import { getAuth } from 'firebase/auth';
 import User from '../../models/user';
 import { GroupsService } from '../services/groups.service';
 import Glide from '@glidejs/glide';
+import { LoginRegisterService } from '../services/login-register.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,28 +18,28 @@ export class DashboardComponent implements OnInit, AfterViewInit{
 
   days = Array.from({ length: 5 }, (_, i) => Array.from({ length: 7 }, (__, j) => i * 7 + j + 1));
 
-  constructor(public messengerService: MessengerService,
-    private groupsService: GroupsService){
+  constructor(
+    public messengerService: MessengerService,
+    private groupsService: GroupsService,
+    private loginReg: LoginRegisterService
+  ) { }
 
-  }
 
   // gets the user logged in and resolves their userImage
   async ngOnInit() {
-    await this.groupsService.sleep(1000)
+    const currentUserId = this.loginReg.currentUser;
+    try {
+      const userDetails = await this.loginReg.getUserDetails(currentUserId);
+      this.primaryUser = userDetails as User;
 
-    const auth = getAuth();
-    const user = auth.currentUser?.uid
-
-    if(user != null)
-    {
-      this.messengerService.getUserById2(user).then(async (userAccount) => {
-        this.primaryUser = userAccount;
-        this.primaryUser.userImage = await this.messengerService.resolveProfilePicture(this.primaryUser)
-        console.log('New Image: ', this.primaryUser.userImage)
-      });
+      // resolve the user image
+      this.primaryUser.userImage = await this.messengerService.resolveProfilePicture(this.primaryUser);
+      console.log('Primary User: ', this.primaryUser);
+    } catch (error) {
+      console.error('Error loading user details or profile picture: ', error);
     }
-
   }
+
 
   // using glidejs to handle this now because my marquee version
   // would sometimes flicker and required a lot of transformations

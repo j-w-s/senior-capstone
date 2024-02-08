@@ -22,31 +22,35 @@ export class MessengerService {
 
   messages = this.messagesSubject.asObservable();
 
-  constructor(private firestore: AngularFirestore, private loginRegService: LoginRegisterService) { }
+  constructor(private firestore: AngularFirestore,
+    private loginRegService: LoginRegisterService,
+  ) { }
 
   // Saves the last selected contact
   setContact(oldID: string) {
     this.prevContact = oldID
   }
 
-  async getMessages(): Promise<Observable<unknown>> {
+  // Adjust the return type of the method to Observable<any>
+  getMessages(): Observable<any> {
     const auth = getAuth();
     const user = auth.currentUser?.uid;
-    this.demoPrimaryUserId = user+'';
-    
+    this.demoPrimaryUserId = user + '';
+
     // Gets the document in the Messages collection for the current user
     const userDocRef = doc(getFirestore(), 'Messages/' + user);
 
     // Returns an observable for the file to update it whenever there is a change
     return new Observable(observer => {
       const unsubscribe = onSnapshot(userDocRef, async (userDoc) => {
-         const data = { ...userDoc.data()};
-         console.log(data); // This will print the data
-         observer.next(data);
+        const data = { ...userDoc.data() };
+        //console.log(data); // This will print the data
+        observer.next(data);
       });
       return unsubscribe;
-     });
+    });
   }
+
 
   // Resolves the image path to the URL for the image in firebase storage
   resolveProfilePicture(user: User | null): Promise<string> {
@@ -122,15 +126,11 @@ export class MessengerService {
       existingConversation.messagesList = [...existingConversation.messagesList, ...messageAsMessageList];
 
       // save the updated 'Messages' object back to Firestore
-      const result = await docRef.set(existingConversation, { merge: true });
-
-      // if the operation was successful, update the BehaviorSubject
-      this.messagesSubject.next(existingConversation);
-
+      const result = await docRef.update(existingConversation);
     } else {
       return;
     }
-    this.addToOtherUser(message, contact)
+    this.addToOtherUser(message, contact);
   }
 
   // Adds the message to the user it was sent to as well in there messagesList
@@ -150,15 +150,11 @@ export class MessengerService {
       existingConversation.messagesList = [...existingConversation.messagesList, ...messageAsMessageList];
 
       // save the updated 'Messages' object back to Firestore
-      const result = await docRef.set(existingConversation, { merge: true });
-
-      // if the operation was successful, update the BehaviorSubject
-      this.messagesSubject.next(existingConversation);
+      const result = await docRef.update(existingConversation);
 
     } else {
       return;
     }
-    
   }
 
   // Returns a user object based on the userId given
@@ -183,7 +179,6 @@ export class MessengerService {
 
     // if documents were found, return the first 'User' object
     return querySnapshot?.docs[0].data() as User;
-    
   }
 }
 

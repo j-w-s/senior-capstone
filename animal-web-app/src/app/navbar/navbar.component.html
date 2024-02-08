@@ -13,9 +13,9 @@
       </li>
     </ul>
   </div>
-  <div *ngIf="loginRegService.isLoggedIn" class="navbar-end">
-    <a class="btn btn-primary" [routerLink]="['/login']" routerLinkActive="active" (click)="handleButtonClick('login')">Login</a>
-    <a class="btn btn-accent" [routerLink]="['/register']" routerLinkActive="active" (click)="handleButtonClick('register')">Register</a>
+  <div class="navbar-end">
+    <a *ngIf="!loginRegService.isLoggedIn" class="btn btn-primary" [routerLink]="['/login']" routerLinkActive="active" (click)="handleButtonClick('login')">Login</a>
+    <a *ngIf="!loginRegService.isLoggedIn" class="btn btn-accent" [routerLink]="['/register']" routerLinkActive="active" (click)="handleButtonClick('register')">Register</a>
   </div>
 
 </div>
