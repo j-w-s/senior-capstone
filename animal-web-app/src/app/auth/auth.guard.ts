@@ -13,19 +13,27 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     const expectedRole = next.data['expectedRole'];
-    return this.loginReg.getUserDetails(this.loginReg.currentUser)
-      .then((user) => {
-        if (user && user.userAccountType === expectedRole) {
-          return true;
-        } else {
+    const currentUserId = this.loginReg.currentUser;
+    const cachedUserDetails = this.loginReg.checkUserDetailsInCache(currentUserId);
+    if (cachedUserDetails && cachedUserDetails.userAccountType === expectedRole) {
+      return true;
+    } else {
+      // If not in cache or role mismatch, fetch from Firestore
+      return this.loginReg.getUserDetails(currentUserId)
+        .then((user) => {
+          if (user && user.userAccountType === expectedRole) {
+            return true;
+          } else {
+            this.router.navigate(['/unauthorized']);
+            return false;
+          }
+        })
+        .catch(err => {
+          console.error('Error getting user details: ', err);
           this.router.navigate(['/unauthorized']);
           return false;
-        }
-      })
-      .catch(err => {
-        console.error('Error getting user details: ', err);
-        this.router.navigate(['/unauthorized']);
-        return false;
-      });
+        });
+    }
   }
+
 }

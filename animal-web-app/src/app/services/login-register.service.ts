@@ -15,19 +15,24 @@ export class LoginRegisterService {
   constructor() {  
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
-
-      if(user != undefined || user != null) {
+      if (user) {
         console.log('Service detected change for userID: ' + user.uid);
         this.isLoggedIn = true;
         this.currentUser = user.uid;
-        //this.currentUserObject = user;
-        this.getUserDetails(user.uid);
-      }
-      else {
-        // User is signed out
+
+        const cachedUserDetails = this.loadUserDetailsFromCache(user.uid);
+        if (cachedUserDetails) {
+          console.log('Loaded user details from cache');
+
+        } else {
+          this.getUserDetails(user.uid).then(userDetails => {
+            this.saveUserDetailsToCache(user.uid, userDetails);
+          }).catch(err => console.error('Error loading user details:', err));
+
+        }
+      } else {
         this.isLoggedIn = false;
         this.currentUser = '';
-        //this.currentUserObject = null;
       }
     });
   }
@@ -159,17 +164,43 @@ export class LoginRegisterService {
     });
   }
 
-  // method to get user details including the role
+  // method to save user details to local storage
+  saveUserDetailsToCache(uid: string, userDetails: any): void {
+    localStorage.setItem(`user-details-${uid}`, JSON.stringify(userDetails));
+  }
+
+  // method to load user details from local storage
+  loadUserDetailsFromCache(uid: string): any {
+    const cachedUserDetails = localStorage.getItem(`user-details-${uid}`);
+    return cachedUserDetails ? JSON.parse(cachedUserDetails) : null;
+  }
+
+  // getUserDetails uses cache now
   async getUserDetails(uid: string): Promise<any> {
+    // try to load user details from cache
+    const cachedUserDetails = this.loadUserDetailsFromCache(uid);
+    if (cachedUserDetails) {
+      return Promise.resolve(cachedUserDetails);
+    }
+
+    // if not in cache, fetch from Firestore
     const db = getFirestore();
     const userRef = doc(db, "User", uid);
     const userSnap = await getDoc(userRef);
 
     if (userSnap.exists()) {
-      return userSnap.data();
+      const userDetails = userSnap.data();
+      // save user details to cache
+      this.saveUserDetailsToCache(uid, userDetails);
+      return userDetails;
     } else {
       throw new Error('User does not exist');
     }
+  }
+
+  // method to check if user details are in the cache
+  checkUserDetailsInCache(uid: string): any {
+    return this.loadUserDetailsFromCache(uid);
   }
 
 }
