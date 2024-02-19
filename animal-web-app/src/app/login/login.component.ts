@@ -49,12 +49,14 @@ export class LoginComponent implements OnInit {
 
     if (typeof usernameOrEmail === 'string' && typeof password === 'string') {
       this.loginRegService.loginUser(usernameOrEmail, password).then(() => {
-        this.router.navigate(['/dashboard']); 
-
+        this.alertService.show('success', 'Successfully logged in. Redirecting you to the dashboard.');
+        setTimeout(() => {
+          this.router.navigate(['/dashboard']);
+        }, 3000);
       }).catch((error) => {
       });
     } else {
-      console.error('Username or email or password is not a string');
+      this.alertService.show('error', 'There was an error signing you in. Check your credentials again and re-submit.');
     }
   }
 
