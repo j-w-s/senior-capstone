@@ -7,10 +7,10 @@ import { AlertsService, AlertType } from '../services/alerts.service';
   templateUrl: './alerts.component.html',
   styleUrls: ['./alerts.component.scss']
 })
-export class AlertComponent {
+export class AlertsComponent {
   alertClass!: string;
 
-  constructor(private alertService: AlertsService) {
+  constructor(public alertService: AlertsService) {
     this.alertService.alert$.subscribe(alert => {
       switch (alert.type) {
         case 'success':

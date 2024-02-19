@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginRegisterService } from '../services/login-register.service';
 import { Location } from '@angular/common';
 import { EventEmitter } from '@angular/core';
+import { AlertsService } from '../services/alerts.service';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +15,11 @@ export class RegisterComponent implements OnInit{
 
   registerForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private loginRegService: LoginRegisterService, private router: Router, private location: Location) {
+  constructor(private fb: FormBuilder,
+    private loginRegService: LoginRegisterService,
+    private router: Router,
+    private alertService: AlertsService,
+    private location: Location) {
     this.registerForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
@@ -40,14 +45,15 @@ export class RegisterComponent implements OnInit{
     if (typeof email === 'string' && typeof password === 'string' && typeof firstname == 'string' && typeof lastname == 'string' && typeof phonenumber == 'string' && typeof username == 'string') {
       this.loginRegService.registerUser(email, password, firstname, lastname, phonenumber, username).then(() => {
         this.loginRegService.loginUser(email, password).then(() => {
-          // login after creating an account
-          this.router.navigate(['/dashboard']);
-
+          this.alertService.show('success', 'Successfully created your account. Redirecting you to the dashboard.');
+          setTimeout(() => {
+            this.router.navigate(['/dashboard']);
+          }, 3000); 
         }).catch((error) => {
-          // Handle login error
+          this.alertService.show('error', 'Your account was created, but we were unable to log you in. Log in manually.');
         });
       }).catch((error) => {
-        // Handle registration error
+        this.alertService.show('error', 'Your account could not be created. Check your credentials and try again.');
       });
     } else {
       console.error('Email or password is not a string');
