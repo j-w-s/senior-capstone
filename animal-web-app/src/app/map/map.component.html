@@ -9,11 +9,6 @@
 
     <div class="drawer lg:drawer-open h-full">
       <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-      <div class="drawer-content flex flex-col items-center justify-center">
-        <!-- page content here -->
-        <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">Open drawer</label>
-
-      </div>
 
       <div class="drawer-side justify-center items-center">
         <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
@@ -39,6 +34,12 @@
         <h2 class="text-left">Map</h2>
       </div>
 
+      <div class="bg-white p-4">
+        <button class="btn btn-secondary" onclick="createMapModal.showModal();" (click)="generateUUID();">
+          Create
+        </button>
+      </div>
+
     </div>
 
     <!-- MAP CONTAINER -->
@@ -51,3 +52,30 @@
   </div>
 
 </div>
+
+<dialog id="createMapModal" class="modal modal-bottom sm:modal-middle">
+
+  <div class="modal-box flex items-center justify-center">
+
+    <div class="w-1/2 px-4">
+      <form  class="flex flex-col items-center">
+
+        <label for="email" class="block text-sm font-medium text-gray-700">Username or Email</label>
+        <input type="text" id="email" formControlName="email" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+        <button type="submit" class="btn mt-2 w-full btn-primary">Send Instructions</button>
+
+      </form>
+
+    </div>
+
+    <div class="divider lg:divider-horizontal"></div>
+
+    <div class="w-1/2 px-4">
+
+    </div>
+
+  </div>
+
+</dialog>
+

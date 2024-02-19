@@ -49,6 +49,7 @@ import { ForumsComponent } from './forums/forums.component';
 import { MapComponent } from './map/map.component';
 import { AuthguardService } from './services/authguard.service';
 import { UnathorizedComponent } from './unathorized/unathorized.component';
+import { AlertsComponent } from './alerts/alerts.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { UnathorizedComponent } from './unathorized/unathorized.component';
     ExploreCreatePostComponent,
     ForumsComponent,
     MapComponent,
-    UnathorizedComponent
+    UnathorizedComponent,
+    AlertsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,13 @@
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
+import { Observable, Subscription } from 'rxjs';
 import Beacon from '../../models/beacon';
 import BeaconMarker from '../../models/beacon-marker';
+import { MapService } from '../services/map.service';
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
+import { v4 as uuidv4 } from 'uuid';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-map',
@@ -13,10 +19,50 @@ export class MapComponent implements AfterViewInit {
   private map!: L.Map;
   private markers: L.Marker[] = [];
 
-  constructor() { }
+  beacons$!: Observable<Beacon[]>;
+  beaconsSubscription!: Subscription;
+
+  beaconMarkers$!: Observable<BeaconMarker[]>;
+  beaconMarkersSubscription!: Subscription;
+
+  beacons: Beacon[] = [];
+  beaconMarkers: BeaconMarker[] = [];
+  selectedBeaconData!: BeaconMarker;
+
+  showModal: boolean = false;
+  createMapForm!: FormGroup;
+
+  constructor(private mapService: MapService,
+    private fb: FormBuilder) {
+
+
+    this.createMapForm = new FormGroup({
+      beaconType: new FormControl('', Validators.required),
+      beaconColor: new FormControl('', Validators.required),
+      geoCoordinates: new FormControl('', Validators.required),
+      markerId: new FormControl('{uuidv4()}', Validators.required),
+      address: new FormControl('', Validators.required),
+      images: new FormControl('', Validators.required),
+      contactInformation: new FormControl('', Validators.required),
+      about: new FormControl('', Validators.required),
+    });
+
+  }
 
   ngAfterViewInit(): void {
-    this.initMap();
+    this.beacons$ = this.mapService.getBeacons();
+    this.beaconMarkers$ = this.mapService.getBeaconMarkers();
+
+    this.beaconsSubscription = this.beacons$.subscribe((beacons: Beacon[]) => {
+      this.beacons = beacons;
+      console.log(this.beacons);
+    });
+
+    this.beaconMarkersSubscription = this.beaconMarkers$.subscribe((beaconMarkers: BeaconMarker[]) => {
+      this.beaconMarkers = beaconMarkers;
+      console.log(this.beaconMarkers);
+      this.initMap(); 
+    })
   }
 
   private initMap(): void {
@@ -68,58 +114,60 @@ export class MapComponent implements AfterViewInit {
       popupAnchor: [0, -64] // point from which the popup should open relative to the iconAnchor
     });
 
-    // one beacon for demoing
-    var beaconCoords: L.LatLngTuple = [32.529674, -92.640466];
+    this.beacons.forEach(beacon => {
+      console.log(beacon);
 
-    // beacon data (EXAMPLE -- WE WOULD BE CREATING
-    // BEACON COORDS FROM ACTUAL BEACON DATA, SO THIS WOULD NEED TO BE
-    // FETCHED PRIOR TO THE PREVIOUS STEP, THE COORDINATES CONVERTED
-    var beaconData: Beacon = {
-      beaconType: 1,
-      beaconColor: 'red',
-      geoCoordinates: [32.529674, -92.640466],
-      beaconInformation: {
-        markerId: '1',
-        address: '123 Main St',
-        images: ['https://www.usnews.com/dims4/USNEWS/38840fc/17177859217/resize/800x540%3E/quality/85/?url=https%3A%2F%2Fwww.usnews.com%2Fcmsmedia%2Fc4%2Fae%2F16a52c474a07a1ce45fd3a71b1dc%2Fdji-0109.jpg'],
-        contactInformation: ['email@example.com'],
-        about: 'This is a beacon',
-        listings: [],
-        ratings: []
-      }
-    };
+      // Directly access the properties using dot notation
+      var latitude = beacon.geoCoordinates._lat;
+      var longitude = beacon.geoCoordinates._long;
+      console.log(latitude, longitude);
 
-    // create a marker for it and add it to the map
-    var marker = new CustomMarker(beaconCoords, { icon: beaconIcon, beaconData: beaconData });
-    marker.beaconData = beaconData;
-    marker.addTo(this.map);
-    this.markers.push(marker);
+      var beaconCoords: L.LatLngTuple = [latitude, longitude];
+      var marker = new CustomMarker(beaconCoords, { icon: beaconIcon, beaconData: beacon });
+      marker.beaconData = beacon;
+      marker.addTo(this.map);
+      this.markers.push(marker);
+    });
 
     // resize markers when zooming -> somehow functional...
     this.map.on('zoomend', () => {
       let zoomLevel = this.map.getZoom();
-      let markerSize =  8 * zoomLevel / 2; // adjust this formula as needed
+      let markerSize = 8 * zoomLevel / 2; // adjust this formula as needed
 
       // update each marker
       this.markers.forEach((marker) => {
         marker.setIcon(L.icon({
           iconUrl: 'assets/marker.png',
           iconSize: [markerSize, markerSize],
-          iconAnchor: [markerSize/2, markerSize],
+          iconAnchor: [markerSize / 2, markerSize],
           popupAnchor: [0, -markerSize]
         }));
       });
     });
 
     // click event on the marker
-    marker.on('click', function (event) {
-      var clickedBeaconData = event.target.options.beaconData;
-      console.log(clickedBeaconData);
-    });
+    this.markers.forEach(marker => {
+      marker.on('click', (event) => {
+        var clickedBeaconData = event.target.options.beaconData.beaconInformation;
+        var beaconMarkerDocumentId = clickedBeaconData._delegate._key.path.segments[clickedBeaconData._delegate._key.path.segments.length - 1];
+        var beaconMarkerObject = this.beaconMarkers.find(beaconMarker => beaconMarker.markerId === beaconMarkerDocumentId);
+        if (beaconMarkerObject !== undefined) {
+          this.selectedBeaconData = beaconMarkerObject;
+          this.showModal = true;
+        } else {
+          console.error(`No BeaconMarker found with ID: ${beaconMarkerDocumentId}`);
+        }
+      });
+    })
 
   }
 
+  generateUUID(): void {
+    //this.animalCreateForm.get('animalId')!.setValue(uuidv4());
+  }
+
 }
+
 
 class CustomMarker extends L.Marker {
   beaconData: Beacon | undefined;
