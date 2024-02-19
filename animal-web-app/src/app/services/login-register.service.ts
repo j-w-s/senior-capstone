@@ -8,7 +8,7 @@ import { doc, getDoc, getFirestore, setDoc } from '@angular/fire/firestore';
 export class LoginRegisterService {
 
   public tabIndex = 0;
-  public isLoggedIn = false;
+  public isLoggedIn = true;
   public currentUser = '';
   public auth;
   //public currentUserObject: any;
