@@ -10,10 +10,12 @@ export class LoginRegisterService {
   public tabIndex = 0;
   public isLoggedIn = false;
   public currentUser = '';
+  public auth;
   //public currentUserObject: any;
 
   constructor() {  
     const auth = getAuth();
+    this.auth = auth;
     onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log('Service detected change for userID: ' + user.uid);

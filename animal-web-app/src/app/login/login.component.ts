@@ -6,6 +6,9 @@ import { Location } from '@angular/common';
 import { EventEmitter } from '@angular/core';
 import { ExploreService } from '../services/explore.service';
 import Animal from '../../models/animal';
+import { sendPasswordResetEmail } from 'firebase/auth';
+import { v4 as uuidv4 } from 'uuid';
+import { AlertsService } from '../services/alerts.service';
 
 @Component({
   selector: 'app-login',
@@ -15,16 +18,25 @@ import Animal from '../../models/animal';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
+  forgotPasswordForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private loginRegService: LoginRegisterService,
     private router: Router,
-    private location: Location,  ) {
+    private location: Location,
+    private alertService: AlertsService,
+  )
+  {
     this.loginForm = this.fb.group({
       usernameoremail: ['', Validators.required],
       password: ['', Validators.required]
     });
+
+    this.forgotPasswordForm = this.fb.group({
+      email: ['', Validators.required],
+    });
+
   }
 
   ngOnInit(): void {
@@ -37,15 +49,27 @@ export class LoginComponent implements OnInit {
 
     if (typeof usernameOrEmail === 'string' && typeof password === 'string') {
       this.loginRegService.loginUser(usernameOrEmail, password).then(() => {
-        // Handle successful login
         this.router.navigate(['/dashboard']); 
 
       }).catch((error) => {
-        // Handle login error
       });
     } else {
       console.error('Username or email or password is not a string');
     }
+  }
+
+  onForgotSubmit() {
+    const email = this.forgotPasswordForm?.get('email')?.value;
+    const auth = this.loginRegService.auth;
+
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        this.alertService.show('success', 'Password reset instructions have been sent to your email!');
+        this.alertService.closeModal('forgot_modal');
+      })
+      .catch((error) => {
+        this.alertService.show('error', 'There was an error sending the password reset instructions.');
+      });
   }
 
 }

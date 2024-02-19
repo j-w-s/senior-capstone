@@ -1,9 +1,11 @@
+import { AngularFirestore, DocumentReference } from '@angular/fire/compat/firestore';
 import BeaconMarker from './beacon-marker';
 
 interface Beacon {
   beaconType: number;
   beaconColor: string;
-  geoCoordinates: [latitude: number, longitude: number];
+  geoCoordinates: {_lat: number, _long: number};
   beaconInformation: BeaconMarker;
 }
+
 export default Beacon;

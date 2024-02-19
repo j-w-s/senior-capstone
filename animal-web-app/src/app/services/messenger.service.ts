@@ -44,7 +44,6 @@ export class MessengerService {
     return new Observable(observer => {
       const unsubscribe = onSnapshot(userDocRef, async (userDoc) => {
         const data = { ...userDoc.data() };
-        //console.log(data); // This will print the data
         observer.next(data);
       });
       return unsubscribe;
@@ -133,7 +132,7 @@ export class MessengerService {
     this.addToOtherUser(message, contact);
   }
 
-  // Adds the message to the user it was sent to as well in there messagesList
+  // adds the message to the user it was sent to as well in there messagesList
   async addToOtherUser(message: Message, contact: string): Promise<any> {
     const docRef = this.firestore.collection('Messages').doc(contact);
     const docSnapshot = await docRef.get().toPromise();

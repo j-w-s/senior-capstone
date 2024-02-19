@@ -4,13 +4,12 @@
     "\\animal-web-app",
     "\\animal-web-app\\src",
     "\\animal-web-app\\src\\app",
-    "\\animal-web-app\\src\\app\\auth",
-    "\\animal-web-app\\src\\app\\dashboard",
-    "\\animal-web-app\\src\\app\\explore",
-    "\\animal-web-app\\src\\app\\login-register",
-    "\\animal-web-app\\src\\app\\messenger",
-    "\\animal-web-app\\src\\app\\navbar"
+    "\\animal-web-app\\src\\app\\map",
+    "\\animal-web-app\\src\\app\\navbar",
+    "\\animal-web-app\\src\\app\\services",
+    "\\animal-web-app\\src\\app\\unathorized",
+    "\\animal-web-app\\src\\models"
   ],
-  "SelectedNode": "\\animal-web-app\\src\\app\\messenger\\messenger.component.html",
+  "SelectedNode": "\\animal-web-app\\src\\app\\services\\messenger.service.ts",
   "PreviewInSolutionExplorer": false
 }
