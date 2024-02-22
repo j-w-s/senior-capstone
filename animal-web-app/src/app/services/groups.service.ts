@@ -5,7 +5,7 @@ import { AngularFirestore, DocumentReference } from '@angular/fire/compat/firest
 import { combineLatest, Observable } from 'rxjs';
 import { Group, Use } from '../groups-page/groups-page.component';
 import { arrayUnion } from '@angular/fire/firestore';
-import { doc, DocumentData, getDoc, getFirestore, onSnapshot } from 'firebase/firestore';
+import { arrayRemove, doc, DocumentData, getDoc, getFirestore, onSnapshot, updateDoc } from 'firebase/firestore';
 
 @Injectable({
  providedIn: 'root'
@@ -178,4 +178,45 @@ export class GroupsService {
     }
     return users;
    }
+
+   removeGroupFromUsers(group: any) {
+
+    for(let i = 0; i < group.users.length; i++)
+    {
+      console.log('User ' + i + ' : ' + group.users[i].path)
+      const split = group.users[i].path.split('/');
+
+      const dRef = this.db.collection(split[0]).doc(split[1]);
+      const gRef = this.db.collection('Groups').doc(group.useId)
+      dRef.update({
+        userGroups: arrayRemove(gRef.ref)
+      });
+    }
+   }
+
+  deleteGroup(group: any) {
+
+  const dRef = this.db.collection('Groups').doc(group.useId);
+  dRef.delete();
+  }
+
+  async removeUser(group: any, username: string)
+  {
+    let usernaID: DocumentReference | null = null; 
+    const nRef = this.db.collection('UsernameMapping').doc(username)
+    const doc = await getDoc(nRef.ref);
+       if (doc.exists()) {
+        usernaID = (doc.data() as DocumentData)['userID']
+       }
+
+    const userRef = this.db.collection('User').doc(usernaID?.id);
+    const groupRef = this.db.collection('Groups').doc(group.useId)
+    userRef.update({
+      userGroups: arrayRemove(groupRef.ref)
+    });
+
+    groupRef.update({
+      users: arrayRemove(userRef.ref)
+    })
+  }
  }
