@@ -33,7 +33,7 @@ export class GroupsPageComponent implements OnInit {
   groups: any[] = [];
   // Stores the currently selected group from the carousel;
   // used to display the group info at the bottom
-  selectedGroup: Group | null = null;
+  selectedGroup: any | null = null;
   creatingGroup = false;
   // Stores the resolved usernames from the group.users DocRef array
   users: Use[] = [];
@@ -50,14 +50,27 @@ export class GroupsPageComponent implements OnInit {
   ngOnInit(): void {
     // Subscribes the listeners to get the groups from the databse
     // Returns the groups in the database whenever there is an update
-    this.groupService.getGroups().then((observable$) => {
-      observable$.pipe(takeUntil(this.destroy$)).subscribe(async (groups: any) => {
+    this.groupService.getGroups().then(async (observable$) => {
+      await observable$.pipe(takeUntil(this.destroy$)).subscribe(async (groups: any) => {
          console.log('Received groups:');
          groups.forEach(async (group: any) => {
            console.log('Group ID:', group.useId);
           
          });
-         this.groups = groups;
+         this.groups = groups;   
+
+         if(this.selectedGroup != null)
+         {
+          for(let i = 0; i < groups.length; i++)
+          {
+            if(groups[i].useId == this.selectedGroup.useId)
+            {
+              this.selectGroup(groups[i])
+              console.log('Reselected Groups')
+            }
+          }
+          
+         }
       }, error => {
          console.error('Error getting groups:', error);
       });
@@ -69,6 +82,7 @@ export class GroupsPageComponent implements OnInit {
 
   // Gets rid of the listeners when the page is destroyed (refreshed, unloaded, etc.)
   ngOnDestroy() {
+    //this.selectedGroup = null;
     this.destroy$.next()
     this.destroy$.complete()
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
@@ -125,8 +139,19 @@ export class GroupsPageComponent implements OnInit {
     }
     const docId = group.useId;
     
-    this.groupService.updateGroup(updatedGroup, docId)
-    
+    this.groupService.updateGroup(updatedGroup, docId) 
+  }
+
+  deleteGroup(group: Group, confirmation: string) {
+    console.log(group);
+    console.log("Confirmation: ", confirmation);
+
+    if(confirmation == 'delete') {
+      
+      this.groupService.deleteGroup(group);
+      this.groupService.removeGroupFromUsers(group);
+      this.selectedGroup = null;
+    }
   }
  
   // Adds a user to the group based on their username
@@ -137,6 +162,12 @@ export class GroupsPageComponent implements OnInit {
   // Adds the creator to the group using their userID
   addOwner(group: Group, docRef: string) {
     this.groupService.addOwner(docRef);
+  }
+
+  removeUser(group: any, username: string) {
+    this.groupService.removeUser(group, username);
+
+    console.log('Removed User')
   }
 
   prev(index: number) {
@@ -159,10 +190,8 @@ export class GroupsPageComponent implements OnInit {
     this.creatingGroup = false;
   }
 
-  
-
   gotoCreateGroup() {
     this.creatingGroup = true;
   }
 
- }
+}
