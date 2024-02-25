@@ -102,6 +102,18 @@
     </div>
   </div>
 
+  <!-- Modal to confirm change to user zipcode-->
+  <div class="modal" *ngIf="currentModal === 'Zipcode'" id="myZipcodeModal" tabindex="-1">
+    <div class="modal-box">
+      <h2 class="text-xl">Confirm Zipcode Change</h2>
+      <p>Are you sure you want to change your zipcode?</p>
+      <div class="modal-action">
+        <label for="modal-toggle" class="btn">Cancel</label>
+        <button (click)="confirmUpdateZipcode()" class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+
   <!-- main content -->
   <div class="container">
 
@@ -155,12 +167,11 @@
       <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
         <div class="card-body">
           <!--- We do not store passwords so this will be done later
-          <div class="form-control" style="width: 80%; display: flex; justify-content: space-between;">
-            <label class="label" for="userPassword">Password</label>
-            <input type="text" formControlName="userPassword" id="userPassword" class="input input-bordered" style="flex-grow: 1;">
-            <button>Change</button>
-          </div>    -->
-
+  <div class="form-control" style="width: 80%; display: flex; justify-content: space-between;">
+    <label class="label" for="userPassword">Password</label>
+    <input type="text" formControlName="userPassword" id="userPassword" class="input input-bordered" style="flex-grow: 1;">
+    <button>Change</button>
+  </div>    -->
           <!-- Users first name and change button for it-->
           <div class="form-control" style="width: 80%; display: flex; justify-content: space-between;">
             <label class="label" for="userFirstName">First Name</label>
@@ -180,6 +191,13 @@
             <label class="label" for="userEmail">Email</label>
             <input type="email" formControlName="userEmail" id="userEmail" class="input input-bordered">
             <button (click)="openModal('Email')" class="btn btn-accent">Change</button>
+          </div>
+
+          <!-- Users zipcode and change button for it-->
+          <div class="form-control" style="width: 20%; display: flex; justify-content: space-between;">
+            <label class="label" for="userZipcode">Zipcode</label>
+            <input type="number" formControlName="userZipcode" id="userZipcode" class="input input-bordered">
+            <button (click)="openModal('Zipcode')" class="btn btn-accent">Change</button>
           </div>
 
 

@@ -75,6 +75,15 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  //Activates information change when "Confirm" is clicked after changing zipcode
+  confirmUpdateZipcode() {
+    const modalToggle = document.getElementById('modal-toggle') as HTMLInputElement;
+    if (modalToggle) {
+      modalToggle.checked = false;
+      this.updateZipcode();
+    }
+  }
+
   constructor(private fb: FormBuilder, private userService: UserService, private db: AngularFirestore) {
     this.profileForm = this.fb.group({
       userDisplayName: ['', Validators.required],
@@ -86,7 +95,7 @@ export class SettingsComponent implements OnInit {
       userFirstName: ['', Validators.required],
       userLastName: ['', Validators.required],
       userEmail: ['', [Validators.required, Validators.email]],
-
+      userZipcode: ['',Validators.required]
     });
 
     this.selectedTab = 'Profile';
@@ -116,7 +125,7 @@ export class SettingsComponent implements OnInit {
           userFirstName: [value.userFirstName, Validators.required],
           userLastName: [value.userLastName, Validators.required],
           userEmail: [value.userEmail, [Validators.required, Validators.email]],
-
+          userZipcode: [value.userZipcode, Validators.required]
         });
 
         
@@ -191,6 +200,24 @@ export class SettingsComponent implements OnInit {
       });
     } else {
       console.error("Could not find 'userEmail' form control");
+    }
+  }
+  //Allows users to change their Email on their account
+  updateZipcode() {
+    const zipcodeControl = this.accountForm.get('userZipcode');
+
+    if (zipcodeControl) {
+      const newZipcode = zipcodeControl.value;
+      const auth = getAuth();
+      const user = auth.currentUser?.uid;
+      console.log('ID: ', user);
+      const userDoc = this.db.doc('/User/' + user);
+      //Updates users zipcode in the document in firebase
+      userDoc.update({
+        userZipcode: newZipcode
+      });
+    } else {
+      console.error("Could not find 'userZipcode' form control");
     }
   }
   //Allows users to change their DisplayName on their account
