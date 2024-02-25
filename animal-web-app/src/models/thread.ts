@@ -6,7 +6,7 @@ interface Thread {
   id: string;
   publisher: string;
   users: User[];
-  comments?: DocumentReference<Comment>[];
+  comments?: Comment[];
   tags: string[];
   title: string;
   threadContent: string;

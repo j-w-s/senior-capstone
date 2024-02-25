@@ -24,20 +24,19 @@ export class ForumsComponent implements OnInit {
 
   constructor(private forumService: ForumService) {
     this.comments$ = new Observable<Comment[]>();
-
   }
 
-  ngOnInit() {
-    if (this.selectedThread !== null) {
-      this.onRowClick(this.selectedThread);
-    }
+  ngOnInit(): void {
+    this.loadForumData();
+  }
+
+  loadForumData(): void {
     this.forumService.forum$.pipe(
       take(1),
       tap((forum: Forum) => {
         if (forum && forum.threads && forum.threads.length > 0) {
           this.forumThreads = forum.threads;
         } else {
-          // Fetch threads explicitly if not available
           this.forumService.getThreads().subscribe((threads: Forum) => {
             this.forumThreads = threads.threads;
           });
@@ -46,31 +45,14 @@ export class ForumsComponent implements OnInit {
     ).subscribe();
   }
 
-
-
-
-  onRowClick(thread: Thread) {
+  onRowClick(thread: Thread): void {
     this.selectedThread = thread;
-    if (this.selectedThread && this.selectedThread.comments) {
-      const commentReferences = this.selectedThread.comments;
-      // Call the service method to fetch comments data and subscribe to the observable
-      this.comments$ = this.forumService.getCommentsData(commentReferences);
-
-      // Subscribe to the comments$ observable to receive the emitted comments
-      this.comments$.subscribe(comments => {
-        console.log('Received comments:', comments);
-        // Perform any further actions with the received comments
-      });
-    }
-  }
-
-  resetSelection() {
-    this.selectedThread = null;
+    this.loadComments(this.selectedThread);
   }
 
   async addNewThread(): Promise<void> {
     const newThread: Thread = {
-      id: '', // Assign the generated ID to the new thread
+      id: '',
       publisher: 'userId123',
       users: [],
       tags: this.newThreadTags.split(','),
@@ -83,23 +65,30 @@ export class ForumsComponent implements OnInit {
     this.resetForm();
   }
 
+  resetSelection() {
+    this.selectedThread = null;
+  }
+
   addComment(): void {
     if (this.selectedThread && this.newCommentContent.trim() !== '') {
       const newComment: Comment = {
-        userId: 'userId123', // Replace with actual user ID
-        commentId: '', // Generate a unique ID for the comment
+        userId: 'userId123',
+        commentId: '',
         messageContent: this.newCommentContent,
         timeSent: new Date(),
-        isReply: false // For simplicity, assuming it's not a reply
+        isReply: false
       };
 
-      // Call the service method to add the comment
       this.forumService.addComment(this.selectedThread, newComment);
-      // Clear the comment content after adding
       this.newCommentContent = '';
     }
   }
 
+  loadComments(thread: Thread): void {
+    if (thread && thread.id) {
+        this.comments$ = this.forumService.getThreadComments(thread.id);
+    }
+  }
 
   resetForm(): void {
     this.newThreadTitle = '';

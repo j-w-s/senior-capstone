@@ -47,23 +47,24 @@
             <div class="divider"></div>
           </div>
           <p><b>Time Sent:</b> {{ formatTimestamp(selectedThread.timeSent) | date: 'medium' }}</p>
-          <div *ngIf="comments$ | async as comments">
-            <h3>Comments:</h3>
-            <ul>
-              <li *ngFor="let comment of comments">
-                <!-- Display comment properties here -->
-                <div>{{ comment.userId }}</div>
-                <div>{{ comment.messageContent }}</div>
-                <div>Sent: {{ comment.timeSent | date: 'medium' }}</div>
-              </li>
-            </ul>
+          <div *ngIf="(comments$ | async) as comments;">
+              <h3>Comments:</h3>
+              <div *ngFor="let comment of comments">
+                <div class="grid card bg-base-300 rounded-box height:auto">
+                  <div class="divider"></div>
+                  <b>From:</b> {{ comment.userId }} <br />
+                  <b>Message:</b> {{ comment.messageContent }} <br />
+                  <b>Time Sent:</b> {{ formatTimestamp(comment.timeSent) | date: 'medium' }} <br />
+                </div>
+                <div class="divider"></div>
+              </div>
+            </div>
+            <form (submit)="addComment()">
+              <textarea class="textarea textarea-bordered w-full" name="Comment" placeholder="Type Comment Here" [(ngModel)]="newCommentContent"></textarea>
+              <button class="btn btn-active btn-accent" type="Submit"> Add Comment </button><br /><br />
+            </form>
+            <button class="btn btn-active btn-accent" (click)="resetSelection()">Back to Forum</button>
           </div>
-          <form (submit)="addComment()">
-            <textarea class="textarea textarea-bordered w-full" name="Comment" placeholder="Type Comment Here" [(ngModel)]="newCommentContent"></textarea>
-            <button class="btn btn-active btn-accent" type="Submit"> Add Comment </button><br /><br />
-          </form>
-          <button class="btn btn-active btn-accent" (click)="resetSelection()">Back to Forum</button>
         </div>
-      </div>
     </div>
   </div>
