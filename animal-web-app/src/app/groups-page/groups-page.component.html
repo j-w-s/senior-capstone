@@ -71,17 +71,44 @@
               </label>
               <br>
 
-              <button class="btn w-full max-w-xs" (click)="updateGroup(selectedGroup)">Update Group</button>    
+              <button class="btn w-full max-w-xs" (click)="updateGroup(selectedGroup)">Update Group</button>
+
+              
+              <div class='text-right text-primary'>
+                <br>
+                <button class="btn w-full max-w-xs bg-red-500" onclick="deleteGroup_modal.showModal()">
+                  <a>Delete Group</a>
+                </button>
+                <dialog id="deleteGroup_modal" class="modal modal-bottom sm:modal-middle">
+                  <div class="modal-box flex items-center justify-center">
+                    <div class="w-1/2 px-4">
+                      <form class="flex flex-col items-center">
+                        <input #deleteConfirmation type="text" placeholder="Type 'delete' to confirm delete" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <button class="btn btn-primary w-full mt-4" (click)="deleteGroup(this.selectedGroup, deleteConfirmation.value)">Delete Group Now</button>
+                      </form>
+                      <button type="button" class="btn btn-base-100 w-full mt-4" onclick="deleteGroup_modal.close()">
+                        Back to Group Management
+                      </button>
+                    </div>
+                    <div class="divider lg:divider-horizontal"></div>
+                    <div class="w-1/2 px-4">
+                      <h2 class="font-bold text-lg" style="text-align: center;">Delete your group here</h2>
+                      <p class="py-4" style="text-align: center;">Please confirm the deletion process by typing 'delete' into the text box on the left.</p>
+                    </div>
+                  </div>
+                </dialog>
+              </div>
+
           </div>
 
           <!-- Display selected group users here -->
           <div class="flex flex-col m-4">
-              <label class="form-control w-full max-w-xl m-4">
+              <label class="form-control w-full max-w-xl">
                   <div class="label">
                   <span class="label-text">Group Members</span>
                   </div>
               </label>
-              <div class="carousel carousel-vertical bg-white form-control w-full max-w-xs h-[200px] m-4">
+              <div class="carousel carousel-vertical bg-white form-control w-full max-w-xs h-[190px]">
                   <div class="carousel-item">
                       <!-- User content goes here -->
 
@@ -129,12 +156,15 @@
               
 
               <!-- Add User Button -->
-              <label class="form-control w-full max-w-xs m-4">
+              <label class="form-control w-full max-w-xs">
+                  <br>
                   <div class="label">
                   <span class="label-text">Add User To Group</span>
                   </div>
                   <input #usernameInput placeholder="Username" type="text" class="input input-bordered w-full max-w-xs" />
                   <button class="btn" (click)="addUser(selectedGroup, usernameInput.value)">Add User</button>
+                  <br>
+                  <button class="btn bg-red-500" (click)="removeUser(selectedGroup, usernameInput.value)">Remove User</button>
               </label>
           
           </div>  
@@ -185,7 +215,8 @@
               </label>
               <br>
 
-              <button class="btn w-full max-w-xs" (click)="createGroup(groupNameInput.value, groupDescriptionInput.value, groupCityInput.value, groupStateInput.value)">Create Group</button>    
+              <button class="btn w-full max-w-xs" (click)="createGroup(groupNameInput.value, groupDescriptionInput.value, groupCityInput.value, groupStateInput.value)">Create Group</button>
+               
           </div>
       </div>
 
