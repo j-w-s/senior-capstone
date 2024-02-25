@@ -8,9 +8,9 @@ import UserPreferences from '../../models/user-preferences';
 import { AngularFirestore, DocumentReference, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { LoginRegisterService } from './login-register.service';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, onSnapshot, doc } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref } from 'firebase/storage';
-import { map, combineLatest, switchMap, filter, mergeMap, catchError, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -28,11 +28,15 @@ export class ForumService {
 
   async addThread(thread: Thread): Promise<void> {
     try {
+      // Threads collection doc ref
       const docRef = await this.firestore.collection('Thread').add(thread);
       const threadId = docRef.id; // Get the Firestore-assigned document ID
       console.log('Thread added successfully with ID:', threadId);
+
       // Update the thread document with the Firestore-assigned ID
-      await this.firestore.collection('Thread').doc(threadId).update({ id: threadId });
+      await docRef.update({ id: threadId });
+
+      // Assuming you have a function to refresh the forum, call it here
       this.refreshForum();
     } catch (error) {
       console.error('Error adding thread:', error);
@@ -42,35 +46,35 @@ export class ForumService {
 
   async addComment(selectedThread: Thread, comment: Comment): Promise<void> {
     try {
-      // Add the comment to the 'Comments' collection
-      const docRef = await this.firestore.collection('Comment').add(comment);
-      const commentId = docRef.id;
+      // Comments doc ref
+      const docRef = this.firestore.collection('Thread').doc(selectedThread.id);
+      const docSnapshot = await docRef.get().toPromise();
+      const commentAsCommentList: Comment[] = [];
+      commentAsCommentList.push(comment);
+      // check if the document exists
+      if (docSnapshot?.exists) {
+        // if it exists, fetch the existing 'Thread' object
+        const existingThread: Thread = docSnapshot.data() as Thread;
 
-      // Update the selected thread to include the reference to the newly added comment
-      if (!selectedThread.comments) {
-        selectedThread.comments = [];
+        // append the new comments to the existing 'comments' array
+        if (!existingThread.comments) {
+          existingThread.comments = [];
+        }
+        existingThread.comments = [...existingThread.comments, ...commentAsCommentList];
+
+        // save the updated 'Thread' object back to Firestore
+        await docRef.update(existingThread);
+
+        console.log('Comment added successfully.');
+        // Assuming you have a function to refresh the forum, call it here
+        this.refreshForum();
+      } else {
+        console.error('Thread not found.');
       }
-
-      // Obtain the reference to the comment document
-      const commentRef = this.firestore.doc<Comment>(`Comment/${commentId}`).ref;
-
-      // Push the comment reference to the array of comment references
-      selectedThread.comments.push(commentRef);
-
-      // Update the Firestore document representing the thread to reflect the updated comments array
-      await this.firestore.collection('Thread').doc(selectedThread.id).update({
-        comments: selectedThread.comments
-      });
-
-      console.log('Comment added successfully.');
-      this.refreshForum();
     } catch (error) {
       console.error('Error adding comment:', error);
     }
   }
-
-
-
 
   private refreshForum(): void {
     this.getThreads().subscribe(forum => {
@@ -96,24 +100,15 @@ export class ForumService {
       );
   }
 
-  getCommentsData(commentReferences: DocumentReference<Comment>[]): Observable<Comment[]> {
-    const commentObservables: Observable<Comment | undefined>[] = commentReferences.map((commentRef: DocumentReference<Comment>) => {
-      const commentDoc: AngularFirestoreDocument<Comment> = this.firestore.doc<Comment>(commentRef.path);
-      return commentDoc.valueChanges();
+  getThreadComments(threadId: string): Observable<Comment[]> {
+    const threadDocRef = doc(getFirestore(), 'Threads', threadId);
+
+    return new Observable(observer => {
+      const unsubscribe = onSnapshot(threadDocRef, async (threadDoc) => {
+        const data = { ...threadDoc.data() };
+        observer.next(data['comments'] || []); // Assuming comments is an array in your Thread model
+      });
+      return unsubscribe;
     });
-
-    if (commentObservables.length === 0) {
-      return of([]); // Return an empty observable if there are no comments
-    }
-
-    return forkJoin(commentObservables).pipe(
-      tap((commentsArray: (Comment | undefined)[]) => {
-        console.log('Comments array before filtering:', commentsArray);
-      }),
-      map(commentsArray => commentsArray.filter(comment => !!comment) as Comment[]),
-      tap(filteredComments => {
-        console.log('Filtered comments:', filteredComments);
-      })
-    );
   }
 }
