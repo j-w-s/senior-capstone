@@ -1,0 +1,29 @@
+/* Common container for form and table */
+.common-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%; 
+}
+
+/* Form container */
+.form-container {
+  width: 100%; 
+}
+
+/* Table container */
+.table-container {
+  width: 100%; 
+}
+
+input {
+  width: 100%; /* Full width of the parent container */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  padding: 10px; /* Optional: add some padding for better appearance */
+  margin: 0; /* Remove default margins */
+}
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 0;
+}
