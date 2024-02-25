@@ -1,143 +1,119 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, from, of, forkJoin } from 'rxjs';
 import Forum from '../../models/forum';
 import Thread from '../../models/thread';
-import User from '../../models/user'; 
+import User from '../../models/user';
+import Comment from '../../models/comment';
 import UserPreferences from '../../models/user-preferences';
-import { faker } from "@faker-js/faker/locale/en";
+import { AngularFirestore, DocumentReference, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
+import { LoginRegisterService } from './login-register.service';
+import { getAuth } from 'firebase/auth';
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getDownloadURL, getStorage, ref } from 'firebase/storage';
+import { map, combineLatest, switchMap, filter, mergeMap, catchError, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class ForumService {
-  private threadSource = new BehaviorSubject<Forum[]>([]);
+  private forumSource = new BehaviorSubject<Forum>({ threads: [] });
   private selectedThreadSource = new BehaviorSubject<Thread | null>(null);
-  public dummyPrimaryUser!: User;
-  public dummyThreadUsers: User[] = [];
-  thread = this.threadSource.asObservable();
-  selectedThread = this.selectedThreadSource.asObservable();
+  public PrimaryUser!: User;
+  public ThreadUsers: User[] = [];
+  forum$ = this.forumSource.asObservable();
+  selectedThread$ = this.selectedThreadSource.asObservable();
 
-  constructor() {
-    this.seedThreads()
-  }
-
-  updateForum(threads: Forum[]) {
-    this.threadSource.next(threads);
-  }
-
-  updateSelectedThread(threads: Thread) {
-    this.selectedThreadSource.next(threads);
-  }
-
-
-  generateDummyData() {
-    let allThreads: Forum[] = [];
-
-    for (let user of this.dummyThreadUsers) {
-      let isPrimaryUserTurn = true;
-
-      const threads: Thread[] = Array.from({ length: Math.floor(Math.random() * 2) + 1 }, () => {
-        isPrimaryUserTurn = !isPrimaryUserTurn;
-
-        return {
-          publisher: faker.lorem.words(1),
-          users: [user],
-          comments: undefined,
-          title: faker.lorem.words(Math.floor(1 * 5)),
-          tags: [faker.lorem.words(Math.floor(1)), faker.lorem.words(Math.floor(1)), faker.lorem.words(Math.floor(1))],
-          threadContent: faker.lorem.words(Math.floor(Math.random() * 100)),
-          timeSent: faker.date.past(),
-        };
-      });
-
-      allThreads.push({
-        threads: threads
-      });
-    }
-
-    // Update the threadSource with the generated dummy data
-    this.updateForum(allThreads);
-  }
-
-
-  async generateDummyUser(): Promise<User> {
-
-    const user: User = {
-      userId: faker.datatype.uuid(),
-      userFirstName: faker.name.firstName(),
-      userLastName: faker.name.lastName(),
-      userPhoneNumber: faker.phone.number(),
-      userEmail: faker.internet.email(),
-      userDisplayName: faker.internet.userName(),
-      userBiography: faker.lorem.paragraph(),
-      userImage: faker.image.avatar(),
-      userAccountType: Math.floor(Math.random() * 10),
-      userPreferences: {
-        zipCode: faker.datatype.number({ min: 71270, max: 71275 }),
-        geoCoordinates: [faker.address.latitude(), faker.address.longitude()] as [number, number],
-        pushNotifications: faker.datatype.boolean(),
-      },
-      userRatings: Array.from({ length: Math.floor(Math.random() * 10) + 1 }).map(() => ({
-        ratingId: faker.datatype.uuid(),
-        ratedBy: faker.name.firstName() + faker.name.lastName(),
-        ratingValue: faker.datatype.number({ min: 1, max: 5 }),
-        timeSent: faker.date.past(),
-      })),
-      petsOwned: Array.from({ length: Math.floor(Math.random() * 10) + 1 }).map(() => {
-        let images = Array.from({ length: Math.floor(Math.random() * 5) + 1 }).map(() => faker.image.imageUrl());
-        return {
-          animalId: faker.datatype.uuid(),
-          animalType: faker.random.word(),
-          animalWeight: faker.datatype.number({ min: 0, max: 20 }),
-          animalSex: ['male', 'female'][Math.floor(Math.random() * 2)],
-          temperament: Array.from({ length: Math.floor(Math.random() * 5) + 1 }).map(() => faker.random.word()),
-          about: faker.lorem.paragraph(),
-          images: images,
-          primaryImage: Math.floor(Math.random() * images.length),
-          location: faker.address.streetAddress(),
-          zipCode: faker.datatype.number({ min: 71270, max: 71275 }),
-          adoptionStatus: faker.datatype.number({ min: 1, max: 3 }),
-          dateOfBirth: faker.date.past(),
-          color: faker.color.human(),
-          vaccinationStatus: faker.datatype.boolean(),
-        };
-      }),
-      petsLost: Array.from({ length: Math.floor(Math.random() * 10) + 1 }).map(() => {
-        let images = Array.from({ length: Math.floor(Math.random() * 5) + 1 }).map(() => faker.image.imageUrl());
-        return {
-          animalId: faker.datatype.uuid(),
-          animalType: faker.random.word(),
-          animalWeight: faker.datatype.number({ min: 0, max: 20 }),
-          animalSex: ['male', 'female'][Math.floor(Math.random() * 2)],
-          temperament: Array.from({ length: Math.floor(Math.random() * 5) + 1 }).map(() => faker.random.word()),
-          about: faker.lorem.paragraph(),
-          images: images,
-          primaryImage: Math.floor(Math.random() * images.length),
-          location: faker.address.streetAddress(),
-          zipCode: faker.datatype.number({ min: 71270, max: 71275 }),
-          adoptionStatus: faker.datatype.number({ min: 1, max: 3 }),
-          dateOfBirth: faker.date.past(),
-          color: faker.color.human(),
-          vaccinationStatus: faker.datatype.boolean(),
-        };
-      })
-    };
-
-    return user;
-
-  }
-
-  async seedThreads(): Promise<void> {
-    this.dummyPrimaryUser = await this.generateDummyUser();
-
-    for (let i = 0; i < 10; i++) {
-      const user: User = await this.generateDummyUser();
-      this.dummyThreadUsers.push(user);
-    }
-
-    this.generateDummyData();  // Call generateDummyData here
-
-  }
+  constructor(private firestore: AngularFirestore, private loginRegService: LoginRegisterService) {
 }
 
+  async addThread(thread: Thread): Promise<void> {
+    try {
+      const docRef = await this.firestore.collection('Thread').add(thread);
+      const threadId = docRef.id; // Get the Firestore-assigned document ID
+      console.log('Thread added successfully with ID:', threadId);
+      // Update the thread document with the Firestore-assigned ID
+      await this.firestore.collection('Thread').doc(threadId).update({ id: threadId });
+      this.refreshForum();
+    } catch (error) {
+      console.error('Error adding thread:', error);
+    }
+  }
+
+
+  async addComment(selectedThread: Thread, comment: Comment): Promise<void> {
+    try {
+      // Add the comment to the 'Comments' collection
+      const docRef = await this.firestore.collection('Comment').add(comment);
+      const commentId = docRef.id;
+
+      // Update the selected thread to include the reference to the newly added comment
+      if (!selectedThread.comments) {
+        selectedThread.comments = [];
+      }
+
+      // Obtain the reference to the comment document
+      const commentRef = this.firestore.doc<Comment>(`Comment/${commentId}`).ref;
+
+      // Push the comment reference to the array of comment references
+      selectedThread.comments.push(commentRef);
+
+      // Update the Firestore document representing the thread to reflect the updated comments array
+      await this.firestore.collection('Thread').doc(selectedThread.id).update({
+        comments: selectedThread.comments
+      });
+
+      console.log('Comment added successfully.');
+      this.refreshForum();
+    } catch (error) {
+      console.error('Error adding comment:', error);
+    }
+  }
+
+
+
+
+  private refreshForum(): void {
+    this.getThreads().subscribe(forum => {
+      this.forumSource.next(forum);
+    });
+  }
+
+  updateSelectedThread(thread: Thread) {
+    this.selectedThreadSource.next(thread);
+  }
+
+  getThreads(): Observable<Forum> {
+    return this.firestore.collection<Thread>('Thread', ref => ref.orderBy('timeSent', 'desc')).snapshotChanges()
+      .pipe(
+        map(actions => {
+          const threads = actions.map(action => {
+            const data = action.payload.doc.data() as Thread;
+            const id = action.payload.doc.id;
+            return { ...data }; // Include the document ID along with the thread data
+          });
+          return { threads } as Forum; // Create a Forum object with the threads array
+        })
+      );
+  }
+
+  getCommentsData(commentReferences: DocumentReference<Comment>[]): Observable<Comment[]> {
+    const commentObservables: Observable<Comment | undefined>[] = commentReferences.map((commentRef: DocumentReference<Comment>) => {
+      const commentDoc: AngularFirestoreDocument<Comment> = this.firestore.doc<Comment>(commentRef.path);
+      return commentDoc.valueChanges();
+    });
+
+    if (commentObservables.length === 0) {
+      return of([]); // Return an empty observable if there are no comments
+    }
+
+    return forkJoin(commentObservables).pipe(
+      tap((commentsArray: (Comment | undefined)[]) => {
+        console.log('Comments array before filtering:', commentsArray);
+      }),
+      map(commentsArray => commentsArray.filter(comment => !!comment) as Comment[]),
+      tap(filteredComments => {
+        console.log('Filtered comments:', filteredComments);
+      })
+    );
+  }
+}
