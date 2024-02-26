@@ -18,7 +18,8 @@ export class MessengerService {
   public demoPrimaryUserId = '';
   public dummyConversationUsers: User[] = [];
   private messagesSubject = new BehaviorSubject<Messages | null>(null);
-  public prevContact = ''
+  public prevContact = '';
+  public notifications = new BehaviorSubject<string[][]>([]);
 
   messages = this.messagesSubject.asObservable();
 
@@ -179,5 +180,16 @@ export class MessengerService {
     // if documents were found, return the first 'User' object
     return querySnapshot?.docs[0].data() as User;
   }
+
+  getNotifications() {
+    return this.notifications.asObservable();
+  }
+
+  addNotification(message: string, username: string) {
+    const currentNotification = this.notifications.getValue();
+    const usernameAndContent = [username, message];
+    this.notifications.next([...currentNotification, usernameAndContent]);
+  }
+
 }
 
