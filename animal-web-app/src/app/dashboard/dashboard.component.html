@@ -12,9 +12,18 @@
     </div>
 
     <div class="drawer lg:drawer-open h-full">
-      <div class="drawer-content flex flex-col items-center justify-center bg-base-200">
-        <!-- page content here -->
-
+      <div class="h-3/4 carousel carousel-vertical flex-grow rounded-box overflow-auto">
+        <div *ngFor="let notification of notifications" class="carousel-item h-50">
+          
+            <div class="card bordered bg-base-300 m-4 h-40">
+              <div class="card-body">
+                <h2 class="card-title"> From:  {{ notification[0] }}</h2>
+                <p>Message: {{ notification[1] }}</p>
+              </div>
+            </div>
+            <!-- Other cards or content -->
+          
+        </div>
       </div>
 
     </div>
@@ -138,7 +147,7 @@
             </li>
             <li class="glide__slide">
               <!-- Maps Card -->
-              <a routerLink="/maps">
+              <a routerLink="/map">
                 <div class="card card-side w-96 h-48 bg-base-100 p-2">
                   <figure class="relative">
                     <div class="absolute inset-0 bg-gradient-to-r from-slate-300 to-slate-600 opacity-50"></div>
