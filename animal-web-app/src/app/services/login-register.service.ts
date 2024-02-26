@@ -39,7 +39,7 @@ export class LoginRegisterService {
     });
   }
 
-  registerUser(email: string, password: string, firstname: string, lastname: string, phonenumber: string, username: string): Promise<any> {
+  registerUser(email: string, password: string, firstname: string, lastname: string, phonenumber: string, username: string, image: string): Promise<any> {
     const auth = getAuth();
     // creates a user account user firebase function
     return createUserWithEmailAndPassword(auth, email, password)
@@ -59,8 +59,8 @@ export class LoginRegisterService {
             userEmail: email,
             userDisplayName: username,
             userBiography: '',
-            userImage: 'pugster.webp',
-            userAccountType: 1,
+            userImage: image,
+            userAccountType: "1",
             userPreferences: [],
             userRatings: [],
             petsOwned: [],
