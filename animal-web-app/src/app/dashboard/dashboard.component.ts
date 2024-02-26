@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
       this.primaryUser = userDetails as User;
 
       // resolve the user image
-      this.primaryUser.userImage = await this.messengerService.resolveProfilePicture(this.primaryUser);
+      //this.primaryUser.userImage = await this.messengerService.resolveProfilePicture(this.primaryUser);
       console.log('Primary User: ', this.primaryUser);
     } catch (error) {
       console.error('Error loading user details or profile picture: ', error);
