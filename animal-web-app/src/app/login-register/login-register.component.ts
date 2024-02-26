@@ -66,14 +66,8 @@ export class LoginRegisterComponent implements OnInit {
     const username = this.registerForm?.get('username')?.value;
 
     if (typeof email === 'string' && typeof password === 'string' && typeof firstname == 'string' && typeof lastname == 'string' && typeof phonenumber == 'string' && typeof username == 'string') {
-      this.loginRegService.registerUser(email, password, firstname, lastname, phonenumber, username).then(() => {
-        // Handle successful registration
-      }).catch((error) => {
-        // Handle registration error
-      });
-     } else {
-      console.error('Email or password is not a string');
-     }
+      
+    }
      
   }
 }
