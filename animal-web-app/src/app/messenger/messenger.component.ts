@@ -140,6 +140,7 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
   // sends the new message object to be stored in the database
   sendMessage(): void {
     if (this.newMessage && this.selectedContact) {
+
       const newMessage: Message = {
         messageId: uuidv4(),
         senderId: this.messengerService.demoPrimaryUserId,
