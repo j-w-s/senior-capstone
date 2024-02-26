@@ -52,21 +52,7 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
           const userObservables: Observable<User | null>[] = messagesData.contactsList.map((contact: any) => {
             let desiredString = contact._key.path.segments[6];
             // Return an Observable that fetches the user and sets the profile picture
-            return from(this.messengerService.getUserById(desiredString)).pipe(
-              switchMap((user: User | null) => {
-                if (user) {
-                  // Return an Observable that sets the user image
-                  return from(this.messengerService.resolveProfilePicture(user)).pipe(
-                    map((pictureUrl: string) => {
-                      user.userImage = pictureUrl;
-                      return user;
-                    })
-                  );
-                } else {
-                  return of(null);
-                }
-              })
-            );
+            return from(this.messengerService.getUserById(desiredString));
           });
 
           // Combine all user detail Observables using forkJoin

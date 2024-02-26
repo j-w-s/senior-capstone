@@ -41,6 +41,7 @@ export class ExploreComponent implements OnInit, AfterViewInit{
   searchTerm = '';
 
   displayModal = false;
+  showKebabModal = false;
   selectedAnimal: Animal | null = null;
 
   constructor(private exploreService: ExploreService, private fb: FormBuilder,
@@ -98,6 +99,15 @@ export class ExploreComponent implements OnInit, AfterViewInit{
       vaccinationStatus: this.selectedAnimal.vaccinationStatus
     });
     this.displayModal = true;
+  }
+
+  animalKebab(animal: Animal) {
+    this.selectedAnimal = animal;
+    this.showKebabModal = true;
+  }
+
+  closeKebabModal() {
+    this.showKebabModal = false;
   }
 
   closeAnimalModal(): void {

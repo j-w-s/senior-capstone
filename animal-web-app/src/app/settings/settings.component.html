@@ -39,6 +39,81 @@
   <!-- divider between side bar and main content-->
   <div class="divider lg:divider-horizontal"></div>
 
+  <!-- Checkbox to control the modal -->
+  <input type="checkbox" id="modal-toggle" class="modal-toggle">
+
+  <!-- Modal to confirm change to user Display Name-->
+  <div class="modal" *ngIf="currentModal === 'Display Name'" id="myDisplayNameModal" tabindex="-1">
+    <div class="modal-box">
+      <h2 class="text-xl">Confirm Display Name Change</h2>
+      <p>Are you sure you want to change your display name?</p>
+      <div class="modal-action">
+        <label for="modal-toggle" class="btn">Cancel</label>
+        <button (click)="confirmUpdateDisplayName()" class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal to confirm change to user Biography-->
+  <div class="modal" *ngIf="currentModal === 'Biography'" id="myBiographyModal" tabindex="-1">
+    <div class="modal-box">
+      <h2 class="text-xl">Confirm Biography Change</h2>
+      <p>Are you sure you want to change your biography?</p>
+      <div class="modal-action">
+        <label for="modal-toggle" class="btn">Cancel</label>
+        <button (click)="confirmUpdateBiography()" class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal to confirm change to user First Name-->
+  <div class="modal" *ngIf="currentModal === 'First Name'" id="myFirstNameModal" tabindex="-1">
+    <div class="modal-box">
+      <h2 class="text-xl">Confirm First Name Change</h2>
+      <p>Are you sure you want to change your first name?</p>
+      <div class="modal-action">
+        <label for="modal-toggle" class="btn">Cancel</label>
+        <button (click)="confirmUpdateFirstName()" class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal to confirm change to user Last Name-->
+  <div class="modal" *ngIf="currentModal === 'Last Name'" id="myLastNameModal" tabindex="-1">
+    <div class="modal-box">
+      <h2 class="text-xl">Confirm Last Name Change</h2>
+      <p>Are you sure you want to change your last name?</p>
+      <div class="modal-action">
+        <label for="modal-toggle" class="btn">Cancel</label>
+        <button (click)="confirmUpdateLastName()" class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal to confirm change to user Email-->
+  <div class="modal" *ngIf="currentModal === 'Email'" id="myEmailModal" tabindex="-1">
+    <div class="modal-box">
+      <h2 class="text-xl">Confirm Email Change</h2>
+      <p>Are you sure you want to change your email?</p>
+      <div class="modal-action">
+        <label for="modal-toggle" class="btn">Cancel</label>
+        <button (click)="confirmUpdateEmail()" class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal to confirm change to user zipcode-->
+  <div class="modal" *ngIf="currentModal === 'Zipcode'" id="myZipcodeModal" tabindex="-1">
+    <div class="modal-box">
+      <h2 class="text-xl">Confirm Zipcode Change</h2>
+      <p>Are you sure you want to change your zipcode?</p>
+      <div class="modal-action">
+        <label for="modal-toggle" class="btn">Cancel</label>
+        <button (click)="confirmUpdateZipcode()" class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+
   <!-- main content -->
   <div class="container">
 
@@ -54,7 +129,7 @@
       <!-- profile tab content -->
       <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="card max-h-60">
         <div class="card-body">
-
+          <!-- Users profile image and change button for it-->
           <div class="form-control">
             <label class="label" for="userImage">Photo</label>
             <div class="mt-2 flex items-center gap-x-3">
@@ -68,18 +143,20 @@
             </div>
           </div>
 
+          <!-- Users display name and change button for it-->
           <div class="form-control">
             <label class="label" for="userDisplayName">Display Name</label>
             <input type="text" formControlName="userDisplayName" id="userDisplayName" class="input input-bordered">
-            <button (click)="updateDisplayName()" class="btn btn-accent">Change</button>
+            <button (click)="openModal('Display Name')" class="btn btn-accent">Change</button>
           </div>
 
+          <!-- Users biography and change button for it-->
           <div class="form-control">
             <label class="label" for="userBiography">Biography</label>
             <textarea formControlName="userBiography" id="userBiography" class="input input-bordered"></textarea>
-            <button (click)="updateBiography()" class="btn btn-accent">Change</button>
+            <button (click)="openModal('Biography')" class="btn btn-accent">Change</button>
           </div>
-          
+
         </div>
       </form>
     </div>
@@ -90,33 +167,41 @@
       <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
         <div class="card-body">
           <!--- We do not store passwords so this will be done later
-          <div class="form-control" style="width: 80%; display: flex; justify-content: space-between;">
-            <label class="label" for="userPassword">Password</label>
-            <input type="text" formControlName="userPassword" id="userPassword" class="input input-bordered" style="flex-grow: 1;">
-            <button>Change</button>
-          </div>    -->
-
-
+  <div class="form-control" style="width: 80%; display: flex; justify-content: space-between;">
+    <label class="label" for="userPassword">Password</label>
+    <input type="text" formControlName="userPassword" id="userPassword" class="input input-bordered" style="flex-grow: 1;">
+    <button>Change</button>
+  </div>    -->
+          <!-- Users first name and change button for it-->
           <div class="form-control" style="width: 80%; display: flex; justify-content: space-between;">
             <label class="label" for="userFirstName">First Name</label>
             <input type="text" formControlName="userFirstName" id="userFirstName" class="input input-bordered" style="flex-grow: 1;">
-            <button (click)="updateFirstName()" class="btn btn-accent">Change</button>
+            <button (click)="openModal('First Name')" class="btn btn-accent">Change</button>
           </div>
 
+          <!-- Users last name and change button for it-->
           <div class="form-control" style="width: 80%; display: flex; justify-content: space-between;">
             <label class="label" for="userLastName">Last Name</label>
             <input type="text" formControlName="userLastName" id="userLastName" class="input input-bordered">
-            <button (click)="updateLastName()" class="btn btn-accent">Change</button>
+            <button (click)="openModal('Last Name')" class="btn btn-accent">Change</button>
           </div>
 
+          <!-- Users email and change button for it-->
           <div class="form-control" style="width: 80%; display: flex; justify-content: space-between;">
             <label class="label" for="userEmail">Email</label>
             <input type="email" formControlName="userEmail" id="userEmail" class="input input-bordered">
-            <button (click)="updateEmail()" class="btn btn-accent">Change</button>
+            <button (click)="openModal('Email')" class="btn btn-accent">Change</button>
           </div>
 
-          
-          
+          <!-- Users zipcode and change button for it-->
+          <div class="form-control" style="width: 20%; display: flex; justify-content: space-between;">
+            <label class="label" for="userZipcode">Zipcode</label>
+            <input type="number" formControlName="userZipcode" id="userZipcode" class="input input-bordered">
+            <button (click)="openModal('Zipcode')" class="btn btn-accent">Change</button>
+          </div>
+
+
+
         </div>
 
 

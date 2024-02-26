@@ -19,8 +19,70 @@ export class SettingsComponent implements OnInit {
   selectedTab: string;
   private destroy$ = new Subject<void>();
   imgUrl = '';
-  
+  currentModal: string = ''; //Allows openModal() to change modal depending on which "Change" button is pressed
 
+  //Modal for confirming change to account or profile credential
+  openModal(modalType: string) {
+    this.currentModal = modalType;
+    const modalToggle = document.getElementById('modal-toggle') as HTMLInputElement;
+    if (modalToggle) {
+      modalToggle.checked = true;
+    }
+  }
+
+  //Activates information change when "Confirm" is clicked after changing display name
+  confirmUpdateDisplayName() {
+    const modalToggle = document.getElementById('modal-toggle') as HTMLInputElement;
+    if (modalToggle) {
+      modalToggle.checked = false;
+      this.updateDisplayName();
+    }
+  }
+
+  //Activates information change when "Confirm" is clicked after changing biography
+  confirmUpdateBiography() {
+    const modalToggle = document.getElementById('modal-toggle') as HTMLInputElement;
+    if (modalToggle) {
+      modalToggle.checked = false;
+      this.updateBiography();
+    }
+  }
+
+  //Activates information change when "Confirm" is clicked after changing first name
+  confirmUpdateFirstName() {
+    const modalToggle = document.getElementById('modal-toggle') as HTMLInputElement;
+    if (modalToggle) {
+      modalToggle.checked = false;
+      this.updateFirstName();
+    }
+  }
+
+  //Activates information change when "Confirm" is clicked after changing last name
+  confirmUpdateLastName() {
+    const modalToggle = document.getElementById('modal-toggle') as HTMLInputElement;
+    if (modalToggle) {
+      modalToggle.checked = false;
+      this.updateLastName();
+    }
+  }
+
+  //Activates information change when "Confirm" is clicked after changing email
+  confirmUpdateEmail() {
+    const modalToggle = document.getElementById('modal-toggle') as HTMLInputElement;
+    if (modalToggle) {
+      modalToggle.checked = false;
+      this.updateEmail();
+    }
+  }
+
+  //Activates information change when "Confirm" is clicked after changing zipcode
+  confirmUpdateZipcode() {
+    const modalToggle = document.getElementById('modal-toggle') as HTMLInputElement;
+    if (modalToggle) {
+      modalToggle.checked = false;
+      this.updateZipcode();
+    }
+  }
 
   constructor(private fb: FormBuilder, private userService: UserService, private db: AngularFirestore) {
     this.profileForm = this.fb.group({
@@ -33,7 +95,7 @@ export class SettingsComponent implements OnInit {
       userFirstName: ['', Validators.required],
       userLastName: ['', Validators.required],
       userEmail: ['', [Validators.required, Validators.email]],
-
+      userZipcode: ['',Validators.required]
     });
 
     this.selectedTab = 'Profile';
@@ -63,7 +125,7 @@ export class SettingsComponent implements OnInit {
           userFirstName: [value.userFirstName, Validators.required],
           userLastName: [value.userLastName, Validators.required],
           userEmail: [value.userEmail, [Validators.required, Validators.email]],
-
+          userZipcode: [value.userZipcode, Validators.required]
         });
 
         
@@ -96,7 +158,7 @@ export class SettingsComponent implements OnInit {
       const user = auth.currentUser?.uid;
       console.log('ID: ', user);
       const userDoc = this.db.doc('/User/' + user);
-
+      //Updates users firstname in the document in firebase
       userDoc.update({
         userFirstName: newFirstName
       });
@@ -114,7 +176,7 @@ export class SettingsComponent implements OnInit {
       const user = auth.currentUser?.uid;
       console.log('ID: ', user);
       const userDoc = this.db.doc('/User/' + user);
-
+      //Updates users lastname in the document in firebase
       userDoc.update({
         userLastName: newLastName
       });
@@ -132,12 +194,30 @@ export class SettingsComponent implements OnInit {
       const user = auth.currentUser?.uid;
       console.log('ID: ', user);
       const userDoc = this.db.doc('/User/' + user);
-
+      //Updates users email in the document in firebase
       userDoc.update({
         userEmail: newEmail
       });
     } else {
       console.error("Could not find 'userEmail' form control");
+    }
+  }
+  //Allows users to change their Email on their account
+  updateZipcode() {
+    const zipcodeControl = this.accountForm.get('userZipcode');
+
+    if (zipcodeControl) {
+      const newZipcode = zipcodeControl.value;
+      const auth = getAuth();
+      const user = auth.currentUser?.uid;
+      console.log('ID: ', user);
+      const userDoc = this.db.doc('/User/' + user);
+      //Updates users zipcode in the document in firebase
+      userDoc.update({
+        userZipcode: newZipcode
+      });
+    } else {
+      console.error("Could not find 'userZipcode' form control");
     }
   }
   //Allows users to change their DisplayName on their account
@@ -150,7 +230,7 @@ export class SettingsComponent implements OnInit {
       const user = auth.currentUser?.uid;
       console.log('ID: ', user);
       const userDoc = this.db.doc('/User/' + user);
-
+      //Updates users displayname in the document in firebase
       userDoc.update({
         userDisplayName: newDisplayName
       });
@@ -168,7 +248,7 @@ export class SettingsComponent implements OnInit {
       const user = auth.currentUser?.uid;
       console.log('ID: ', user);
       const userDoc = this.db.doc('/User/' + user);
-
+      //Updates users biography in the document in firebase
       userDoc.update({
         userBiography: newBiography
       });
@@ -176,7 +256,7 @@ export class SettingsComponent implements OnInit {
       console.error("Could not find 'userBiography' form control");
     }
   }
-  //Allows users to change their profilepic on their account(Doesnt work)
+  //Allows users to change their profilepic on their account ***(Doesnt work)***
   updatePhoto(event: Event) {
     const file = (event.target as HTMLInputElement)?.files?.[0];
     if (file) {
@@ -187,5 +267,9 @@ export class SettingsComponent implements OnInit {
       reader.readAsDataURL(file);
     }
   }
+
+  
+
+
 
 }
