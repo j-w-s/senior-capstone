@@ -35,7 +35,6 @@ export class MapComponent implements AfterViewInit {
   constructor(private mapService: MapService,
     private fb: FormBuilder) {
 
-
     this.createMapForm = new FormGroup({
       beaconType: new FormControl('', Validators.required),
       beaconColor: new FormControl('', Validators.required),
