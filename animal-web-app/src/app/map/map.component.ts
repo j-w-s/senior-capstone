@@ -38,6 +38,8 @@ export class MapComponent implements AfterViewInit {
   currentSlideIndex = 0;
   images: string[] = [];
   ratings: BusinessRating[] = [];
+  averageRating: number = 0;
+  averageRatingStars: string[] = [];
 
   constructor(private mapService: MapService,
     private fb: FormBuilder, private firestore: AngularFirestore) {
@@ -163,7 +165,7 @@ export class MapComponent implements AfterViewInit {
           this.showModal = true;
           this.currentSlideIndex = 0;
           this.images = this.selectedBeaconData.images;
-
+          this.updateStars();
           this.firestore.collection('BusinessRating').doc(beaconMarkerDocumentId).ref.get().then(doc => {
 
             if (doc.exists) {
@@ -197,8 +199,18 @@ export class MapComponent implements AfterViewInit {
     }
   }
 
-}
+  async calculateAverageRating() {
 
+  }
+
+  updateStars() {
+    this.calculateAverageRating().then(averageRating => {
+      this.averageRating = 4;
+      this.averageRatingStars = Array(Math.round(this.averageRating)).fill("★");
+    });
+  }
+
+}
 
 class CustomMarker extends L.Marker {
   beaconData: Beacon | undefined;

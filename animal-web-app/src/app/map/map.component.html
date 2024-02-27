@@ -27,16 +27,23 @@
                 <div class="relative w-full">
                   <div class="carousel w-full">
                     <div *ngFor="let image of images; let i = index" [class.active]="i === currentSlideIndex" class="carousel-item relative w-full">
-                      <img [src]="image" class="w-full" />
+                      <img [src]="images[currentSlideIndex]" class="w-full" />
                       <div class="absolute flex justify-between transform -translate-y-1/2 left-2 right-25 top-1/2">
                         <button class="z-10 btn btn-circle" *ngIf="currentSlideIndex >   0" (click)="changeSlide('prev'); $event.stopPropagation()">❮</button>
                       </div>
                       <div class="absolute flex justify-between transform -translate-y-1/2 left-25 right-2 top-1/2">
-                        <button class="z-10 btn btn-circle" *ngIf="currentSlideIndex < images.length -   1" (click)="changeSlide('next'); $event.stopPropagation()">❯</button>                      </div>
+                        <button class="z-10 btn btn-circle" *ngIf="currentSlideIndex < images.length -   1" (click)="changeSlide('next'); $event.stopPropagation()">❯</button>
+                      </div>
                     </div>
                   </div>
                 </div>
 
+                <!-- RATING -->
+                <div class="flex flex-row">
+                  <div class="rating flex flex-row" *ngFor="let star of averageRatingStars">
+                    <input type="radio" name="rating-1" class="mask mask-star" />
+                  </div>
+                </div>
 
                 <!-- BIO -->
                 <p>
