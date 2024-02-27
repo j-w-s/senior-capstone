@@ -4,7 +4,7 @@ import Message from "../../models/message";
 import User from "../../models/user";
 import { ViewChild, ElementRef, Renderer2 } from "@angular/core";
 import { v4 as uuidv4 } from "uuid";
-import { Observable, Subject, Subscription, takeUntil, from, forkJoin, of } from "rxjs";
+import { Observable, Subject, Subscription, takeUntil, from, forkJoin, of, BehaviorSubject } from "rxjs";
 import { GroupsService } from "../services/groups.service";
 import { LoginRegisterService } from "../services/login-register.service";
 import Messages from "../../models/messages";
@@ -26,6 +26,7 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
   public contacts$: Observable<any[]> = of([]); 
   public contactsList: any[] = [];
   public selectedConversation: any[] = [];
+  public notifications = new BehaviorSubject<string[]>([]);
 
   messages$!: Observable<any>;
   messagesSubscription: Subscription | undefined;
@@ -76,6 +77,8 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
         console.error("Error fetching messages:", err);
       }
     });
+
+    //this.listenForNewMessages();
   }
 
   firestore(firestore: any, arg1: string, desiredString: any) {
@@ -154,6 +157,8 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
       });
     }
   }
+
+  
 
 
   trackByFn(index: number, contact: User): string {
