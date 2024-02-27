@@ -61,6 +61,24 @@
             Create
           </button>
 
+          <dialog id="kebab_modal" class="modal modal-bottom sm:modal-middle" >
+            <div class="modal-box w-50 h-50 overflow-auto justify-center items-center">
+              <div class="modal-action flex flex-col">
+                <form class="flex flex-col justify-center items-center" method="dialog" [formGroup]="animalCreateForm">
+                  <div class="flex flex-row p-6 justify-center items-center">
+                    <button class="btn btn-primary" (click)="closeKebabModal();">Close</button>
+                  </div>
+                  <div class="flex flex-row p-6 justify-center items-center">
+                    <button class="btn btn-primary" onclick=" my_modal_5.showModal();" >Edit</button>
+                  </div>
+                  <div class="flex flex-row p-6 justigy-center items-center">
+                    <button class="btn btn-primary" >Delete</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </dialog>
+
           <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
             <div class="modal-box w-50 h-50 overflow-auto justify-center items-center">
               <div class="modal-action flex flex-col">
