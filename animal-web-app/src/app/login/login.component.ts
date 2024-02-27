@@ -54,6 +54,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/dashboard']);
         }, 3000);
       }).catch((error) => {
+        this.alertService.show('error', 'There was an error signing you in. Check your credentials again and re-submit.');
       });
     } else {
       this.alertService.show('error', 'There was an error signing you in. Check your credentials again and re-submit.');

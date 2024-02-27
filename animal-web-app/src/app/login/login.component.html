@@ -30,7 +30,7 @@
 
           </div>
 
-          <button type="submit" class="btn mt-2 w-full btn-primary">Login</button>
+          <button type="submit" class="btn mt-2 w-full btn-primary" [disabled]="loginForm.invalid || !loginForm.touched">Login</button>
 
           <div class='text-center mt-4'>
 

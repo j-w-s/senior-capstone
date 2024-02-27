@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentReference } from '@angular/fire/compat/firestore';
-import { Observable, BehaviorSubject, of } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { Observable, BehaviorSubject, of, from } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { faker } from "@faker-js/faker/locale/en";
 import Animal from '../../models/animal';
 import { LoginRegisterService } from './login-register.service';
@@ -21,6 +21,12 @@ export class ExploreService {
       tap((animals: Animal[]) => {
         this.animalsSubject.next(animals);
       })
+    );
+  }
+
+  async deleteAnimal(animal: Animal): Promise<Observable<Animal>> {
+    return from(this.firestore.collection<Animal>('Animal').doc(animal.animalId).delete()).pipe(
+      map(() => animal) 
     );
   }
 
@@ -76,6 +82,8 @@ export class ExploreService {
       await this.createAnimal(animal);
     }
   }
+
+
 
   selectedAnimal = this.selectedAnimalSource.asObservable();
 

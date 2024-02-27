@@ -5,7 +5,7 @@
       <div class="prose max-w-md">
         <h1 class="mb-5 text-5xl font-bold">Animal Adopt</h1>
         <p class="mb-5">Join us in making a difference in the lives of animals. Sign up today and become a part of our mission.</p>
-        <a class="btn btn-primary" [routerLink]="['/register']" routerLinkActive="active">Get Started</a>
+        <a class="btn btn-primary" [routerLink]="['/register']" routerLinkActive="active" [class.btn-disabled]="loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault()">Get Started</a>
       </div>
     </div>
   </div>
