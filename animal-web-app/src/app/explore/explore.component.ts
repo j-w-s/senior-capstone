@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -44,7 +44,14 @@ export class ExploreComponent implements OnInit, AfterViewInit{
   showKebabModal = false;
   selectedAnimal: Animal | null = null;
 
-  constructor(private exploreService: ExploreService, private fb: FormBuilder,
+  dropdownVisible = false;
+
+  toggleDropdown() {
+    this.dropdownVisible = !this.dropdownVisible;
+  }
+
+  constructor(private exploreService: ExploreService, private cdr: ChangeDetectorRef, private fb: FormBuilder,
+
     private storage: AngularFireStorage  ) {
     this.animalCreateForm = new FormGroup({
       animalId: new FormControl('', Validators.required),
@@ -273,6 +280,16 @@ export class ExploreComponent implements OnInit, AfterViewInit{
     this.totalPages = Math.ceil(this.getDisplayedCards().length / this.cardsPerPage);
   }
 
+  deleteAnimalFromCollection(animal: Animal): void {
+    this.exploreService.deleteAnimal(animal).then(() => {
+      console.log('Animal deleted successfully');
+      this.animals = this.animals.filter(a => a.animalId !== animal.animalId);
+      this.cdr.detectChanges();
+    }).catch((error) => {
+      console.error('Error deleting animal:', error);
+    });
+  }
+
   clearFilters(): void {
     // clear all filters
     this.searchTerm = '';
@@ -288,6 +305,7 @@ export class ExploreComponent implements OnInit, AfterViewInit{
     for (const selectElement of selectElements) {
       selectElement.value = '';
     }
+
   }
 
 }

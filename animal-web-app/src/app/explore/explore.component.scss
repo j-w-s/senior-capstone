@@ -3,3 +3,17 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.dropdown-content {
+  position: absolute;
+  width: auto;
+  right: 0;
+  top: 100%;
+  z-index: 20;
+}

@@ -9,13 +9,16 @@
     <ul class="menu menu-horizontal px-1">
       <li><a href="https://github.com/j-w-s/senior-capstone/wiki" target="_blank">About</a></li>
       <li>
-        <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+        <a routerLink="/dashboard" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault()">Dashboard</a>
       </li>
     </ul>
   </div>
   <div class="navbar-end">
+    <!-- NOT LOGGED IN -->
     <a *ngIf="!loginRegService.isLoggedIn" class="btn btn-primary" [routerLink]="['/login']" routerLinkActive="active" (click)="handleButtonClick('login')">Login</a>
     <a *ngIf="!loginRegService.isLoggedIn" class="btn btn-accent" [routerLink]="['/register']" routerLinkActive="active" (click)="handleButtonClick('register')">Register</a>
+    <!-- LOGGED IN -->
+    <a *ngIf="loginRegService.isLoggedIn" class="btn btn-secondary" [routerLink]="['/']" routerLinkActive="inactive" (click)="loginRegService.signOut()">Sign Out</a>
   </div>
 
 </div>
@@ -32,15 +35,15 @@
 
     <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
       <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
-      <li><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
       <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
       <li><a routerLink="/register" routerLinkActive="active">Register</a></li>
-      <li><a routerLink="/messenger" routerLinkActive="active">Messenger</a></li>
-      <li><a routerLink="/explore" routerLinkActive="active">Explore</a></li>
-      <li><a routerLink="/settings" routerLinkActive="active">Settings</a></li>
-      <li><a routerLink="/groups" routerLinkActive="active">Groups</a></li>
-      <li><a routerLink="/forums" routerLinkActive="active">Forums</a></li>
-      <li><a routerLink="/map" routerLinkActive="active">Map</a></li>
+      <li><a routerLink="/dashboard" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault()">Dashboard</a></li>
+      <li><a routerLink="/messenger" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault()">Messenger</a></li>
+      <li><a routerLink="/explore" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault()">Explore</a></li>
+      <li><a routerLink="/settings" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault()">Settings</a></li>
+      <li><a routerLink="/groups" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault()">Groups</a></li>
+      <li><a routerLink="/forums" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault()">Forums</a></li>
+      <li><a routerLink="/map" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault()">Map</a></li>
     </ul>
 
   </div>

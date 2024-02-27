@@ -60,7 +60,7 @@ export class LoginRegisterService {
             userDisplayName: username,
             userBiography: '',
             userImage: image,
-            userAccountType: "1",
+            userAccountType: 1,
             userPreferences: [],
             userRatings: [],
             petsOwned: [],
@@ -205,4 +205,11 @@ export class LoginRegisterService {
     return this.loadUserDetailsFromCache(uid);
   }
 
+  signOut() {
+    return this.auth.signOut().then(() => {
+      console.log('User signed out');
+    }).catch((error) => {
+      console.error('Error signing out: ', error);
+    })
+  }
 }

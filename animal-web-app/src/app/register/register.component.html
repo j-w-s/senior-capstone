@@ -1,3 +1,4 @@
+<app-alerts></app-alerts>
 <div class="container min-h-screen bg-base-200 flex items-center">
   <div class="card mx-auto w-full max-w-5xl shadow-xl">
     <div class="grid md:grid-cols-2 grid-cols-1 bg-base-100 rounded-xl">
@@ -8,12 +9,6 @@
         <h2 class='text-2xl font-semibold mb-2 text-center'>Register</h2>
         <form [formGroup]="registerForm">
           <div class="mb-4">
-            <!-- Modal for Selecting Profile Picture-->
-            <div>
-              <button class="btn" onclick="selectedProfilePicture.showModal()">
-                <a>Profile Picture</a>
-              </button>
-            </div>
             <!-- Row 1 -->
             <div class="flex justify-between">
               <div class="w-1/2 pr-2">
@@ -51,7 +46,10 @@
               </div>
             </div>
           </div>
-          <button type="submit" class="btn mt-2 w-full btn-accent" (click)="onRegisterSubmit()">Register</button>
+          <button class="btn w-full p" onclick="selectedProfilePicture.showModal()">
+            <a>Profile Picture</a>
+          </button>
+          <button type="submit" class="btn mt-2 w-full btn-accent" (click)="onRegisterSubmit()" [disabled]="registerForm.invalid || !registerForm.touched">Register</button>
           <div class='text-center mt-4'>
             Already have an account?
             <a routerLink="/login">
@@ -75,32 +73,31 @@
       <div class="w-full px-4">
         <form class="flex flex-col items-center">
       
-          <h2 class="font-bold text-lg" style="text-align: center;">Upload Your Own Profile Picture!</h2>
+          <h2 class="font-bold text-lg" style="text-align: center;">Upload Your Own Picture!</h2>
 
           <input type="file" id="profilePicture" (change)="onFileSelected($event)" accept="image/*" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
   
         </form>
   
         <button type="button" class="btn btn-base-100 w-full mt-4" onclick="selectedProfilePicture.close()">
-          Finishing Creating Account!
+          Finish Creating Account
         </button>
   
       </div>
   
-      <div class="divider lg:divider-horizontal"></div>
+      <div class="divider lg:divider-horizontal">OR</div>
   
       <div class="w-3/4 px-4">
   
-        <h2 class="font-bold text-lg" style="text-align: center;">Select A Predefined Profile Picture!</h2>
+        <h2 class="font-bold text-lg" style="text-align: center;">Select Default Picture!</h2>
 
-        <div class="default-images-section">
-          <h3 class="text-xl font-semibold mb-4">Default Images</h3>
+        <div class="default-images-section items-center justify-center">
+          <h3 class="text-xl font-semibold mb-4 items-center justify-center text-center">Default Images</h3>
           <div class="default-images-grid">
             <div *ngFor="let imageUrl of defaultImages; let i = index" class="default-image-item">
             <div class="overflow-x-auto">
               <table class="table">
                 <tbody>    
-                  <!-- row   1 -->
                   <tr>
                     <th>
                       <label>
@@ -121,12 +118,9 @@
               </table>
               </div>
             </div>
-
           </div>
         </div>
-
       </div>
-
     </div>
   </dialog>
 </div>

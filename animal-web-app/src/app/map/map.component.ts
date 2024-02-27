@@ -8,6 +8,9 @@ import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import BusinessRating from '../../models/business-ratings';
+
 
 @Component({
   selector: 'app-map',
@@ -32,8 +35,12 @@ export class MapComponent implements AfterViewInit {
   showModal: boolean = false;
   createMapForm!: FormGroup;
 
+  currentSlideIndex = 0;
+  images: string[] = [];
+  ratings: BusinessRating[] = [];
+
   constructor(private mapService: MapService,
-    private fb: FormBuilder) {
+    private fb: FormBuilder, private firestore: AngularFirestore) {
 
     this.createMapForm = new FormGroup({
       beaconType: new FormControl('', Validators.required),
@@ -152,17 +159,42 @@ export class MapComponent implements AfterViewInit {
         var beaconMarkerObject = this.beaconMarkers.find(beaconMarker => beaconMarker.markerId === beaconMarkerDocumentId);
         if (beaconMarkerObject !== undefined) {
           this.selectedBeaconData = beaconMarkerObject;
+          console.log(this.selectedBeaconData);
           this.showModal = true;
+          this.currentSlideIndex = 0;
+          this.images = this.selectedBeaconData.images;
+
+          this.firestore.collection('BusinessRating').doc(beaconMarkerDocumentId).ref.get().then(doc => {
+
+            if (doc.exists) {
+              var documentData = doc.data();
+              console.log(documentData);
+            } else {
+              console.log("No such document!");
+            }
+          }).catch(error => {
+            console.log("Error getting document:", error);
+          });
         } else {
           console.error(`No BeaconMarker found with ID: ${beaconMarkerDocumentId}`);
         }
       });
     })
 
+
+
   }
 
   generateUUID(): void {
     //this.animalCreateForm.get('animalId')!.setValue(uuidv4());
+  }
+
+  changeSlide(direction: 'next' | 'prev') {
+    if (direction === 'next') {
+      this.currentSlideIndex = (this.currentSlideIndex + 1) % this.images.length;
+    } else if (direction === 'prev') {
+      this.currentSlideIndex = (this.currentSlideIndex - 1 + this.images.length) % this.images.length;
+    }
   }
 
 }
