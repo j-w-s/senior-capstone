@@ -18,6 +18,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
 
   days = Array.from({ length: 5 }, (_, i) => Array.from({ length: 7 }, (__, j) => i * 7 + j + 1));
 
+  notifications: string[][] = [];
   constructor(
     public messengerService: MessengerService,
     private groupsService: GroupsService,
@@ -27,6 +28,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
 
   // gets the user logged in and resolves their userImage
   async ngOnInit() {
+    this.listenForNewMessages();
     const currentUserId = this.loginReg.currentUser;
     try {
       const userDetails = await this.loginReg.getUserDetails(currentUserId);
@@ -38,6 +40,13 @@ export class DashboardComponent implements OnInit, AfterViewInit{
     } catch (error) {
       console.error('Error loading user details or profile picture: ', error);
     }
+
+    this.messengerService.getNotifications().subscribe(notifications => {
+      this.notifications = notifications;
+      console.log('Notifications: ', notifications);
+    })
+
+    
   }
 
 
@@ -75,6 +84,19 @@ export class DashboardComponent implements OnInit, AfterViewInit{
         glide.play();
       });
     });
+  }
+
+ listenForNewMessages() {
+    this.messengerService.getMessages().subscribe(async(messages) => {
+      const mess = messages.messagesList[messages.messagesList.length - 1];
+      console.log('MessageSender', mess.senderId)
+      
+      await this.messengerService.getUserById2(mess.senderId).then((user) => {
+        console.log('UserGot:', user)
+        this.messengerService.addNotification(mess.messageContent, user.userDisplayName);
+      })
+      //this.messengerService.addNotification(mess.messageContent);
+    })
   }
 
 }
