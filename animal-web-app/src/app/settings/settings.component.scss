@@ -1,0 +1,10 @@
+.active {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.disabled {
+  color: #ccc;
+  cursor: not-allowed;
+  pointer-events: none;
+}

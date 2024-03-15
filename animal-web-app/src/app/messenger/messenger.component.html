@@ -1,12 +1,15 @@
+<app-alerts></app-alerts>
 <div class="container min-h-screen flex flex-col w-full lg:flex-row bg-base-100">
 
   <!-- sidebar -->
   <div class="w-1/4 h-screen flex flex-col justify-center items-center bg-white">
     <div class="bg-white h-20 p-4 flex justify-between items-center">
       <!-- top bar -->
-      <div class="top-bar w-full p-4 flex justify-between items-center">
-        <input #contactInput type="text" id="addContact" placeholder="Add Contact" class="py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <div class="flex space-x-4">
+
+        <input #contactInput type="text" id="addContact" placeholder="Enter contact username..." class="py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
         <button type="submit" class="btn btn-primary" (click)="addContact(contactInput.value)">Add</button>
+
       </div>
     </div>
 

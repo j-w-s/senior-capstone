@@ -1,3 +1,4 @@
+<app-alerts></app-alerts>
 <!-- NOTE TO SELF: don't forget to change widget routing later, placeholder atm due to component restrictions '-->
 <div class="container min-h-full flex flex-col w-full lg:flex-row bg-base-100">
 
@@ -15,53 +16,53 @@
 
         <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content items-center">
 
-            <div *ngIf="this.showModal" class="card w-full bg-base-100 shadow-xl">
+          <div *ngIf="this.showModal" class="card w-full bg-base-100 shadow-xl">
 
-              <div class="card-body">
-                <!-- ADDRESS (no names atm?) -->
-                <h2 class="card-title">
-                  {{this.selectedBeaconData.address}}
-                </h2>
+            <div class="card-body">
+              <!-- ADDRESS (no names atm?) -->
+              <h2 class="card-title">
+                {{this.selectedBeaconData.address}}
+              </h2>
 
-                <!-- CAROUSEL -->
-                <div class="relative w-full">
-                  <div class="carousel w-full">
-                    <div *ngFor="let image of images; let i = index" [class.active]="i === currentSlideIndex" class="carousel-item relative w-full">
-                      <img [src]="images[currentSlideIndex]" class="w-full" />
-                      <div class="absolute flex justify-between transform -translate-y-1/2 left-2 right-25 top-1/2">
-                        <button class="z-10 btn btn-circle" *ngIf="currentSlideIndex >   0" (click)="changeSlide('prev'); $event.stopPropagation()">❮</button>
-                      </div>
-                      <div class="absolute flex justify-between transform -translate-y-1/2 left-25 right-2 top-1/2">
-                        <button class="z-10 btn btn-circle" *ngIf="currentSlideIndex < images.length -   1" (click)="changeSlide('next'); $event.stopPropagation()">❯</button>
-                      </div>
+              <!-- CAROUSEL -->
+              <div class="relative w-full">
+                <div class="carousel w-full">
+                  <div *ngFor="let image of images; let i = index" [class.active]="i === currentSlideIndex" class="carousel-item relative w-full">
+                    <img [src]="images[currentSlideIndex]" class="w-full" />
+                    <div class="absolute flex justify-between transform -translate-y-1/2 left-2 right-25 top-1/2">
+                      <button class="z-10 btn btn-circle" *ngIf="currentSlideIndex >   0" (click)="changeSlide('prev'); $event.stopPropagation()">❮</button>
+                    </div>
+                    <div class="absolute flex justify-between transform -translate-y-1/2 left-25 right-2 top-1/2">
+                      <button class="z-10 btn btn-circle" *ngIf="currentSlideIndex < images.length -   1" (click)="changeSlide('next'); $event.stopPropagation()">❯</button>
                     </div>
                   </div>
-                </div>
-
-                <!-- RATING -->
-                <div class="flex flex-row">
-                  <div class="rating flex flex-row" *ngFor="let star of averageRatingStars">
-                    <input type="radio" name="rating-1" class="mask mask-star" />
-                  </div>
-                </div>
-
-                <!-- BIO -->
-                <p>
-                  {{this.selectedBeaconData.about}}
-                </p>
-
-                <!-- CONTACT INFO AS TAGS -->
-                <div class="card-actions flex flex-row">
-
-                  <ng-container *ngFor="let contact of this.selectedBeaconData.contactInformation">
-                    <div class="badge badge-outline">
-                      {{contact}}
-                    </div>
-                  </ng-container>
-
                 </div>
               </div>
+
+              <!-- RATING -->
+              <div class="flex flex-row">
+                <div class="rating flex flex-row" *ngFor="let star of averageRatingStars">
+                  <input type="radio" name="rating-1" class="mask mask-star" />
+                </div>
+              </div>
+
+              <!-- BIO -->
+              <p>
+                {{this.selectedBeaconData.about}}
+              </p>
+
+              <!-- CONTACT INFO AS TAGS -->
+              <div class="card-actions flex flex-row">
+
+                <ng-container *ngFor="let contact of this.selectedBeaconData.contactInformation">
+                  <div class="badge badge-outline">
+                    {{contact}}
+                  </div>
+                </ng-container>
+
+              </div>
             </div>
+          </div>
 
         </ul>
 
@@ -107,7 +108,7 @@
   <div class="modal-box flex items-center justify-center">
 
     <div class="w-1/2 px-4">
-      <form  class="flex flex-col items-center">
+      <form class="flex flex-col items-center">
 
         <label for="email" class="block text-sm font-medium text-gray-700">Username or Email</label>
         <input type="text" id="email" formControlName="email" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">

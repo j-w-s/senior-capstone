@@ -1,70 +1,114 @@
-<div *ngIf="!selectedThread">
-  <div class="container min-h-screen flex flex-col w-full bg-base-100">
-    <div class="overflow-x-auto min-h-screen flex flex-col w-full bg-base-100">
-      <div class="common-container">
-        <div class="form-container">
-          <form (submit)="addNewThread()">
-            <input type="text" name="Title" placeholder="Title" [(ngModel)]="newThreadTitle" required><br />
-            <input type="text" name="Tags" placeholder="Tags" [(ngModel)]="newThreadTags" required> <br />
-            <textarea placeholder="Content" name="Content" [(ngModel)]="newThreadContent" required></textarea> <br />
-            <button class="btn btn-active btn-accent" type="submit">Add Thread</button>
-          </form>
-        </div>
-        <div class="table-container">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Tags</th>
-                <th>Post Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let thread of forumThreads" class="hover" (click)="onRowClick(thread)">
-                <td>{{ thread.title }}</td>
-                <td>{{ thread.tags.join(', ') }}</td>
-                <td>{{ formatTimestamp(thread.timeSent) | date: 'medium' }}</td>
-              </tr>
-            </tbody>
-          </table>
+<app-alerts></app-alerts>
+<div class="w-full h-full container flex flex-col bg-base-200">
+  <!-- Forum Threads Section -->
+  <div *ngIf="!displayComments" class="flex flex-col w-full">
+    <div class="sm:flex sm:flex-row-reverse space-x-4">
+      <button class="btn btn-secondary" (click)="openModal()">Create</button>
+      <button class="btn btn-primary">Search</button>
+      <input #threadName type="text" id="threadName" placeholder="Enter thread name..." class="border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+    </div>
+
+    <div class="table-container w-3/4 h-3/4 flex flex-col overflow-auto items-center justify-center p-2">
+      <div class="flex container w-full h-screen flex-wrap overflow-auto items-center justify-center gap-4">
+        <div *ngFor="let thread of forumThreads" class="card bg-base-100 w-full m-4 mb-4 flex flex-row hover:cursor-pointer" (click)="onRowClick(thread)">
+          <!-- Comments count on the left -->
+          <div class="w-1/6 text-center py-4 items-center justify-center">
+            <h1 class="text-2xl font-bold">{{ thread.comments?.length ?? 0 }}</h1>
+          </div>
+          <!-- Card title and body on the right -->
+          <div class="w-5/6 p-4">
+            <div class="card-title justify-between">
+              <h2 class="text-2xl font-bold">{{ thread.title }}</h2>
+              <p class="text-sm">Posted by {{ thread.publisher }}</p>
+            </div>
+            <div class="card-body justify-start">
+              <p class="truncate">{{ thread.threadContent | slice:0:100 }}...</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  </div>
 
-  <!-- Show a thread's contents when selected -->
+  <div *ngIf="displayComments" class="flex flex-col w-full">
+    <!-- Your existing selected thread code here -->
+    <div class="sm:flex sm:flex-row-reverse space-x-4">
+      <button class="btn btn-neutral" (click)="resetSelection()">Back to Forum</button>
+    </div>
 
-  <div *ngIf="selectedThread">
-    <div class="container min-h-screen flex flex-col justify-center w-full lg:flex-row bg-base-100">
-      <div class="overflow-x-auto min-h-screen flex flex-col justify-center w-full lg:flex-row bg-base-100">
-        <div>
-          <h2>{{ selectedThread.title }}</h2>
-          <p><b>From:</b> {{ selectedThread.publisher }}</p>
+    <div class="table-container w-3/4 h-3/4 flex-1 overflow-auto items-center justify-center p-2">
+      <!-- Original Post -->
+      <h1 class="text-5xl font-bold text-center">{{ selectedThread?.title }}</h1>
+
+      <div class="flex flex-col w-full">
+        <p><b>From:</b> {{ selectedThread?.publisher }}</p>
+        <p class="grid bg-base-300 height:auto"> {{ selectedThread?.threadContent }}</p>
+        <p><b>Time Sent:</b> {{ formatTimestamp(selectedThread?.timeSent) | date: 'medium' }}</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Comments -->
+      <h1 class="text-5xl font-bold text-center">Comments:</h1>
+      <div *ngIf="selectedThreadComments">
+        <div *ngFor="let comment of selectedThreadComments">
           <div class="flex flex-col w-full">
-            <div class="divider"></div>
-            <div class="grid card bg-base-300 rounded-box height:auto"><b>Message:</b> {{ selectedThread.threadContent }}</div>
-            <div class="divider"></div>
-          </div>
-          <p><b>Time Sent:</b> {{ formatTimestamp(selectedThread.timeSent) | date: 'medium' }}</p>
-          <div *ngIf="(comments$ | async) as comments;">
-              <h3>Comments:</h3>
-              <div *ngFor="let comment of comments">
-                <div class="grid card bg-base-300 rounded-box height:auto">
-                  <div class="divider"></div>
-                  <b>From:</b> {{ comment.userId }} <br />
-                  <b>Message:</b> {{ comment.messageContent }} <br />
-                  <b>Time Sent:</b> {{ formatTimestamp(comment.timeSent) | date: 'medium' }} <br />
-                </div>
-                <div class="divider"></div>
-              </div>
-            </div>
-            <form (submit)="addComment()">
-              <textarea class="textarea textarea-bordered w-full" name="Comment" placeholder="Type Comment Here" [(ngModel)]="newCommentContent"></textarea>
-              <button class="btn btn-active btn-accent" type="Submit"> Add Comment </button><br /><br />
-            </form>
-            <button class="btn btn-active btn-accent" (click)="resetSelection()">Back to Forum</button>
+            <p><b>From:</b> {{ comment?.userId }} </p>
+            <p class="grid bg-base-300 height:auto"> {{ comment?.messageContent }} </p>
+            <p><b>Time Sent:</b> {{ formatTimestamp(comment?.timeSent) | date: 'medium' }} </p>
           </div>
         </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Add a New Comment -->
+      <form (submit)="addComment()">
+        <textarea class="textarea textarea-bordered w-full" name="Comment" placeholder="Type Comment Here" [(ngModel)]="newCommentContent"></textarea>
+        <div class="container w-full flex justify-end items-end">
+          <button class="btn btn-primary mt-4" type="Submit"> Add Comment </button><br /><br />
+        </div>
+      </form>
     </div>
   </div>
+</div>
+
+<input type="checkbox" id="createThreadModal" class="modal-toggle">
+<label for="createThreadModal" class="modal cursor-pointer">
+  <label class="modal-box relative" for="">
+    <h2 class="text-5xl font-bold text-center" id="modal-title">
+      Add New Thread
+    </h2>
+
+    <div class="mt-2 w-full container">
+      <form [formGroup]="newThreadForm" (ngSubmit)="addNewThread(); closeModal();" class="p-4 pt-4 w-full">
+        <!-- Title Input -->
+        <div class="mb-4">
+          <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+          <input type="text" id="title" formControlName="title" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+        </div>
+        <!-- Tags Input -->
+        <div class="mb-4">
+          <label for="tags" class="block text-sm font-medium text-gray-700">Tags</label>
+          <input type="text" id="tags" formControlName="tags" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+        </div>
+        <!-- Content Input -->
+        <div class="mb-4">
+          <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
+          <textarea id="content" formControlName="content" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required></textarea>
+        </div>
+
+        <div class="text-center justify-center items-center">
+          <button class="btn btn-primary" type="submit" [disabled]="!newThreadForm.valid">Add Thread</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-action">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn" (click)="closeModal()">Close</button>
+      </form>
+    </div>
+  </label>
+</label>

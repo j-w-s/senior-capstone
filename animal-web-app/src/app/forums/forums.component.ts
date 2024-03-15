@@ -6,6 +6,8 @@ import Thread from '../../models/thread';
 import Comment  from '../../models/comment';
 import User from '../../models/user';
 import { tap, take } from 'rxjs/operators';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { LoginRegisterService } from '../services/login-register.service';
 
 @Component({
   selector: 'app-forums',
@@ -15,19 +17,54 @@ import { tap, take } from 'rxjs/operators';
 
 export class ForumsComponent implements OnInit {
   selectedThread: Thread | null = null;
-  newThreadTitle: string = '';
-  newThreadTags: string = '';
-  newThreadContent: string = '';
   forumThreads: Thread[] = [];
   newCommentContent: string = '';
   comments$: Observable<Comment[]>;
+  newThreadForm!: FormGroup;
+  isModalOpen = false;
+  displayComments = false;
+  primaryUser!: User;
+  selectedThreadComments: any = [];
 
-  constructor(private forumService: ForumService) {
-    this.comments$ = new Observable<Comment[]>();
+  openModal(): void {
+    const modalToggle = document.getElementById('createThreadModal') as HTMLInputElement;
+    modalToggle.checked = true;
   }
 
-  ngOnInit(): void {
+  closeModal(): void {
+    const modalToggle = document.getElementById('createThreadModal') as HTMLInputElement;
+    modalToggle.checked = false;
+  }
+
+  constructor(private forumService: ForumService,
+    private formBuilder: FormBuilder, private loginRegService: LoginRegisterService) {
+    this.comments$ = new Observable<Comment[]>();
+    this.initNewThreadForm();
+    this.newThreadForm.setValue({
+      content: '',
+      title: '',
+      tags: '',
+    });
+  }
+
+  async ngOnInit(): Promise<void> {
     this.loadForumData();
+    this.initNewThreadForm();
+    this.loadCurrentUser();
+  }
+
+  async loadCurrentUser(): Promise<void> {
+    const userId = await this.loginRegService.getCurrentUser();
+    const userDetails = await this.loginRegService.getUserDetails(userId);
+    this.primaryUser = userDetails as User;
+  }
+
+  initNewThreadForm(): void {
+    this.newThreadForm = this.formBuilder.group({
+      title: ['', Validators.required],
+      tags: ['', Validators.required],
+      content: ['', Validators.required]
+    });
   }
 
   loadForumData(): void {
@@ -48,31 +85,43 @@ export class ForumsComponent implements OnInit {
   onRowClick(thread: Thread): void {
     this.selectedThread = thread;
     this.loadComments(this.selectedThread);
+    this.displayComments = true;
+    console.log(thread);
   }
 
   async addNewThread(): Promise<void> {
-    const newThread: Thread = {
-      id: '',
-      publisher: 'userId123',
-      users: [],
-      tags: this.newThreadTags.split(','),
-      title: this.newThreadTitle,
-      threadContent: this.newThreadContent,
-      timeSent: new Date()
-    };
+    try {
+      if (this.newThreadForm.valid) {
+        let userId = await this.loginRegService.getCurrentUser();
+        const newThread: Thread = {
+          id: '',
+          publisher: this.primaryUser.userDisplayName,
+          users: [],
+          tags: this.newThreadForm.get('tags')?.value.split(','),
+          title: this.newThreadForm.get('title')?.value,
+          threadContent: this.newThreadForm.get('content')?.value,
+          timeSent: new Date()
+        };
 
-    await this.forumService.addThread(newThread);
-    this.resetForm();
+        await this.forumService.addThread(newThread);
+        this.resetForm();
+      }
+    } catch (error) {
+      console.error('Error adding new thread:', error);
+    }
   }
 
   resetSelection() {
     this.selectedThread = null;
+    this.displayComments = false;
+    this.selectedThreadComments = [];
   }
 
-  addComment(): void {
+  async addComment(): Promise<void> {
     if (this.selectedThread && this.newCommentContent.trim() !== '') {
+      let userId = await this.loginRegService.getCurrentUser as any
       const newComment: Comment = {
-        userId: 'userId123',
+        userId: userId,
         commentId: '',
         messageContent: this.newCommentContent,
         timeSent: new Date(),
@@ -86,14 +135,13 @@ export class ForumsComponent implements OnInit {
 
   loadComments(thread: Thread): void {
     if (thread && thread.id) {
-        this.comments$ = this.forumService.getThreadComments(thread.id);
+        //this.comments$ = this.forumService.getThreadComments(thread.id);
+      this.selectedThreadComments = thread.comments;
     }
   }
 
   resetForm(): void {
-    this.newThreadTitle = '';
-    this.newThreadTags = '';
-    this.newThreadContent = '';
+    this.newThreadForm.reset();
   }
 
   formatTimestamp(timestamp: any): string {
