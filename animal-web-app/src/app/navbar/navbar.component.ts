@@ -22,4 +22,11 @@ export class NavbarComponent {
     return this.loginRegService.isLoggedIn;
   }
 
+  closeDrawer() {
+    const drawerToggle = document.getElementById('my-drawer') as HTMLInputElement;
+    if (drawerToggle) {
+      drawerToggle.checked = false;
+    }
+  }
+
 }

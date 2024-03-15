@@ -1,5 +1,5 @@
 <div class="navbar bg-base-100">
-  <div class="navbar-start">
+  <div class="navbar-start ml-2">
     <div class="btn btn-ghost w-auto h-auto" onclick="document.getElementById('my-drawer').click();">
       <img class="h-6 w-6" src="../assets/menu.png" />
     </div>
@@ -13,12 +13,12 @@
       </li>
     </ul>
   </div>
-  <div class="navbar-end">
+  <div class="navbar-end mr-1">
     <!-- NOT LOGGED IN -->
     <a *ngIf="!loginRegService.isLoggedIn" class="btn btn-primary" [routerLink]="['/login']" routerLinkActive="active" (click)="handleButtonClick('login')">Login</a>
-    <a *ngIf="!loginRegService.isLoggedIn" class="btn btn-accent" [routerLink]="['/register']" routerLinkActive="active" (click)="handleButtonClick('register')">Register</a>
+    <a *ngIf="!loginRegService.isLoggedIn" class="btn btn-secondary" [routerLink]="['/register']" routerLinkActive="active" (click)="handleButtonClick('register')">Register</a>
     <!-- LOGGED IN -->
-    <a *ngIf="loginRegService.isLoggedIn" class="btn btn-secondary" [routerLink]="['/']" routerLinkActive="inactive" (click)="loginRegService.signOut()">Sign Out</a>
+    <a *ngIf="loginRegService.isLoggedIn" class="btn btn-accent" [routerLink]="['/']" routerLinkActive="inactive" (click)="loginRegService.signOut()">Sign Out</a>
   </div>
 
 </div>
@@ -34,16 +34,16 @@
     <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
 
     <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
-      <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
-      <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
-      <li><a routerLink="/register" routerLinkActive="active">Register</a></li>
-      <li><a routerLink="/dashboard" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault()">Dashboard</a></li>
-      <li><a routerLink="/messenger" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault()">Messenger</a></li>
-      <li><a routerLink="/explore" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault()">Explore</a></li>
-      <li><a routerLink="/settings" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault()">Settings</a></li>
-      <li><a routerLink="/groups" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault()">Groups</a></li>
-      <li><a routerLink="/forums" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault()">Forums</a></li>
-      <li><a routerLink="/map" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault()">Map</a></li>
+      <li><a routerLink="/home" routerLinkActive="active" (click)="closeDrawer()">Home</a></li>
+      <li><a routerLink="/login" routerLinkActive="active" (click)="closeDrawer()">Login</a></li>
+      <li><a routerLink="/register" routerLinkActive="active" (click)="closeDrawer()">Register</a></li>
+      <li><a routerLink="/dashboard" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault(); closeDrawer()">Dashboard</a></li>
+      <li><a routerLink="/messenger" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault(); closeDrawer()">Messenger</a></li>
+      <li><a routerLink="/explore" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault(); closeDrawer()">Explore</a></li>
+      <li><a routerLink="/settings" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault(); closeDrawer()">Settings</a></li>
+      <li><a routerLink="/groups" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault(); closeDrawer()">Groups</a></li>
+      <li><a routerLink="/forums" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault(); closeDrawer()">Forums</a></li>
+      <li><a routerLink="/map" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault(); closeDrawer()">Map</a></li>
     </ul>
 
   </div>

@@ -21,7 +21,7 @@ export class RegisterComponent implements OnInit{
   tempImageUrl: string = '';
   defaultImages: string[] = [];
   usingDefaultImage = false;
-
+  profileSetupToggle = false;
   registerForm: FormGroup;
 
   constructor(private fb: FormBuilder,
@@ -33,10 +33,10 @@ export class RegisterComponent implements OnInit{
     private db: AngularFirestore,
     private authService: AngularFireAuth) {
     this.registerForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-      email: ['', Validators.required],
-      phonenumber: ['', Validators.required],
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      email: ['', [Validators.required, Validators.email]],
+      phonenumber: ['', [Validators.required, Validators.pattern('[0-9]{10}')]],
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
     });
@@ -130,6 +130,10 @@ export class RegisterComponent implements OnInit{
     this.usingDefaultImage = true;
     this.tempImageUrl = imageUrl
     console.log('Changed url', imageUrl)
+  }
+
+  isRegisterButtonDisabled(): boolean {
+    return !this.tempImageUrl && !this.usingDefaultImage;
   }
 
 }

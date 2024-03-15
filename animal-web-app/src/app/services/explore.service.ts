@@ -83,8 +83,6 @@ export class ExploreService {
     }
   }
 
-
-
   selectedAnimal = this.selectedAnimalSource.asObservable();
 
   async getCurrentUser(): Promise<string> {

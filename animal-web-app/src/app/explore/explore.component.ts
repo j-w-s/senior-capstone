@@ -46,6 +46,16 @@ export class ExploreComponent implements OnInit, AfterViewInit{
 
   dropdownVisible = false;
 
+  isModalOpen = false;
+
+  openModal(): void {
+    this.isModalOpen = true;
+  }
+
+  closeModal(): void {
+    this.isModalOpen = false;
+  }
+
   toggleDropdown() {
     this.dropdownVisible = !this.dropdownVisible;
   }

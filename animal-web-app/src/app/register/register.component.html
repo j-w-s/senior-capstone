@@ -1,126 +1,149 @@
 <app-alerts></app-alerts>
 <div class="container min-h-screen bg-base-200 flex items-center">
+
   <div class="card mx-auto w-full max-w-5xl shadow-xl">
+
     <div class="grid md:grid-cols-2 grid-cols-1 bg-base-100 rounded-xl">
-      <div class="flex items-center justify-center py-24 px-10 bg-accent">
+
+      <div class="flex items-center justify-center py-24 px-10 bg-secondary">
         <img src="/assets/cat.svg" alt="Cat">
       </div>
-      <div class='py-24 px-10'>
+
+      <div class='py-12 px-10 items-center'>
+
         <h2 class='text-2xl font-semibold mb-2 text-center'>Register</h2>
-        <form [formGroup]="registerForm">
-          <div class="mb-4">
-            <!-- Row 1 -->
-            <div class="flex justify-between">
-              <div class="w-1/2 pr-2">
-                <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
-                <input type="text" id="username" formControlName="username" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+        <div class="w-full mt-2">
+
+          <form [formGroup]="registerForm">
+
+            <div class="container w-full">
+
+              <!-- INFORMATION SCREEN-->
+              <div class="container w-full h-96 items-center mt-4" *ngIf="!this.profileSetupToggle">
+
+                <!-- Row 1 -->
+                <div class="flex justify-between">
+                  <div class="w-1/2 pr-2">
+                    <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                    <input type="text" id="username" formControlName="username" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched" class="text-red-500 text-xs mt-1">
+                      Username must contain 3+ characters.
+                    </div>
+                  </div>
+                  <div class="w-1/2 pl-2">
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" id="password" formControlName="password" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="text-red-500 text-xs mt-1">
+                      Password must contain 8+ characters.
+                    </div>
+                  </div>
+                </div>
+                <!-- Row 2 -->
+                <div class="flex justify-between mt-4">
+                  <div class="w-1/2 pr-2">
+                    <label for="firstname" class="block text-sm font-medium text-gray-700">First Name</label>
+                    <input type="text" id="firstname" formControlName="firstname" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <div *ngIf="registerForm.get('firstname')?.invalid && registerForm.get('firstname')?.touched" class="text-red-500 text-xs mt-1">
+                      First name is required.
+                    </div>
+                  </div>
+                  <div class="w-1/2 pl-2">
+                    <label for="lastname" class="block text-sm font-medium text-gray-700">Last Name</label>
+                    <input type="text" id="lastname" formControlName="lastname" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <div *ngIf="registerForm.get('lastname')?.invalid && registerForm.get('lastname')?.touched" class="text-red-500 text-xs mt-1">
+                      Last name is required.
+                    </div>
+                  </div>
+                </div>
+                <!-- Row 3 -->
+                <div class="flex justify-between mt-4">
+                  <div class="w-full pr-2">
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" id="email" formControlName="email" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="text-red-500 text-xs mt-1">
+                      Email is required.
+                    </div>
+                  </div>
+                </div>
+                <!-- Row 4 -->
+                <div class="flex justify-between mt-4">
+                  <div class="w-full pr-2">
+                    <label for="phonenumber" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                    <input type="tel" id="phonenumber" formControlName="phonenumber" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <div *ngIf="registerForm.get('phonenumber')?.invalid && registerForm.get('phonenumber')?.touched" class="text-red-500 text-xs mt-1">
+                      Phone number is required.
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="w-1/2 pl-2">
-                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                <input type="password" id="password" formControlName="password" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+              <!-- PICTURE SCREEN-->
+              <div class="container w-full h-96 items-center mt-4" *ngIf="this.profileSetupToggle">
+
+                <div class="flex">
+
+                  <!-- Image Selection -->
+                  <div class="w-1/2 p-4">
+                    <h2 class="text-2xl font-semibold mb-2 text-center">Choose Avatar</h2>
+                    <div class="flex flex-col items-center">
+
+                      <!-- Default Images -->
+                      <div *ngFor="let imageUrl of defaultImages; let i = index" class="cursor-pointer">
+                        <img [src]="imageUrl" (click)="onImageSelected(imageUrl)" class="avatar w-16 h-16 rounded-full object-cover mt-2">
+                      </div>
+
+                      <!-- Upload Image -->
+                      <label class="btn btn-secondary mt-8" for="uploadImage">
+                        Upload Image
+                        <input type="file" id="uploadImage" (change)="onFileSelected($event)" class="hidden" accept="image/*">
+                      </label>
+                    </div>
+
+                  </div>
+
+                  <div class="divider divider-horizontal"></div>
+
+                  <!-- Image Preview -->
+                  <div class="w-1/2 p-4 items-center text-center">
+                    <h2 class="text-2xl font-semibold mb-2 text-center">Profile Preview</h2>
+                    <div class="avatar">
+                      <div class="mb-4">
+                        <img [src]="tempImageUrl || defaultImages[0]" class="w-32 h-32 rounded-full object-cover">
+                      </div>
+                    </div>
+                    <p>{{ registerForm.get('username')?.value }}</p>
+                  </div>
+
+                  </div>
+                </div>
               </div>
-            </div>
-            <!-- Row 2 -->
-            <div class="flex justify-between mt-4">
-              <div class="w-1/2 pr-2">
-                <label for="firstname" class="block text-sm font-medium text-gray-700">First Name</label>
-                <input type="text" id="firstname" formControlName="firstname" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+              <div class="container w-full mt-8">
+
+                <div class="container w-full flex justify-between mt-2" *ngIf="!this.profileSetupToggle">
+                  <button (click)="this.profileSetupToggle = !this.profileSetupToggle" class="btn btn-neutral w-full ml-auto" [disabled]="registerForm.invalid || !registerForm.touched">Next</button>
+                </div>
+
+                <div class="container w-full flex justify-between mt-2" *ngIf="this.profileSetupToggle">
+                  <button (click)="this.profileSetupToggle = !this.profileSetupToggle" class="btn btn-neutral w-1/2 mr-auto">Previous</button>
+                  <button type="submit" class="btn btn-primary w-1/2 mr-auto" (click)="onRegisterSubmit()" [disabled]="registerForm.invalid || !registerForm.touched || !tempImageUrl && !usingDefaultImage">Register</button>                </div>
+
+                <div class='text-center mt-4'>
+                  Already have an account?
+                  <a routerLink="/login">
+                    <span class=" inline-block hover:underline hover:cursor-pointer transition duration-200">Login</span>
+                  </a>
+                </div>
+
               </div>
-              <div class="w-1/2 pl-2">
-                <label for="lastname" class="block text-sm font-medium text-gray-700">Last Name</label>
-                <input type="text" id="lastname" formControlName="lastname" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-              </div>
-            </div>
-            <!-- Row 3 -->
-            <div class="flex justify-between mt-4">
-              <div class="w-full pr-2">
-                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                <input type="email" id="email" formControlName="email" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-              </div>
-            </div>
-            <!-- Row 4 -->
-            <div class="flex justify-between mt-4">
-              <div class="w-full pr-2">
-                <label for="phonenumber" class="block text-sm font-medium text-gray-700">Phone Number</label>
-                <input type="tel" id="phonenumber" formControlName="phonenumber" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-              </div>
-            </div>
-          </div>
-          <button class="btn w-full p" onclick="selectedProfilePicture.showModal()">
-            <a>Profile Picture</a>
-          </button>
-          <button type="submit" class="btn mt-2 w-full btn-accent" (click)="onRegisterSubmit()" [disabled]="registerForm.invalid || !registerForm.touched">Register</button>
-          <div class='text-center mt-4'>
-            Already have an account?
-            <a routerLink="/login">
-              <span class=" inline-block hover:text-primary hover:underline hover:cursor-pointer transition duration-200">Login</span>
-            </a>
-          </div>
-        </form>
+
+          </form>
+        </div>
+
       </div>
+
     </div>
   </div>
 
-  <dialog id="selectedProfilePicture" class="modal modal-bottom sm:modal-middle w-full">
-
-    <!-- Image preview -->
-    <div *ngIf="tempImageUrl" class="">
-      <img [src]="tempImageUrl" alt="Selected Image" width="200" height="200">
-    </div>
-    
-    <div class="modal-box flex items-center justify-center w-full">
-
-      <div class="w-full px-4">
-        <form class="flex flex-col items-center">
-      
-          <h2 class="font-bold text-lg" style="text-align: center;">Upload Your Own Picture!</h2>
-
-          <input type="file" id="profilePicture" (change)="onFileSelected($event)" accept="image/*" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-  
-        </form>
-  
-        <button type="button" class="btn btn-base-100 w-full mt-4" onclick="selectedProfilePicture.close()">
-          Finish Creating Account
-        </button>
-  
-      </div>
-  
-      <div class="divider lg:divider-horizontal">OR</div>
-  
-      <div class="w-3/4 px-4">
-  
-        <h2 class="font-bold text-lg" style="text-align: center;">Select Default Picture!</h2>
-
-        <div class="default-images-section items-center justify-center">
-          <h3 class="text-xl font-semibold mb-4 items-center justify-center text-center">Default Images</h3>
-          <div class="default-images-grid">
-            <div *ngFor="let imageUrl of defaultImages; let i = index" class="default-image-item">
-            <div class="overflow-x-auto">
-              <table class="table">
-                <tbody>    
-                  <tr>
-                    <th>
-                      <label>
-                        <input type="radio" name="imageSelection" (change)="onImageSelected(imageUrl)" />
-                      </label>
-                    </th>
-                    <td>
-                      <div class="flex items-center gap-3">
-                        <div class="avatar">
-                          <div class="mask mask-squircle w-12 h-12">
-                            <img [src]="imageUrl" alt="Default Image" class="default-image">
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </dialog>
 </div>

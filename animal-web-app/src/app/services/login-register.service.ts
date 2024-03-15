@@ -60,7 +60,7 @@ export class LoginRegisterService {
             userDisplayName: username,
             userBiography: '',
             userImage: image,
-            userAccountType: 1,
+            userAccountType: "1",
             userPreferences: [],
             userRatings: [],
             petsOwned: [],
@@ -126,8 +126,7 @@ export class LoginRegisterService {
       });
   }
 
-
-  signoutUser() {
+  public signoutUser() {
     const auth = getAuth();
     const user = auth.currentUser?.uid;
     console.log('UID: ' + user);

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 import { getAuth } from 'firebase/auth';
-import { doc, DocumentData, getDoc, getFirestore, onSnapshot } from 'firebase/firestore';
-
+import { doc, DocumentData, getDoc, getFirestore, onSnapshot, updateDoc } from 'firebase/firestore';
+import User from '../../models/user';
 
 
 @Injectable({
@@ -11,15 +11,10 @@ import { doc, DocumentData, getDoc, getFirestore, onSnapshot } from 'firebase/fi
 })
 export class UserService {
 
-  constructor(private database: AngularFirestore) { }
-
-  async sleep(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
+  constructor(private firestore: AngularFirestore) { }
 
   //Function to actually retrieve the users data
   async getUserData(): Promise<Observable<unknown>> {
-    await this.sleep(1000);
     const auth = getAuth();
     const user = auth.currentUser?.uid;
 
@@ -34,7 +29,42 @@ export class UserService {
 
   }
 
-  
+  async updateUserProfileInformation(user: User, username: string, bio: string, image: string): Promise<void> {
+    try {
+      const db = getFirestore();
+      const userRef = doc(db, "User", user.userId);
+
+      await updateDoc(userRef, {
+        userDisplayName: username,
+        userBiography: bio,
+        userImage: image
+      });
+
+      console.log("User profile updated successfully!");
+    } catch (error) {
+      console.error("Error updating user profile:", error);
+    }
+
+  }
+
+
+  async updateUserAccountInformation(user: User, firstName: string, lastName: string, email: string, zipcode: string): Promise<void> {
+    try {
+      const db = getFirestore();
+      const userRef = doc(db, "User", user.userId);
+
+      await updateDoc(userRef, {
+        userFirstName: firstName,
+        userLastName: lastName,
+        userEmail: email,
+        //userZipcode: zipcode
+      });
+
+      console.log("User account updated successfully!");
+    } catch (error) {
+      console.error("Error updating user account:", error);
+    }
+  }
 
 }
 
