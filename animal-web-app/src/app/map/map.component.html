@@ -85,7 +85,7 @@
       </div>
 
       <div class="bg-white p-4">
-        <button class="btn btn-disabled" onclick="createMapModal.showModal();" (click)="generateUUID();">
+        <button class="btn btn-secondary" (click)="openModal(); resetForm();">
           Create
         </button>
       </div>
@@ -103,29 +103,71 @@
 
 </div>
 
-<dialog id="createMapModal" class="modal modal-bottom sm:modal-middle">
+<input type="checkbox" id="createBeaconModalToggle" class="modal-toggle">
+<label for="createBeaconModalToggle" class="modal cursor-pointer z-10">
+  <label class="modal-box relative" for="">
+    <h2 class="text-5xl font-bold text-center" id="modal-title">
+      Add New Beacon
+    </h2>
+    <div class="mt-2 w-full container">
+      <form [formGroup]="createBeaconForm" (ngSubmit)="addNewBeacon(); closeModal();" class="p-4 pt-4 w-full">
+        <!-- Beacon Type Input -->
+        <div class="mb-4">
+          <label for="beaconType" class="block text-sm font-medium text-gray-700">Beacon Type</label>
+          <input type="text" id="beaconType" formControlName="beaconType" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+        </div>
+        <!-- Beacon Color Input -->
+        <div class="mb-4">
+          <label for="beaconColor" class="block text-sm font-medium text-gray-700">Beacon Color</label>
+          <input type="text" id="beaconColor" formControlName="beaconColor" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+        </div>
+        <!-- Geo Coordinates Input -->
+        <div class="mb-4">
+          <label for="geoCoordinates" class="block text-sm font-medium text-gray-700">Geo Coordinates</label>
+          <input type="text" id="geoCoordinates" formControlName="geoCoordinates" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+        </div>
+        <!-- Marker ID Input -->
+        <div class="mb-4">
+          <label for="markerId" class="block text-sm font-medium text-gray-700">Marker ID</label>
+          <input type="text" id="markerId" formControlName="markerId" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+        </div>
+        <!-- Address Input -->
+        <div class="mb-4">
+          <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+          <input type="text" id="address" formControlName="address" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+        </div>
+        <!-- Images Input -->
+        <div class="mb-4">
+          <label for="images" class="block text-sm font-medium text-gray-700">Images</label>
+          <!-- Hidden file input -->
+          <input multiple="multiple" type="file" class="file-input w-full max-w-xs" id="imageUpload" hidden (change)="updatePhoto($event)" formControlName="images" required />
+          <!-- Custom button to trigger file input -->
+          <button for="imageUpload" type="button" class="btn btn-primary" (click)="triggerFileInput()">Upload Image</button>
+        </div>
+        <!-- Contact Information Input -->
+        <div class="mb-4">
+          <label for="contactInformation" class="block text-sm font-medium text-gray-700">Contact Information</label>
+          <input type="text" id="contactInformation" formControlName="contactInformation" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+        </div>
+        <!-- About Input -->
+        <div class="mb-4">
+          <label for="about" class="block text-sm font-medium text-gray-700">About</label>
+          <textarea id="about" formControlName="about" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required></textarea>
+        </div>
 
-  <div class="modal-box flex items-center justify-center">
-
-    <div class="w-1/2 px-4">
-      <form class="flex flex-col items-center">
-
-        <label for="email" class="block text-sm font-medium text-gray-700">Username or Email</label>
-        <input type="text" id="email" formControlName="email" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-
-        <button type="submit" class="btn mt-2 w-full btn-primary">Send Instructions</button>
-
+        <div class="text-center justify-center items-center">
+          <button class="btn btn-primary" type="submit" [disabled]="!createBeaconForm.valid">Add Beacon</button>
+        </div>
       </form>
-
     </div>
 
-    <div class="divider lg:divider-horizontal"></div>
-
-    <div class="w-1/2 px-4">
-
+    <div class="modal-action">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn" (click)="closeModal();">Close</button>
+      </form>
     </div>
+  </label>
+</label>
 
-  </div>
-
-</dialog>
 
