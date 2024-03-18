@@ -1,16 +1,17 @@
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
-import { Observable, Subscription } from 'rxjs';
+import { finalize, Observable, Subscription } from 'rxjs';
 import Beacon from '../../models/beacon';
 import BeaconMarker from '../../models/beacon-marker';
 import { MapService } from '../services/map.service';
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
-import { v4 as uuidv4 } from 'uuid';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import BusinessRating from '../../models/business-ratings';
-
+import { v4 as uuidv4 } from 'uuid';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { getStorage, deleteObject } from "firebase/storage";
 
 @Component({
   selector: 'app-map',
@@ -33,7 +34,7 @@ export class MapComponent implements AfterViewInit {
   selectedBeaconData!: BeaconMarker;
 
   showModal: boolean = false;
-  createMapForm!: FormGroup;
+  createBeaconForm!: FormGroup;
 
   currentSlideIndex = 0;
   images: string[] = [];
@@ -42,19 +43,115 @@ export class MapComponent implements AfterViewInit {
   averageRatingStars: string[] = [];
 
   constructor(private mapService: MapService,
-    private fb: FormBuilder, private firestore: AngularFirestore) {
+    private fb: FormBuilder,
+    private firestore: AngularFirestore,
+    private storage: AngularFireStorage,
+    ) {
 
-    this.createMapForm = new FormGroup({
+    this.createBeaconForm = new FormGroup({
       beaconType: new FormControl('', Validators.required),
       beaconColor: new FormControl('', Validators.required),
       geoCoordinates: new FormControl('', Validators.required),
-      markerId: new FormControl('{uuidv4()}', Validators.required),
+      markerId: new FormControl('', Validators.required),
       address: new FormControl('', Validators.required),
-      images: new FormControl('', Validators.required),
+      images: this.fb.array([], Validators.required), // Initialize images as a FormArray
       contactInformation: new FormControl('', Validators.required),
       about: new FormControl('', Validators.required),
     });
 
+  }
+
+  async resetForm(): Promise<void> {
+    await this.deleteImages();
+    this.images = [];
+    this.createBeaconForm = new FormGroup({
+      beaconType: new FormControl('', Validators.required),
+      beaconColor: new FormControl('', Validators.required),
+      geoCoordinates: new FormControl('', Validators.required),
+      markerId: new FormControl('', Validators.required),
+      address: new FormControl('', Validators.required),
+      images: this.fb.array([], Validators.required), // Initialize images as a FormArray
+      contactInformation: new FormControl('', Validators.required),
+      about: new FormControl('', Validators.required),
+    });
+    this.createNewGuid();
+  }
+
+  createNewGuid(): void {
+    this.createBeaconForm.get('markerId')!.setValue(uuidv4());
+  }
+
+  addNewBeacon(): void {
+    if (this.createBeaconForm.valid) {
+      try {
+        const beaconMarker: BeaconMarker = {
+          markerId: this.createBeaconForm.get('markerId')?.value,
+          address: this.createBeaconForm.get('address')?.value,
+          images: this.createBeaconForm.get('images')?.value,
+          contactInformation: this.createBeaconForm.get('contactInformation')?.value,
+          about: this.createBeaconForm.get('about')?.value,
+          listings: [], // Assuming you have a way to populate this, otherwise leave it as an empty array
+          ratings: [], // Assuming you have a way to populate this, otherwise leave it as an empty array
+        };
+        this.mapService.addBeaconMarker(beaconMarker);
+      }
+      catch {
+        //pass
+      }
+    }
+  }
+
+  openModal(): void {
+    this.resetForm();
+    const modalToggle = document.getElementById('createBeaconModalToggle') as HTMLInputElement;
+    modalToggle.checked = true;
+  }
+
+  closeModal(): void {
+    const modalToggle = document.getElementById('createBeaconModalToggle') as HTMLInputElement;
+    modalToggle.checked = false;
+    this.resetForm();
+  }
+
+  updatePhoto(event: Event) {
+    console.log(event);
+    const files = (event.target as HTMLInputElement)?.files;
+    if (files) {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const filePath = `uploads/${Date.now()}_${file.name}`;
+        const fileRef = this.storage.ref(filePath);
+        const task = this.storage.upload(filePath, file);
+
+        task.snapshotChanges().pipe(
+          finalize(() => {
+            fileRef.getDownloadURL().subscribe(url => {
+              console.log('File available at', url);
+              // Push the URL into the FormArray
+              const imagesArray = this.createBeaconForm.get('images') as FormArray;
+              imagesArray.push(new FormControl(url));
+            });
+          })
+        ).subscribe();
+      }
+    }
+    console.log(this.createBeaconForm);
+  }
+
+  async deleteImages(): Promise<void> {
+    try {
+      for (let i = 0; i < this.images.length; i++) {
+        this.storage.ref(this.images[i]).delete;
+        console.log(this.storage.ref)
+      }
+    }
+    catch {
+    }
+  }
+
+  triggerFileInput(): void {
+    const fileInput = document.getElementById('imageUpload') as HTMLInputElement;
+    fileInput.click();
   }
 
   ngAfterViewInit(): void {

@@ -40,7 +40,6 @@ export class SettingsComponent implements OnInit {
     }
   }
 
-
   constructor(private fb: FormBuilder,
     private userService: UserService,
     private db: AngularFirestore,
@@ -140,114 +139,6 @@ export class SettingsComponent implements OnInit {
       console.log(this.accountForm.value);
     }
   }
-  //Allows users to change their FirstName on their account
-  updateFirstName() {
-    const firstNameControl = this.accountForm.get('userFirstName');
-
-    if (firstNameControl) {
-      const newFirstName = firstNameControl.value;
-      const auth = getAuth();
-      const user = auth.currentUser?.uid;
-      console.log('ID: ', user);
-      const userDoc = this.db.doc('/User/' + user);
-      //Updates users firstname in the document in firebase
-      userDoc.update({
-        userFirstName: newFirstName
-      });
-    } else {
-      console.error("Could not find 'userFirstName' form control");
-    }
-  }
-  //Allows users to change their LastName on their account
-  updateLastName() {
-    const lastNameControl = this.accountForm.get('userLastName');
-
-    if (lastNameControl) {
-      const newLastName = lastNameControl.value;
-      const auth = getAuth();
-      const user = auth.currentUser?.uid;
-      console.log('ID: ', user);
-      const userDoc = this.db.doc('/User/' + user);
-      //Updates users lastname in the document in firebase
-      userDoc.update({
-        userLastName: newLastName
-      });
-    } else {
-      console.error("Could not find 'userLastName' form control");
-    }
-  }
-  //Allows users to change their Email on their account
-  updateEmail() {
-    const emailControl = this.accountForm.get('userEmail');
-
-    if (emailControl) {
-      const newEmail = emailControl.value;
-      const auth = getAuth();
-      const user = auth.currentUser?.uid;
-      console.log('ID: ', user);
-      const userDoc = this.db.doc('/User/' + user);
-      //Updates users email in the document in firebase
-      userDoc.update({
-        userEmail: newEmail
-      });
-    } else {
-      console.error("Could not find 'userEmail' form control");
-    }
-  }
-  //Allows users to change their Email on their account
-  updateZipcode() {
-    const zipcodeControl = this.accountForm.get('userZipcode');
-
-    if (zipcodeControl) {
-      const newZipcode = zipcodeControl.value;
-      const auth = getAuth();
-      const user = auth.currentUser?.uid;
-      console.log('ID: ', user);
-      const userDoc = this.db.doc('/User/' + user);
-      //Updates users zipcode in the document in firebase
-      userDoc.update({
-        userZipcode: newZipcode
-      });
-    } else {
-      console.error("Could not find 'userZipcode' form control");
-    }
-  }
-  //Allows users to change their DisplayName on their account
-  updateDisplayName() {
-    const displayNameControl = this.profileForm.get('userDisplayName');
-
-    if (displayNameControl) {
-      const newDisplayName = displayNameControl.value;
-      const auth = getAuth();
-      const user = auth.currentUser?.uid;
-      console.log('ID: ', user);
-      const userDoc = this.db.doc('/User/' + user);
-      //Updates users displayname in the document in firebase
-      userDoc.update({
-        userDisplayName: newDisplayName
-      });
-    } else {
-      console.error("Could not find 'userDisplayName' form control");
-    }
-  }
-  //Allows users to change their Biography on their account
-  updateBiography() {
-    const biographyControl = this.profileForm.get('userBiography');
-
-    if (biographyControl) {
-      const newBiography = biographyControl.value;
-      const auth = getAuth();
-      const user = auth.currentUser?.uid;
-      console.log('ID: ', user);
-      const userDoc = this.db.doc('/User/' + user);
-      //Updates users biography in the document in firebase
-      userDoc.update({
-        userBiography: newBiography
-      });
-    } else {
-      console.error("Could not find 'userBiography' form control");
-    }
-  }
 
   updatePhoto(event: Event) {
     const file = (event.target as HTMLInputElement)?.files?.[0];
@@ -276,6 +167,5 @@ export class SettingsComponent implements OnInit {
       userImage: url
     });
   }
-
 
 }

@@ -13,7 +13,7 @@
       </li>
     </ul>
   </div>
-  <div class="navbar-end mr-1">
+  <div class="navbar-end mr-2">
     <!-- NOT LOGGED IN -->
     <a *ngIf="!loginRegService.isLoggedIn" class="btn btn-primary" [routerLink]="['/login']" routerLinkActive="active" (click)="handleButtonClick('login')">Login</a>
     <a *ngIf="!loginRegService.isLoggedIn" class="btn btn-secondary" [routerLink]="['/register']" routerLinkActive="active" (click)="handleButtonClick('register')">Register</a>
