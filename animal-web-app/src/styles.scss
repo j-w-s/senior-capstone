@@ -43,34 +43,3 @@ $color-darkest: #22261A;
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-
-body {
-  margin: 0;
-  padding: 0;
-  color: white;
-  background-color: $color-lightest !important;
-}
-
-* {
-  box-sizing: border-box;
-  box-shadow: none;
-}
-
-@font-face {
-  font-family: 'LibreBaskerville';
-  src: url('./fonts/LibreBaskerville-Regular.ttf') format('truetype');
-}
-
-html, body {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  font-family: 'LibreBaskerville', sans-serif;
-}
-
-
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

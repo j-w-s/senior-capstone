@@ -1,74 +1,68 @@
 <app-alerts></app-alerts>
 <!-- NOTE TO SELF: don't forget to change widget routing later, placeholder atm due to component restrictions '-->
-<div class="container min-h-full flex flex-col w-full lg:flex-row bg-base-100">
+<div class="flex-grow flex flex-col w-full max-h-screen min-w-screen lg:flex-row bg-base-100 p-0 m-0">
 
-  <!-- sidebar -->
+
   <div class="w-1/4 h-full flex flex-col justify-center items-center bg-white">
-    <div class="bg-white h-20 p-4 flex justify-between items-center">
-      <h2 class="text-left">Map</h2>
-    </div>
+    <div class="w-full h-1/8 bg-white flex flex-row justify-between">
+      <div class="bg-white p-4">
+        <h2 class="text-left">
+          Map
 
-    <div class="drawer lg:drawer-open h-full">
-      <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-
-      <div class="drawer-side justify-center items-center">
-        <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
-
-        <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content items-center">
-
-          <div *ngIf="this.showModal" class="card w-full bg-base-100 shadow-xl">
-
-            <div class="card-body">
-              <!-- ADDRESS (no names atm?) -->
-              <h2 class="card-title">
-                {{this.selectedBeaconData.address}}
-              </h2>
-
-              <!-- CAROUSEL -->
-              <div class="relative w-full">
-                <div class="carousel w-full">
-                  <div *ngFor="let image of images; let i = index" [class.active]="i === currentSlideIndex" class="carousel-item relative w-full">
-                    <img [src]="images[currentSlideIndex]" class="w-full" />
-                    <div class="absolute flex justify-between transform -translate-y-1/2 left-2 right-25 top-1/2">
-                      <button class="z-10 btn btn-circle" *ngIf="currentSlideIndex >   0" (click)="changeSlide('prev'); $event.stopPropagation()">❮</button>
-                    </div>
-                    <div class="absolute flex justify-between transform -translate-y-1/2 left-25 right-2 top-1/2">
-                      <button class="z-10 btn btn-circle" *ngIf="currentSlideIndex < images.length -   1" (click)="changeSlide('next'); $event.stopPropagation()">❯</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- RATING -->
-              <div class="flex flex-row">
-                <div class="rating flex flex-row" *ngFor="let star of averageRatingStars">
-                  <input type="radio" name="rating-1" class="mask mask-star" />
-                </div>
-              </div>
-
-              <!-- BIO -->
-              <p>
-                {{this.selectedBeaconData.about}}
-              </p>
-
-              <!-- CONTACT INFO AS TAGS -->
-              <div class="card-actions flex flex-row">
-
-                <ng-container *ngFor="let contact of this.selectedBeaconData.contactInformation">
-                  <div class="badge badge-outline">
-                    {{contact}}
-                  </div>
-                </ng-container>
-
-              </div>
-            </div>
-          </div>
-
-        </ul>
-
+        </h2>
       </div>
     </div>
+    <div class="container flex-grow w-full h-full">
+      <ul class="menu p-4  w-full overflow-auto bg-base-200 text-base-content">
+        <div *ngIf="this.showModal" class="card w-full bg-base-100 shadow-xl">
 
+          <div class="card-body">
+            <!-- ADDRESS (no names atm?) -->
+            <h2 class="card-title">
+              {{this.selectedBeaconData.address}}
+            </h2>
+
+            <!-- CAROUSEL -->
+            <div class="relative w-full">
+              <div class="carousel w-full">
+                <div *ngFor="let image of images; let i = index" [class.active]="i === currentSlideIndex" class="carousel-item relative w-full">
+                  <img [src]="images[currentSlideIndex]" class="w-full" />
+                  <div class="absolute flex justify-between transform -translate-y-1/2 left-2 right-25 top-1/2">
+                    <button class="z-10 btn btn-circle" *ngIf="currentSlideIndex >   0" (click)="changeSlide('prev'); $event.stopPropagation()">❮</button>
+                  </div>
+                  <div class="absolute flex justify-between transform -translate-y-1/2 left-25 right-2 top-1/2">
+                    <button class="z-10 btn btn-circle" *ngIf="currentSlideIndex < images.length -   1" (click)="changeSlide('next'); $event.stopPropagation()">❯</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- RATING -->
+            <div class="flex flex-row">
+              <div class="rating flex flex-row" *ngFor="let star of averageRatingStars">
+                <input type="radio" name="rating-1" class="mask mask-star" />
+              </div>
+            </div>
+
+            <!-- BIO -->
+            <p>
+              {{this.selectedBeaconData.about}}
+            </p>
+
+            <!-- CONTACT INFO AS TAGS -->
+            <div class="card-actions flex flex-row">
+
+              <ng-container *ngFor="let contact of this.selectedBeaconData.contactInformation">
+                <div class="badge badge-outline">
+                  {{contact}}
+                </div>
+              </ng-container>
+
+            </div>
+          </div>
+        </div>
+      </ul>
+    </div>
   </div>
 
   <!-- divider between side bar and main content-->
@@ -81,7 +75,7 @@
     <div class="w-full h-1/8 bg-white flex flex-row justify-between">
 
       <div class="bg-white p-4">
-        <h2 class="text-left">Map</h2>
+        <h2 class="text-left"></h2>
       </div>
 
       <div class="bg-white p-4">
@@ -161,7 +155,8 @@
       </form>
     </div>
 
-    <div class="modal-action">
+    <div class="modal-action items-center">
+      <button class="btn btn-secondary"></button>
       <form method="dialog">
         <!-- if there is a button in form, it will close the modal -->
         <button class="btn" (click)="closeModal();">Close</button>
