@@ -1,0 +1,33 @@
+.marquee {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  animation: marquee 10s linear infinite;
+}
+
+.marquee span {
+  font-size: 4rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateY(100%);
+  }
+
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes marquee-backward {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(100%);
+  }
+}

@@ -25,6 +25,7 @@ export class ForumsComponent implements OnInit {
   displayComments = false;
   primaryUser!: User;
   selectedThreadComments: any = [];
+  originalForumThreads!: Thread[];
 
   openModal(): void {
     const modalToggle = document.getElementById('createThreadModal') as HTMLInputElement;
@@ -51,6 +52,7 @@ export class ForumsComponent implements OnInit {
     this.loadForumData();
     this.initNewThreadForm();
     this.loadCurrentUser();
+    this.originalForumThreads = [...this.forumThreads]; 
   }
 
   async loadCurrentUser(): Promise<void> {
@@ -73,9 +75,11 @@ export class ForumsComponent implements OnInit {
       tap((forum: Forum) => {
         if (forum && forum.threads && forum.threads.length > 0) {
           this.forumThreads = forum.threads;
+          this.originalForumThreads = [...this.forumThreads]; 
         } else {
           this.forumService.getThreads().subscribe((threads: Forum) => {
             this.forumThreads = threads.threads;
+            this.originalForumThreads = [...this.forumThreads]; 
           });
         }
       })
@@ -151,6 +155,19 @@ export class ForumsComponent implements OnInit {
     const date = timestamp ? new Date(timestamp.seconds * 1000) : null;
     return date ? date.toLocaleString() : '';
   }
+
+  filterThreads(search: string): void {
+    const trimmedSearch = search.trim();
+
+    this.forumThreads = this.forumThreads.filter((thread: Thread) =>
+      thread.title.toLowerCase().includes(trimmedSearch.toLowerCase())
+    );
+
+    if (trimmedSearch === '') {
+      this.forumThreads = [...this.originalForumThreads];
+    }
+  }
+
 }
 
 

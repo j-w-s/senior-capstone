@@ -38,7 +38,12 @@ export class MapService {
 
   async addBeaconMarker(beaconMarker: BeaconMarker): Promise<void> {
     console.log(beaconMarker);
+    const beaconMarkerRef = await this.firestore.collection('Beacon-Marker').add(beaconMarker);
+    await this.firestore.collection('Beacon').add(beaconMarkerRef);
+  }
 
+  async addBeacon(beaconMarker: BeaconMarker): Promise<void> {
+    console.log(beaconMarker);
     const beaconMarkerRef = await this.firestore.collection('Beacon-Marker').add(beaconMarker);
     await this.firestore.collection('Beacon').add(beaconMarkerRef);
   }

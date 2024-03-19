@@ -3,46 +3,44 @@
 <script src="https://unpkg.com/@glidejs/glide@3.3.0/dist/glide.min.js"></script>
 <app-alerts></app-alerts>
 
-<div class="container flex-grow flex flex-col w-full min-h-screen lg:flex-row bg-base-100">
+<app-alerts></app-alerts>
+<div class="flex-grow flex flex-col w-full max-h-screen min-w-screen min-h-screen lg:flex-row bg-base-100 p-0 m-0">
 
   <!-- Sidebar -->
-  <div class="w-1/4 flex flex-col justify-center items-center bg-white">
-    <div class="bg-white p-4 flex justify-between items-center">
-      <h2 class="text-left">Notifications</h2>
+  <div class="w-1/4 h-full flex flex-col justify-center items-center bg-white overflow-auto">
+    <div class="w-full h-1/8 bg-white flex flex-row justify-between">
+      <div class="bg-white p-4">
+        <h2 class="text-left">
+          Dashboard
+        </h2>
+      </div>
     </div>
-    <div class="drawer lg:drawer-open h-full">
-      <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-      <div class="drawer-content flex flex-col items-center justify-center">
-        <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">Open drawer</label>
-      </div>
-      <div class="drawer-side">
-        <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
-        <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
-          <ng-container *ngFor="let notification of notifications">
-            <li class="carousel-item">
-              <div class="card bordered bg-base-300 m-4 h-40">
-                <div class="card-body">
-                  <h2 class="card-title">From: {{ notification[0] }}</h2>
-                  <p>Message: {{ notification[1] }}</p>
-                </div>
+    <div class="container flex-grow w-full h-full">
+      <ul class="menu p-4 flex-grow w-full min-h-full bg-base-200 text-base-content">
+        <ng-container *ngFor="let notification of notifications">
+          <li class="carousel-item p-6">
+            <div class="card btn btn-secondary w-full h-full max-w-md mx-auto bg-secondary">
+              <div class="card-body">
+                <h1 class="card-title text-2xl font-bold">From: {{ notification[0] }}</h1>
+                <p class="card-text">Message: {{ notification[1] }}</p>
               </div>
-            </li>
-          </ng-container>
-        </ul>
-      </div>
+            </div>
+          </li>
+        </ng-container>
+      </ul>
     </div>
   </div>
-  <!-- End Sidebar -->
 
+  <!-- End Sidebar -->
   <!-- Divider -->
   <div class="divider lg:divider-horizontal"></div>
 
   <!-- Main Content -->
-  <div class="container flex-grow">
+  <div class="w-3/4 h-7/8 flex flex-col justify-center items-center bg-base-200">
     <!-- Top Bar -->
-    <div class="w-3/4 h-1/8 bg-white flex flex-row justify-between">
+    <div class="w-full h-1/8 bg-white flex flex-row justify-between">
       <div class="bg-white p-4">
-        <h2 class="text-left">Dashboard</h2>
+        <h2 class="text-left"></h2>
       </div>
       <div class="bg-white p-4 flex justify-center items-center" *ngIf="primaryUser">
         <span class="text-left">Welcome back, {{ primaryUser.userFirstName }} {{ primaryUser.userLastName }}.</span>
@@ -51,14 +49,14 @@
     </div>
 
     <!-- Cards -->
-    <div class="w-3/4 container p-6 shadow-xl bg-base-200">
+    <div class="w-full container p-6">
       <div class="glide">
         <div class="glide__track" data-glide-el="track">
           <ul class="glide__slides">
             <li class="glide__slide">
               <!-- Explore Card -->
               <a routerLink="/explore">
-                <div class="card card-side w-96 h-48 bg-base-100">
+                <div class="card card-side w-1/4 h-1/8 bg-base-100">
                   <figure class="relative">
                     <div class="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 opacity-50"></div>
                     <img src="assets/explore-gs.gif" alt="Explore" class="w-full h-full object-cover">
@@ -166,7 +164,7 @@
     </div>
 
     <!-- Components Frame -->
-    <div class="container  w-3/4 flex-grow flex flex-row bg-base-200 p-6">
+    <div class="container w-full justify-between flex-grow flex flex-row bg-base-200 p-6">
       <!-- this is a static calendar until i find something better -->
       <div class="container flex flex-col w-1/2 items-center bg-base-100 h-full p-4">
         <!-- month -->

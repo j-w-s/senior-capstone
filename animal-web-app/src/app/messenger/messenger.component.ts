@@ -23,13 +23,15 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private destroy$ = new Subject<void>();
   private messages: Message[] = [];
-  public contacts$: Observable<any[]> = of([]); 
+  public contacts$: Observable<any[]> = of([]);
   public contactsList: any[] = [];
   public selectedConversation: any[] = [];
   public notifications = new BehaviorSubject<string[]>([]);
 
   messages$!: Observable<any>;
   messagesSubscription: Subscription | undefined;
+
+  selectedConversation$: Observable<Message[]> | undefined;
 
   constructor(
     public messengerService: MessengerService,
@@ -38,6 +40,9 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
     private loginReg: LoginRegisterService,
     private cdRef: ChangeDetectorRef,
   ) { }
+    ngOnDestroy(): void {
+        throw new Error("Method not implemented.");
+    }
 
   ngOnInit(): void {
     this.messages$ = this.messengerService.messages.pipe(
@@ -77,16 +82,6 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
         console.error("Error fetching messages:", err);
       }
     });
-
-    //this.listenForNewMessages();
-  }
-
-  firestore(firestore: any, arg1: string, desiredString: any) {
-    throw new Error("Method not implemented.");
-  }
-
-  // gets rid of the listeners when the page is destroyed (refreshed, unloaded, etc.)
-  ngOnDestroy() {
   }
 
   async ngAfterViewInit(): Promise<void> {
@@ -101,18 +96,17 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
   selectContact(contact: User | null): void {
     this.selectedContact = contact;
     this.cdRef.detectChanges();
-    this.filterMessagesForSelectedContact();
+    this.selectedConversation$ = this.filterMessagesForSelectedContact();
     this.scrollDown();
   }
 
   // Helper function to filter messages for the selected contact
-  filterMessagesForSelectedContact(): void {
-    this.selectedConversation = this.messages.filter(
+  filterMessagesForSelectedContact(): Observable<Message[]> {
+    return of(this.messages.filter(
       (message) =>
-        message?.senderId === this.selectedContact?.userId ||
-        message?.receiverId === this.selectedContact?.userId
-    );
-    console.log(this.selectedConversation);
+        message.senderId === this?.selectedContact?.userId ||
+        message.receiverId === this?.selectedContact?.userId
+    ));
   }
 
   // Function to scroll down to the latest message
@@ -129,7 +123,6 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
   // sends the new message object to be stored in the database
   sendMessage(): void {
     if (this.newMessage && this.selectedContact) {
-
       const newMessage: Message = {
         messageId: uuidv4(),
         senderId: this.messengerService.demoPrimaryUserId,
@@ -143,12 +136,11 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
 
       // send the message and update the messages array
       this.messengerService.addMessage(newMessage, this.selectedContact.userId).then(() => {
-        // clear the input field
+        this.selectedConversation.push(newMessage);
         this.newMessage = '';
 
         // subscribe to the updated contacts$ Observable and call selectContact
         this.contacts$.subscribe(updatedContacts => {
-          // find the newly updated contact and select it
           const updatedContact = updatedContacts.find(contact => contact.userId === selContact.userId);
           if (updatedContact) {
             this.selectContact(updatedContact);
@@ -157,9 +149,6 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
       });
     }
   }
-
-  
-
 
   trackByFn(index: number, contact: User): string {
     return contact.userId; // unique identifier for the contact
