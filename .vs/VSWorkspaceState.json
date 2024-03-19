@@ -4,13 +4,13 @@
     "\\animal-web-app",
     "\\animal-web-app\\src",
     "\\animal-web-app\\src\\app",
-    "\\animal-web-app\\src\\app\\explore-create-post",
+    "\\animal-web-app\\src\\app\\dashboard",
+    "\\animal-web-app\\src\\app\\explore",
     "\\animal-web-app\\src\\app\\forums",
-    "\\animal-web-app\\src\\app\\home",
-    "\\animal-web-app\\src\\app\\landing-page",
-    "\\animal-web-app\\src\\app\\login",
-    "\\animal-web-app\\src\\app\\map"
+    "\\animal-web-app\\src\\app\\map",
+    "\\animal-web-app\\src\\app\\messenger",
+    "\\animal-web-app\\src\\app\\settings"
   ],
-  "SelectedNode": "\\animal-web-app\\tailwind.config.js",
+  "SelectedNode": "\\animal-web-app\\src\\app\\explore\\explore.component.html",
   "PreviewInSolutionExplorer": false
 }

@@ -1,34 +1,36 @@
 <app-alerts></app-alerts>
 <div class="flex-grow flex flex-col w-full max-h-screen min-w-screen lg:flex-row bg-base-100 p-0 m-0">
   <!-- Sidebar -->
-  <div class="w-1/4 flex flex-col justify-center items-center bg-white">
-    <div class="bg-white p-4 flex flex-col justify-between items-center w-full">
-      <h2 class="text-left">Contacts</h2>
-      <h2 class="text-left justify-between w-full flex items-center">
+  <div class="w-1/4 h-7/8 flex flex-col overflow-y-auto no-scrollbar">
+    <div class="w-full h-1/8 bg-white flex flex-col justify-between items-center w-full">
+      <h2 class="text-left justify-between w-full flex items-center gap-4 p-4">Contacts</h2>
+      <h2 class="text-left justify-between w-full flex items-center gap-4 p-4">
         <input #contactInput type="text" id="addContact" placeholder="Enter contact username..." class="py-2 px-3 border border-gray-300 rounded-s shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm w-full mr-2">
         <button type="submit" class="btn btn-primary" (click)="addContact(contactInput.value)">Add</button>
       </h2>
     </div>
 
-    <div class="drawer lg:drawer-open h-full">
-      <div class="drawer-content flex flex-col items-center">
-        <!-- page content here -->
+    <div class="w-full h-7/8 bg-white flex flex-col">
+      <div class="carousel carousel-vertical p-4 flex flex-col w-full h-full overflow-y-auto bg-base-200 text-base-content">
         <ng-container *ngIf="contacts$ | async as contacts">
           <ng-container *ngFor="let contact of contacts">
-            <div class="rounded-box card card-side w-11/12 hover:brightness-90"
-                 [class.bg-gray-300]="selectedContact?.userId === contact.userId"
-                 [class.bg-gray-100]="selectedContact?.userId !== contact.userId"
-                 (click)="selectContact(contact)">
-              <div class="flex items-center gap-4 p-4">
-                <img class="w-12 h-12 rounded-full" [src]="contact.userImage">
-                <div class="flex flex-col">
-                  <strong>{{contact.userFirstName}} {{contact.userLastName}}</strong>
-                  <span>
-                    <p>{{ contact.userBiography | slice:0:20 }}</p>
-                  </span>
+            <a class="carousel-item h-auto max-h-48 btn bg-base-100 p-4 m-2"
+                [class.btn-disabled]="selectedContact?.userId === contact.userId"
+                [class.btn-active]="selectedContact?.userId !== contact.userId"
+               >
+              <div class="card card-side w-full h-auto"
+                (click)="selectContact(contact)">
+                <div class="flex items-center gap-4 p-4">
+                  <img class="w-12 h-12 rounded-full" [src]="contact.userImage" />
+                  <div class="flex flex-col">
+                    <strong>{{ contact.userFirstName }} {{ contact.userLastName }}</strong>
+                    <span>
+                      <p>{{ contact.userBiography | slice:0:20 }}</p>
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
+            </a>
           </ng-container>
         </ng-container>
       </div>
