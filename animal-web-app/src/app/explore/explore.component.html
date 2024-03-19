@@ -1,211 +1,179 @@
 <app-alerts></app-alerts>
+<div class="flex-grow flex flex-col w-full max-h-screen min-w-screen min-h-screen lg:flex-row bg-base-100 p-0 m-0">
 
-<div class="flex-grow flex flex-col min-h-screen min-w-screen bg-base-300 p-0 m-0 justify-center items-center">
-
-  <!-- sidebar -->
-  <div class="w-1/4 min-h-full flex flex-col justify-center items-center bg-white">
-    <div class="bg-white h-20 p-4 flex justify-between items-center">
-      <h2 class="text-left">Sidebar</h2>
-    </div>
-
-    <div class="drawer lg:drawer-open h-full">
-      <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-      <div class="drawer-content flex flex-col items-center justify-center">
-        <!-- page content here -->
-        <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">Open drawer</label>
-
-      </div>
-
-      <div class="drawer-side">
-        <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
-        <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content items-center">
-        </ul>
-
+  <!-- Sidebar -->
+  <div class="w-1/4 h-full flex flex-col justify-center items-center bg-white">
+    <div class="w-full h-1/8 bg-white flex flex-row justify-between">
+      <div class="bg-white p-4">
+        <h2 class="text-left">Explore</h2>
       </div>
     </div>
-
+    <div class="container flex-grow w-full h-full">
+      <ul class="menu p-4 flex-grow w-full min-h-full bg-base-200 text-base-content">
+        <li>
+          yh
+        </li>
+        <li>
+        </li>
+      </ul>
+    </div>
   </div>
 
-  <!-- divider between side bar and main content-->
+  <!-- Divider -->
   <div class="divider lg:divider-horizontal"></div>
 
-  <!-- main content -->
-  <div class="container">
-
-    <!-- TOP BAR -->
-    <div class="bg-white p-4 flex justify-between items-center">
-      <div class="w-1/3 justify-center">
-        <h2 class="text-left">Explore Page - {{currentPage}} </h2>
-      </div>
-
-      <div class="w-2/3 flex justify-end items-center">
-        <div class="flex space-x-4">
-
-          <button class="btn btn-secondary" (click)="generateUUID(); openModal();">
-            Create
-          </button>
-
-          <input type="text" id="search" name="search" placeholder="Search..." class="py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" (keyup)="searchFunction($event)">
-          <button type="submit" class="btn btn-primary">Search</button>
-
+  <div class="w-3/4 h-7/8 flex flex-col justify-center items-center bg-base-200">
+    <!-- Top Bar -->
+    <div class="w-full h-1/8 bg-white flex flex-row justify-between items-center">
+      <div class="bg-white p-4 flex flex-row justify-between items-center w-full">
+        <button class="join-item btn" (click)="previousPage()" [disabled]="currentPage === 1">«</button>
+        <div class="flex overflow-ellipsis justify-between w-full">
+          <button class="join-item btn" *ngFor="let page of getVisiblePages()" [disabled]="currentPage === page" (click)="goToPage(page)">{{page}}</button>
         </div>
+        <button class="join-item btn" (click)="nextPage()" [disabled]="currentPage === gettotalPages()">»</button>
       </div>
     </div>
-
-    <div class="flex flex-wrap justify-around items-center">
-      <div *ngFor="let animal of getDisplayedCards()" class="w-64 h-auto rounded overflow-auto shadow-lg m-4 relative">
-
-        <img class="w-64 h-48 object-cover" [src]="animal.images[animal.primaryImage]" alt="Animal image">
-        <div class="px-6 py-4">
-
-          <div class="font-bold text-xl mb-2">{{ animal.animalName }}</div>
-
-          <p class="text-gray-700 text-base animal-info">
-            Owner: {{ animal.owner }} Type: {{ animal.animalType }} Breed: {{ animal.animalBreed ? animal.animalBreed.join(', ') : '' }} Weight: {{ animal.animalWeight }} Sex: {{ animal.animalSex }} Temperament: {{ animal.temperament ? animal.temperament.join(', ') : '' }} About: {{ animal.about }} Location: {{ animal.location }} Zip Code: {{ animal.zipCode }} Adoption Status: {{ animal.adoptionStatus }} Date Of Birth: {{ animal.dateOfBirth }} Color: {{ animal.color }} Vaccination Status: {{ animal.vaccinationStatus }}
-          </p>
-
-          <!-- Dropdown Menu -->
-          <div class="dropdown absolute right-0 top-0">
-            <div tabindex="0" role="button" class="btn mt-1 mr-1" (click)="toggleDropdown()">&#x22EE;</div>
-            <ul *ngIf="dropdownVisible" class="dropdown-content z-[20] menu p-2 shadow bg-base-100 rounded-box w-52">
-              <div class="edit-button items-center justify-center">
-                <button class="btn btn-ghost w-full text-center" (click)="editAnimal(animal); toggleDropdown(); isModalOpen = true;">Edit</button>
-              </div>
-
-              <div class="edit-button items-center justify-center">
-                <button class="btn btn-ghost w-full text-center" (click)="deleteAnimalFromCollection(animal); toggleDropdown();">Delete</button>
-              </div>
-            </ul>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-
-
-    <!-- BUTTONS FOR NAVIGATION-->
-    <div class="join bg-white p-4 flex justify-between items-center">
-      <button class="join-item btn" (click)="previousPage()" [disabled]="currentPage === 1">«</button>
-      <div class="flex overflow-ellipsis">
-        <button class="join-item btn" *ngFor="let page of getVisiblePages()" [disabled]="currentPage === page" (click)="goToPage(page)">{{page}}</button>
-      </div>
-      <button class="join-item btn" (click)="nextPage()" [disabled]="currentPage === gettotalPages()">»</button>
-    </div>
-
-
-  </div>
-
-  <div *ngIf="isModalOpen" class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-      <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-      <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-          <div class="sm:flex sm:items-start">
-            <div class="mt-3 container w-full text-center justify-center items-center sm:mt-0 sm:ml-4 sm:text-left">
-              <h1 class="text-5xl font-bold text-center" id="modal-title">
-                Add New Animal
-              </h1>
-              <div class="mt-2 w-full container">
-                <form [formGroup]="animalCreateForm" (ngSubmit)="addAnimalToCollection();" class="p-4 pt-4 w-full">
-                  <!-- Animal ID -->
-                  <div class="mb-4">
-                    <label for="animalId" class="block text-sm font-medium text-gray-700">Animal ID</label>
-                    <input type="text" id="animalId" formControlName="animalId" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" [disabled]="true" />
-                  </div>
-                  <!-- Owner -->
-                  <div class="mb-4">
-                    <label for="owner" class="block text-sm font-medium text-gray-700">Owner</label>
-                    <input type="text" id="owner" formControlName="owner" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                  </div>
-                  <!-- Animal Type -->
-                  <div class="mb-4">
-                    <label for="animalType" class="block text-sm font-medium text-gray-700">Animal Type</label>
-                    <input type="text" id="animalType" formControlName="animalType" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                  </div>
-                  <!-- Animal Name -->
-                  <div class="mb-4">
-                    <label for="animalName" class="block text-sm font-medium text-gray-700">Animal Name</label>
-                    <input type="text" id="animalName" formControlName="animalName" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                  </div>
-                  <!-- Animal Weight -->
-                  <div class="mb-4">
-                    <label for="animalWeight" class="block text-sm font-medium text-gray-700">Animal Weight</label>
-                    <input type="text" id="animalWeight" formControlName="animalWeight" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                  </div>
-                  <!-- Animal Sex -->
-                  <div class="mb-4">
-                    <label for="animalSex" class="block text-sm font-medium text-gray-700">Animal Sex</label>
-                    <input type="text" id="animalSex" formControlName="animalSex" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                  </div>
-                  <!-- Temperament -->
-                  <div class="mb-4">
-                    <label for="temperament" class="block text-sm font-medium text-gray-700">Temperament</label>
-                    <input type="text" id="temperament" formControlName="temperament" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                  </div>
-                  <!-- About -->
-                  <div class="mb-4">
-                    <label for="about" class="block text-sm font-medium text-gray-700">About</label>
-                    <input type="text" id="about" formControlName="about" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                  </div>
-                  <!-- Images -->
-                  <div class="mb-4">
-                    <label for="images" class="block text-sm font-medium text-gray-700">Images</label>
-                    <input type="text" id="images" formControlName="images" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                  </div>
-                  <!-- Primary Image -->
-                  <div class="mb-4">
-                    <label for="primaryImage" class="block text-sm font-medium text-gray-700">Primary Image</label>
-                    <input type="text" id="primaryImage" formControlName="primaryImage" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                  </div>
-                  <!-- Location -->
-                  <div class="mb-4">
-                    <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
-                    <input type="text" id="location" formControlName="location" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                  </div>
-                  <!-- Zip Code -->
-                  <div class="mb-4">
-                    <label for="zipCode" class="block text-sm font-medium text-gray-700">Zip Code</label>
-                    <input type="text" id="zipCode" formControlName="zipCode" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                  </div>
-                  <!-- Adoption Status -->
-                  <div class="mb-4">
-                    <label for="adoptionStatus" class="block text-sm font-medium text-gray-700">Adoption Status</label>
-                    <input type="text" id="adoptionStatus" formControlName="adoptionStatus" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                  </div>
-                  <!-- Date Of Birth -->
-                  <div class="mb-4">
-                    <label for="dateOfBirth" class="block text-sm font-medium text-gray-700">Date Of Birth</label>
-                    <input type="date" id="dateOfBirth" formControlName="dateOfBirth" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                  </div>
-                  <!-- Color -->
-                  <div class="mb-4">
-                    <label for="color" class="block text-sm font-medium text-gray-700">Color</label>
-                    <input type="text" id="color" formControlName="color" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                  </div>
-                  <!-- Vaccination Status -->
-                  <div class="mb-4">
-                    <label for="vaccinationStatus" class="block text-sm font-medium text-gray-700">Vaccination Status</label>
-                    <input type="text" id="vaccinationStatus" formControlName="vaccinationStatus" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                  </div>
-
-                  <div class=" text-center justify-center items-center">
-                    <button type="submit" class="btn btn-primary" [disabled]="!animalCreateForm.valid" (click)="addAnimalToCollection(); closeModal();">Submit</button>
-                  </div>
-
-                </form>
-              </div>
+    <!-- Profile Tab Content -->
+    <!-- Profile Tab Content -->
+    <div class="flex-grow w-full h-7/8 p-4 flex justify-center items-center">
+      <div class="grid grid-cols-4 gap-4 h-6/8 justify-items-center">
+        <div *ngFor="let animal of getDisplayedCards()" class="card bg-white overflow-hidden p-4 h-1/2">
+          <img class="w-full h-64 object-cover" [src]="animal.images[animal.primaryImage]" alt="Animal image">
+          <div class="p-4">
+            <div class="font-bold text-xl mb-2">{{ animal.animalName }}</div>
+            <p class="text-base">
+              Owner: {{ animal.owner }} Type: {{ animal.animalType }} Breed: {{ animal.animalBreed ? animal.animalBreed.join(', ') : '' }} Weight: {{ animal.animalWeight }} Sex: {{ animal.animalSex }} Temperament: {{ animal.temperament ? animal.temperament.join(', ') : '' }} About: {{ animal.about }} Location: {{ animal.location }} Zip Code: {{ animal.zipCode }} Adoption Status: {{ animal.adoptionStatus }} Date Of Birth: {{ animal.dateOfBirth }} Color: {{ animal.color }} Vaccination Status: {{ animal.vaccinationStatus }}
+            </p>
+            <!-- Dropdown Menu -->
+            <div class="absolute right-0 top-0">
+              <div tabindex="0" role="button" class="btn mt-1 mr-1" (click)="toggleDropdown()">&#x22EE;</div>
+              <ul *ngIf="dropdownVisible" class="dropdown-content z-[20] menu p-2 shadow bg-white rounded-box w-52">
+                <div class="edit-button items-center justify-center">
+                  <button class="btn btn-ghost w-full text-center" (click)="editAnimal(animal); toggleDropdown(); isModalOpen = true;">Edit</button>
+                </div>
+                <div class="edit-button items-center justify-center">
+                  <button class="btn btn-ghost w-full text-center" (click)="deleteAnimalFromCollection(animal); toggleDropdown();">Delete</button>
+                </div>
+              </ul>
             </div>
           </div>
         </div>
-        <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-          <a class="btn btn-neutral" (click)="closeModal()">
-            Close
-          </a>
-        </div>
       </div>
     </div>
   </div>
-
 </div>
+
+<!-- End Main Content -->
+
+<div *ngIf="isModalOpen" class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+      <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+        <div class="sm:flex sm:items-start">
+          <div class="mt-3 container w-full text-center justify-center items-center sm:mt-0 sm:ml-4 sm:text-left">
+            <h1 class="text-5xl font-bold text-center" id="modal-title">
+              Add New Animal
+            </h1>
+            <div class="mt-2 w-full container">
+              <form [formGroup]="animalCreateForm" (ngSubmit)="addAnimalToCollection();" class="p-4 pt-4 w-full">
+                <!-- Animal ID -->
+                <div class="mb-4">
+                  <label for="animalId" class="block text-sm font-medium text-gray-700">Animal ID</label>
+                  <input type="text" id="animalId" formControlName="animalId" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" [disabled]="true" />
+                </div>
+                <!-- Owner -->
+                <div class="mb-4">
+                  <label for="owner" class="block text-sm font-medium text-gray-700">Owner</label>
+                  <input type="text" id="owner" formControlName="owner" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+                <!-- Animal Type -->
+                <div class="mb-4">
+                  <label for="animalType" class="block text-sm font-medium text-gray-700">Animal Type</label>
+                  <input type="text" id="animalType" formControlName="animalType" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+                <!-- Animal Name -->
+                <div class="mb-4">
+                  <label for="animalName" class="block text-sm font-medium text-gray-700">Animal Name</label>
+                  <input type="text" id="animalName" formControlName="animalName" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+                <!-- Animal Weight -->
+                <div class="mb-4">
+                  <label for="animalWeight" class="block text-sm font-medium text-gray-700">Animal Weight</label>
+                  <input type="text" id="animalWeight" formControlName="animalWeight" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+                <!-- Animal Sex -->
+                <div class="mb-4">
+                  <label for="animalSex" class="block text-sm font-medium text-gray-700">Animal Sex</label>
+                  <input type="text" id="animalSex" formControlName="animalSex" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+                <!-- Temperament -->
+                <div class="mb-4">
+                  <label for="temperament" class="block text-sm font-medium text-gray-700">Temperament</label>
+                  <input type="text" id="temperament" formControlName="temperament" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+                <!-- About -->
+                <div class="mb-4">
+                  <label for="about" class="block text-sm font-medium text-gray-700">About</label>
+                  <input type="text" id="about" formControlName="about" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+                <!-- Images -->
+                <div class="mb-4">
+                  <label for="images" class="block text-sm font-medium text-gray-700">Images</label>
+                  <input type="text" id="images" formControlName="images" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+                <!-- Primary Image -->
+                <div class="mb-4">
+                  <label for="primaryImage" class="block text-sm font-medium text-gray-700">Primary Image</label>
+                  <input type="text" id="primaryImage" formControlName="primaryImage" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+                <!-- Location -->
+                <div class="mb-4">
+                  <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+                  <input type="text" id="location" formControlName="location" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+                <!-- Zip Code -->
+                <div class="mb-4">
+                  <label for="zipCode" class="block text-sm font-medium text-gray-700">Zip Code</label>
+                  <input type="text" id="zipCode" formControlName="zipCode" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+                <!-- Adoption Status -->
+                <div class="mb-4">
+                  <label for="adoptionStatus" class="block text-sm font-medium text-gray-700">Adoption Status</label>
+                  <input type="text" id="adoptionStatus" formControlName="adoptionStatus" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+                <!-- Date Of Birth -->
+                <div class="mb-4">
+                  <label for="dateOfBirth" class="block text-sm font-medium text-gray-700">Date Of Birth</label>
+                  <input type="date" id="dateOfBirth" formControlName="dateOfBirth" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+                <!-- Color -->
+                <div class="mb-4">
+                  <label for="color" class="block text-sm font-medium text-gray-700">Color</label>
+                  <input type="text" id="color" formControlName="color" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+                <!-- Vaccination Status -->
+                <div class="mb-4">
+                  <label for="vaccinationStatus" class="block text-sm font-medium text-gray-700">Vaccination Status</label>
+                  <input type="text" id="vaccinationStatus" formControlName="vaccinationStatus" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+
+                <div class=" text-center justify-center items-center">
+                  <button type="submit" class="btn btn-primary" [disabled]="!animalCreateForm.valid" (click)="addAnimalToCollection(); closeModal();">Submit</button>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <a class="btn btn-neutral" (click)="closeModal()">
+          Close
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
