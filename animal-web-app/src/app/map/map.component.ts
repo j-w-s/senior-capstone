@@ -12,7 +12,7 @@ import BusinessRating from '../../models/business-ratings';
 import { v4 as uuidv4 } from 'uuid';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { getStorage, deleteObject } from "firebase/storage";
-import fetch from 'node-fetch';
+
 
 @Component({
   selector: 'app-map',
