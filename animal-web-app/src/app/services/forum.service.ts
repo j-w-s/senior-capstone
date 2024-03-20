@@ -28,18 +28,31 @@ export class ForumService {
 
   async addThread(thread: Thread): Promise<void> {
     try {
-      // Threads collection doc ref
-      const docRef = await this.firestore.collection('Thread').add(thread);
-      const threadId = docRef.id; // Get the Firestore-assigned document ID
-      console.log('Thread added successfully with ID:', threadId);
+      if (thread.id) {
+        // If the thread has an ID, it's an update operation
+        const threadRef = this.firestore.collection('Thread').doc(thread.id);
+        await threadRef.update({
+          title: thread.title,
+          tags: thread.tags,
+          threadContent: thread.threadContent,
+          // Include any other fields you want to update
+        });
+        this.refreshForum();
+        console.log('Thread updated successfully.');
+      } else {
+        // If the thread does not have an ID, it's a new thread
+        const docRef = await this.firestore.collection('Thread').add(thread);
+        const threadId = docRef.id; // Get the Firestore-assigned document ID
+        console.log('Thread added successfully with ID:', threadId);
 
-      // Update the thread document with the Firestore-assigned ID
-      await docRef.update({ id: threadId });
+        // Update the thread document with the Firestore-assigned ID
+        await docRef.update({ id: threadId });
+      }
 
       // Assuming you have a function to refresh the forum, call it here
       this.refreshForum();
     } catch (error) {
-      console.error('Error adding thread:', error);
+      console.error('Error adding/updating thread:', error);
     }
   }
 

@@ -52,7 +52,7 @@ export class ForumsComponent implements OnInit {
     this.loadForumData();
     this.initNewThreadForm();
     this.loadCurrentUser();
-    this.originalForumThreads = [...this.forumThreads]; 
+    this.originalForumThreads = [...this.forumThreads];
   }
 
   async loadCurrentUser(): Promise<void> {
@@ -97,8 +97,8 @@ export class ForumsComponent implements OnInit {
     try {
       if (this.newThreadForm.valid) {
         let userId = await this.loginRegService.getCurrentUser();
-        const newThread: Thread = {
-          id: '',
+        const threadData: Thread = {
+          id: this.selectedThread ? this.selectedThread.id : '', // Use existing ID if editing
           publisher: this.primaryUser.userDisplayName,
           users: [],
           tags: this.newThreadForm.get('tags')?.value.split(','),
@@ -106,12 +106,13 @@ export class ForumsComponent implements OnInit {
           threadContent: this.newThreadForm.get('content')?.value,
           timeSent: new Date()
         };
+        await this.forumService.addThread(threadData);
 
-        await this.forumService.addThread(newThread);
         this.resetForm();
+        this.closeModal();
       }
     } catch (error) {
-      console.error('Error adding new thread:', error);
+      console.error('Error adding/updating thread:', error);
     }
   }
 
@@ -167,7 +168,18 @@ export class ForumsComponent implements OnInit {
       this.forumThreads = [...this.originalForumThreads];
     }
   }
+  editThread(): void {
+    const thread = this.selectedThread!;
 
+    this.newThreadForm.patchValue({
+      title: thread.title,
+      tags: thread.tags.join(','), // Assuming tags is an array
+      content: thread.threadContent
+    });
+
+    // Open the modal to edit the thread
+    this.openModal();
+  }
 }
 
 

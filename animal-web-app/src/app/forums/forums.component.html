@@ -52,6 +52,7 @@
           <p>{{ selectedThread?.threadContent }}</p>
           <p><b>Time Sent:</b> {{ formatTimestamp(selectedThread?.timeSent) | date: 'medium' }}</p>
         </div>
+        <button *ngIf="primaryUser.userDisplayName === selectedThread?.publisher" class="btn btn-secondary" (click)="editThread()">Edit</button>
       </div>
 
       <!-- Comments -->
@@ -64,6 +65,7 @@
             <p><b>Time Sent:</b> {{ formatTimestamp(comment?.timeSent) | date: 'medium' }}</p>
           </div>
         </div>
+        <button *ngIf="primaryUser.userId == comment?.userId" class="btn btn-secondary">Edit</button>
       </div>
 
       <!-- Add a New Comment -->
