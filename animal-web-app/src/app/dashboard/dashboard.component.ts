@@ -59,7 +59,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
       autoplay: 1,
       animationDuration: 4500,
       animationTimingFunc: 'linear',
-      perView:3,
+      perView:2.5,
       breakpoints: {
         1024: {
           perView: 2
