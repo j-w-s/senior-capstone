@@ -1,10 +1,11 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { ExploreService } from '../services/explore.service';
 import Animal from '../../models/animal';
+import User from '../../models/user';
 import { LoginRegisterService } from '../services/login-register.service';
 import { finalize, Observable, Subscription } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -44,23 +45,46 @@ export class ExploreComponent implements OnInit, AfterViewInit{
   showKebabModal = false;
   selectedAnimal: Animal | null = null;
 
+  currentUserId!: string;
+  currentUser!: any;
+
   dropdownVisible = false;
 
   isModalOpen = false;
+  @ViewChild('addAnimalModal', { static: false }) addAnimalModal!: ElementRef;
 
   openModal(): void {
-    this.isModalOpen = true;
-  }
+    this.addAnimalModal.nativeElement.checked = true;
+ }
 
-  closeModal(): void {
-    this.isModalOpen = false;
-  }
+ closeModal(): void {
+    this.addAnimalModal.nativeElement.checked = false;
+    this.animalCreateForm = new FormGroup({
+      animalId: new FormControl(this.generateUUID(), Validators.required),
+      owner: new FormControl(this.currentUser.firstName + ' ' + this.currentUser.lastName, Validators.required),
+      animalType: new FormControl('', Validators.required),
+      animalBreed: new FormControl([''], Validators.required),
+      animalName: new FormControl('', Validators.required),
+      animalWeight: new FormControl(0, Validators.required),
+      animalSex: new FormControl('', Validators.required),
+      temperament: new FormControl([''], Validators.required),
+      about: new FormControl('', Validators.required),
+      images: new FormControl([], Validators.required),
+      primaryImage: new FormControl(0, Validators.required),
+      location: new FormControl('', Validators.required),
+      zipCode: new FormControl(0, Validators.required),
+      adoptionStatus: new FormControl(0, Validators.required),
+      dateOfBirth: new FormControl(new Date(), Validators.required),
+      color: new FormControl(''),
+      vaccinationStatus: new FormControl(false)
+    });
+ }
 
   toggleDropdown() {
     this.dropdownVisible = !this.dropdownVisible;
   }
 
-  constructor(private exploreService: ExploreService, private cdr: ChangeDetectorRef, private fb: FormBuilder,
+  constructor(private exploreService: ExploreService, private cdr: ChangeDetectorRef, private fb: FormBuilder, private loginRegService: LoginRegisterService,
 
     private storage: AngularFireStorage  ) {
     this.animalCreateForm = new FormGroup({
@@ -90,8 +114,8 @@ export class ExploreComponent implements OnInit, AfterViewInit{
     return Array.isArray(value) ? value : [value];
   }
 
-  generateUUID(): void {
-    this.animalCreateForm.get('animalId')!.setValue(uuidv4());
+  generateUUID(): string {
+    return uuidv4() as string;
   }
 
   editAnimal(animal: Animal) {
@@ -127,10 +151,10 @@ export class ExploreComponent implements OnInit, AfterViewInit{
     this.showKebabModal = false;
   }
 
-  closeAnimalModal(): void {
+  createNewSetup(): void {
     this.animalCreateForm = new FormGroup({
-      animalId: new FormControl('', Validators.required),
-      owner: new FormControl(''),
+      animalId: new FormControl(this.generateUUID(), Validators.required),
+      owner: new FormControl(this.currentUser.firstName + ' ' + this.currentUser.lastName, Validators.required),
       animalType: new FormControl('', Validators.required),
       animalBreed: new FormControl([''], Validators.required),
       animalName: new FormControl('', Validators.required),
@@ -193,7 +217,9 @@ export class ExploreComponent implements OnInit, AfterViewInit{
 
 
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.currentUserId =  await this.loginRegService.getCurrentUser();
+    this.currentUser = await this.loginRegService.getUserDetails(this.currentUserId);
     this.animals$ = this.exploreService.getAnimals();
 
     this.animalsSubscription = this.animals$.subscribe((animals: Animal[]) => {
@@ -318,4 +344,6 @@ export class ExploreComponent implements OnInit, AfterViewInit{
 
   }
 
+  filterThreads(search: string): void {
+  }
 }

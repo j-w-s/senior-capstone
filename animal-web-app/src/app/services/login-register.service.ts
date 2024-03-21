@@ -13,7 +13,7 @@ export class LoginRegisterService {
   public auth;
   //public currentUserObject: any;
 
-  constructor() {  
+  constructor() {
     const auth = getAuth();
     this.auth = auth;
     onAuthStateChanged(auth, (user) => {
@@ -39,7 +39,7 @@ export class LoginRegisterService {
     });
   }
 
-  registerUser(email: string, password: string, firstname: string, lastname: string, phonenumber: string, username: string, image: string): Promise<any> {
+  async registerUser(email: string, password: string, firstname: string, lastname: string, phonenumber: string, username: string, image: string): Promise<any> {
     const auth = getAuth();
     // creates a user account user firebase function
     return createUserWithEmailAndPassword(auth, email, password)
