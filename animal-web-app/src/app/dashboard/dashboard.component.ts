@@ -46,9 +46,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
       console.log('Notifications: ', notifications);
     })
 
-    
   }
-
 
   // using glidejs to handle this now because my marquee version
   // would sometimes flicker and required a lot of transformations

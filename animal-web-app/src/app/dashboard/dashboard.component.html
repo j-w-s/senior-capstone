@@ -26,209 +26,205 @@
  </div>
 </div>
 
+<!-- Divider -->
+<div class="divider lg:divider-horizontal"></div>
 
-
-  <!-- End Sidebar -->
-  <!-- End Sidebar -->
-  <!-- Divider -->
-  <div class="divider lg:divider-horizontal"></div>
-
-  <!-- Main Content -->
-  <div class="w-3/4 h-7/8 flex flex-col justify-center items-center bg-base-200">
-    <!-- Top Bar -->
-    <div class="w-full h-1/8 bg-white flex flex-row justify-between">
-      <div class="bg-white p-4">
-        <h2 class="text-left"></h2>
-      </div>
-      <div class="bg-white p-4 flex justify-center items-center" *ngIf="primaryUser">
-        <span class="text-left">Welcome back, {{ primaryUser.userFirstName }} {{ primaryUser.userLastName }}.</span>
-        <img [src]="primaryUser.userImage" class="w-12 h-12 rounded-full shrink-0 ml-4 justify-center items-center">
-      </div>
+<!-- Main Content -->
+<div class="w-3/4 h-7/8 flex flex-col justify-center items-center bg-base-200">
+  <!-- Top Bar -->
+  <div class="w-full h-1/8 bg-white flex flex-row justify-between">
+    <div class="bg-white p-4">
+      <h2 class="text-left"></h2>
     </div>
-
-    <!-- Cards -->
-    <div class="w-full container p-6">
-      <div class="glide">
-        <div class="glide__track" data-glide-el="track">
-          <ul class="glide__slides">
-            <li class="glide__slide">
-              <!-- Explore Card -->
-              <a routerLink="/explore" class="a-2">
-                <div class="card card-side w-96 h-48 bg-base-100">
-                  <figure class="relative">
-                    <div class="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 opacity-50"></div>
-                    <img src="assets/explore-gs.gif" alt="Explore" class="w-full h-full object-cover">
-                  </figure>
-                  <div class="card-body">
-                    <h2 class="card-title">Explore</h2>
-                    <p>Explore Animals in <br /> Your Area</p>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li class="glide__slide">
-              <!-- FORUMS CARD -->
-              <a routerLink="/forums" class="a-2">
-                <div class="card card-side w-96 h-48 bg-base-100">
-                  <figure class="relative">
-                    <div class="absolute inset-0 bg-gradient-to-r from-orange-300 to-orange-600 opacity-50"></div>
-                    <img src="assets/forums-gs.gif" alt="Forums" class="w-full h-full object-cover">
-                  </figure>
-                  <div class="card-body">
-                    <h2 class="card-title">Forums</h2>
-                    <p>Forums Discussions</p>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li class="glide__slide">
-              <!-- Messenger Card -->
-              <a routerLink="/messenger" class="a-2">
-                <div class="card card-side w-96 h-48 bg-base-100">
-                  <figure class="relative">
-                    <div class="absolute inset-0 bg-gradient-to-r from-green-300 to-green-600 opacity-50"></div>
-                    <img src="assets/chat-gs.gif" alt="Messenger" class="w-full h-full object-cover">
-                  </figure>
-                  <div class="card-body">
-                    <h2 class="card-title">Messenger</h2>
-                    <p>App Messenger</p>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li class="glide__slide">
-              <!-- Scheduler Card -->
-              <a routerLink="/login" class="a-2"> 
-                <div class="card card-side w-96 h-48 bg-base-100">
-                  <figure class="relative">
-                    <div class="absolute inset-0 bg-gradient-to-r from-pink-300 to-pink-600 opacity-50"></div>
-                    <img src="assets/calendar-gs.gif" alt="Scheduler" class="w-full h-full object-cover">
-                  </figure>
-                  <div class="card-body">
-                    <h2 class="card-title">Scheduler</h2>
-                    <p>Scheduler for Appointments</p>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li class="glide__slide">
-              <!-- Settings Card -->
-              <a routerLink="/settings" class="a-2">
-                <div class="card card-side w-96 h-48 bg-base-100">
-                  <figure class="relative">
-                    <div class="absolute inset-0 bg-gradient-to-r from-purple-300 to-purple-600 opacity-50"></div>
-                    <img src="assets/settings-gs.gif" alt="Settings" class="w-full h-full object-cover">
-                  </figure>
-                  <div class="card-body">
-                    <h2 class="card-title">Settings</h2>
-                    <p>Settings and Preferences <br /> Manager</p>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li class="glide__slide">
-              <!-- Groups Card -->
-              <a routerLink="/groups" class="a-2">
-                <div class="card card-side w-96 h-48 bg-base-100">
-                  <figure class="relative">
-                    <div class="absolute inset-0 bg-gradient-to-r from-red-300 to-red-600 opacity-50"></div>
-                    <img src="assets/groups-gs.gif" alt="Groups" class="w-full h-full object-cover">
-                  </figure>
-                  <div class="card-body">
-                    <h2 class="card-title">Groups</h2>
-                    <p>Join and Manage Groups</p>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li class="glide__slide">
-              <!-- Maps Card -->
-              <a routerLink="/map" class="a-2">
-                <div class="card card-side w-96 h-48 bg-base-100">
-                  <figure class="relative">
-                    <div class="absolute inset-0 bg-gradient-to-r from-slate-300 to-slate-600 opacity-50"></div>
-                    <img src="assets/maps-gs.gif" alt="Maps" class="w-full h-full object-cover">
-                  </figure>
-                  <div class="card-body">
-                    <h2 class="card-title">Map</h2>
-                    <p>Find Local Businesses <br /> and More</p>
-                  </div>
-                </div>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
+    <div class="bg-white p-4 flex justify-center items-center p-2 mt-4" *ngIf="primaryUser">
+      <a class="text-left">Welcome back, {{ primaryUser.userFirstName }} {{ primaryUser.userLastName }}.</a>
+      <img [src]="primaryUser.userImage" class="w-12 h-12 rounded-full shrink-0 ml-4 justify-center items-center">
     </div>
+  </div>
 
-    <!-- Components Frame -->
-    <div class="container w-full justify-between flex-grow flex flex-row bg-base-200 p-6">
-      <!-- this is a static calendar until i find something better -->
-      <div class="container flex flex-col w-1/2 items-center bg-base-100 h-full p-4">
-        <!-- month -->
-        <h2 class="font-bold text-2xl mb-4">January</h2>
-
-        <!-- days -->
-        <div class="flex justify-between mb-4">
-          <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Mon</span>
-          <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Tue</span>
-          <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Wed</span>
-          <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Thu</span>
-          <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Fri</span>
-          <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Sat</span>
-          <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Sun</span>
-        </div>
-
-        <div *ngFor="let row of days; let i = index" class="flex justify-between mb-4 items-center">
-          <!-- loop over days in row -->
-          <span *ngFor="let day of row" class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md hover:bg-blue-300 cursor-pointer">
-            {{ day }}
-          </span>
-        </div>
-
-      </div>
-
-      <div class="divider lg:divider-horizontal"></div>
-
-      <div class="flex flex-col w-1/2 items-center bg-base-100 h-full p-4">
-
-        <div class="overflow-x-auto lex justify-between mb-4">
-          <table class="table overflow-y-auto">
-            <!-- head -->
-            <thead>
-              <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Job</th>
-                <th>Favorite Color</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- row 1 -->
-              <tr class="bg-base-200">
-                <th>1</th>
-                <td>Cy Ganderton</td>
-                <td>Quality Control Specialist</td>
-                <td>Blue</td>
-              </tr>
-              <!-- row 2 -->
-              <tr>
-                <th>2</th>
-                <td>Hart Hagerty</td>
-                <td>Desktop Support Technician</td>
-                <td>Purple</td>
-              </tr>
-              <!-- row 3 -->
-              <tr>
-                <th>3</th>
-                <td>Brice Swyre</td>
-                <td>Tax Accountant</td>
-                <td>Red</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+  <!-- Cards -->
+  <div class="w-full container p-6">
+    <div class="glide">
+      <div class="glide__track" data-glide-el="track">
+        <ul class="glide__slides">
+          <li class="glide__slide">
+            <!-- Explore Card -->
+            <a routerLink="/explore" class="a-2">
+              <div class="card card-side w-96 h-48 bg-base-100">
+                <figure class="relative">
+                  <div class="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 opacity-50"></div>
+                  <img src="assets/explore-gs.gif" alt="Explore" class="w-full h-full object-cover">
+                </figure>
+                <div class="card-body">
+                  <h2 class="card-title">Explore</h2>
+                  <p>Explore Animals in <br /> Your Area</p>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li class="glide__slide">
+            <!-- FORUMS CARD -->
+            <a routerLink="/forums" class="a-2">
+              <div class="card card-side w-96 h-48 bg-base-100">
+                <figure class="relative">
+                  <div class="absolute inset-0 bg-gradient-to-r from-orange-300 to-orange-600 opacity-50"></div>
+                  <img src="assets/forums-gs.gif" alt="Forums" class="w-full h-full object-cover">
+                </figure>
+                <div class="card-body">
+                  <h2 class="card-title">Forums</h2>
+                  <p>Forums Discussions</p>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li class="glide__slide">
+            <!-- Messenger Card -->
+            <a routerLink="/messenger" class="a-2">
+              <div class="card card-side w-96 h-48 bg-base-100">
+                <figure class="relative">
+                  <div class="absolute inset-0 bg-gradient-to-r from-green-300 to-green-600 opacity-50"></div>
+                  <img src="assets/chat-gs.gif" alt="Messenger" class="w-full h-full object-cover">
+                </figure>
+                <div class="card-body">
+                  <h2 class="card-title">Messenger</h2>
+                  <p>App Messenger</p>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li class="glide__slide">
+            <!-- Scheduler Card -->
+            <a routerLink="/login" class="a-2"> 
+              <div class="card card-side w-96 h-48 bg-base-100">
+                <figure class="relative">
+                  <div class="absolute inset-0 bg-gradient-to-r from-pink-300 to-pink-600 opacity-50"></div>
+                  <img src="assets/calendar-gs.gif" alt="Scheduler" class="w-full h-full object-cover">
+                </figure>
+                <div class="card-body">
+                  <h2 class="card-title">Scheduler</h2>
+                  <p>Scheduler for Appointments</p>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li class="glide__slide">
+            <!-- Settings Card -->
+            <a routerLink="/settings" class="a-2">
+              <div class="card card-side w-96 h-48 bg-base-100">
+                <figure class="relative">
+                  <div class="absolute inset-0 bg-gradient-to-r from-purple-300 to-purple-600 opacity-50"></div>
+                  <img src="assets/settings-gs.gif" alt="Settings" class="w-full h-full object-cover">
+                </figure>
+                <div class="card-body">
+                  <h2 class="card-title">Settings</h2>
+                  <p>Settings and Preferences <br /> Manager</p>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li class="glide__slide">
+            <!-- Groups Card -->
+            <a routerLink="/groups" class="a-2">
+              <div class="card card-side w-96 h-48 bg-base-100">
+                <figure class="relative">
+                  <div class="absolute inset-0 bg-gradient-to-r from-red-300 to-red-600 opacity-50"></div>
+                  <img src="assets/groups-gs.gif" alt="Groups" class="w-full h-full object-cover">
+                </figure>
+                <div class="card-body">
+                  <h2 class="card-title">Groups</h2>
+                  <p>Join and Manage Groups</p>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li class="glide__slide">
+            <!-- Maps Card -->
+            <a routerLink="/map" class="a-2">
+              <div class="card card-side w-96 h-48 bg-base-100">
+                <figure class="relative">
+                  <div class="absolute inset-0 bg-gradient-to-r from-slate-300 to-slate-600 opacity-50"></div>
+                  <img src="assets/maps-gs.gif" alt="Maps" class="w-full h-full object-cover">
+                </figure>
+                <div class="card-body">
+                  <h2 class="card-title">Map</h2>
+                  <p>Find Local Businesses <br /> and More</p>
+                </div>
+              </div>
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
+
+  <!-- Components Frame -->
+  <div class="container w-full justify-between flex-grow flex flex-row bg-base-200 p-6">
+    <!-- this is a static calendar until i find something better -->
+    <div class="container flex flex-col w-1/2 items-center bg-base-100 h-full p-4">
+      <!-- month -->
+      <h2 class="font-bold text-2xl mb-4">January</h2>
+
+      <!-- days -->
+      <div class="flex justify-between mb-4">
+        <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Mon</span>
+        <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Tue</span>
+        <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Wed</span>
+        <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Thu</span>
+        <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Fri</span>
+        <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Sat</span>
+        <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Sun</span>
+      </div>
+
+      <div *ngFor="let row of days; let i = index" class="flex justify-between mb-4 items-center">
+        <!-- loop over days in row -->
+        <span *ngFor="let day of row" class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md hover:bg-blue-300 cursor-pointer">
+          {{ day }}
+        </span>
+      </div>
+
+    </div>
+
+    <div class="divider lg:divider-horizontal"></div>
+
+    <div class="flex flex-col w-1/2 items-center bg-base-100 h-full p-4">
+
+      <div class="overflow-x-auto lex justify-between mb-4">
+        <table class="table overflow-y-auto">
+          <!-- head -->
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Job</th>
+              <th>Favorite Color</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- row 1 -->
+            <tr class="bg-base-200">
+              <th>1</th>
+              <td>Cy Ganderton</td>
+              <td>Quality Control Specialist</td>
+              <td>Blue</td>
+            </tr>
+            <!-- row 2 -->
+            <tr>
+              <th>2</th>
+              <td>Hart Hagerty</td>
+              <td>Desktop Support Technician</td>
+              <td>Purple</td>
+            </tr>
+            <!-- row 3 -->
+            <tr>
+              <th>3</th>
+              <td>Brice Swyre</td>
+              <td>Tax Accountant</td>
+              <td>Red</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 </div>

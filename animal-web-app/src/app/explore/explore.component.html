@@ -1,58 +1,322 @@
 <app-alerts></app-alerts>
-<div class="flex-grow flex flex-col w-full max-h-screen min-w-screen min-h-screen lg:flex-row bg-base-100 p-0 m-0">
+<div class="flex-grow flex flex-col w-full max-h-screen min-w-screen  lg:flex-row bg-base-100 p-0 m-0 z-1">
+<!-- Modal container -->
+<dialog id="animalCreateModal" class="modal modal-bottom sm:modal-middle">>
+  <div class="modal-box">
+    <h2 class="text-2xl font-bold text-center mb-4 text-black" id="modal-title">
+      {{ selectedAnimal ? 'Edit Animal' : 'Add New Animal' }}
+    </h2>
 
-  <!-- Sidebar -->
-  <div class="w-1/4 h-full flex flex-col justify-center items-center bg-white">
-    <div class="w-full h-1/8 bg-white flex flex-row justify-between">
-      <div class="bg-white p-4">
-        <h2 class="text-left">Explore</h2>
+    <form
+      [formGroup]="animalCreateForm"
+      (ngSubmit)="addAnimalToCollection(); closeModal();"
+      class="w-full" method="dialog"
+    >
+      <!-- Animal ID -->
+      <div class="form-control w-full">
+        <label for="animalId" class="label">
+          <span class="label-text">Animal ID</span>
+        </label>
+        <input
+          type="text"
+          id="animalId"
+          formControlName="animalId"
+          class="input input-bordered w-full text-black"
+          [disabled]="true"
+        />
       </div>
-    </div>
-    <div class="container flex-grow w-full h-full">
-      <ul class="menu p-4 flex-grow w-full min-h-full bg-base-200 text-base-content">
-        <li>
-          yh
-        </li>
-        <li>
-        </li>
-      </ul>
+      <!-- Owner -->
+      <div class="form-control w-full">
+        <label for="owner" class="label">
+          <span class="label-text">Owner</span>
+        </label>
+        <input
+          type="text"
+          id="owner"
+          formControlName="owner"
+          class="input input-bordered w-full text-black"
+          required
+        />
+      </div>
+      <!-- Animal Type -->
+      <div class="form-control w-full">
+        <label for="animalType" class="label">
+          <span class="label-text">Animal Type</span>
+        </label>
+        <input
+          type="text"
+          id="animalType"
+          formControlName="animalType"
+          class="input input-bordered w-full text-black"
+          required
+        />
+      </div>
+      <!-- Animal Name -->
+      <div class="form-control w-full">
+        <label for="animalName" class="label">
+          <span class="label-text">Animal Name</span>
+        </label>
+        <input
+          type="text"
+          id="animalName"
+          formControlName="animalName"
+          class="input input-bordered w-full text-black"
+          required
+        />
+      </div>
+      <!-- Animal Weight -->
+      <div class="form-control w-full">
+        <label for="animalWeight" class="label">
+          <span class="label-text">Animal Weight</span>
+        </label>
+        <input
+          type="number"
+          id="animalWeight"
+          formControlName="animalWeight"
+          class="input input-bordered w-full text-black"
+          required
+        />
+      </div>
+      <!-- Animal Sex -->
+      <div class="form-control w-full">
+        <label for="animalSex" class="label">
+          <span class="label-text">Animal Sex</span>
+        </label>
+        <input
+          type="text"
+          id="animalSex"
+          formControlName="animalSex"
+          class="input input-bordered w-full text-black"
+          required
+        />
+      </div>
+      <!-- Temperament -->
+      <div class="form-control w-full">
+        <label for="temperament" class="label">
+          <span class="label-text">Temperament</span>
+        </label>
+        <input
+          type="text"
+          id="temperament"
+          formControlName="temperament"
+          class="input input-bordered w-full text-black"
+          required
+        />
+      </div>
+      <!-- About -->
+      <div class="form-control w-full">
+        <label for="about" class="label">
+          <span class="label-text">About</span>
+        </label>
+        <textarea
+          id="about"
+          formControlName="about"
+          class="textarea textarea-bordered w-full text-black"
+          required
+        ></textarea>
+      </div>
+      <!-- Images -->
+      <div class="form-control w-full">
+        <label for="images" class="label">
+          <span class="label-text">Images</span>
+        </label>
+        <input
+          type="text"
+          id="images"
+          formControlName="images"
+          class="input input-bordered w-full text-black"
+          required
+        />
+      </div>
+      <!-- Primary Image -->
+      <div class="form-control w-full">
+        <label for="primaryImage" class="label">
+          <span class="label-text">Primary Image</span>
+        </label>
+        <input
+          type="number"
+          id="primaryImage"
+          formControlName="primaryImage"
+          class="input input-bordered w-full text-black"
+          required
+        />
+      </div>
+      <!-- Location -->
+      <div class="form-control w-full">
+        <label for="location" class="label">
+          <span class="label-text">Location</span>
+        </label>
+        <input
+          type="text"
+          id="location"
+          formControlName="location"
+          class="input input-bordered w-full text-black"
+          required
+        />
+      </div>
+      <!-- Zip Code -->
+      <div class="form-control w-full">
+        <label for="zipCode" class="label">
+          <span class="label-text">Zip Code</span>
+        </label>
+        <input
+          type="number"
+          id="zipCode"
+          formControlName="zipCode"
+          class="input input-bordered w-full text-black"
+          required
+        />
+      </div>
+      <!-- Adoption Status -->
+      <div class="form-control w-full">
+        <label for="adoptionStatus" class="label">
+          <span class="label-text">Adoption Status</span>
+        </label>
+        <input
+          type="number"
+          id="adoptionStatus"
+          formControlName="adoptionStatus"
+          class="input input-bordered w-full text-black"
+          required
+        />
+      </div>
+      <!-- Date Of Birth -->
+      <div class="form-control w-full">
+        <label for="dateOfBirth" class="label">
+          <span class="label-text">Date Of Birth</span>
+        </label>
+        <input
+          type="date"
+          id="dateOfBirth"
+          formControlName="dateOfBirth"
+          class="input input-bordered w-full text-black"
+          required
+        />
+      </div>
+      <!-- Color -->
+      <div class="form-control w-full">
+        <label for="color" class="label">
+          <span class="label-text">Color</span>
+        </label>
+        <input
+          type="text"
+          id="color"
+          formControlName="color"
+          class="input input-bordered w-full text-black"
+          required
+        />
+      </div>
+      <!-- Vaccination Status -->
+      <div class="form-control w-full">
+        <label for="vaccinationStatus" class="label">
+          <span class="label-text">Vaccination Status</span>
+        </label>
+        <input
+          type="text"
+          id="vaccinationStatus"
+          formControlName="vaccinationStatus"
+          class="input input-bordered w-full text-black"
+          required
+        />
+      </div>
+
+      <div class="modal-action">
+        <button class="btn btn-primary" type="submit" [disabled]="!animalCreateForm.valid">
+          {{ selectedAnimal ? 'Update' : 'Add Animal' }}
+        </button>
+        <button class="btn" onclick="animalCreateForm.close()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</dialog>
+  <!-- Sidebar -->
+  <div class="w-1/4 h-dvh flex flex-col overflow-y-auto no-scrollbar bg-base-200">
+    <div class="w-full h-1/8 bg-white flex flex-col justify-between items-center w-full">
+      <h2 class="text-left justify-between w-full flex items-center gap-4 p-4">Explore</h2>
     </div>
   </div>
 
   <!-- Divider -->
   <div class="divider lg:divider-horizontal"></div>
 
-  <div class="w-3/4 h-7/8 flex flex-col justify-center items-center bg-base-200">
-    <!-- Top Bar -->
-    <div class="w-full h-1/8 bg-white flex flex-row justify-between items-center">
-      <div class="bg-white p-4 flex flex-row justify-between items-center w-full">
-        <button class="join-item btn" (click)="previousPage()" [disabled]="currentPage === 1">«</button>
-        <div class="flex overflow-ellipsis justify-between w-full">
-          <button class="join-item btn" *ngFor="let page of getVisiblePages()" [disabled]="currentPage === page" (click)="goToPage(page)">{{page}}</button>
-        </div>
-        <button class="join-item btn" (click)="nextPage()" [disabled]="currentPage === gettotalPages()">»</button>
-      </div>
+  <!-- Profile Tab Content -->
+  <div class="w-full h-dvh flex flex-col bg-base-200">
+    <div class="flex justify-between items-center p-4 h-1/8 w-full bg-white">
+      <button class="btn btn-secondary" onclick="animalCreateModal.show()" (click)="this.createNewSetup();">
+        Create
+      </button>
+      <input
+        #searchInput
+        type="text"
+        placeholder="Search animals..."
+        class="py-2 px-3 border border-gray-300 rounded-s shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm w-full mr-2 ml-2"
+        (input)="searchFunction($event)"
+      />
+      <button class="btn btn-primary" (click)="filterThreads(searchInput.value)">
+        Search
+      </button>
     </div>
-    <!-- Profile Tab Content -->
-    <!-- Profile Tab Content -->
-    <div class="flex-grow w-full h-7/8 p-4 flex justify-center items-center">
-      <div class="grid grid-cols-4 gap-4 h-6/8 justify-items-center">
-        <div *ngFor="let animal of getDisplayedCards()" class="card bg-white overflow-hidden p-4 h-1/2">
-          <img class="w-full h-64 object-cover" [src]="animal.images[animal.primaryImage]" alt="Animal image">
+
+    <div class="w-full min-h-6/8 flex flex-col bg-base-200">
+      <div class="grid grid-rows-2 grid-cols-4 gap-1 items-center justify-center">
+        <div
+          *ngFor="let animal of getDisplayedCards()"
+          class="card bg-white overflow-hidden m-2 h-3/4"
+        >
+          <img
+            class="w-full h-48 object-cover"
+            [src]="animal.images[animal.primaryImage]"
+            [alt]="animal.animalName"
+          />
           <div class="p-4">
             <div class="font-bold text-xl mb-2">{{ animal.animalName }}</div>
             <p class="text-base">
-              Owner: {{ animal.owner }} Type: {{ animal.animalType }} Breed: {{ animal.animalBreed ? animal.animalBreed.join(', ') : '' }} Weight: {{ animal.animalWeight }} Sex: {{ animal.animalSex }} Temperament: {{ animal.temperament ? animal.temperament.join(', ') : '' }} About: {{ animal.about }} Location: {{ animal.location }} Zip Code: {{ animal.zipCode }} Adoption Status: {{ animal.adoptionStatus }} Date Of Birth: {{ animal.dateOfBirth }} Color: {{ animal.color }} Vaccination Status: {{ animal.vaccinationStatus }}
+              Owner: {{ animal.owner }} Type: {{ animal.animalType }} Breed: {{
+                animal.animalBreed ? animal.animalBreed.join(', ') : ''
+              }}
+              Weight: {{ animal.animalWeight }} Sex: {{ animal.animalSex }}
+              Temperament: {{
+                animal.temperament ? animal.temperament.join(', ') : ''
+              }}
+              About: {{ animal.about }} Location: {{ animal.location }} Zip Code: {{
+                animal.zipCode
+              }}
+              Adoption Status: {{ animal.adoptionStatus }} Date Of Birth: {{
+                animal.dateOfBirth
+              }}
+              Color: {{ animal.color }} Vaccination Status: {{
+                animal.vaccinationStatus
+              }}
             </p>
             <!-- Dropdown Menu -->
             <div class="absolute right-0 top-0">
-              <div tabindex="0" role="button" class="btn mt-1 mr-1" (click)="toggleDropdown()">&#x22EE;</div>
-              <ul *ngIf="dropdownVisible" class="dropdown-content z-[20] menu p-2 shadow bg-white rounded-box w-52">
+              <button tabindex="0"
+                      class="btn btn-ghost mt-1 mr-1"
+                      (click)="toggleDropdown()"
+                      [disabled]="this.currentUser.firstName + ' ' + this.currentUser.lastName !== animal.owner">
+
+                &#x22EE;
+              </button>
+              <ul
+                *ngIf="dropdownVisible"
+                class="dropdown-content z-[20] menu p-2 shadow bg-white rounded-box w-52"
+              >
                 <div class="edit-button items-center justify-center">
-                  <button class="btn btn-ghost w-full text-center" (click)="editAnimal(animal); toggleDropdown(); isModalOpen = true;">Edit</button>
+                  <button
+                    class="btn btn-ghost w-full text-center"
+                    onclick="animalCreateModal.show()"
+                    (click)="editAnimal(animal)"
+                  >
+                    Edit
+                  </button>
                 </div>
                 <div class="edit-button items-center justify-center">
-                  <button class="btn btn-ghost w-full text-center" (click)="deleteAnimalFromCollection(animal); toggleDropdown();">Delete</button>
+                  <button
+                    class="btn btn-ghost w-full text-center"
+                    (click)="deleteAnimalFromCollection(animal); toggleDropdown()"
+                  >
+                    Delete
+                  </button>
                 </div>
               </ul>
             </div>
@@ -60,120 +324,39 @@
         </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- End Main Content -->
-
-<div *ngIf="isModalOpen" class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-      <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-        <div class="sm:flex sm:items-start">
-          <div class="mt-3 container w-full text-center justify-center items-center sm:mt-0 sm:ml-4 sm:text-left">
-            <h1 class="text-5xl font-bold text-center" id="modal-title">
-              Add New Animal
-            </h1>
-            <div class="mt-2 w-full container">
-              <form [formGroup]="animalCreateForm" (ngSubmit)="addAnimalToCollection();" class="p-4 pt-4 w-full">
-                <!-- Animal ID -->
-                <div class="mb-4">
-                  <label for="animalId" class="block text-sm font-medium text-gray-700">Animal ID</label>
-                  <input type="text" id="animalId" formControlName="animalId" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" [disabled]="true" />
-                </div>
-                <!-- Owner -->
-                <div class="mb-4">
-                  <label for="owner" class="block text-sm font-medium text-gray-700">Owner</label>
-                  <input type="text" id="owner" formControlName="owner" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                </div>
-                <!-- Animal Type -->
-                <div class="mb-4">
-                  <label for="animalType" class="block text-sm font-medium text-gray-700">Animal Type</label>
-                  <input type="text" id="animalType" formControlName="animalType" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                </div>
-                <!-- Animal Name -->
-                <div class="mb-4">
-                  <label for="animalName" class="block text-sm font-medium text-gray-700">Animal Name</label>
-                  <input type="text" id="animalName" formControlName="animalName" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                </div>
-                <!-- Animal Weight -->
-                <div class="mb-4">
-                  <label for="animalWeight" class="block text-sm font-medium text-gray-700">Animal Weight</label>
-                  <input type="text" id="animalWeight" formControlName="animalWeight" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                </div>
-                <!-- Animal Sex -->
-                <div class="mb-4">
-                  <label for="animalSex" class="block text-sm font-medium text-gray-700">Animal Sex</label>
-                  <input type="text" id="animalSex" formControlName="animalSex" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                </div>
-                <!-- Temperament -->
-                <div class="mb-4">
-                  <label for="temperament" class="block text-sm font-medium text-gray-700">Temperament</label>
-                  <input type="text" id="temperament" formControlName="temperament" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                </div>
-                <!-- About -->
-                <div class="mb-4">
-                  <label for="about" class="block text-sm font-medium text-gray-700">About</label>
-                  <input type="text" id="about" formControlName="about" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                </div>
-                <!-- Images -->
-                <div class="mb-4">
-                  <label for="images" class="block text-sm font-medium text-gray-700">Images</label>
-                  <input type="text" id="images" formControlName="images" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                </div>
-                <!-- Primary Image -->
-                <div class="mb-4">
-                  <label for="primaryImage" class="block text-sm font-medium text-gray-700">Primary Image</label>
-                  <input type="text" id="primaryImage" formControlName="primaryImage" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                </div>
-                <!-- Location -->
-                <div class="mb-4">
-                  <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
-                  <input type="text" id="location" formControlName="location" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                </div>
-                <!-- Zip Code -->
-                <div class="mb-4">
-                  <label for="zipCode" class="block text-sm font-medium text-gray-700">Zip Code</label>
-                  <input type="text" id="zipCode" formControlName="zipCode" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                </div>
-                <!-- Adoption Status -->
-                <div class="mb-4">
-                  <label for="adoptionStatus" class="block text-sm font-medium text-gray-700">Adoption Status</label>
-                  <input type="text" id="adoptionStatus" formControlName="adoptionStatus" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                </div>
-                <!-- Date Of Birth -->
-                <div class="mb-4">
-                  <label for="dateOfBirth" class="block text-sm font-medium text-gray-700">Date Of Birth</label>
-                  <input type="date" id="dateOfBirth" formControlName="dateOfBirth" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                </div>
-                <!-- Color -->
-                <div class="mb-4">
-                  <label for="color" class="block text-sm font-medium text-gray-700">Color</label>
-                  <input type="text" id="color" formControlName="color" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                </div>
-                <!-- Vaccination Status -->
-                <div class="mb-4">
-                  <label for="vaccinationStatus" class="block text-sm font-medium text-gray-700">Vaccination Status</label>
-                  <input type="text" id="vaccinationStatus" formControlName="vaccinationStatus" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                </div>
-
-                <div class=" text-center justify-center items-center">
-                  <button type="submit" class="btn btn-primary" [disabled]="!animalCreateForm.valid" (click)="addAnimalToCollection(); closeModal();">Submit</button>
-                </div>
-
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-        <a class="btn btn-neutral" (click)="closeModal()">
-          Close
-        </a>
-      </div>
+    <div class="flex h-1/8 flex-grow justify-center items-center bg-white ">
+      <nav aria-label="Pagination">
+        <ul class="flex">
+          <li>
+            <a
+              class="btn btn-sm"
+              [class.btn-disabled]="currentPage === 1"
+              (click)="previousPage()"
+            >
+              Previous
+            </a>
+          </li>
+          <li *ngFor="let page of getVisiblePages()">
+            <a
+              class="btn btn-sm"
+              [class.btn-active]="currentPage === page"
+              (click)="goToPage(page)"
+            >
+              {{ page }}
+            </a>
+          </li>
+          <li>
+            <a
+              class="btn btn-sm"
+              [class.btn-disabled]="currentPage === gettotalPages()"
+              (click)="nextPage()"
+            >
+              Next
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
 </div>
-
