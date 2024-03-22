@@ -1,227 +1,218 @@
 <app-alerts></app-alerts>
-
-<div class="w-full h-1/8 bg-white flex flex-row justify-between">
-  <div class="bg-white p-4">
-    <h2 class="text-left">Groups</h2>
-  </div>
-</div>
-
-<div class="flex flex-col h-screen">
-  <div class="mx-auto my-auto w-3/4 h-3/4 bg-base-200" *ngIf="!selectedGroup && !this.creatingGroup">
-    <div class="carousel-vertical flex-grow overflow-auto">
-      <div class="flex flex-wrap">
-        <!-- Card for creating a new group -->
-        <div class="card card-compact w-full bg-base-100 shadow-xl m-4" (click)="gotoCreateGroup()">
-          <div class="card-body p-4">
-            <h2 class="card-title text-lg">Click Here To Create a NEW Group!!</h2>
-            <p class="text-sm">Design a new group here</p>
-          </div>
-        </div>
-
-        <div class="divider w-full shadow-xl m-4">Manage Your Existing Groups Below</div>
-
-        <!-- Cards for existing groups -->
-        <div class="card card-compact w-[300px] bg-base-100 shadow-xl m-4" *ngFor="let group of groups" (click)="selectGroup(group)">
-          <div class="card-body p-4">
-            <h2 class="card-title text-lg">{{ group.name }}</h2>
-            <p class="text-sm">{{ group.description }}</p>
-          </div>
-        </div>
-      </div>
+<div class="flex-grow flex flex-col w-full max-h-screen min-w-screen min-h-screen justify-center items-center bg-base-100 p-0 m-0">
+  <div class="w-full h-1/8 bg-white flex flex-row justify-between">
+    <div class="bg-white p-4">
+      <h2 class="text-left">Groups</h2>
     </div>
   </div>
 
-  <!-- Viewing a group section -->
-  <section class="group-info mx-auto my-auto w-3/4 h-3/4 bg-gray-300" *ngIf="selectedGroup">
-    <!-- Header for the group -->
-    <div class="relative bg-white p-4 flex items-center">
-      <button class="btn absolute left-0 m-4" (click)="goBack()">Back</button>
-      <h2 class="text-center w-full">{{ selectedGroup.name }}</h2>
-    </div>
-
-    <div class="flex flex-row space-x-72">
-      <!-- Display selected group info here -->
-      <div class="m-4 rounded">
-        <!-- Group Name Display-->
-        <label class="form-control w-full max-w-xs">
-          <div class="label">
-            <span class="label-text">Group Name</span>
+  <!-- MAIN CONTAINER FOR GROUPS-->
+  <div class="w-3/4 flex-grow bg-base-100 flex flex-row items-center justify-center">
+    <div class="mx-auto my-auto w-3/4 h-3/4 bg-base-200" *ngIf="!selectedGroup && !this.creatingGroup">
+      <div class="carousel-vertical flex-grow overflow-auto">
+        <div class="flex flex-wrap items-center justify-center">
+          <!-- Card for creating a new group -->
+          <div class="card w-3/4 btn bg-base-100 h-full shadow-xl m-4" (click)="gotoCreateGroup()">
+            <div class="card-body h-full">
+              <h2 class="card-title text-lg">Create a new group today.</h2>
+            </div>
           </div>
-          <input [(ngModel)]="selectedGroup.name" type="text" class="input input-bordered w-full max-w-xs" />
-        </label>
-        <br>
 
-        <!-- Group Description Display -->
-        <label class="form-control w-full max-w-xs">
-          <div class="label">
-            <span class="label-text">Group Description</span>
-          </div>
-          <textarea [(ngModel)]="selectedGroup.description" class="textarea textarea-bordered"></textarea>
-        </label>
-        <br>
+          <div class="divider w-full shadow-xl m-4">Manage Your Existing Groups Below</div>
 
-        <!-- Group Location Display -->
-        <label class="form-control w-full max-w-xs">
-          <div class="flex flex-row label">
-            <span class="label-text">Group City</span>
-            <span class="label-text">Group State</span>
-          </div>
-          <div class="flex flex-row">
-            <input [(ngModel)]="selectedGroup.city" type="text" class="input input-bordered w-full max-w-xs" />
-            <input [(ngModel)]="selectedGroup.state" type="text" class="input input-bordered w-full max-w-xs" />
-          </div>
-        </label>
-        <br>
-
-        <button class="btn w-full max-w-xs" (click)="updateGroup(selectedGroup)">Update Group</button>
-
-
-        <div class='text-right text-primary'>
-          <br>
-          <button class="btn w-full max-w-xs bg-red-500" onclick="deleteGroup_modal.showModal()">
-            <a>Delete Group</a>
-          </button>
-          <dialog id="deleteGroup_modal" class="modal modal-bottom sm:modal-middle">
-            <div class="modal-box flex items-center justify-center">
-              <div class="w-1/2 px-4">
-                <form class="flex flex-col items-center">
-                  <input #deleteConfirmation type="text" placeholder="Type 'delete' to confirm delete" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                  <button class="btn btn-primary w-full mt-4" (click)="deleteGroup(this.selectedGroup, deleteConfirmation.value)">Delete Group Now</button>
-                </form>
-                <button type="button" class="btn btn-base-100 w-full mt-4" onclick="deleteGroup_modal.close()">
-                  Back to Group Management
-                </button>
-              </div>
-              <div class="divider lg:divider-horizontal"></div>
-              <div class="w-1/2 px-4">
-                <h2 class="font-bold text-lg" style="text-align: center;">Delete your group here</h2>
-                <p class="py-4" style="text-align: center;">Please confirm the deletion process by typing 'delete' into the text box on the left.</p>
+          <!-- Cards for existing groups -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 p-8">
+            <div class="card bg-white hadow-xl" *ngFor="let group of groups">
+              <figure class="px-10 pt-10">
+                <div class="avatar">
+                  <div class="w-24 ring ring-primary ring-offset-base-100 ring-offset-2 bg-black">
+                    <img [src]="group.image" alt="Group Image" />
+                  </div>
+                </div>
+              </figure>
+              <div class="card-body items-center text-center">
+                <h2 class="card-title text-black">{{ group.name }}</h2>
+                <p class="text-black">{{ group.description }}</p>
+                <div class="flex justify-center mt-4">
+                  <button class="btn btn-primary" (click)="selectGroup(group)">View Group</button>
+                </div>
               </div>
             </div>
-          </dialog>
+          </div>
         </div>
+      </div>
+    </div>
 
+    <section class="group-info mx-auto my-auto w-3/4 h-3/4 bg-base-200" *ngIf="selectedGroup">
+      <!-- Header for the group -->
+      <div class="relative bg-white p-4 flex items-center">
+        <button class="btn btn-neutral absolute left-0 m-4" (click)="goBack()">Back</button>
+        <h2 class="text-center w-full">{{ selectedGroup.name }}</h2>
       </div>
 
-      <!-- Display selected group users here -->
-      <div class="flex flex-col m-4">
-        <label class="form-control w-full max-w-xl">
-          <div class="label">
-            <span class="label-text">Group Members</span>
+      <div class="flex flex-row justify-between">
+        <!-- Display selected group info -->
+        <div class="w-1/2 p-4 items-center justify-center mx-auto">
+          <!-- Group Name Display -->
+          <div class="form-control w-full">
+            <label class="label">
+              <span class="label-text">Group Name</span>
+            </label>
+            <input [(ngModel)]="selectedGroup.name" type="text" class="input input-bordered w-full" />
           </div>
-        </label>
-        <div class="carousel carousel-vertical bg-white form-control w-full max-w-xs h-[190px]">
-          <div class="carousel-item">
-            <!-- User content goes here -->
 
-            <div>
-              <table class="table">
-                <!-- head -->
+          <!-- Group Description Display -->
+          <div class="form-control w-full mt-4">
+            <label class="label">
+              <span class="label-text">Group Description</span>
+            </label>
+            <textarea [(ngModel)]="selectedGroup.description" class="textarea textarea-bordered"></textarea>
+          </div>
+
+          <!-- Group Location Display -->
+          <div class="form-control w-full mt-4">
+            <label class="label">
+              <span class="label-text">Group Location</span>
+            </label>
+            <div class="flex flex-row">
+              <input [(ngModel)]="selectedGroup.city" type="text" placeholder="City" class="input input-bordered w-full mr-2" />
+              <input [(ngModel)]="selectedGroup.state" type="text" placeholder="State" class="input input-bordered w-full " />
+            </div>
+          </div>
+
+          <div class="flex justify-end gap-4 mt-4">
+            <button class="btn btn-primary" (click)="updateGroup(selectedGroup)">Update Group</button>
+            <button class="btn btn-accent" onclick="deleteGroup_modal.showModal()">
+              Delete Group
+            </button>
+          </div>
+        </div>
+        <!-- Display selected group users -->
+        <div class="w-1/2 p-4 items-center justify-center mx-auto">
+          <!-- Add User Button -->
+          <div class="form-control w-full flex items-end">
+            <div class="flex flex-col">
+              <label class="label ml-1/2">
+                <span class="label-text">Add User To Group</span>
+              </label>
+              <input #usernameInput placeholder="Username" type="text" class="input input-bordered w-full max-w-xs" />
+              <div class="flex gap-4 mt-4">
+                <button class="btn btn-primary" (click)="addUser(selectedGroup, usernameInput.value)">Add User</button>
+                <button class="btn btn-accent" (click)="removeUser(selectedGroup, usernameInput.value)">Remove User</button>
+              </div>
+            </div>
+          </div>
+          <!-- Group Members Display -->
+          <div class="form-control w-full mt-4">
+            <label class="label">
+              <span class="label-text">Group Members</span>
+            </label>
+            <div class="overflow-x-auto">
+              <table class="table w-full bg-white">
                 <thead>
                   <tr>
+                    <th></th>
                     <th>Name</th>
                     <th>Username</th>
+                    <th>Image</th>
                   </tr>
                 </thead>
-
                 <tbody>
-                  <!-- row 1 -->
-                  <tr *ngFor="let user of users">
+                  <tr *ngFor="let user of users; let i = index">
                     <td>
-                      <div class="flex items-center gap-3">
-                        <div class="avatar">
-                          <div class="mask mask-squircle w-12 h-12">
-                            <!-- -->
-                            <img [src]="user.image" />
-                          </div>
-                        </div>
-                        <div>
-                          <div class="font-bold">{{ user.firstname }} {{ user.lastname }}</div>
+                      {{ i+1 }}
+                    </td>
+                    <td>
+                      <div>
+                        <div class="font-bold">{{ user.firstname }} {{ user.lastname }}</div>
+                      </div>
+                    </td>
+                    <td>{{ user.username }}</td>
+                    <td>
+                      <div class="avatar">
+                        <div class="mask mask-squircle w-12 h-12">
+                          <img [src]="user.image" alt="User Image" />
                         </div>
                       </div>
                     </td>
-                    <td>
-                      {{ user.username }}
-                    </td>
                   </tr>
-
                 </tbody>
-
               </table>
             </div>
-
-
-
           </div>
         </div>
 
-
-
-        <!-- Add User Button -->
-        <label class="form-control w-full max-w-xs">
-          <br>
-          <div class="label">
-            <span class="label-text">Add User To Group</span>
-          </div>
-          <input #usernameInput placeholder="Username" type="text" class="input input-bordered w-full max-w-xs" />
-          <button class="btn" (click)="addUser(selectedGroup, usernameInput.value)">Add User</button>
-          <br>
-          <button class="btn bg-red-500" (click)="removeUser(selectedGroup, usernameInput.value)">Remove User</button>
-        </label>
-
       </div>
 
-    </div>
-
-  </section>
-
-  <!-- Creating a group section-->
-  <section class="group-info mx-auto my-auto w-3/4 h-3/4 bg-gray-300" *ngIf="this.creatingGroup">
-    <!-- Header for creating group -->
-    <div class="relative bg-white p-4 flex items-center">
-      <button class="btn absolute left-0 m-4" (click)="goBack2()">Back</button>
-      <h2 class="text-center w-full">Group Creation</h2>
-    </div>
-
-    <div class="flex flex-row justify-center" style="gap: 80px;">
-      <!-- Display selected group info here -->
-      <div class="m-4 rounded">
-        <!-- Group Name Create-->
-        <label class="form-control w-full max-w-xs">
-          <div class="label">
-            <span class="label-text">Group Name</span>
+      <!-- Delete Group Modal -->
+      <dialog id="deleteGroup_modal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box flex items-center justify-center">
+          <div class="w-1/2 px-4">
+            <form class="flex flex-col items-center">
+              <input #deleteConfirmation type="text" placeholder="Type 'delete' to confirm delete" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+              <button class="btn btn-primary w-full mt-4" (click)="deleteGroup(this.selectedGroup, deleteConfirmation.value)">Delete Group Now</button>
+            </form>
+            <button type="button" class="btn btn-base-100 w-full mt-4" onclick="deleteGroup_modal.close()">
+              Back to Group Management
+            </button>
           </div>
-          <input #groupNameInput type="text" class="input input-bordered w-full max-w-xs" />
-        </label>
-        <br>
-
-        <!-- Group Description Create -->
-        <label class="form-control w-full max-w-xs">
-          <div class="label">
-            <span class="label-text">Group Description</span>
+          <div class="divider lg:divider-horizontal"></div>
+          <div class="w-1/2 px-4">
+            <h2 class="font-bold text-lg" style="text-align: center;">Delete your group here</h2>
+            <p class="py-4" style="text-align: center;">Please confirm the deletion process by typing 'delete' into the text box on the left.</p>
           </div>
-          <textarea #groupDescriptionInput class="textarea textarea-bordered"></textarea>
-        </label>
-        <br>
+        </div>
+      </dialog>
+    </section>
 
-        <!-- Group Location Create -->
-        <label class="form-control w-full max-w-xs">
-          <div class="flex flex-row label">
-            <span class="label-text">Group City</span>
-            <span class="label-text">Group State</span>
-          </div>
-          <div class="flex flex-row">
-            <input #groupCityInput type="text" class="input input-bordered w-full max-w-xs" />
-            <input #groupStateInput type="text" class="input input-bordered w-full max-w-xs" />
-          </div>
-        </label>
-        <br>
-
-        <button class="btn w-full max-w-xs" (click)="createGroup(groupNameInput.value, groupDescriptionInput.value, groupCityInput.value, groupStateInput.value)">Create Group</button>
-
+    <!-- Creating a group section-->
+    <section class="group-info mx-auto my-auto w-3/4 h-3/4 bg-base-200" *ngIf="this.creatingGroup">
+      <!-- Header for creating group -->
+      <div class="relative bg-white p-4 flex items-center">
+        <button class="btn btn-neutral absolute left-0 m-4" (click)="goBack2()">Back</button>
+        <h2 class="text-center w-full">Group Creation</h2>
       </div>
-    </div>
 
-  </section>
+      <div class="flex flex-row justify-center" style="gap: 80px;">
+        <!-- Display selected group info here -->
+        <div class="m-4 rounded">
+          <!-- Group Name Create-->
+          <label class="form-control w-full max-w-xs">
+            <div class="label">
+              <span class="label-text">Group Name</span>
+            </div>
+            <input #groupNameInput type="text" class="input input-bordered w-full max-w-xs" />
+          </label>
+          <br>
 
+          <!-- Group Description Create -->
+          <label class="form-control w-full max-w-xs">
+            <div class="label">
+              <span class="label-text">Group Description</span>
+            </div>
+            <textarea #groupDescriptionInput class="textarea textarea-bordered"></textarea>
+          </label>
+          <br>
+
+          <!-- Group Location Create -->
+          <label class="form-control w-full max-w-xs">
+            <div class="flex flex-row label">
+              <span class="label-text">Group City</span>
+              <span class="label-text">Group State</span>
+            </div>
+            <div class="flex flex-row">
+              <input #groupCityInput type="text" class="input input-bordered w-full max-w-xs" />
+              <input #groupStateInput type="text" class="input input-bordered w-full max-w-xs" />
+            </div>
+          </label>
+          <br>
+
+          <button class="btn btn-primary w-full max-w-xs" (click)="createGroup(groupNameInput.value, groupDescriptionInput.value, groupCityInput.value, groupStateInput.value)">Create Group</button>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
 </div>

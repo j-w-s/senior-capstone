@@ -10,126 +10,126 @@ module.exports = {
   daisyui: {
     themes: [
       {
-        'wireframe': {
+        'cupcake': {
 
 
-          'primary': '#5A7684',
+          'primary': '#0C39CC',
 
 
 
 
-          'primary-focus': '#48606a',
+          'primary-focus': '#0a2da5',
 
 
 
 
-          'primary-content': '#f5f3f5',
+          'primary-content': '#ffffff',
 
 
 
 
 
-          'secondary': '#395B50',
+          'secondary': '#015C47',
 
 
 
 
-          'secondary-focus': '#294139',
+          'secondary-focus': '#003327',
 
 
 
 
-          'secondary-content': '#f5f3f5',
+          'secondary-content': '#ffffff',
 
 
 
 
 
-          'accent': '#9E0031',
+          'accent': '#A60329',
 
 
 
 
-          'accent-focus': '#730022',
+          'accent-focus': '#7d021e',
 
 
 
 
-          'accent-content': '#f5f3f5',
+          'accent-content': '#ffffff',
 
 
 
 
 
-          'neutral': '#152555',
+          'neutral': '#E6C24E',
 
 
 
 
-          'neutral-focus': '#0d1633',
+          'neutral-focus': '#e1b828',
 
 
 
 
-          'neutral-content': '#f5f3f5',
+          'neutral-content': '#000000',
 
 
 
 
 
-          'base-100': '#f5f3f5',
+          'base-100': '#f7f8fd',
 
 
 
 
-          'base-200': '#e7e2e7',
+          'base-200': '#dde1f7',
 
 
 
 
-          'base-300': '#d7d2d7',
+          'base-300': '#c5cbef',
 
 
 
 
-          'base-content': '#221e22',
+          'base-content': '#000000',
 
 
 
 
 
-          'info': '#4688f7',
+          'info': '#4D9DE0',
 
 
 
 
-          'success': '#73cf5f',
+          'success': '#3BB273',
 
 
 
 
-          'warning': '#f6d244',
+          'warning': '#E1BC29',
 
 
 
 
-          'error': '#E54f40',
+          'error': '#E15554',
 
 
 
 
 
-          '--rounded-box': '.0rem',
+          '--rounded-box': '1rem',
 
 
 
 
-          '--rounded-btn': '.0rem',
+          '--rounded-btn': '2rem',
 
 
 
 
-          '--rounded-badge': '.0rem',
+          '--rounded-badge': '1.9rem',
 
 
 
@@ -151,7 +151,7 @@ module.exports = {
 
 
 
-          '--navbar-padding': '.0rem',
+          '--navbar-padding': '.5rem',
 
 
 

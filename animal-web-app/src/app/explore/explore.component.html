@@ -224,7 +224,7 @@
         <button class="btn btn-primary" type="submit" [disabled]="!animalCreateForm.valid">
           {{ selectedAnimal ? 'Update' : 'Add Animal' }}
         </button>
-        <button class="btn" onclick="animalCreateForm.close()">Cancel</button>
+        <button class="btn btn-neutral" onclick="animalCreateForm.close()">Cancel</button>
       </div>
     </form>
   </div>
@@ -242,19 +242,21 @@
   <!-- Profile Tab Content -->
   <div class="w-full h-dvh flex flex-col bg-base-200">
     <div class="flex justify-between items-center p-4 h-1/8 w-full bg-white">
-      <button class="btn btn-secondary" onclick="animalCreateModal.show()" (click)="this.createNewSetup();">
-        Create
-      </button>
-      <input
-        #searchInput
-        type="text"
-        placeholder="Search animals..."
-        class="py-2 px-3 border border-gray-300 rounded-s shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm w-full mr-2 ml-2"
-        (input)="searchFunction($event)"
-      />
-      <button class="btn btn-primary" (click)="filterThreads(searchInput.value)">
-        Search
-      </button>
+      <div class="flex justify-between items-center w-1/2">
+        <button class="btn btn-secondary" onclick="animalCreateModal.show()" (click)="this.createNewSetup();">
+          Create
+        </button>
+      </div>
+      <div class="flex justify-between items-center w-1/2">
+        <input #searchInput
+               type="text"
+               placeholder="Search animals..."
+               class="py-2 px-3 border border-gray-300 rounded-s shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm w-full mr-2 ml-2"
+               (input)="searchFunction($event)" />
+        <button class="btn btn-primary" (click)="filterThreads(searchInput.value)">
+          Search
+        </button>
+      </div>
     </div>
 
     <div class="w-full min-h-6/8 flex flex-col bg-base-200">
@@ -330,7 +332,7 @@
         <ul class="flex">
           <li>
             <a
-              class="btn btn-sm"
+              class="btn btn-sm btn-neutral"
               [class.btn-disabled]="currentPage === 1"
               (click)="previousPage()"
             >
@@ -348,7 +350,7 @@
           </li>
           <li>
             <a
-              class="btn btn-sm"
+              class="btn btn-sm btn-neutral"
               [class.btn-disabled]="currentPage === gettotalPages()"
               (click)="nextPage()"
             >

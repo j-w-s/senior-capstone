@@ -2,19 +2,21 @@
 <div class="flex-grow flex flex-col w-full max-h-screen min-w-screen min-h-screen lg:flex-row bg-base-100 p-0 m-0">
   <!-- Forum Threads Section -->
   <div *ngIf="!displayComments" class="flex flex-col w-full items-center bg-base-200 ">
-    <div class="w-full h-1/8 bg-white p-4 flex flex-row justify-between">
-        <button class="btn btn-secondary ml-2" (click)="openModal()">New Thread</button>
+    <div class="flex justify-between items-center p-4 h-1/8 w-full bg-white">
+      <div class="flex justify-between items-center w-1/2">
+        <button class="btn btn-secondary" (click)="openModal()">New Thread</button>
+      </div>
 
-        <div class="mr-2 flex flex-row">
-          <input #searchInput
-                 type="text"
-                 placeholder="Search threads..."
-                 class="py-2 px-3 border border-gray-300 rounded-s shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm w-full mr-2"
-                 (input)="filterThreads(searchInput.value)" />
+      <div class="flex justify-between items-center w-1/2 gap-2">
+        <input #searchInput
+               type="text"
+               placeholder="Search threads..."
+               class="py-2 px-3 border border-gray-300 rounded-s shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm w-full mr-2 ml-2"
+               (input)="filterThreads(searchInput.value)" />
 
 
-          <button class="btn btn-primary" (click)="filterThreads(searchInput.value)">Search</button>
-        </div>
+        <button class="btn btn-primary" (click)="filterThreads(searchInput.value)">Search</button>
+      </div>
 
     </div>
 
