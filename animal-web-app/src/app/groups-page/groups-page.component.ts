@@ -35,6 +35,11 @@ export class GroupsPageComponent implements OnInit {
   // used to display the group info at the bottom
   selectedGroup: any | null = null;
   creatingGroup = false;
+
+  managePermissions = false;
+  cachedGroup = null;
+  userPermissions = [true, false, true, true]
+
   // Stores the resolved usernames from the group.users DocRef array
   users: Use[] = [];
   img: HTMLElement | null = null;
@@ -192,6 +197,27 @@ export class GroupsPageComponent implements OnInit {
 
   gotoCreateGroup() {
     this.creatingGroup = true;
+  }
+
+  gotoPermissions() {
+    this.cachedGroup = this.selectedGroup;
+    this.selectedGroup = false;
+    this.managePermissions = true;
+  }
+
+  goBack3() {
+    this.managePermissions = false;
+    this.selectedGroup = this.cachedGroup;
+  }
+
+  isChecked = false;
+  checkBox(event: any) {
+    this.isChecked = event.target.checked;
+    console.log('Checking perm box')
+  }
+
+  uncheckBox(event: any) {
+    console.log('Unchecking perm box')
   }
 
 }

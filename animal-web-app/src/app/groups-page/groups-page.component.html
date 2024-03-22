@@ -7,7 +7,7 @@
 </div>
 
 <div class="flex flex-col h-screen">
-  <div class="mx-auto my-auto w-3/4 h-3/4 bg-base-200" *ngIf="!selectedGroup && !this.creatingGroup">
+  <div class="mx-auto my-auto w-3/4 h-3/4 bg-base-200" *ngIf="!selectedGroup && !this.creatingGroup && !this.managePermissions">
     <div class="carousel-vertical flex-grow overflow-auto">
       <div class="flex flex-wrap">
         <!-- Card for creating a new group -->
@@ -100,6 +100,8 @@
             </div>
           </dialog>
         </div>
+
+        <button class="btn" (click)="gotoPermissions()">Permissions</button>
 
       </div>
 
@@ -222,6 +224,69 @@
       </div>
     </div>
 
+  </section>
+
+  <!-- Manage Permissions Section -->
+  <section class="group-info mx-auto my-auto w-3/4 h-3/4 bg-gray-300" *ngIf="this.managePermissions">
+    <!-- Header for Managing Permissions -->
+    <div class="relative bg-white p-4 flex items-center">
+        <button class="btn absolute left-0 m-4" (click)="goBack3()">Back</button>
+        <h2 class="text-center w-full">Permission Management</h2>
+    </div>
+    
+    <div class="flex flex-col m-4">
+        <label class="form-control w-full max-w-xl">
+            <div class="label">
+            <span class="label-text">User Permissions</span>
+            </div>
+        </label>
+        <div class="carousel carousel-vertical bg-white form-control w-full h-[190px]">
+            <div class="carousel-item">
+                <!-- User content goes here -->
+
+                <div >
+                    <table class="table">
+                        <!-- head -->
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Username</th>
+                                <th>Add User</th>
+                                <th>Remove User</th>
+                                <th>Edit Info</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let user of users">
+                                <td>
+                                    <div class="flex items-center gap-3">
+                                        <div class="avatar">
+                                            <div class="mask mask-squircle w-12 h-12">
+                                                <img [src]="user.image" />  
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="font-bold">{{ user.firstname }} {{ user.lastname }}</div>
+                                            
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    {{ user.username }}
+                                </td>
+                                <td *ngFor="let x of userPermissions">
+                                    <input type="checkbox" *ngIf="x" checked="checked" (change)="uncheckBox($event)" class="checkbox" />
+                                    <input type="checkbox" *ngIf="!x" class="checkbox" (click)="checkBox($event)"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+    </div>
   </section>
 
 </div>
