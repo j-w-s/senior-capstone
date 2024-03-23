@@ -11,5 +11,7 @@ interface Thread {
   title: string;
   threadContent: string;
   timeSent: Date;
+  Edited: Boolean;
+  EditDate?: Date;
 }
 export default Thread;
