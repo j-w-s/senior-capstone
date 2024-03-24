@@ -9,6 +9,7 @@ import { tap, take } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginRegisterService } from '../services/login-register.service';
 import { v4 as uuidv4 } from 'uuid';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-forums',
@@ -106,10 +107,10 @@ export class ForumsComponent implements OnInit {
           tags: this.newThreadForm.get('tags')?.value.split(','),
           title: this.newThreadForm.get('title')?.value,
           threadContent: this.newThreadForm.get('content')?.value,
-          timeSent: new Date()
+          timeSent: new Date(),
+          Edited: false
         };
         await this.forumService.addThread(threadData);
-
         this.resetForm();
         this.closeModal();
       }
