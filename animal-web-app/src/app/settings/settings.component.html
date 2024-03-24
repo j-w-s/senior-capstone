@@ -69,20 +69,19 @@
     <div *ngIf="selectedTab=='Profile' && imgUrl != ''" class="flex-grow w-full h-full">
       <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="card h-full">
         <div class="card-body bg-base-200">
-          <div class="sm:flex sm:flex-row-reverse space-x-4">
-            <button (click)="openModal('Profile Settings')" class="btn btn-secondary">Update</button>
-          </div>
           <!-- Profile Tab Content -->
           <!-- Users profile image and change button for it-->
           <div class="form-control p-4">
             <label class="label" for="userImage">Photo</label>
             <div class="mt-2 flex items-center gap-x-3">
-              <div class="avatar">
-                <figure class="w-16 h-16">
+              <div class="avatar rounded">
+                <figure class="w-20 h-20 rounded-full">
                   <img [src]="imgUrl" alt="User Photo">
                 </figure>
               </div>
               <input type="file" class="file-input w-full max-w-xs" id="imageUpload" hidden (change)="updatePhoto($event)" />
+            </div>
+            <div class="max-w-xs flex flex-row mt-2">
               <label for="imageUpload" class="btn btn-secondary">Change</label>
             </div>
           </div>
@@ -95,6 +94,9 @@
           <div class="form-control p-4">
             <label class="label" for="userBiography">Biography</label>
             <textarea formControlName="userBiography" id="userBiography" class="input input-bordered"></textarea>
+          </div>
+          <div class="p-4">
+            <button (click)="openModal('Profile Settings')" class="btn btn-secondary">Update</button>
           </div>
         </div>
       </form>

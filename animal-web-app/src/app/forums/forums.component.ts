@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ForumService } from '../services/forum.service';
 import Forum from '../../models/forum';
 import Thread from '../../models/thread';
@@ -8,6 +8,7 @@ import User from '../../models/user';
 import { tap, take } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginRegisterService } from '../services/login-register.service';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-forums',
@@ -19,13 +20,14 @@ export class ForumsComponent implements OnInit {
   selectedThread: Thread | null = null;
   forumThreads: Thread[] = [];
   newCommentContent: string = '';
-  comments$: Observable<Comment[]>;
   newThreadForm!: FormGroup;
   isModalOpen = false;
   displayComments = false;
   primaryUser!: User;
   selectedThreadComments: any = [];
   originalForumThreads!: Thread[];
+  private commentsSubject = new BehaviorSubject<Comment[]>([]);
+  comments$: Observable<Comment[]> = this.commentsSubject.asObservable();
 
   openModal(): void {
     const modalToggle = document.getElementById('createThreadModal') as HTMLInputElement;
@@ -122,23 +124,37 @@ export class ForumsComponent implements OnInit {
     this.selectedThreadComments = [];
   }
 
-  async addComment(): Promise<void> {
+  async addComment(event: Event): Promise<void> {
+    event.preventDefault(); // Prevent default form submission
     if (this.selectedThread && this.newCommentContent.trim() !== '') {
-      let userId = await this.loginRegService.getCurrentUser as any
-      const newComment: Comment = {
-        userId: userId,
-        commentId: '',
-        messageContent: this.newCommentContent,
-        timeSent: new Date(),
-        isReply: false
-      };
+      try {
+        // Correctly await the getCurrentUser method to get the user ID
+        let userId = await this.loginRegService.getCurrentUser();
+        console.log("made it!")
+        const newComment: Comment = {
+          userId: userId,
+          commentId: uuidv4() as string,
+          messageContent: this.newCommentContent,
+          timeSent: new Date(),
+          isReply: false
+        };
 
-      this.forumService.addComment(this.selectedThread, newComment);
-      this.newCommentContent = '';
+        if (!this.selectedThread.comments) {
+          this.selectedThread.comments = [];
+        }
+
+        await this.forumService.addComment(this.selectedThread, newComment);
+        this.selectedThread.comments.push(newComment);
+        this.newCommentContent = '';
+      } catch (error) {
+        console.error('Error getting current user:', error);
+      }
     }
   }
 
+
   loadComments(thread: Thread): void {
+    console.log(thread);
     if (thread && thread.id) {
         //this.comments$ = this.forumService.getThreadComments(thread.id);
       this.selectedThreadComments = thread.comments;

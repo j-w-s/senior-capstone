@@ -4,6 +4,7 @@ import { finalize, Observable, Subscription } from 'rxjs';
 import Beacon from '../../models/beacon';
 import BeaconMarker from '../../models/beacon-marker';
 import { MapService } from '../services/map.service';
+import { GroupsService } from '../services/groups.service';
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -47,6 +48,7 @@ export class MapComponent implements AfterViewInit {
     private fb: FormBuilder,
     private firestore: AngularFirestore,
     private storage: AngularFireStorage,
+    private groupsService: GroupsService,
   ) {
 
     this.createBeaconForm = new FormGroup({

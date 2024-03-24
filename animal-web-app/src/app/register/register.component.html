@@ -5,7 +5,7 @@
 
     <div class="grid md:grid-cols-2 grid-cols-1 bg-base-100 rounded-xl">
 
-      <div class="flex items-center justify-center py-24 px-10 bg-secondary">
+      <div class="flex items-center justify-center bg-secondary">
         <img src="/assets/cat.svg" alt="Cat">
       </div>
 
@@ -25,15 +25,15 @@
                 <!-- Row 1 -->
                 <div class="flex justify-between">
                   <div class="w-1/2 pr-2">
-                    <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
-                    <input type="text" id="username" formControlName="username" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <label for="username" class="block mt-4 text-sm font-medium text-text-black">Username</label>
+                    <input type="text" id="username" formControlName="username" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
                     <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched" class="text-red-500 text-xs mt-1">
                       Username must contain 3+ characters.
                     </div>
                   </div>
                   <div class="w-1/2 pl-2">
-                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                    <input type="password" id="password" formControlName="password" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <label for="password" class="block mt-4 text-sm font-medium text-text-black">Password</label>
+                    <input type="password" id="password" formControlName="password" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
                     <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="text-red-500 text-xs mt-1">
                       Password must contain 8+ characters.
                     </div>
@@ -42,15 +42,15 @@
                 <!-- Row 2 -->
                 <div class="flex justify-between mt-4">
                   <div class="w-1/2 pr-2">
-                    <label for="firstname" class="block text-sm font-medium text-gray-700">First Name</label>
-                    <input type="text" id="firstname" formControlName="firstname" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <label for="firstname" class="block mt-4 text-sm font-medium text-text-black">First Name</label>
+                    <input type="text" id="firstname" formControlName="firstname" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
                     <div *ngIf="registerForm.get('firstname')?.invalid && registerForm.get('firstname')?.touched" class="text-red-500 text-xs mt-1">
                       First name is required.
                     </div>
                   </div>
                   <div class="w-1/2 pl-2">
-                    <label for="lastname" class="block text-sm font-medium text-gray-700">Last Name</label>
-                    <input type="text" id="lastname" formControlName="lastname" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <label for="lastname" class="block mt-4 text-sm font-medium text-text-black">Last Name</label>
+                    <input type="text" id="lastname" formControlName="lastname" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
                     <div *ngIf="registerForm.get('lastname')?.invalid && registerForm.get('lastname')?.touched" class="text-red-500 text-xs mt-1">
                       Last name is required.
                     </div>
@@ -59,8 +59,8 @@
                 <!-- Row 3 -->
                 <div class="flex justify-between mt-4">
                   <div class="w-full pr-2">
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" id="email" formControlName="email" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <label for="email" class="block mt-4 text-sm font-medium text-text-black">Email</label>
+                    <input type="email" id="email" formControlName="email" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
                     <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="text-red-500 text-xs mt-1">
                       Email is required.
                     </div>
@@ -69,8 +69,8 @@
                 <!-- Row 4 -->
                 <div class="flex justify-between mt-4">
                   <div class="w-full pr-2">
-                    <label for="phonenumber" class="block text-sm font-medium text-gray-700">Phone Number</label>
-                    <input type="tel" id="phonenumber" formControlName="phonenumber" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <label for="phonenumber" class="block text-sm font-medium text-black">Phone Number</label>
+                    <input type="tel" id="phonenumber" formControlName="phonenumber" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
                     <div *ngIf="registerForm.get('phonenumber')?.invalid && registerForm.get('phonenumber')?.touched" class="text-red-500 text-xs mt-1">
                       Phone number is required.
                     </div>
@@ -81,10 +81,10 @@
               <!-- PICTURE SCREEN-->
               <div class="container w-full h-96 items-center mt-4" *ngIf="this.profileSetupToggle">
 
-                <div class="flex">
+                <div class="flex mx-auto my-auto">
 
                   <!-- Image Selection -->
-                  <div class="w-1/2 p-4">
+                  <div class="w-1/2 p-4 h-full">
                     <h2 class="text-2xl font-semibold mb-2 text-center">Choose Avatar</h2>
                     <div class="flex flex-col items-center">
 
@@ -102,7 +102,7 @@
 
                   </div>
 
-                  <div class="divider divider-horizontal"></div>
+                  <div class="divider divider-horizontal divider-accent"></div>
 
                   <!-- Image Preview -->
                   <div class="w-1/2 p-4 items-center text-center">

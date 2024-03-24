@@ -20,7 +20,7 @@
 
     </div>
 
-    <div class="flex-1 mt-4 w-1/2 carousel carousel-vertical p-4 flex flex-col overflow-y-auto no-scrollbar bg-white text-base-content">
+    <div class="flex-1 w-1/2 carousel carousel-vertical p-4 flex flex-col overflow-y-auto no-scrollbar bg-white text-base-content">
       <div *ngFor="let thread of forumThreads" class="card card-side w-full h-auto mb-4 btn bg-base-100 cursor-pointer" (click)="onRowClick(thread)">
         <div class="card-body w-full flex flex-row justify-between">
           <div class="ml-2">
@@ -47,20 +47,23 @@
 
     <div class="flex-1 overflow-y-auto px-4">
       <!-- Original Post -->
-      <div class="card bg-base-white mb-4">
+      <h1 class="text-2xl font-bold mb-4">{{ selectedThread?.title }}</h1>
+      <div class="card bg-base-300 mb-4">
         <div class="card-body">
-          <h1 class="card-title">{{ selectedThread?.title }}</h1>
           <p><b>From:</b> {{ selectedThread?.publisher }}</p>
           <p>{{ selectedThread?.threadContent }}</p>
           <p><b>Time Sent:</b> {{ formatTimestamp(selectedThread?.timeSent) | date: 'medium' }}</p>
         </div>
-        <button *ngIf="primaryUser.userDisplayName === selectedThread?.publisher" class="btn btn-secondary" (click)="editThread()">Edit</button>
       </div>
+
+      <button *ngIf="primaryUser.userDisplayName === selectedThread?.publisher" class="btn btn-secondary w-16" (click)="editThread()">Edit</button>
+
+      <div class="divider divider-vertical divider-secondary"></div>
 
       <!-- Comments -->
       <h1 class="text-2xl font-bold mb-4">Comments</h1>
       <div *ngFor="let comment of selectedThreadComments">
-        <div class="card bg-white mb-4">
+        <div class="card bg-base-200 mb-4">
           <div class="card-body">
             <p><b>From:</b> {{ comment?.userId }}</p>
             <p>{{ comment?.messageContent }}</p>
@@ -68,13 +71,15 @@
           </div>
         </div>
         <button *ngIf="primaryUser.userId == comment?.userId" class="btn btn-secondary">Edit</button>
+        <div class="divider divider-vertical divider-accent"></div>
       </div>
 
       <!-- Add a New Comment -->
-      <form (submit)="addComment()" class="mt-4">
-        <textarea class="textarea textarea-bordered w-full" placeholder="Type Comment Here" [(ngModel)]="newCommentContent"></textarea>
-        <button class="btn btn-primary mt-4" type="Submit">Add Comment</button>
+      <form (submit)="addComment($event)" class="mt-4">
+        <textarea class="textarea textarea-bordered w-full" placeholder="Type Comment Here" [(ngModel)]="newCommentContent" [ngModelOptions]="{standalone: true}"></textarea>
+        <button class="btn btn-primary mt-4 mb-4" type="submit">Add Comment</button>
       </form>
+
     </div>
   </div>
 </div>
@@ -82,7 +87,9 @@
 <input type="checkbox" id="createThreadModal" class="modal-toggle" />
 <label for="createThreadModal" class="modal cursor-pointer">
   <label class="modal-box relative" for="">
-    <h2 class="text-2xl font-bold text-center mb-4" id="modal-title">Add New Thread</h2>
+    <h2 class="text-2xl font-bold text-center mb-4" id="modal-title">
+      {{ selectedThread ? 'Edit Existing Thread' : 'Add New Thread' }}
+    </h2>
 
     <form [formGroup]="newThreadForm" (ngSubmit)="addNewThread(); closeModal();" class="w-full">
       <!-- Title Input -->
