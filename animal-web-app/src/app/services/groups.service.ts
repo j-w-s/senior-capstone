@@ -5,7 +5,7 @@ import { AngularFirestore, DocumentReference } from '@angular/fire/compat/firest
 import { combineLatest, Observable } from 'rxjs';
 import { Group, Use } from '../groups-page/groups-page.component';
 import { arrayUnion } from '@angular/fire/firestore';
-import { arrayRemove, doc, DocumentData, getDoc, getFirestore, onSnapshot, updateDoc } from 'firebase/firestore';
+import { arrayRemove, doc, DocumentData, DocumentSnapshot, getDoc, getFirestore, onSnapshot, updateDoc } from 'firebase/firestore';
 
 @Injectable({
  providedIn: 'root'
@@ -60,7 +60,7 @@ export class GroupsService {
     return this.db.collection('Groups').add(group);
   }
 
-  updateGroup(group: Group, docId: string) {
+  updateGroup(group: any, docId: string) {
     console.log(docId)
     this.db.collection('Groups').doc(docId).update(group);
 
@@ -100,8 +100,16 @@ export class GroupsService {
 
     // Adds the user to the Group document
     const groupDocRef = this.db.collection('Groups').doc(groupRef);
+    const userMap = {
+      user: user,
+      addUserPerm: false,
+      removeUserPerm: false,
+      editInfoPerm: false,
+      deleteGroupPerm: false,
+      updatePermsPerm: false,
+    }
     groupDocRef.update({
-      users: arrayUnion(user)
+      users: arrayUnion(userMap)
     }).then(() => {
         console.log('Document successfully updated!');
     }).catch((error) => {
@@ -137,7 +145,7 @@ export class GroupsService {
 
     // Updates the group collection to include the user
     groupDocRef.update({
-      users: arrayUnion(userDocRef.ref)
+      owner: userDocRef.ref
     }).then(() => {
         console.log('Document successfully updated!');
     }).catch((error) => {
@@ -156,41 +164,85 @@ export class GroupsService {
   }
 
   // Resolves a user DocumentReference array into an array of usernames
-  async resolveUsernames(docRefs: DocumentReference<DocumentData>[]): Promise<Use[]> {
+  async resolveUsernames(docRefs: any[], group: any): Promise<[any[], any | null]> {
     //const usernames: string[] = [];
     let users: Use[] = [];
+    let owner: Use | null = null;
+    //console.log('GRABBED USER BEFORE RESOLVE: ', docRefs);
+    const doc = await getDoc(group.owner as DocumentReference);
+    if (doc.exists()) {
+      // Gets the username stored in the document
+      const newOwner: any = {
+        userId: doc.data()['userId'],
+        firstname: doc.data()['userFirstName'],
+        lastname: doc.data()['userLastName'],
+        email: doc.data()['userEmail'],
+        phonenumber: doc.data()['userPhoneNumber'],
+        username: doc.data()['userDisplayName'],
+        groups: doc.data()['userGroups'],
+        image: doc.data()['userImage'],
+        // GET THE USER PERMS FROM GROUPS COLLECTION
+        perms: [['']],
+      }
+      owner = newOwner;
+      console.log('OWNER ', newOwner)
+    }
+
+
     for (let i = 0; i < docRefs.length; i++) {
-       const doc = await getDoc(docRefs[i]);
+       console.log('GRABBED USER INN RESOLVE: ', docRefs[i]);
+       const doc = await getDoc(docRefs[i].user) as DocumentSnapshot;
+
+        let perm = [];
+
+        perm.push(docRefs[i].addUserPerm)
+        perm.push(docRefs[i].removeUserPerm)
+        perm.push(docRefs[i].editInfoPerm)
+        perm.push(docRefs[i].deleteGroupPerm)
+        perm.push(docRefs[i].updatePermsPerm)
+
+
        if (doc.exists()) {
-        // Gets the username stored in the document
-        const newUser: Use = {
+        
+
+        const newUser: any = {
+          userId: doc.data()['userId'],
           firstname: doc.data()['userFirstName'],
           lastname: doc.data()['userLastName'],
           email: doc.data()['userEmail'],
           phonenumber: doc.data()['userPhoneNumber'],
           username: doc.data()['userDisplayName'],
           groups: doc.data()['userGroups'],
-          image: doc.data()['userImage']
+          image: doc.data()['userImage'],
+          // GET THE USER PERMS FROM GROUPS COLLECTION
+          perms: perm,
         }
         
          users.push(newUser); 
        }
     }
-    return users;
+    return [users, owner];
    }
 
    removeGroupFromUsers(group: any) {
+    //console.log('GROUP TO DELETE: ', group);
+    const groupOwner = group.owner
 
     for(let i = 0; i < group.users.length; i++)
     {
-      console.log('User ' + i + ' : ' + group.users[i].path)
-      const split = group.users[i].path.split('/');
+      console.log('User ' + i + ' : ' + group.users[i].user.path)
+      const split = group.users[i].user.path.split('/');
+      const split2 = group.owner.path.split('/');
 
+      const ownerRef = this.db.collection(split2[0]).doc(split2[1]);
       const dRef = this.db.collection(split[0]).doc(split[1]);
       const gRef = this.db.collection('Groups').doc(group.useId)
       dRef.update({
         userGroups: arrayRemove(gRef.ref)
       });
+      ownerRef.update({
+        userGroups: arrayRemove(gRef.ref)
+      })
     }
    }
 
@@ -215,8 +267,29 @@ export class GroupsService {
       userGroups: arrayRemove(groupRef.ref)
     });
 
+    // Retrieve the group document and its data
+    const groupDoc = await groupRef.get().toPromise();
+    if (groupDoc && groupDoc.exists) {
+       const groupData = groupDoc.data();
+       if (groupData && typeof groupData === 'object' && 'users' in groupData) {
+         const users = groupData.users as Array<{ user: DocumentReference, [key: string]: any }>;
+   
+         // Iterate over the array of maps to find the map with the matching 'user' field
+         const updatedUsers = users.filter(userMap => userMap.user.path !== userRef.ref.path);
+   
+         // Update the document with the new array
+         await groupRef.update({ users: updatedUsers });
+       }
+    }
+
+  }
+
+  updatePerms(updatedUserPerms: any, groupID: any) {
+    const groupRef = this.db.collection('Groups').doc(groupID);
+
+    //console.log('IN UPDATEPERMS: ', updatedUserPerms)
     groupRef.update({
-      users: arrayRemove(userRef.ref)
-    })
+      users: updatedUserPerms
+    });
   }
  }
