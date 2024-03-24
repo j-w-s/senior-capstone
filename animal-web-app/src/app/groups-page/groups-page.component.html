@@ -118,6 +118,26 @@
                     <th>Image</th>
                   </tr>
                 </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      Owner
+                    </td>
+                    <td>
+                      <div>
+                        <div class="font-bold">{{ owner?.firstname }} {{ owner?.lastname }}</div>
+                      </div>
+                    </td>
+                    <td>{{ owner?.username }}</td>
+                    <td>
+                      <div class="avatar">
+                        <div class="mask mask-squircle w-12 h-12">
+                          <img [src]="owner?.image" alt="User Image" />
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
 
                 <tbody>
                   <tr *ngFor="let user of users; let i = index">
