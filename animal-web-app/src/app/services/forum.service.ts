@@ -37,9 +37,10 @@ comments$: Observable<Comment[]> = this.commentsSubject.asObservable();
           title: thread.title,
           tags: thread.tags,
           threadContent: thread.threadContent,
+          Edited: true,
+          EditDate: new Date()
           // Include any other fields you want to update
         });
-        this.refreshForum();
         console.log('Thread updated successfully.');
       } else {
         // If the thread does not have an ID, it's a new thread

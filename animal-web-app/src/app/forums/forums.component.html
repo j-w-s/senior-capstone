@@ -52,7 +52,8 @@
         <div class="card-body">
           <p><b>From:</b> {{ selectedThread?.publisher }}</p>
           <p>{{ selectedThread?.threadContent }}</p>
-          <p><b>Time Sent:</b> {{ formatTimestamp(selectedThread?.timeSent) | date: 'medium' }}</p>
+          <p><b>Time Sent:</b> {{ formatTimestamp(selectedThread?.timeSent) | date: 'medium' }} </p>
+          <p *ngIf ="selectedThread?.Edited"> <i>(Edited): </i> {{ formatTimestamp(selectedThread?.EditDate) | date: 'medium' }} </p>
         </div>
       </div>
 
