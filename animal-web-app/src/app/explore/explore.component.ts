@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -52,6 +52,8 @@ export class ExploreComponent implements OnInit, AfterViewInit{
 
   isModalOpen = false;
   @ViewChild('addAnimalModal', { static: false }) addAnimalModal!: ElementRef;
+  @ViewChild('animalBreedSelect') animalBreedSelect!: ElementRef;
+  @ViewChild('animalTypeSelect') animalTypeSelect!: ElementRef;
 
   openModal(): void {
     this.addAnimalModal.nativeElement.checked = true;
@@ -278,6 +280,16 @@ export class ExploreComponent implements OnInit, AfterViewInit{
   dropdownFilter(event: any, type: any){
     console.log("Filter by: ",type);
     this.searchTerm = type;
+  }
+
+  //Allows Clear Filter button to clear any filtering being done
+  clearDropdownFilters(): void{
+    this.searchTerm = '';
+    this.currentPage = 1;
+    this.totalPages = Math.ceil(this.getDisplayedCards().length / this.cardsPerPage);
+    //Resets the dropdown filters to show no choice selected
+    this.animalTypeSelect.nativeElement.value = '';
+    this.animalBreedSelect.nativeElement.value = '';
   }
 
   getTotalPagesArray(): number[] {
