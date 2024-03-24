@@ -6,19 +6,19 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [require("daisyui")],
+  plugins: [require("daisyui"),],
   daisyui: {
     themes: [
       {
         'cupcake': {
 
 
-          'primary': '#0C39CC',
+          'primary': '#004ba8',
 
 
 
 
-          'primary-focus': '#0a2da5',
+          'primary-focus': '#00387d',
 
 
 
@@ -29,12 +29,12 @@ module.exports = {
 
 
 
-          'secondary': '#015C47',
+          'secondary': '#473198',
 
 
 
 
-          'secondary-focus': '#003327',
+          'secondary-focus': '#392778',
 
 
 
@@ -45,49 +45,49 @@ module.exports = {
 
 
 
-          'accent': '#A60329',
+          'accent': '#eca400',
 
 
 
 
-          'accent-focus': '#7d021e',
+          'accent-focus': '#c18700',
 
 
 
 
-          'accent-content': '#ffffff',
-
-
-
-
-
-          'neutral': '#E6C24E',
-
-
-
-
-          'neutral-focus': '#e1b828',
-
-
-
-
-          'neutral-content': '#000000',
+          'accent-content': '#000000',
 
 
 
 
 
-          'base-100': '#f7f8fd',
+          'neutral': '#4c9ef0',
 
 
 
 
-          'base-200': '#dde1f7',
+          'neutral-focus': '#2589ed',
 
 
 
 
-          'base-300': '#c5cbef',
+          'neutral-content': '#ffffff',
+
+
+
+
+
+          'base-100': '#ffffff',
+
+
+
+
+          'base-200': '#f8f5f1',
+
+
+
+
+          'base-300': '#f1ede2',
 
 
 
@@ -124,12 +124,12 @@ module.exports = {
 
 
 
-          '--rounded-btn': '2rem',
+          '--rounded-btn': '1rem',
 
 
 
 
-          '--rounded-badge': '1.9rem',
+          '--rounded-badge': '1rem',
 
 
 
@@ -151,12 +151,12 @@ module.exports = {
 
 
 
-          '--navbar-padding': '.5rem',
+          '--navbar-padding': '0.5rem',
 
 
 
 
-          '--border-btn': '1px',
+          '--border-btn': '2px',
 
 
         },

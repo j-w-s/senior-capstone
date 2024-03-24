@@ -5,7 +5,7 @@
 
     <div class="grid md:grid-cols-2 grid-cols-1 bg-base-100 rounded-xl">
 
-      <div class="flex items-center justify-center py-24 px-10 bg-primary">
+      <div class="flex items-center justify-center bg-primary">
         <img src="/assets/dog.svg" alt="Dog">
       </div>
 
@@ -16,10 +16,10 @@
         <form [formGroup]="loginForm" (ngSubmit)="this.onLoginSubmit()">
 
           <div class="mb-6">
-            <label for="usernameoremail" class="block mt-4 text-sm font-medium text-gray-700">Username or Email</label>
-            <input type="text" id="usernameoremail" formControlName="usernameoremail" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            <label for="password" class="block mt-4 text-sm font-medium text-gray-700">Password</label>
-            <input type="password" id="password" formControlName="password" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            <label for="usernameoremail" class="block mt-4 text-sm font-medium text-text-black">Username or Email</label>
+            <input type="text" id="usernameoremail" formControlName="usernameoremail" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+            <label for="password" class="block mt-4 text-sm font-medium text-black">Password</label>
+            <input type="password" id="password" formControlName="password" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
           </div>
 
           <div class="container w-full mt-8">
@@ -52,15 +52,15 @@
 
 <dialog id="forgot_modal" class="modal modal-bottom sm:modal-middle">
 
-  <div class="modal-box flex items-center justify-center">
+  <div class="modal-box flex items-center justify-center bg-base-100">
 
     <div class="w-1/2 px-4">
       <form [formGroup]="forgotPasswordForm" (ngSubmit)="this.onForgotSubmit();" class="flex flex-col items-center">
 
-        <label for="email" class="block text-sm font-medium text-gray-700">Username or Email</label>
-        <input type="text" id="email" formControlName="email" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        <label for="email" class="block mt-4 text-sm font-medium text-text-black">Username or Email</label>
+        <input type="text" id="email" formControlName="email" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
 
-        <button type="submit" class="btn mt-2 w-full btn-primary">Send Instructions</button>
+        <button type="submit" class="btn w-full btn-primary mt-4">Send Instructions</button>
 
       </form>
 
@@ -70,7 +70,7 @@
 
     </div>
 
-    <div class="divider lg:divider-horizontal"></div>
+    <div class="divider lg:divider-horizontal divider-accent"></div>
 
     <div class="w-1/2 px-4">
 

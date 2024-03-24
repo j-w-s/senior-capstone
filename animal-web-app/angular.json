@@ -89,7 +89,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "animal-web-app:build"
+            "browserTarget": "animal-web-app:build"
           }
         },
         "test": {
