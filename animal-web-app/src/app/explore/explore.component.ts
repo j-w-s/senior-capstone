@@ -227,7 +227,7 @@ export class ExploreComponent implements OnInit, AfterViewInit{
       this.totalPages = Math.ceil(this.animals.length / this.cardsPerPage);
 
       // create a list of unique types for all categories
-      this.uniqueTypes = Array.from(new Set(this.animals.filter(animal => animal.animalType !== undefined).map(animal => animal.animalType))) as string[];
+      this.uniqueTypes = Array.from(new Set(animals.map(animal => animal.animalType?.toLowerCase()))) as string[];      
       this.uniqueBreeds = Array.from(new Set(this.animals.flatMap(animal => animal.animalBreed))).filter(breed => breed !== undefined) as string[];
       this.uniqueWeights = Array.from(new Set(this.animals.map(animal => animal.animalWeight))) as number[];
       this.uniqueSexes = Array.from(new Set(this.animals.map(animal => animal.animalSex))) as string[];
@@ -272,6 +272,12 @@ export class ExploreComponent implements OnInit, AfterViewInit{
 
   searchFunction(event: any) {
     this.searchTerm = event.target.value.toLowerCase();
+  }
+
+  //Function called by dropdown to actually filter cards shown
+  dropdownFilter(event: any, type: any){
+    console.log("Filter by: ",type);
+    this.searchTerm = type;
   }
 
   getTotalPagesArray(): number[] {
