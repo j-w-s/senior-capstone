@@ -130,4 +130,39 @@ comments$: Observable<Comment[]> = this.commentsSubject.asObservable();
       return unsubscribe;
     });
   }
+
+  async updateComment(selectedThread: Thread, comment: Comment): Promise<void> {
+    try {
+      // Get the reference to the thread document
+      const threadRef = this.firestore.collection('Thread').doc(selectedThread.id);
+
+      // Fetch the current state of the thread document
+      const threadDoc = await threadRef.get().toPromise();
+
+      if (threadDoc!.exists) {
+        // Retrieve the current comments array
+        const currentComments = (threadDoc!.data() as Thread).comments || [];
+
+        // Find the index of the comment to be updated
+        const commentIndex = currentComments.findIndex(c => c.commentId === comment.commentId);
+
+        if (commentIndex !== -1) {
+          // Update the comment at the found index
+          currentComments[commentIndex] = comment;
+
+          // Update the thread document with the modified comments array
+          await threadRef.update({ comments: currentComments });
+
+          console.log('Comment updated successfully.');
+          this.refreshForum();
+        } else {
+          console.error('Comment not found in the thread.');
+        }
+      } else {
+        console.error('Thread document not found.');
+      }
+    } catch (error) {
+      console.error('Error updating comment:', error);
+    }
+  }
 }
