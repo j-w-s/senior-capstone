@@ -133,12 +133,15 @@
         <label for="primaryImage" class="label">
           <span class="label-text">Primary Image</span>
         </label>
-        <input
-          type="number"
-          id="primaryImage"
-          formControlName="primaryImage"
-          class="input input-bordered w-full text-black"
-          required
+        <div class="avatar rounded">
+          <figure class="w-20 h-20 rounded-full">
+            <img [src]="imgUrl" alt="User Photo">
+          </figure>
+        </div>
+        <input type="file" class="file-input w-full max-w-xs" id="imageUpload" hidden (change)="updatePhoto($event)" required />
+        <div class="max-w-xs flex flex-row mt-2">
+          <label for="imageUpload" class="btn btn-secondary">Change</label>
+        </div>
         />
       </div>
       <!-- Location -->
