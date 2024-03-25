@@ -10,6 +10,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { LoginRegisterService } from '../services/login-register.service';
 import { v4 as uuidv4 } from 'uuid';
 import { ChangeDetectorRef } from '@angular/core';
+import { and } from 'firebase/firestore/lite';
 
 @Component({
   selector: 'app-forums',
@@ -29,6 +30,10 @@ export class ForumsComponent implements OnInit {
   originalForumThreads!: Thread[];
   private commentsSubject = new BehaviorSubject<Comment[]>([]);
   comments$: Observable<Comment[]> = this.commentsSubject.asObservable();
+  editCommentForm!: FormGroup;
+  selectedComment: Comment | null = null;
+  isEditCommentModalActive = false;
+  isCreateThreadModalActive = false;
 
   openModal(): void {
     const modalToggle = document.getElementById('createThreadModal') as HTMLInputElement;
@@ -38,16 +43,25 @@ export class ForumsComponent implements OnInit {
   closeModal(): void {
     const modalToggle = document.getElementById('createThreadModal') as HTMLInputElement;
     modalToggle.checked = false;
+    this.isCreateThreadModalActive = false;
+    this.isEditCommentModalActive = false;
   }
 
   constructor(private forumService: ForumService,
     private formBuilder: FormBuilder, private loginRegService: LoginRegisterService) {
     this.comments$ = new Observable<Comment[]>();
     this.initNewThreadForm();
+    this.initEditCommentForm();
     this.newThreadForm.setValue({
       content: '',
       title: '',
       tags: '',
+    });
+  }
+
+  initEditCommentForm(): void {
+    this.editCommentForm = this.formBuilder.group({
+      content: ['', Validators.required]
     });
   }
 
@@ -97,6 +111,7 @@ export class ForumsComponent implements OnInit {
   }
 
   async addNewThread(): Promise<void> {
+    this.isCreateThreadModalActive = true;
     try {
       if (this.newThreadForm.valid) {
         let userId = await this.loginRegService.getCurrentUser();
@@ -196,6 +211,43 @@ export class ForumsComponent implements OnInit {
 
     // Open the modal to edit the thread
     this.openModal();
+  }
+
+  openEditCommentModal(comment: Comment): void {
+    this.selectedComment = comment;
+    this.isEditCommentModalActive = true;
+    this.editCommentForm.setValue({
+      content: comment.messageContent
+    });
+    const modalToggle = document.getElementById('editCommentModal') as HTMLInputElement;
+    modalToggle.checked = true;
+    this.isCreateThreadModalActive = false;
+  }
+
+  closeEditCommentModal(): void {
+    this.selectedComment = null;
+    this.editCommentForm.reset();
+    this.isEditCommentModalActive = false;
+    const modalToggle = document.getElementById('editCommentModal') as HTMLInputElement;
+    modalToggle.checked = false;
+  }
+
+  async updateComment(): Promise<void> {
+    if (this.editCommentForm.valid) {
+      try {
+        if (this.selectedComment != null) {
+          const updatedComment: Comment = {
+            ...this.selectedComment,
+            messageContent: this.editCommentForm.get('content')?.value
+          };
+          await this.forumService.updateComment(this.selectedThread!, updatedComment);
+          this.closeEditCommentModal();
+        // Update the UI to reflect the changes
+        }
+      } catch (error) {
+        console.error('Error updating comment:', error);
+      }
+    }
   }
 }
 
