@@ -5,12 +5,11 @@
     "\\animal-web-app\\src",
     "\\animal-web-app\\src\\app",
     "\\animal-web-app\\src\\app\\dashboard",
-    "\\animal-web-app\\src\\app\\home",
-    "\\animal-web-app\\src\\app\\login",
-    "\\animal-web-app\\src\\app\\messenger",
-    "\\animal-web-app\\src\\app\\register",
-    "\\animal-web-app\\src\\app\\settings"
+    "\\animal-web-app\\src\\app\\explore",
+    "\\animal-web-app\\src\\app\\footer",
+    "\\animal-web-app\\src\\app\\forums",
+    "\\animal-web-app\\src\\app\\scheduler",
+    "\\animal-web-app\\src\\app\\unathorized"
   ],
-  "SelectedNode": "\\animal-web-app\\src\\app\\register\\register.component.html",
   "PreviewInSolutionExplorer": false
 }

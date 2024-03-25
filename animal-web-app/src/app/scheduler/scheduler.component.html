@@ -1,0 +1,61 @@
+<app-alerts></app-alerts>
+<div class="flex-grow flex flex-col w-full max-h-screen min-w-screen  lg:flex-row bg-base-100 p-0 m-0">
+
+  <!-- Sidebar -->
+  <div class="w-1/4 h-dvh flex flex-col overflow-y-auto no-scrollbar bg-base-white">
+    <div class="w-full h-1/8 bg-white flex flex-col justify-between items-center w-full">
+      <h2 class="text-left justify-between w-full flex items-center gap-4 p-4">Scheduler</h2>
+    </div>
+    <ul class="menu p-4 w-full h-full bg-base-200 p-4 flex flex-col items-center">
+      <li> <a class="text-base-content pointer-events-none cursor-not-allowed">Calendar and Appointments</a></li>
+      <li> <a class="text-base-content pointer-events-none cursor-not-allowed">User Forms</a></li>
+    </ul>
+  </div>
+
+  <!-- Divider -->
+  <div class="divider lg:divider-horizontal"></div>
+
+  <!-- Profile Tab Content -->
+  <div class="w-full h-dvh flex flex-col bg-base-200">
+      <div class="flex justify-between items-center p-4 h-1/8 w-full bg-white">
+        <div class="flex justify-between items-center w-1/2">
+          <h2 class="text-left justify-between w-full flex items-center gap-4 p-4">Scheduler</h2>
+        </div>
+      </div>
+
+      <div class="w-full h-6/8 flex flex-col bg-base-200 justify-center items-center">
+        <div class="flex flex-col w-auto h-auto bg-white mx-auto my-auto">
+          <div class="flex justify-between items-center m-4">
+            <button (click)="changeMonth(-1)" class="btn btn-neutral">
+              Prev
+            </button>
+            <h1>{{ currentMonth + 1 }} / {{ currentYear }}</h1>
+            <button (click)="changeMonth(1)" class="btn btn-neutral">
+              Next
+            </button>
+          </div>
+          <div class="grid grid-cols-7 gap-4">
+            <div *ngFor="let day of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']" class="text-center">{{ day }}</div>
+            <div *ngFor="let day of [].constructor(getFirstDayOfMonth(currentMonth, currentYear)).fill(0); let i = index" class="bg-base-200"></div>
+            <div *ngFor="let day of [].constructor(getDaysInMonth(currentMonth, currentYear)).fill(0); let i = index" class="cursor-pointer bg-white" (click)="selectDay(i + 1)">
+              <div class="card bordered bg-white">
+                <div class="card-body">
+                  {{ i + 1 }}
+                  <div *ngIf="getItemsForDay(i + 1).length > 0" class="mt-2">
+                    <div *ngFor="let item of getItemsForDay(i + 1)">{{ item }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    <div class="flex h-1/8 justify-center items-center bg-white">
+
+    </div>
+  </div>
+
+</div>
