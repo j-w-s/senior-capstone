@@ -54,6 +54,10 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   @ViewChild('addAnimalModal', { static: false }) addAnimalModal!: ElementRef;
   @ViewChild('animalBreedSelect') animalBreedSelect!: ElementRef;
   @ViewChild('animalTypeSelect') animalTypeSelect!: ElementRef;
+    profileForm: any;
+    imgUrl: any;
+    user: any;
+    db: any;
 
   openModal(): void {
     this.addAnimalModal.nativeElement.checked = true;
@@ -393,5 +397,33 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     if (this.animalsSubscription) {
       this.animalsSubscription.unsubscribe();
     }
+  }
+
+  updatePhoto(event: Event) {
+    const file = (event.target as HTMLInputElement)?.files?.[0];
+    if (file) {
+      const filePath = `uploads/${Date.now()}_${file.name}`;
+      const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, file);
+
+      // Get notified when the download URL is available
+      task.snapshotChanges().pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe(url => {
+            console.log('File available at', url);
+            this.profileForm?.get('userImage')?.setValue(url);
+            this.imgUrl = url;
+          });
+        })
+      ).subscribe();
+    }
+  }
+
+  saveUrlToFirestore(url: string) {
+    const userId = this.user.userId;
+    console.log(url);
+    this.db.collection('User').doc(userId).update({
+      userImage: url
+    });
   }
 }
