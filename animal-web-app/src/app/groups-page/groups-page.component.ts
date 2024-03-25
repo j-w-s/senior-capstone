@@ -263,6 +263,7 @@ export class GroupsPageComponent implements OnInit {
     this.cachedGroup = this.selectedGroup;
     this.selectedGroup = false;
     this.managePermissions = true;
+    this.creatingGroup = false;
   }
 
   goBack3() {

@@ -30,22 +30,26 @@
   </div>
 
   <div class="drawer-side">
-
     <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
 
     <ul class="menu p-4 w-80 min-h-full bg-primary text-base-content">
+      <li><h1 class="text-white pointer-events-none text-2xl cursor-not-allowed">Animal Adopt</h1></li>
+      <li> <a class="text-white pointer-events-none text-xl cursor-not-allowed">Access</a></li>
       <li><a class="text-white" routerLink="/home" routerLinkActive="active" (click)="closeDrawer()">Home</a></li>
-      <li><a class="text-white" routerLink="/login" routerLinkActive="active" (click)="closeDrawer()">Login</a></li>
-      <li><a class="text-white" routerLink="/register" routerLinkActive="active" (click)="closeDrawer()">Register</a></li>
+      <li><a class="text-white" routerLink="/login" routerLinkActive="active" [class.disabled]="loginRegService.isLoggedIn" (click)="closeDrawer()">Login</a></li>
+      <li><a class="text-white" routerLink="/register" routerLinkActive="active" [class.disabled]="loginRegService.isLoggedIn" (click)="closeDrawer()">Register</a></li>
+      <li> <a class="text-white pointer-events-none text-xl cursor-not-allowed">Explore</a></li>
       <li><a class="text-white" routerLink="/dashboard" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault(); closeDrawer()">Dashboard</a></li>
       <li><a class="text-white" routerLink="/messenger" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault(); closeDrawer()">Messenger</a></li>
       <li><a class="text-white" routerLink="/explore" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault(); closeDrawer()">Explore</a></li>
       <li><a class="text-white" routerLink="/settings" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault(); closeDrawer()">Settings</a></li>
+      <li><a class="text-white" routerLink="/map" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault(); closeDrawer()">Map</a></li>
+      <li> <a class="text-white pointer-events-none text-xl cursor-not-allowed">Community</a></li>
       <li><a class="text-white" routerLink="/groups" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault(); closeDrawer()">Groups</a></li>
       <li><a class="text-white" routerLink="/forums" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault(); closeDrawer()">Forums</a></li>
-      <li><a class="text-white" routerLink="/map" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault(); closeDrawer()">Map</a></li>
+      <li><a class="text-white" routerLink="/scheduler" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault(); closeDrawer()">Scheduler</a></li>
+      <li> <a class="text-white pointer-events-none text-xl cursor-not-allowed">Settings</a></li>
+      <li><a class="text-white" routerLink="/settings" routerLinkActive="active" [class.disabled]="!loginRegService.isLoggedIn" (click)="!loginRegService.isLoggedIn && $event.preventDefault(); closeDrawer()">Settings</a></li>
     </ul>
-
   </div>
-
 </div>

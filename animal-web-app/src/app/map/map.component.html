@@ -106,13 +106,25 @@
       <form [formGroup]="createBeaconForm" (ngSubmit)="addNewBeacon(); closeModal();" class="p-4 pt-4 w-full">
         <!-- Beacon Type Input -->
         <div class="mb-4">
-          <label for="beaconType" class="block text-sm font-medium text-gray-700">Beacon Type</label>
-          <input type="text" id="beaconType" formControlName="beaconType" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+          <label for="beaconType" class="block text-sm font-medium text-gray-700">Beacon Type:</label>
+          <select id="beaconType" name="beaconType" class="form-select select select-bordered select-primary mt-1 block w-full">
+            <option value="" disabled selected>Select a beacon type</option>
+            <option value="1">1</option>
+            <option value="2" disabled>2</option>
+            <option value="3" disabled>3</option>
+            <option value="4" disabled>4</option>
+          </select>
         </div>
         <!-- Beacon Color Input -->
         <div class="mb-4">
-          <label for="beaconColor" class="block text-sm font-medium text-gray-700">Beacon Color</label>
-          <input type="text" id="beaconColor" formControlName="beaconColor" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+          <label for="beaconColor" class="block text-sm font-medium text-gray-700">Beacon Color:</label>
+          <select id="beaconColor" name="beaconColor" class="form-select select select-bordered select-primary mt-1 block w-full">
+            <option value="" disabled selected>Select a color</option>
+            <option value="red">Red</option>
+            <option value="blue">Blue</option>
+            <option value="green">Green</option>
+            <option value="yellow">Yellow</option>
+          </select>
         </div>
         <!-- Geo Coordinates Input -->
         <div class="mb-4">
@@ -122,7 +134,7 @@
         <!-- Marker ID Input -->
         <div class="mb-4">
           <label for="markerId" class="block text-sm font-medium text-gray-700">Marker ID</label>
-          <input type="text" id="markerId" formControlName="markerId" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+          <input [disabled]="true" type="text" id="markerId" formControlName="markerId" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
         </div>
         <!-- Address Input -->
         <div class="mb-4">
@@ -149,16 +161,15 @@
         </div>
 
         <div class="text-center justify-center items-center">
-          <button class="btn btn-primary" type="submit" [disabled]="!createBeaconForm.valid">Add Beacon</button>
+          <button class="btn btn-primary" type="submit" >Add Beacon</button>
         </div>
       </form>
     </div>
 
     <div class="modal-action items-center">
-      <button class="btn btn-secondary"></button>
       <form method="dialog">
         <!-- if there is a button in form, it will close the modal -->
-        <button class="btn" (click)="closeModal();">Close</button>
+        <button class="btn btn-neutral" (click)="closeModal();">Close</button>
       </form>
     </div>
   </label>

@@ -1,5 +1,5 @@
 <app-alerts></app-alerts>
-<div class="flex-grow flex flex-col w-full max-h-screen min-w-screen  lg:flex-row bg-base-100 p-0 m-0">
+<div class="flex-grow flex flex-col w-full max-h-screen min-w-screen  lg:flex-row bg-white p-0 m-0">
 <!-- Modal container -->
 <dialog id="animalCreateModal" class="modal modal-bottom sm:modal-middle">>
   <div class="modal-box">
@@ -229,22 +229,25 @@
     </form>
   </div>
 </dialog>
+
   <!-- Sidebar -->
-  <div class="w-1/4 h-dvh flex flex-col overflow-y-auto no-scrollbar bg-base-200">
-    <div class="w-full h-1/8 bg-white flex flex-col justify-between items-center w-full">
+  <div class="w-1/4 h-dvh flex flex-col overflow-y-auto no-scrollbar bg-white">
+    <div class="w-full h-7/8 bg-white flex flex-col">
       <h2 class="text-left justify-between w-full flex items-center gap-4 p-4">Explore</h2>
+    </div>
+    <div class="bg-base-200 p-4 flex flex-col items-center">
       <!-- Animal Type dropdown -->
-      <select #animalTypeSelect (change)="dropdownFilter($event, animalTypeSelect.value)" class="form-select w-full max-w-xs px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+      <select #animalTypeSelect (change)="dropdownFilter($event, animalTypeSelect.value)" class="form-select w-full m-2 max-w-xs px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
         <option value="">Select Animal Type</option>
         <option *ngFor="let type of uniqueTypes" [value]="type">{{type}}</option>
-      </select>  
+      </select>
       <!-- Animal Breed dropdown-->
       <select #animalBreedSelect (change)="dropdownFilter($event, animalBreedSelect.value)" class="form-select w-full max-w-xs px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
         <option value="">Select Animal Breed</option>
         <option *ngFor="let type of uniqueBreeds" [value]="type">{{type}}</option>
-      </select> 
+      </select>
       <!-- Clear filters button -->
-      <button class="btn btn-secondary mt-2" (click)="clearDropdownFilters()">Clear Filters</button>
+      <button class="btn btn-secondary m-2" (click)="clearDropdownFilters()">Clear Filters</button>
     </div>
   </div>
 
@@ -271,12 +274,12 @@
       </div>
     </div>
 
-    <div class="w-full min-h-6/8 flex flex-col bg-base-200">
-      <div class="grid grid-rows-2 grid-cols-4 gap-1 items-center justify-center">
-        <div
-          *ngFor="let animal of getDisplayedCards()"
-          class="card bg-white overflow-hidden m-2 h-3/4"
-        >
+      <div class="w-full h-full flex flex-col bg-base-200">
+       <div class="grid grid-rows-2 grid-cols-4 items-center gap-y-2 overflow-hidden">
+          <div
+            *ngFor="let animal of getDisplayedCards()"
+            class="card bg-white overflow-hidden m-2 h-3/4 auto-rows-auto"
+          >
           <img
             class="w-full h-48 object-cover"
             [src]="animal.images[animal.primaryImage]"
@@ -339,7 +342,7 @@
       </div>
     </div>
 
-    <div class="flex h-1/8 flex-grow justify-center items-center bg-white ">
+    <div class="flex h-1/8 h-20 justify-center items-center bg-white ">
       <nav aria-label="Pagination">
         <ul class="flex">
           <li>

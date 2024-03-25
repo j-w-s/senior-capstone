@@ -1,6 +1,6 @@
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
-import { finalize, Observable, Subscription } from 'rxjs';
+import { catchError, finalize, Observable, Subscription } from 'rxjs';
 import Beacon from '../../models/beacon';
 import BeaconMarker from '../../models/beacon-marker';
 import { MapService } from '../services/map.service';
@@ -13,6 +13,7 @@ import BusinessRating from '../../models/business-ratings';
 import { v4 as uuidv4 } from 'uuid';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { getStorage, deleteObject } from "firebase/storage";
+import { GeoPoint } from 'firebase/firestore';
 
 
 @Component({
@@ -52,12 +53,12 @@ export class MapComponent implements AfterViewInit {
   ) {
 
     this.createBeaconForm = new FormGroup({
-      beaconType: new FormControl('', Validators.required),
-      beaconColor: new FormControl('', Validators.required),
+      beaconType: new FormControl(''),
+      beaconColor: new FormControl(''),
       geoCoordinates: new FormControl('', Validators.required),
       markerId: new FormControl('', Validators.required),
       address: new FormControl('', Validators.required),
-      images: this.fb.array([], Validators.required), // Initialize images as a FormArray
+      images: this.fb.array([], Validators.required), 
       contactInformation: new FormControl('', Validators.required),
       about: new FormControl('', Validators.required),
     });
@@ -68,8 +69,8 @@ export class MapComponent implements AfterViewInit {
     await this.deleteImages();
     this.images = [];
     this.createBeaconForm = new FormGroup({
-      beaconType: new FormControl('', Validators.required),
-      beaconColor: new FormControl('', Validators.required),
+      beaconType: new FormControl(''),
+      beaconColor: new FormControl(''),
       geoCoordinates: new FormControl('', Validators.required),
       markerId: new FormControl('', Validators.required),
       address: new FormControl('', Validators.required),
@@ -84,26 +85,39 @@ export class MapComponent implements AfterViewInit {
     this.createBeaconForm.get('markerId')!.setValue(uuidv4());
   }
 
-  addNewBeacon(): void {
+  async addNewBeacon(): Promise<void> {
+    console.log(this.createBeaconForm);
     if (this.createBeaconForm.valid) {
       try {
+        let coords = this.createBeaconForm.get('geoCoordinates')?.value;
+        coords = coords.split(", ");
+        coords = { _lat: parseFloat(coords[0]), _long: parseFloat(coords[1]) };
+        let markerId = this.createBeaconForm.get('markerId')?.value as string;
         const beaconMarker: BeaconMarker = {
-          markerId: this.createBeaconForm.get('markerId')?.value,
+          markerId: markerId,
           address: this.createBeaconForm.get('address')?.value,
           images: this.createBeaconForm.get('images')?.value,
           contactInformation: this.createBeaconForm.get('contactInformation')?.value,
           about: this.createBeaconForm.get('about')?.value,
-          listings: [], // Assuming you have a way to populate this, otherwise leave it as an empty array
-          ratings: [], // Assuming you have a way to populate this, otherwise leave it as an empty array
+          listings: [],
+          ratings: [],
         };
-        this.mapService.addBeaconMarker(beaconMarker);
-      }
-      catch {
-        //pass
+        console.log(beaconMarker)
+        this.mapService.addBeaconMarker(beaconMarker).then(beaconMarkerRef => {
+          const beacon: Beacon = {
+            beaconType: this.createBeaconForm.get('beaconType')?.value,
+            beaconColor: this.createBeaconForm.get('beaconColor')?.value,
+            geoCoordinates: coords,
+            beaconInformation: beaconMarkerRef,
+            beaconMarkerId: markerId,
+          }
+          this.mapService.addBeacon(beacon);
+          console.log(beacon)
+        });
+      } catch {
       }
     }
   }
-
   openModal(): void {
     this.resetForm();
     const modalToggle = document.getElementById('createBeaconModalToggle') as HTMLInputElement;
@@ -224,17 +238,21 @@ export class MapComponent implements AfterViewInit {
 
     this.beacons.forEach(beacon => {
       console.log(beacon);
+      try {
+        // Directly access the properties using dot notation
+        var latitude = beacon.geoCoordinates._lat;
+        var longitude = beacon.geoCoordinates._long;
+        console.log(latitude, longitude);
 
-      // Directly access the properties using dot notation
-      var latitude = beacon.geoCoordinates._lat;
-      var longitude = beacon.geoCoordinates._long;
-      console.log(latitude, longitude);
+        var beaconCoords: L.LatLngTuple = [latitude, longitude];
+        var marker = new CustomMarker(beaconCoords, { icon: beaconIcon, beaconData: beacon });
+        marker.beaconData = beacon;
+        marker.addTo(this.map);
+        this.markers.push(marker);
+      }
+      catch{
 
-      var beaconCoords: L.LatLngTuple = [latitude, longitude];
-      var marker = new CustomMarker(beaconCoords, { icon: beaconIcon, beaconData: beacon });
-      marker.beaconData = beacon;
-      marker.addTo(this.map);
-      this.markers.push(marker);
+      }
     });
 
     // resize markers when zooming -> somehow functional...
@@ -256,9 +274,10 @@ export class MapComponent implements AfterViewInit {
     // click event on the marker
     this.markers.forEach(marker => {
       marker.on('click', (event) => {
+        var clickedBeaconMarkerId = event.target.options.beaconData.beaconMarkerId;
         var clickedBeaconData = event.target.options.beaconData.beaconInformation;
         var beaconMarkerDocumentId = clickedBeaconData._delegate._key.path.segments[clickedBeaconData._delegate._key.path.segments.length - 1];
-        var beaconMarkerObject = this.beaconMarkers.find(beaconMarker => beaconMarker.markerId === beaconMarkerDocumentId);
+        var beaconMarkerObject = this.beaconMarkers.find(beaconMarker => beaconMarker.markerId === clickedBeaconMarkerId);
         if (beaconMarkerObject !== undefined) {
           this.selectedBeaconData = beaconMarkerObject;
           console.log(this.selectedBeaconData);

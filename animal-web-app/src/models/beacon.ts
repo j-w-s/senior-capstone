@@ -5,7 +5,8 @@ interface Beacon {
   beaconType: number;
   beaconColor: string;
   geoCoordinates: {_lat: number, _long: number};
-  beaconInformation: BeaconMarker;
+  beaconInformation: any;
+  beaconMarkerId: string;
 }
 
 export default Beacon;

@@ -50,6 +50,7 @@ import { MapComponent } from './map/map.component';
 import { AuthguardService } from './services/authguard.service';
 import { UnathorizedComponent } from './unathorized/unathorized.component';
 import { AlertsComponent } from './alerts/alerts.component';
+import { SchedulerComponent } from './scheduler/scheduler.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { AlertsComponent } from './alerts/alerts.component';
     ForumsComponent,
     MapComponent,
     UnathorizedComponent,
-    AlertsComponent
+    AlertsComponent,
+    SchedulerComponent
   ],
   imports: [
     BrowserModule,

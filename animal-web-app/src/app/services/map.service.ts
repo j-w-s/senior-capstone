@@ -4,7 +4,7 @@ import { map, tap } from 'rxjs/operators';
 import { AngularFirestore, DocumentReference } from '@angular/fire/compat/firestore';
 import BeaconMarker from '../../models/beacon-marker';
 import Beacon from '../../models/beacon';
-import { doc } from 'firebase/firestore';
+import { doc, getFirestore } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -36,17 +36,15 @@ export class MapService {
     );
   }
 
-  async addBeaconMarker(beaconMarker: BeaconMarker): Promise<void> {
+  async addBeaconMarker(beaconMarker: BeaconMarker): Promise<any> {
     console.log(beaconMarker);
     const beaconMarkerRef = await this.firestore.collection('Beacon-Marker').add(beaconMarker);
-    await this.firestore.collection('Beacon').add(beaconMarkerRef);
+    return beaconMarkerRef;
   }
 
-  async addBeacon(beaconMarker: BeaconMarker): Promise<void> {
-    console.log(beaconMarker);
-    const beaconMarkerRef = await this.firestore.collection('Beacon-Marker').add(beaconMarker);
-    await this.firestore.collection('Beacon').add(beaconMarkerRef);
+  async addBeacon(beacon: Beacon): Promise<void> {
+    console.log(beacon);
+    await this.firestore.collection('Beacon').add(beacon);
   }
-
 
 }
