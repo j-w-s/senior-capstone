@@ -4,12 +4,9 @@
     "\\animal-web-app",
     "\\animal-web-app\\src",
     "\\animal-web-app\\src\\app",
-    "\\animal-web-app\\src\\app\\dashboard",
     "\\animal-web-app\\src\\app\\explore",
-    "\\animal-web-app\\src\\app\\footer",
-    "\\animal-web-app\\src\\app\\forums",
-    "\\animal-web-app\\src\\app\\scheduler",
-    "\\animal-web-app\\src\\app\\unathorized"
+    "\\animal-web-app\\src\\app\\services"
   ],
+  "SelectedNode": "\\animal-web-app",
   "PreviewInSolutionExplorer": false
 }

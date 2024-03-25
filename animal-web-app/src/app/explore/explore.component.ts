@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -17,7 +17,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
   templateUrl: './explore.component.html',
   styleUrl: './explore.component.scss'
 })
-export class ExploreComponent implements OnInit, AfterViewInit{
+export class ExploreComponent implements OnInit, AfterViewInit {
 
   animals$!: Observable<Animal[]>;
   animalsSubscription: Subscription | undefined;
@@ -54,12 +54,16 @@ export class ExploreComponent implements OnInit, AfterViewInit{
   @ViewChild('addAnimalModal', { static: false }) addAnimalModal!: ElementRef;
   @ViewChild('animalBreedSelect') animalBreedSelect!: ElementRef;
   @ViewChild('animalTypeSelect') animalTypeSelect!: ElementRef;
+    profileForm: any;
+    imgUrl: any;
+    user: any;
+    db: any;
 
   openModal(): void {
     this.addAnimalModal.nativeElement.checked = true;
- }
+  }
 
- closeModal(): void {
+  closeModal(): void {
     this.addAnimalModal.nativeElement.checked = false;
     this.animalCreateForm = new FormGroup({
       animalId: new FormControl(this.generateUUID(), Validators.required),
@@ -80,7 +84,7 @@ export class ExploreComponent implements OnInit, AfterViewInit{
       color: new FormControl(''),
       vaccinationStatus: new FormControl(false)
     });
- }
+  }
 
   toggleDropdown() {
     this.dropdownVisible = !this.dropdownVisible;
@@ -88,8 +92,8 @@ export class ExploreComponent implements OnInit, AfterViewInit{
 
   constructor(private exploreService: ExploreService, private cdr: ChangeDetectorRef, private fb: FormBuilder, private loginRegService: LoginRegisterService,
 
-    private storage: AngularFireStorage  ) {
-    this.animalCreateForm = new FormGroup({
+    private storage: AngularFireStorage) {
+    this.animalCreateForm = this.fb.group({
       animalId: new FormControl('', Validators.required),
       owner: new FormControl(''),
       animalType: new FormControl('', Validators.required),
@@ -142,6 +146,18 @@ export class ExploreComponent implements OnInit, AfterViewInit{
       vaccinationStatus: this.selectedAnimal.vaccinationStatus
     });
     this.displayModal = true;
+  }
+  async submitEdit() {
+    if (this.animalCreateForm.valid) {
+      const updatedAnimal = this.animalCreateForm.value;
+      // Call the service method to update the animal in Firestore
+      await this.exploreService.updateAnimal(updatedAnimal);
+      // Refresh the data in the component
+      this.animals$ = this.exploreService.getAnimals();
+      // Trigger change detection manually if necessary
+      this.cdr.detectChanges();
+      this.displayModal = false;
+    }
   }
 
   animalKebab(animal: Animal) {
@@ -220,7 +236,7 @@ export class ExploreComponent implements OnInit, AfterViewInit{
 
 
   async ngOnInit(): Promise<void> {
-    this.currentUserId =  await this.loginRegService.getCurrentUser();
+    this.currentUserId = await this.loginRegService.getCurrentUser();
     this.currentUser = await this.loginRegService.getUserDetails(this.currentUserId);
     this.animals$ = this.exploreService.getAnimals();
 
@@ -229,7 +245,7 @@ export class ExploreComponent implements OnInit, AfterViewInit{
       this.totalPages = Math.ceil(this.animals.length / this.cardsPerPage);
 
       // create a list of unique types for all categories
-      this.uniqueTypes = Array.from(new Set(animals.map(animal => animal.animalType?.toLowerCase()))) as string[];      
+      this.uniqueTypes = Array.from(new Set(animals.map(animal => animal.animalType?.toLowerCase()))) as string[];
       this.uniqueBreeds = Array.from(new Set(this.animals.flatMap(animal => animal.animalBreed))).filter(breed => breed !== undefined) as string[];
       this.uniqueWeights = Array.from(new Set(this.animals.map(animal => animal.animalWeight))) as number[];
       this.uniqueSexes = Array.from(new Set(this.animals.map(animal => animal.animalSex))) as string[];
@@ -277,13 +293,13 @@ export class ExploreComponent implements OnInit, AfterViewInit{
   }
 
   //Function called by dropdown to actually filter cards shown
-  dropdownFilter(event: any, type: any){
-    console.log("Filter by: ",type);
+  dropdownFilter(event: any, type: any) {
+    console.log("Filter by: ", type);
     this.searchTerm = type;
   }
 
   //Allows Clear Filter button to clear any filtering being done
-  clearDropdownFilters(): void{
+  clearDropdownFilters(): void {
     this.searchTerm = '';
     this.currentPage = 1;
     this.totalPages = Math.ceil(this.getDisplayedCards().length / this.cardsPerPage);
@@ -307,16 +323,25 @@ export class ExploreComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit(): void {
-    // get the select element
-    const selectElement = document.getElementById('animalTypes') as HTMLSelectElement;
-
-    // gen options for animal types
-    this.uniqueTypes.forEach(type => {
-      const option = document.createElement('option');
-      option.value = type;
-      option.textContent = type;
-      selectElement.appendChild(option);
-    });
+    // Ensure the ViewChild references are available before accessing them
+    if (this.addAnimalModal) {
+      console.log(this.addAnimalModal.nativeElement); // This should work now
+    }
+    if (this.animalBreedSelect) {
+      // Perform operations with animalBreedSelect
+      this.animalBreedSelect.nativeElement.addEventListener('change', (event: { target: { value: any; }; }) => {
+        console.log('Breed selection changed:', event.target.value);
+        // Additional logic here
+      });
+    }
+    if (this.animalTypeSelect) {
+      // Perform operations with animalTypeSelect
+      this.animalTypeSelect.nativeElement.addEventListener('change', (event: { target: { value: any; }; }) => {
+        console.log('Type selection changed:', event.target.value);
+        // Additional logic here
+      });
+    }
+    this.cdr.detectChanges();
   }
 
   handleSelectChange(event: Event): void {
@@ -337,9 +362,11 @@ export class ExploreComponent implements OnInit, AfterViewInit{
   deleteAnimalFromCollection(animal: Animal): void {
     this.exploreService.deleteAnimal(animal).then(() => {
       console.log('Animal deleted successfully');
+      // Manually remove the deleted animal from the component's state
       this.animals = this.animals.filter(a => a.animalId !== animal.animalId);
-      this.cdr.detectChanges();
-    }).catch((error) => {
+      // Optionally, re-calculate total pages and other related properties
+      this.totalPages = Math.ceil(this.animals.length / this.cardsPerPage);
+    }).catch(error => {
       console.error('Error deleting animal:', error);
     });
   }
@@ -363,5 +390,40 @@ export class ExploreComponent implements OnInit, AfterViewInit{
   }
 
   filterThreads(search: string): void {
+  }
+
+  ngOnDestroy(): void {
+    // Unsubscribe from the observable to prevent memory leaks
+    if (this.animalsSubscription) {
+      this.animalsSubscription.unsubscribe();
+    }
+  }
+
+  updatePhoto(event: Event) {
+    const file = (event.target as HTMLInputElement)?.files?.[0];
+    if (file) {
+      const filePath = `uploads/${Date.now()}_${file.name}`;
+      const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, file);
+
+      // Get notified when the download URL is available
+      task.snapshotChanges().pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe(url => {
+            console.log('File available at', url);
+            this.profileForm?.get('userImage')?.setValue(url);
+            this.imgUrl = url;
+          });
+        })
+      ).subscribe();
+    }
+  }
+
+  saveUrlToFirestore(url: string) {
+    const userId = this.user.userId;
+    console.log(url);
+    this.db.collection('User').doc(userId).update({
+      userImage: url
+    });
   }
 }
