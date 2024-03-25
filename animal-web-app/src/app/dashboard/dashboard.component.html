@@ -158,74 +158,9 @@
     </div>
   </div>
 
-  <!-- Components Frame -->
-  <div class="container w-full justify-between flex-grow flex flex-row bg-base-200 p-6">
-    <!-- this is a static calendar until i find something better -->
-    <div class="container flex flex-col w-1/2 items-center bg-base-100 h-full p-4">
-      <!-- month -->
-      <h2 class="font-bold text-2xl mb-4">January</h2>
-
-      <!-- days -->
-      <div class="flex justify-between mb-4">
-        <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Mon</span>
-        <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Tue</span>
-        <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Wed</span>
-        <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Thu</span>
-        <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Fri</span>
-        <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Sat</span>
-        <span class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md">Sun</span>
-      </div>
-
-      <div *ngFor="let row of days; let i = index" class="flex justify-between mb-4 items-center">
-        <!-- loop over days in row -->
-        <span *ngFor="let day of row" class="w-1/7 px-4 py-2 text-center bg-blue-200 rounded-md hover:bg-blue-300 cursor-pointer">
-          {{ day }}
-        </span>
-      </div>
-
-    </div>
-
-    <div class="divider lg:divider-horizontal"></div>
-
-    <div class="flex flex-col w-1/2 items-center bg-base-100 h-full p-4">
-
-      <div class="overflow-x-auto lex justify-between mb-4">
-        <table class="table overflow-y-auto">
-          <!-- head -->
-          <thead>
-            <tr>
-              <th></th>
-              <th>Name</th>
-              <th>Job</th>
-              <th>Favorite Color</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- row 1 -->
-            <tr class="bg-base-200">
-              <th>1</th>
-              <td>Cy Ganderton</td>
-              <td>Quality Control Specialist</td>
-              <td>Blue</td>
-            </tr>
-            <!-- row 2 -->
-            <tr>
-              <th>2</th>
-              <td>Hart Hagerty</td>
-              <td>Desktop Support Technician</td>
-              <td>Purple</td>
-            </tr>
-            <!-- row 3 -->
-            <tr>
-              <th>3</th>
-              <td>Brice Swyre</td>
-              <td>Tax Accountant</td>
-              <td>Red</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <!-- Components Frame -->
+    <div class="container w-full justify-between flex-grow flex flex-row bg-base-200 p-6">
+    
     </div>
   </div>
-</div>
 </div>
