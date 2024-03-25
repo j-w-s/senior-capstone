@@ -38,6 +38,7 @@ export class ForumsComponent implements OnInit {
   openModal(): void {
     const modalToggle = document.getElementById('createThreadModal') as HTMLInputElement;
     modalToggle.checked = true;
+    this.isCreateThreadModalActive = true;
   }
 
   closeModal(): void {
