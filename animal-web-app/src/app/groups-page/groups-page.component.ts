@@ -14,6 +14,7 @@ import { LoginRegisterService } from '../services/login-register.service';
   state: string;
   users: DocumentReference[];
   owner: DocumentReference | null;
+  image: string;
  }
 
 export interface Use {
@@ -153,6 +154,7 @@ export class GroupsPageComponent implements OnInit {
        state: state,
        users: [],
        owner: null,
+       image: "https://t4.ftcdn.net/jpg/03/03/72/11/360_F_303721150_Uo6hxtfQVe7B9uxjwPLbgJ0eStClh0r2.jpg", // HARD CODED DEFAULT FOR NOW
      };
  
     // Calls the service function to create the group
@@ -174,6 +176,7 @@ export class GroupsPageComponent implements OnInit {
         state: group.state,
         users: group.users,
         owner: group.owner,
+        image: group.image,
       }
       const docId = group.useId;
       
