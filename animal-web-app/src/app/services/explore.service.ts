@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentReference } from '@angular/fire/compat/firestore';
-import { Observable, BehaviorSubject, of, from } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { Observable, BehaviorSubject, of, from, throwError } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { faker } from "@faker-js/faker/locale/en";
 import Animal from '../../models/animal';
 import { LoginRegisterService } from './login-register.service';
@@ -26,8 +26,23 @@ export class ExploreService {
 
   async deleteAnimal(animal: Animal): Promise<Observable<Animal>> {
     return from(this.firestore.collection<Animal>('Animal').doc(animal.animalId).delete()).pipe(
-      map(() => animal) 
+      tap(() => {
+        console.log(`Deleted animal with ID: ${animal.animalId}`);
+        // Update the local state to reflect the deletion
+        const currentAnimals = this.animalsSubject.getValue();
+        const updatedAnimals = currentAnimals.filter(a => a.animalId !== animal.animalId);
+        this.animalsSubject.next(updatedAnimals);
+      }),
+      catchError(error => {
+        console.error(`Failed to delete animal with ID: ${animal.animalId}`, error);
+        return throwError(error);
+      }),
+      map(() => animal)
     );
+  }
+
+  async updateAnimal(animal: Animal): Promise<void> {
+    return this.firestore.collection<Animal>('Animal').doc(animal.animalId).update(animal);
   }
 
   getAnimalById(id: string): Observable<Animal> {
