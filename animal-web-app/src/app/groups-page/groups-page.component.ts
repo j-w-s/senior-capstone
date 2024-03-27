@@ -2,30 +2,48 @@ import { Component, OnInit } from '@angular/core';
 import { DocumentReference } from '@angular/fire/compat/firestore';
 import { doc, getFirestore } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref } from 'firebase/storage';
-import { Subject, Subscription, takeUntil } from 'rxjs';
+import { Observable, Subject, Subscription, takeUntil } from 'rxjs';
+import Animal from '../../models/animal';
+import UserPreferences from '../../models/user-preferences';
+import UserRating from '../../models/user-ratings';
 import { GroupsService } from '../services/groups.service';
 import { LoginRegisterService } from '../services/login-register.service';
 
-// Group interface
- export interface Group {
-  name: string;
-  description: string;
-  city: string;
-  state: string;
-  users: DocumentReference[];
-  owner: DocumentReference | null;
-  image: string;
- }
+export interface User {
+  userId: string;
+  userFirstName: string;
+  userLastName: string;
+  userPhoneNumber: string;
+  userEmail: string;
+  userDisplayName: string;
+  userBiography: string;
+  userImage: string;
+  userAccountType?: number;
+  userPreferences: UserPreferences;
+  userRatings: UserRating[];
+  petsOwned: Animal[];
+  petsLost: Animal[];
+  userGroups: DocumentReference[],
+}
 
-export interface Use {
-  firstname: string;
-  lastname: string;
-  email: string;
-  phonenumber: string;
-  username: string;
-  groups: DocumentReference[];
-  image: string;
-  perms: string[][];
+export interface GroupUser {
+  userDocRef: DocumentReference,
+  addUserPerm: boolean,
+  removeUserPerm: boolean,
+  updateGroupPerm: boolean,
+  deleteGroupPerm: boolean,
+  updatePermissionsPerm: boolean,
+}
+
+export interface Group {
+  groupId: string,
+  groupImage: string,
+  groupName: string,
+  groupDescription: string,
+  groupCity: string,
+  groupState: string,
+  groupOwner: DocumentReference,
+  groupUsers: GroupUser[],
 }
 
 @Component({
@@ -35,221 +53,84 @@ export interface Use {
 })
 export class GroupsPageComponent implements OnInit {
   // Stores all the groups retrieved from the database
-  groups: any[] = [];
-  // Stores the currently selected group from the carousel;
-  // used to display the group info at the bottom
-  selectedGroup: any | null = null;
+  groups: Group[] = [];
+  users: User[] = [];
+  owner: User | null = null;
+  selectedGroup: Group | null = null;
+  userPerms!: GroupUser;
   creatingGroup = false;
-
   managePermissions = false;
-  cachedGroup: any = null;
-  // Stores the resolved usernames from the group.users DocRef array
-  users: any[] = [];
-  owner: any | null = null;
-  currentPerms: any = [];
-  img: HTMLElement | null = null;
+  cachedGroup: Group | null = null;
+
   private destroy$ = new Subject<void>();
-  private subscriptions: Array<Subscription> = [];
-  currentIndex = 0; // Initialize the current index
-  i!: number;
- 
+
+  
   constructor(private groupService: GroupsService, private loginRegService: LoginRegisterService) { }
 
-  // Listener for document updates that the user is apart of.
-  // Needs a listener to update what groups th user
   ngOnInit(): void {
     // Subscribes the listeners to get the groups from the databse
     // Returns the groups in the database whenever there is an update
-    this.groupService.getGroups().then(async (observable$) => {
-      await observable$.pipe(takeUntil(this.destroy$)).subscribe(async (groups: any) => {
-         console.log('Received groups:');
-         groups.forEach(async (group: any) => {
-           console.log('Group ID:', group.useId);
-          
-         });
-         this.groups = groups;   
+    this.groupService.getGroups().then(async (observable$: Observable<Group[]>) => {
+      
+      await observable$.pipe(takeUntil(this.destroy$)).subscribe(async (groups: Group[]) => {
+        // Returns all of the users groups
+        console.log('Returned groups: ', groups)
+        this.groups = groups
 
-         if(this.selectedGroup != null)
-         {
-          for(let i = 0; i < groups.length; i++)
-          {
-            if(groups[i].useId == this.selectedGroup.useId)
-            {
-              this.selectGroup(groups[i])
-              console.log('Reselected Groups')
+        // Reselects the group you were on if new group data is updated
+        if(this.selectedGroup != null) {
+          for(let i = 0; i < this.groups.length; i++) {
+            if(this.groups[i].groupId == this.selectedGroup.groupId) {
+              this.selectGroup(this.groups[i])
+              console.log('Reselected Group')
             }
           }
-          
-         }
+        }
       }, error => {
-         console.error('Error getting groups:', error);
+        console.error('Error getting groups:', error);
       });
-     });
-    
+    });
+
     // Makes sure ngDestroy is called before reloaded a page
     window.onbeforeunload = () => this.ngOnDestroy();
   }
 
   // Gets rid of the listeners when the page is destroyed (refreshed, unloaded, etc.)
   ngOnDestroy() {
-    //this.selectedGroup = null;
     this.destroy$.next()
     this.destroy$.complete()
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
- 
 
-  // Sets the selected group from what was picked in the carousel
-  // Resolves the usernames to display
-  async selectGroup(group: any) {
+  // Function to select a group and get its users
+  async selectGroup(group: Group) {
+    // Saves the selected group
     this.selectedGroup = group;
 
-    await this.groupService.resolveUsernames(group.users, group).then(([one,two]) => {
-      this.users = one;
-      this.owner = two;
+    // Gets and returns the users and owner of the group
+    await this.groupService.getUserData(group).then(([users, owner]) => {
+      this.users = users;
+      this.owner = owner;
     });
 
-    console.log('Got the users in the group: ', this.users)
-    // GET THE users from the group but keep in mind the perms as well
-
-    //console.log('Got the users in the group: ', this.users)
-    // GET THE users from the group but keep in mind the perms as well
-
-
-    const storage = getStorage();
-    for(let i = 0; i < this.users.length; i++)
-    {
-      if((this.users[i].userId == this.loginRegService.currentUser) || (this.owner?.userId == this.loginRegService.currentUser))
-      {
-        for(let j = 0; j < group.users.length; j++)
-        {
-          const split = String(group.users[j].user.path).split("/")
-          const split2 = String(group.owner.path).split("/")
-          //console.log('THE SPLIT: ', split)
-          if(split[1] == this.loginRegService.currentUser) {
-            console.log('GETTING THE RIGHT PERMS')
-            console.log(group.users[j])
-            this.currentPerms = group.users[j]
-          }
-          else if(split2[1] == this.loginRegService.currentUser)
-          {
-            console.log('ALL PERMS')
-            this.currentPerms = 'Owner';
+    // Gets the group permissions of the user currently logged in
+    let earlyExit = false;
+    for(let i = 0; i < this.groups.length; i++) {
+      if(this.groups[i].groupId == group.groupId) {
+        for(let j = 0; j < this.groups[i].groupUsers.length; j++) {
+          if(this.groups[i].groupUsers[j].userDocRef.path.split("/")[1] == this.loginRegService.currentUser) {
+            this.userPerms = this.groups[i].groupUsers[j];
+            earlyExit = true;
+            break;
           }
         }
-        const t = group.users
-        console.log('addUserPerm', )
+        if(earlyExit) {
+          break;
+        }
       }
-
     }
   }
  
-  // Creates a group using the input fields on the page
-  createGroup(name: string, description: string, city: string, state: string) {
-    // Creates a group to send and store in the database
-     const newGroup: Group = {
-       name: name,
-       description: description,
-       city: city,
-       state: state,
-       users: [],
-       owner: null,
-       image: "https://t4.ftcdn.net/jpg/03/03/72/11/360_F_303721150_Uo6hxtfQVe7B9uxjwPLbgJ0eStClh0r2.jpg", // HARD CODED DEFAULT FOR NOW
-     };
- 
-    // Calls the service function to create the group
-    // Adss the 'owner' of the group
-     this.groupService.createGroup(newGroup).then((groupRef) => {
-       this.addOwner(newGroup, groupRef.path)
-     });
-     this.creatingGroup = false;
-  }
-
-  updateGroup(group: any) {
-    if(this.currentPerms == 'Owner' || this.currentPerms.editInfoPerm == true)
-    {
-      console.log('You have permission to change the Group Info')
-      const updatedGroup: Group = {
-        name: group.name,
-        description: group.description,
-        city: group.city,
-        state: group.state,
-        users: group.users,
-        owner: group.owner,
-        image: group.image,
-      }
-      const docId = group.useId;
-      
-      this.groupService.updateGroup(updatedGroup, docId) 
-    }
-    else {
-      console.log('Insufficient Permissions!');
-    }
-    
-  }
-
-  deleteGroup(group: any, confirmation: string) {
-    if(this.currentPerms == 'Owner' || this.currentPerms.deleteGroupPerm == true)
-    {
-      console.log('You have permission to delete the group')
-      console.log(group);
-      console.log("Confirmation: ", confirmation);
-
-      if(confirmation == 'delete') {
-        
-        this.groupService.deleteGroup(group);
-        this.groupService.removeGroupFromUsers(group);
-        //this.groupService.removeGroupFromOwner(group);
-        this.selectedGroup = null;
-      }
-    }
-    else{
-      console.log('Insufficient Permissions!');
-    }
-  }
- 
-  // Adds a user to the group based on their username
-  addUser(group: any, username: string) {
-    if(this.currentPerms == 'Owner' || this.currentPerms.addUserPerm == true)
-    {
-      console.log('You have permission to add users')
-      this.groupService.addUserToGroup(group.useId, username);
-    }
-    else {
-      console.log('Insufficient Permissions!');
-    }
-  }
-
-  // Adds the creator to the group using their userID
-  addOwner(group: Group, docRef: string) {
-    this.groupService.addOwner(docRef);
-  }
-
-  removeUser(group: any, username: string) {
-    if(this.currentPerms == 'Owner' || this.currentPerms.removeUserPerm == true)
-    {
-      console.log('You have permission to remove users')
-      this.groupService.removeUser(group, username);
-
-      console.log('Removed User')
-    }
-    else {
-      console.log('Insufficient Permissions!');
-    }
-  }
-
-  prev(index: number) {
-    this.currentIndex = (index + this.groups.length - 1) % this.groups.length;
-  }
-
-  next(index: number) {
-    this.currentIndex = (index + 1) % this.groups.length;
-  }
-
-  trackByGroups(index: number, group: any): string {
-    return group.name;
-  }
-
+  
   goBack() {
     this.selectedGroup = null;
   }
@@ -264,7 +145,7 @@ export class GroupsPageComponent implements OnInit {
 
   gotoPermissions() {
     this.cachedGroup = this.selectedGroup;
-    this.selectedGroup = false;
+    this.selectedGroup = null;
     this.managePermissions = true;
     this.creatingGroup = false;
   }
@@ -273,51 +154,140 @@ export class GroupsPageComponent implements OnInit {
     this.managePermissions = false;
     for(let i = 0; i < this.groups.length; i++)
     {
-      if(this.groups[i].useId == this.cachedGroup.useId)
+      if(this.groups[i].groupId == this.cachedGroup?.groupId)
       {
-        //this.selectedGroup = this.groups[i];
+        // Reselects the selected group when using back button on permissons page
         this.selectGroup(this.groups[i])
       }
     }
-    //this.selectedGroup = this.cachedGroup;
   }
 
-  updatePerms() {
-    if(this.currentPerms == 'Owner' || this.currentPerms.updatePermsPerm == true)
-    {
-      console.log('You have permission to update Permissions')
-      const newUserArray = [];
+  // Function to create a group from the input fields in the Group Creation Section
+  createGroup(name: string, description: string, city: string, state: string) {
+    // Gets the document reference to the current signed in user to be the owner in the group
+    const ownerDocRef = this.groupService.getOwnerDocRef()
 
-      for(let i = 0; i < this.users.length; i++)
-      {
-          //console.log('LOOPING USER: ', this.users[i])
-          const db = getFirestore();
-          const path = doc(db, 'User/'+this.users[i].userId)
-          const newMap = {
-            user: path,
-            addUserPerm: (document.getElementsByName(this.users[i].username + '_' + 0)[0] as HTMLInputElement).checked,
-            removeUserPerm: (document.getElementsByName(this.users[i].username + '_' + 1)[0] as HTMLInputElement).checked,
-            editInfoPerm: (document.getElementsByName(this.users[i].username + '_' + 2)[0] as HTMLInputElement).checked,
-            deleteGroupPerm: (document.getElementsByName(this.users[i].username + '_' + 3)[0] as HTMLInputElement).checked,
-            updatePermsPerm: (document.getElementsByName(this.users[i].username + '_' + 4)[0] as HTMLInputElement).checked,
-        }
-        newUserArray.push(newMap);
+    // Create a new Group to send and store in the database
+    const newGroup: Group = {
+      groupId: "",
+      groupName: name,
+      groupDescription: description,
+      groupImage: "https://t4.ftcdn.net/jpg/03/03/72/11/360_F_303721150_Uo6hxtfQVe7B9uxjwPLbgJ0eStClh0r2.jpg",
+      groupCity: city,
+      groupState: state,
+      groupOwner: ownerDocRef,
+      groupUsers: [],
+    }
+
+    // Calls service function to create the group
+    // Sets the groupId fieldto the new group doc, and adds group doc ref to users userGroups field
+    // Switches the user to the group page after creation
+    this.groupService.createGroup(newGroup).then(newGroupDocRef => {
+      this.groupService.setCreatedGroupId(newGroupDocRef);
+      this.groupService.addOwner(ownerDocRef, newGroupDocRef);
+    });
+    this.creatingGroup = false;
+
+  }
+
+  updateGroup(groupData: Group) {
+    // Checks the permission of the user or if they are the owner
+    if(this.owner?.userId == this.loginRegService.currentUser || this.userPerms.updateGroupPerm == true) {
+        console.log('You have permission to update group information!')
+
+        // Calls service function to update group data
+        this.groupService.updateGroup(groupData, groupData.groupId);
+    }
+    else {
+      console.log('Insufficient permissions!');
+    }
+
+  }
+
+  deleteGroup(group: Group, confirmation: string) {
+    // Checks the permission of the user or if they are the owner
+    if(this.owner?.userId == this.loginRegService.currentUser || this.userPerms.deleteGroupPerm == true) {
+
+      console.log("Confirmation: ", confirmation);
+
+      // Checks if you typed in 'delete' to delete a group
+      if(confirmation == 'delete') {
+
+        // Calls the service function to delete the group
+        this.groupService.deleteGroup(group);
+        // Calls service function to remove the group from all user documents
+        this.groupService.removeGroupFromUsers(group);
+
+        // Sets the selected group to null to go back to groups selection page
+        this.selectedGroup = null;
       }
 
-      //console.log('NEW USER ARRAY: ', newUserArray);
-      //this.groupService.updateGroup(newUserArray, this.selectedGroup.useId)
-      //console.log('WTF GROUP: ', this.cachedGroup)
-      if(this.cachedGroup != null)
-      {
-        this.groupService.updatePerms(newUserArray, this.cachedGroup.useId)
+    }
+    else {
+      console.log('Insufficient permissions!');
+    }
+  }
+
+  addUser(group: Group, username: string) {
+    // Checks the permission of the user or if they are the owner
+    if(this.owner?.userId == this.loginRegService.currentUser || this.userPerms.addUserPerm == true) {
+      console.log('You have permission to add users to the group!')
+
+      // Calls the service function to add user to the group
+      this.groupService.addUserToGroup(group.groupId, username);
+    }
+    else {
+      console.log('Insufficient permissions!');
+    }
+  }
+
+  removeUser(group: Group, username: string) {
+    // Checks the permission of the user or if they are the owner
+    if(this.owner?.userId == this.loginRegService.currentUser || this.userPerms.removeUserPerm == true) {
+      console.log('You have permission to remove users')
+
+      //Calls the service function to remove user from the group
+      this.groupService.removeUser(group, username)
+    }
+    else {
+      console.log('Insufficient permissions!');
+    }
+  }
+
+  updateUserPermissions() {
+    // Checks the permission of the user or if they are the owner
+    if(this.owner?.userId == this.loginRegService.currentUser || this.userPerms.updatePermissionsPerm == true) {
+      console.log('You have permission to update Permissions');
+
+      // Store the updated group users
+      const newGroupUsers: GroupUser[] = [];
+
+      // Checks if cachedGroup is null
+      if(this.cachedGroup) {
+        // Loops through the users in the group that was selected
+        for(let i = 0; i < this.cachedGroup?.groupUsers.length; i++) {
+
+          // Creates a new user map with the updated permissions from the permissions page
+          const newUserMap: GroupUser = {
+            userDocRef: this.cachedGroup.groupUsers[i].userDocRef,
+            addUserPerm: (document.getElementsByName(this.cachedGroup.groupUsers[i].userDocRef.path + '_addUserPerm')[0] as HTMLInputElement).checked,
+            removeUserPerm: (document.getElementsByName(this.cachedGroup.groupUsers[i].userDocRef.path + '_removeUserPerm')[0] as HTMLInputElement).checked,
+            updateGroupPerm: (document.getElementsByName(this.cachedGroup.groupUsers[i].userDocRef.path + '_updateGroupPerm')[0] as HTMLInputElement).checked,
+            deleteGroupPerm: (document.getElementsByName(this.cachedGroup.groupUsers[i].userDocRef.path + '_deleteGroupPerm')[0] as HTMLInputElement).checked,
+            updatePermissionsPerm: (document.getElementsByName(this.cachedGroup.groupUsers[i].userDocRef.path + '_updatePermissionsPerm')[0] as HTMLInputElement).checked,
+          }
+
+          // Pushes new user map to an array
+          newGroupUsers.push(newUserMap);
+        }
+
+        // Calls the service function to update the group users permissions
+        this.groupService.updatePerms(newGroupUsers, this.cachedGroup.groupId)
       }
     }
     else {
-      console.log('Insufficient Permissions!');
+      console.log('Insufficient permissions!');
     }
-    
   }
-
-
 
 }
