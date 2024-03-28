@@ -3,16 +3,100 @@
   "WorkspaceRootPath": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\messenger\\messenger.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\messenger\\messenger.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\messenger\\messenger.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\messenger\\messenger.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\groups-page\\groups-page.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\groups-page\\groups-page.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\dashboard\\dashboard.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\dashboard\\dashboard.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\messenger.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\services\\messenger.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\explore.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\services\\explore.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\login-register.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\services\\login-register.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\dashboard\\dashboard.component.spec.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\dashboard\\dashboard.component.spec.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\dashboard\\dashboard.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\dashboard\\dashboard.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\user.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\services\\user.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\alerts.service.spec.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\services\\alerts.service.spec.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\map.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\services\\map.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\map.service.spec.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\services\\map.service.spec.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\auth\\auth.guard.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\auth\\auth.guard.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\authguard.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\services\\authguard.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\app.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\app.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\app.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\app.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\app.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\app.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\auth\\auth.guard.spec.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\auth\\auth.guard.spec.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\navbar\\navbar.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\navbar\\navbar.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\app-routing.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\app-routing.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\navbar\\navbar.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\navbar\\navbar.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\models\\appointment.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\models\\appointment.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\models\\appointments.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\models\\appointments.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\groups-page\\groups-page.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\groups-page\\groups-page.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\explore-create-post\\explore-create-post.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
@@ -25,14 +109,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\groups-page\\groups-page.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\groups-page\\groups-page.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\navbar\\navbar.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\navbar\\navbar.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\login-register.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\services\\login-register.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,32 +118,84 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "appointment.ts",
-              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\models\\appointment.ts",
-              "RelativeDocumentMoniker": "animal-web-app\\src\\models\\appointment.ts",
-              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\models\\appointment.ts",
-              "RelativeToolTip": "animal-web-app\\src\\models\\appointment.ts",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAAAAAA",
+              "DocumentIndex": 4,
+              "Title": "messenger.service.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\messenger.service.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\services\\messenger.service.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\messenger.service.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\services\\messenger.service.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACAAAAAaAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2024-03-27T18:03:31.321Z",
+              "WhenOpened": "2024-03-28T02:31:33.027Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "explore.service.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\explore.service.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\services\\explore.service.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\explore.service.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\services\\explore.service.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-03-28T02:32:06.789Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "dashboard.component.spec.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\dashboard\\dashboard.component.spec.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\dashboard\\dashboard.component.spec.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\dashboard\\dashboard.component.spec.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\dashboard\\dashboard.component.spec.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-03-28T02:28:04.326Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "messenger.component.html",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\messenger\\messenger.component.html",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\messenger\\messenger.component.html",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\messenger\\messenger.component.html",
+              "RelativeToolTip": "animal-web-app\\src\\app\\messenger\\messenger.component.html",
+              "ViewState": "AQIAABAAAAAAAAAAAAAAADgAAAAOAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-03-28T02:25:26.66Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "dashboard.component.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\dashboard\\dashboard.component.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\dashboard\\dashboard.component.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\dashboard\\dashboard.component.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\dashboard\\dashboard.component.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACEAAAAHAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-03-28T02:02:16.933Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "appointments.ts",
-              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\models\\appointments.ts",
-              "RelativeDocumentMoniker": "animal-web-app\\src\\models\\appointments.ts",
-              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\models\\appointments.ts",
-              "RelativeToolTip": "animal-web-app\\src\\models\\appointments.ts",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAAAAAA",
+              "Title": "messenger.component.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\messenger\\messenger.component.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\messenger\\messenger.component.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\messenger\\messenger.component.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\messenger\\messenger.component.ts",
+              "ViewState": "AQIAAAgAAAAAAAAAAAAIwCEAAAA7AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2024-03-27T18:03:29.178Z",
+              "WhenOpened": "2024-03-28T01:00:59.395Z",
               "EditorCaption": ""
             },
             {
@@ -85,7 +213,202 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 8,
+              "Title": "dashboard.component.html",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\dashboard\\dashboard.component.html",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\dashboard\\dashboard.component.html",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\dashboard\\dashboard.component.html",
+              "RelativeToolTip": "animal-web-app\\src\\app\\dashboard\\dashboard.component.html",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAAACcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-03-28T02:03:27.061Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "alerts.service.spec.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\alerts.service.spec.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\services\\alerts.service.spec.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\alerts.service.spec.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\services\\alerts.service.spec.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-03-28T01:58:48.018Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "login-register.service.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\login-register.service.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\services\\login-register.service.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\login-register.service.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\services\\login-register.service.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAowBAAAABSAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-03-25T21:43:06.474Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "map.service.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\map.service.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\services\\map.service.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\map.service.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\services\\map.service.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-03-28T01:58:43.921Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "map.service.spec.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\map.service.spec.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\services\\map.service.spec.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\map.service.spec.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\services\\map.service.spec.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-03-28T01:58:42.596Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "authguard.service.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\authguard.service.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\services\\authguard.service.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\authguard.service.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\services\\authguard.service.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-03-28T01:20:37.185Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "app.component.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\app.component.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\app.component.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\app.component.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\app.component.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-03-28T01:24:55.437Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "app.module.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\app.module.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\app.module.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\app.module.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\app.module.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-03-28T01:35:59.777Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "auth.guard.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\auth\\auth.guard.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\auth\\auth.guard.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\auth\\auth.guard.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\auth\\auth.guard.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACEAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-03-28T00:46:54.114Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "user.service.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\user.service.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\services\\user.service.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\user.service.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\services\\user.service.ts",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAUwBkAAAADAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-03-28T00:42:36.449Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "app.component.html",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\app.component.html",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\app.component.html",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\app.component.html",
+              "RelativeToolTip": "animal-web-app\\src\\app\\app.component.html",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAHAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-03-28T01:24:48.591Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "navbar.component.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\navbar\\navbar.component.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\navbar\\navbar.component.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\navbar\\navbar.component.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\navbar\\navbar.component.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABwAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-03-28T01:00:54.448Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "app-routing.module.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\app-routing.module.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\app-routing.module.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\app-routing.module.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\app-routing.module.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAABFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-03-28T01:07:28.12Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "auth.guard.spec.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\auth\\auth.guard.spec.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\auth\\auth.guard.spec.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\auth\\auth.guard.spec.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\auth\\auth.guard.spec.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-03-28T00:46:52.963Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "appointment.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\models\\appointment.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\models\\appointment.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\models\\appointment.ts",
+              "RelativeToolTip": "animal-web-app\\src\\models\\appointment.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-03-27T18:03:31.321Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
               "Title": "explore-create-post.component.ts",
               "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\explore-create-post\\explore-create-post.component.ts",
               "RelativeDocumentMoniker": "animal-web-app\\src\\app\\explore-create-post\\explore-create-post.component.ts",
@@ -97,7 +420,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 25,
               "Title": "animal.ts",
               "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\models\\animal.ts",
               "RelativeDocumentMoniker": "animal-web-app\\src\\models\\animal.ts",
@@ -109,7 +432,32 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 21,
+              "Title": "navbar.component.html",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\navbar\\navbar.component.html",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\navbar\\navbar.component.html",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\navbar\\navbar.component.html",
+              "RelativeToolTip": "animal-web-app\\src\\app\\navbar\\navbar.component.html",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABcAAAAGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-03-25T21:43:39.952Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "appointments.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\models\\appointments.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\models\\appointments.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\models\\appointments.ts",
+              "RelativeToolTip": "animal-web-app\\src\\models\\appointments.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-03-27T18:03:29.178Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
               "Title": "groups-page.component.html",
               "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\groups-page\\groups-page.component.html",
               "RelativeDocumentMoniker": "animal-web-app\\src\\app\\groups-page\\groups-page.component.html",
@@ -118,30 +466,6 @@
               "ViewState": "AQIAAL4AAAAAAAAAAAAowO0AAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
               "WhenOpened": "2024-03-25T21:55:26.921Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "navbar.component.html",
-              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\navbar\\navbar.component.html",
-              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\navbar\\navbar.component.html",
-              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\navbar\\navbar.component.html",
-              "RelativeToolTip": "animal-web-app\\src\\app\\navbar\\navbar.component.html",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABcAAAAGAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2024-03-25T21:43:39.952Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "login-register.service.ts",
-              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\login-register.service.ts",
-              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\services\\login-register.service.ts",
-              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\login-register.service.ts",
-              "RelativeToolTip": "animal-web-app\\src\\app\\services\\login-register.service.ts",
-              "ViewState": "AQIAAJ8AAAAAAAAAAAAAALMAAAAzAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2024-03-25T21:43:06.474Z"
             },
             {
               "$type": "Bookmark",
