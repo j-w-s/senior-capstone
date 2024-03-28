@@ -1,42 +1,46 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc } from '@angular/fire/firestore';
+import { UserService } from './user.service';
+import User from '../../models/user';
+import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoginRegisterService {
-
+export class LoginRegisterService implements OnDestroy {
   public tabIndex = 0;
   public isLoggedIn = true;
   public currentUser = '';
   public auth;
-  //public currentUserObject: any;
+  private userDataSubject = new BehaviorSubject<User | null>(null);
+  public userData$: Observable<User | null> = this.userDataSubject.asObservable();
+  public userData!: User;
+  private destroyed$ = new Subject<void>();
 
-  constructor() {
+  constructor(public userService: UserService) {
     const auth = getAuth();
     this.auth = auth;
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
         console.log('Service detected change for userID: ' + user.uid);
         this.isLoggedIn = true;
         this.currentUser = user.uid;
-
-        const cachedUserDetails = this.loadUserDetailsFromCache(user.uid);
-        if (cachedUserDetails) {
-          console.log('Loaded user details from cache');
-
-        } else {
-          this.getUserDetails(user.uid).then(userDetails => {
-            this.saveUserDetailsToCache(user.uid, userDetails);
-          }).catch(err => console.error('Error loading user details:', err));
-
-        }
+        (await this.userService.getUserData()).pipe(takeUntil(this.destroyed$)).subscribe((data: User) => {
+          this.userData = data;
+          this.userDataSubject.next(data);
+        });
       } else {
         this.isLoggedIn = false;
         this.currentUser = '';
+        this.userDataSubject.next(null); 
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
   async registerUser(email: string, password: string, firstname: string, lastname: string, phonenumber: string, username: string, image: string): Promise<any> {

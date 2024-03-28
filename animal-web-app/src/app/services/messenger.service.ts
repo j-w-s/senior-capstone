@@ -13,11 +13,23 @@ import { getDownloadURL, getStorage, ref } from 'firebase/storage';
   providedIn: 'root'
 })
 export class MessengerService {
+  private contactsSubject = new BehaviorSubject<User[]>([]);
+  public contacts$: Observable<User[]> = this.contactsSubject.asObservable();
+
+  private messagesSubject = new BehaviorSubject<Messages | null>(null);
+  public messages$: Observable<Messages | null> = this.messagesSubject.asObservable();
+
+  updateContacts(contacts: User[]) {
+    this.contactsSubject.next(contacts);
+  }
+
+  updateMessages(messages: Messages | null) {
+    this.messagesSubject.next(messages);
+  }
 
   // Lets us reference the current User later
   public demoPrimaryUserId = '';
   public dummyConversationUsers: User[] = [];
-  private messagesSubject = new BehaviorSubject<Messages | null>(null);
   public prevContact = '';
   public notifications = new BehaviorSubject<string[][]>([]);
 

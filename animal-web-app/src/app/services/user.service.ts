@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { getAuth } from 'firebase/auth';
 import { doc, DocumentData, getDoc, getFirestore, onSnapshot, updateDoc } from 'firebase/firestore';
 import User from '../../models/user';
@@ -11,10 +11,22 @@ import User from '../../models/user';
 })
 export class UserService {
 
-  constructor(private firestore: AngularFirestore) { }
+  constructor(private firestore: AngularFirestore) {
+  }
+
+  getUserDataObservable(): Observable<User> {
+    const auth = getAuth();
+    const user = auth.currentUser?.uid;
+
+    const userDocRef = doc(getFirestore(), 'User/' + user);
+    return new Observable(observer => {
+      const unsubscribe = onSnapshot(userDocRef, async (userDoc) => observer.next(userDoc.data() as User));
+      return unsubscribe;
+    });
+  }
 
   //Function to actually retrieve the users data
-  async getUserData(): Promise<Observable<unknown>> {
+  async getUserData(): Promise<Observable<User>> {
     const auth = getAuth();
     const user = auth.currentUser?.uid;
 
@@ -22,9 +34,9 @@ export class UserService {
     const userDocRef = doc(getFirestore(), 'User/' + user);
     //Observable for the users account/profile information
     return new Observable(observer => {
-      const unsubscribe = onSnapshot(userDocRef, async (userDoc) => observer.next({ ...userDoc.data()}));
+      const unsubscribe = onSnapshot(userDocRef, async (userDoc) => observer.next(userDoc.data() as User));
       return unsubscribe;
-      
+
     });
 
   }

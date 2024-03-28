@@ -32,12 +32,12 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
   messagesSubscription: Subscription | undefined;
 
   selectedConversation$: Observable<Message[]> | undefined;
-
+  public primaryUser: User | null = null;
   constructor(
     public messengerService: MessengerService,
     private renderer: Renderer2,
     private groupsService: GroupsService,
-    private loginReg: LoginRegisterService,
+    public loginReg: LoginRegisterService,
     private cdRef: ChangeDetectorRef,
   ) { }
     ngOnDestroy(): void {

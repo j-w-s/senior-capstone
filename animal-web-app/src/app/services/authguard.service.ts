@@ -13,22 +13,14 @@ export class AuthguardService implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    // get the user's details from the service
-    return this.loginRegisterService.getUserDetails(this.loginRegisterService.currentUser)
-      .then(user => {
-        // check if the user has the required role
-        const requiredRole = next.data['requiredRole'];
-        if (user && user.userAccountType === requiredRole) {
-          return true;
-        } else {
-          this.router.navigate(['/unauthorized']);
-          return false;
-        }
-      })
-      .catch(err => {
-        console.error('Error getting user details: ', err);
-        this.router.navigate(['/unauthorized']); // red. to an unauthorized page
-        return false;
-      });
+    const expectedRole = next.data['expectedRole'];
+    const currentUser = this.loginRegisterService.currentUser;
+    const userDetails = this.loginRegisterService.loadUserDetailsFromCache(currentUser);
+
+    if (userDetails && (userDetails.userAccountType as number == expectedRole as number)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs';
 import { LoginRegisterService } from '../services/login-register.service';
 
@@ -7,33 +7,31 @@ import { LoginRegisterService } from '../services/login-register.service';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private loginReg: LoginRegisterService, private router: Router) { }
+  constructor(private loginRegService: LoginRegisterService, private router: Router) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        localStorage.setItem('lastKnownRoute', event.urlAfterRedirects);
+      }
+    });
+  }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     const expectedRole = next.data['expectedRole'];
-    const currentUserId = this.loginReg.currentUser;
-    const cachedUserDetails = this.loginReg.checkUserDetailsInCache(currentUserId);
-    if (cachedUserDetails && cachedUserDetails.userAccountType === expectedRole) {
+    const currentUser = this.loginRegService.currentUser;
+    const userDetails = this.loginRegService.loadUserDetailsFromCache(currentUser);
+    if (this.router.navigated) {
+      if (userDetails && (userDetails.userAccountType as number == expectedRole as number)) {
+        return true;
+      } else {
+        // If not authenticated or does not have the correct role, redirect to unauthorized page
+        this.router.navigate(['/unauthorized']);
+        return false;
+      }
+    }
+    else {
       return true;
-    } else {
-      // If not in cache or role mismatch, fetch from Firestore
-      return this.loginReg.getUserDetails(currentUserId)
-        .then((user) => {
-          if (user && user.userAccountType === expectedRole) {
-            return true;
-          } else {
-            this.router.navigate(['/unauthorized']);
-            return false;
-          }
-        })
-        .catch(err => {
-          console.error('Error getting user details: ', err);
-          this.router.navigate(['/unauthorized']);
-          return false;
-        });
     }
   }
-
 }
