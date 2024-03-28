@@ -4,9 +4,11 @@
     "\\animal-web-app",
     "\\animal-web-app\\src",
     "\\animal-web-app\\src\\app",
-    "\\animal-web-app\\src\\app\\explore",
-    "\\animal-web-app\\src\\app\\services"
+    "\\animal-web-app\\src\\app\\groups-page",
+    "\\animal-web-app\\src\\app\\navbar",
+    "\\animal-web-app\\src\\app\\services",
+    "\\animal-web-app\\src\\models"
   ],
-  "SelectedNode": "\\animal-web-app",
+  "SelectedNode": "\\animal-web-app\\src\\models\\appointment.ts",
   "PreviewInSolutionExplorer": false
 }
