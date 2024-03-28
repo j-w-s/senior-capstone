@@ -14,43 +14,38 @@ import { LoginRegisterService } from '../services/login-register.service';
 export class DashboardComponent implements OnInit, AfterViewInit{
 
   // stores the primary User that is logged in
-  public primaryUser!: User;
-
-  days = Array.from({ length: 5 }, (_, i) => Array.from({ length: 7 }, (__, j) => i * 7 + j + 1));
-
+  public primaryUser: User | null = null;
   notifications: string[][] = [];
+
   constructor(
     public messengerService: MessengerService,
     private groupsService: GroupsService,
-    private loginReg: LoginRegisterService
+    public loginReg: LoginRegisterService
   ) { }
 
 
-  // gets the user logged in and resolves their userImage
   async ngOnInit() {
     this.listenForNewMessages();
-    const currentUserId = this.loginReg.currentUser;
-    try {
-      const userDetails = await this.loginReg.getUserDetails(currentUserId);
-      this.primaryUser = userDetails as User;
+    this.loginReg.userData$.subscribe((user: User | null): void => { 
+      if (user) { 
+        this.primaryUser = user;
+        console.log(user);
+        this.resolveUserImage();
+      }
+    });
+  }
 
-      // resolve the user image
-      //this.primaryUser.userImage = await this.messengerService.resolveProfilePicture(this.primaryUser);
-      console.log('Primary User: ', this.primaryUser);
+  async resolveUserImage() {
+    try {
+      if (this.primaryUser) {
+        this.primaryUser.userImage = await this.messengerService.resolveProfilePicture(this.primaryUser);
+        console.log('Primary User: ', this.primaryUser);
+      }
     } catch (error) {
       console.error('Error loading user details or profile picture: ', error);
     }
-
-    this.messengerService.getNotifications().subscribe(notifications => {
-      this.notifications = notifications;
-      console.log('Notifications: ', notifications);
-    })
-
   }
 
-  // using glidejs to handle this now because my marquee version
-  // would sometimes flicker and required a lot of transformations
-  // on the front-end
   ngAfterViewInit() {
     var glide = new Glide('.glide', {
       type: 'carousel',
