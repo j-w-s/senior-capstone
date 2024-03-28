@@ -210,6 +210,7 @@ export class GroupsPageComponent implements OnInit {
  
   // Adds a user to the group based on their username
   addUser(group: any, username: string) {
+    console.log(this.currentPerms);
     if(this.currentPerms == 'Owner' || this.currentPerms.addUserPerm == true)
     {
       console.log('You have permission to add users')

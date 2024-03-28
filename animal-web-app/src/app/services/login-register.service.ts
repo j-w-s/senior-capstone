@@ -207,6 +207,8 @@ export class LoginRegisterService {
   signOut() {
     return this.auth.signOut().then(() => {
       console.log('User signed out');
+      // Clear all cache
+      localStorage.clear();
     }).catch((error) => {
       console.error('Error signing out: ', error);
     })
