@@ -35,38 +35,51 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
   public primaryUser: User | null = null;
   constructor(
     public messengerService: MessengerService,
+    private cdr: ChangeDetectorRef,
     private renderer: Renderer2,
     private groupsService: GroupsService,
     public loginReg: LoginRegisterService,
     private cdRef: ChangeDetectorRef,
   ) { }
-    ngOnDestroy(): void {
-        throw new Error("Method not implemented.");
+
+ ngOnDestroy(): void {
+    // Complete the destroy$ Subject to trigger the completion of all subscriptions that depend on it
+    this.destroy$.next();
+    this.destroy$.complete();
+
+    // Unsubscribe from the messages$ subscription if it exists
+    if (this.messagesSubscription) {
+      this.messagesSubscription.unsubscribe();
     }
+ }
 
   ngOnInit(): void {
+  }
+
+  async ngAfterViewInit(): Promise<void> {
+
+    this.loginReg.userData$.subscribe((user: User | null): void => {
+      if (user) {
+        this.primaryUser = user;
+      }
+    });
+
     this.messages$ = this.messengerService.messages.pipe(
       switchMap((messages: any) => {
-        // Convert the Promise to an Observable
         return from(this.messengerService.getMessages());
       }),
       tap((messagesData: any) => {
         if (messagesData) {
           this.messages = messagesData.messagesList;
-
-          // Create an array of Observables to fetch user details
           const userObservables: Observable<User | null>[] = messagesData.contactsList.map((contact: any) => {
             let desiredString = contact._key.path.segments[6];
-            // Return an Observable that fetches the user and sets the profile picture
             return from(this.messengerService.getUserById(desiredString));
           });
 
-          // Combine all user detail Observables using forkJoin
           this.contacts$ = forkJoin(userObservables).pipe(
             map((users: (User | null)[]) => users.filter((user): user is User => user !== null)) // Filter out null values
           );
 
-          // Select the first contact if there are any
           this.contacts$.pipe(takeUntil(this.destroy$)).subscribe((contacts: User[]) => {
             if (contacts.length > 0 && !this.selectedContact) {
               this.selectContact(contacts[0]);
@@ -76,15 +89,12 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
       })
     );
 
-    // Subscribe to the messages$ Observable
     this.messagesSubscription = this.messages$.subscribe({
       error: (err) => {
         console.error("Error fetching messages:", err);
       }
     });
-  }
-
-  async ngAfterViewInit(): Promise<void> {
+    this.cdr.detectChanges();
   }
 
   // used to add a new contact to the users contact list

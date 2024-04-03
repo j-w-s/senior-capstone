@@ -100,6 +100,15 @@ export class LoginRegisterService implements OnDestroy {
     }
   }
 
+  getUserId(): string {
+    const auth = getAuth();
+    const user = auth.currentUser?.uid;
+    if (user) {
+      return user;
+    }
+    return "";
+  }
+
   async loginUser(usernameOrEmail: string, password: string): Promise<any> {
     const auth = getAuth();
     let email = usernameOrEmail;
@@ -109,6 +118,8 @@ export class LoginRegisterService implements OnDestroy {
     const usernameMappingRef = doc(db, "UsernameMapping", usernameOrEmail);
     const usernameMappingDoc = await getDoc(usernameMappingRef);
 
+
+
     if (usernameMappingDoc.exists()) {
       const pathToUserDoc = usernameMappingDoc.data()['userID'];
       const userRef = doc(db, pathToUserDoc.path);
@@ -117,6 +128,8 @@ export class LoginRegisterService implements OnDestroy {
       if (userDoc.exists()) {
         email = userDoc.data()['userEmail'];
       }
+      const userId = this.getUserId();
+      this.saveUserDetailsToCache(userId, this.userData);
     }
 
     // Now that we have the email, proceed with the sign-in
@@ -171,13 +184,15 @@ export class LoginRegisterService implements OnDestroy {
 
   // method to save user details to local storage
   saveUserDetailsToCache(uid: string, userDetails: any): void {
-    localStorage.setItem(`user-details-${uid}`, JSON.stringify(userDetails));
+    localStorage.setItem(`user-details`, JSON.stringify(userDetails));
   }
 
   // method to load user details from local storage
   loadUserDetailsFromCache(uid: string): any {
-    const cachedUserDetails = localStorage.getItem(`user-details-${uid}`);
-    return cachedUserDetails ? JSON.parse(cachedUserDetails) : null;
+    const cachedUserDetails = localStorage.getItem(`user-details`);
+    if (cachedUserDetails) {
+      return JSON.parse(cachedUserDetails);
+    }
   }
 
   // getUserDetails uses cache now
@@ -211,8 +226,7 @@ export class LoginRegisterService implements OnDestroy {
   signOut() {
     return this.auth.signOut().then(() => {
       console.log('User signed out');
-      // Clear all cache
-      localStorage.clear();
+      localStorage.removeItem("user-details");
     }).catch((error) => {
       console.error('Error signing out: ', error);
     })

@@ -236,30 +236,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
 
 
   async ngOnInit(): Promise<void> {
-    this.currentUserId = await this.loginRegService.getCurrentUser();
-    this.currentUser = await this.loginRegService.getUserDetails(this.currentUserId);
-    this.animals$ = this.exploreService.getAnimals();
 
-    this.animalsSubscription = this.animals$.subscribe((animals: Animal[]) => {
-      this.animals = animals;
-      this.totalPages = Math.ceil(this.animals.length / this.cardsPerPage);
-
-      // create a list of unique types for all categories
-      this.uniqueTypes = Array.from(new Set(animals.map(animal => animal.animalType?.toLowerCase()))) as string[];
-      this.uniqueBreeds = Array.from(new Set(this.animals.flatMap(animal => animal.animalBreed))).filter(breed => breed !== undefined) as string[];
-      this.uniqueWeights = Array.from(new Set(this.animals.map(animal => animal.animalWeight))) as number[];
-      this.uniqueSexes = Array.from(new Set(this.animals.map(animal => animal.animalSex))) as string[];
-      this.uniqueTemperaments = Array.from(new Set(this.animals.flatMap(animal => animal.temperament))) as string[];
-      this.uniqueLocations = Array.from(new Set(this.animals.map(animal => animal.location))) as string[];
-      this.uniqueZipCodes = Array.from(new Set(this.animals.map(animal => animal.zipCode))) as number[];
-      this.uniqueAdoptionStatuses = Array.from(new Set(this.animals.map(animal => animal.adoptionStatus))) as number[];
-      this.uniqueDatesOfBirth = Array.from(new Set(this.animals.filter(animal => animal.dateOfBirth !== undefined).map(animal => animal.dateOfBirth))).filter(date => date !== undefined) as Date[];
-      this.uniqueColors = Array.from(new Set(this.animals.filter(animal => animal.color !== undefined).map(animal => animal.color))).filter(color => color !== undefined) as string[];
-      this.uniqueVaccinationStatuses = Array.from(new Set(this.animals.filter(animal => animal.vaccinationStatus !== undefined).map(animal => animal.vaccinationStatus))).filter(status => status !== undefined) as boolean[];
-
-      this.getDisplayedCards();
-      console.log(this.animals$);
-    });
   }
 
   getDisplayedCards() {
@@ -322,8 +299,32 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
   }
 
-  ngAfterViewInit(): void {
-    // Ensure the ViewChild references are available before accessing them
+  async ngAfterViewInit(): Promise<void> {
+
+    this.currentUserId = await this.loginRegService.getCurrentUser();
+    this.currentUser = await this.loginRegService.getUserDetails(this.currentUserId);
+    this.animals$ = this.exploreService.getAnimals();
+
+    this.animalsSubscription = this.animals$.subscribe((animals: Animal[]) => {
+      this.animals = animals;
+      this.totalPages = Math.ceil(this.animals.length / this.cardsPerPage);
+
+      // create a list of unique types for all categories
+      this.uniqueTypes = Array.from(new Set(animals.map(animal => animal.animalType?.toLowerCase()))) as string[];
+      this.uniqueBreeds = Array.from(new Set(this.animals.flatMap(animal => animal.animalBreed))).filter(breed => breed !== undefined) as string[];
+      this.uniqueWeights = Array.from(new Set(this.animals.map(animal => animal.animalWeight))) as number[];
+      this.uniqueSexes = Array.from(new Set(this.animals.map(animal => animal.animalSex))) as string[];
+      this.uniqueTemperaments = Array.from(new Set(this.animals.flatMap(animal => animal.temperament))) as string[];
+      this.uniqueLocations = Array.from(new Set(this.animals.map(animal => animal.location))) as string[];
+      this.uniqueZipCodes = Array.from(new Set(this.animals.map(animal => animal.zipCode))) as number[];
+      this.uniqueAdoptionStatuses = Array.from(new Set(this.animals.map(animal => animal.adoptionStatus))) as number[];
+      this.uniqueDatesOfBirth = Array.from(new Set(this.animals.filter(animal => animal.dateOfBirth !== undefined).map(animal => animal.dateOfBirth))).filter(date => date !== undefined) as Date[];
+      this.uniqueColors = Array.from(new Set(this.animals.filter(animal => animal.color !== undefined).map(animal => animal.color))).filter(color => color !== undefined) as string[];
+      this.uniqueVaccinationStatuses = Array.from(new Set(this.animals.filter(animal => animal.vaccinationStatus !== undefined).map(animal => animal.vaccinationStatus))).filter(status => status !== undefined) as boolean[];
+
+      this.getDisplayedCards();
+    });
+
     if (this.addAnimalModal) {
       console.log(this.addAnimalModal.nativeElement); // This should work now
     }
@@ -331,14 +332,12 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       // Perform operations with animalBreedSelect
       this.animalBreedSelect.nativeElement.addEventListener('change', (event: { target: { value: any; }; }) => {
         console.log('Breed selection changed:', event.target.value);
-        // Additional logic here
       });
     }
     if (this.animalTypeSelect) {
       // Perform operations with animalTypeSelect
       this.animalTypeSelect.nativeElement.addEventListener('change', (event: { target: { value: any; }; }) => {
         console.log('Type selection changed:', event.target.value);
-        // Additional logic here
       });
     }
     this.cdr.detectChanges();

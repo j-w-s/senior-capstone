@@ -11,7 +11,7 @@ import { LoginRegisterService } from '../services/login-register.service';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
-export class DashboardComponent implements OnInit, AfterViewInit{
+export class DashboardComponent implements AfterViewInit{
 
   // stores the primary User that is logged in
   public primaryUser: User | null = null;
@@ -22,18 +22,6 @@ export class DashboardComponent implements OnInit, AfterViewInit{
     private groupsService: GroupsService,
     public loginReg: LoginRegisterService
   ) { }
-
-
-  async ngOnInit() {
-    this.listenForNewMessages();
-    this.loginReg.userData$.subscribe((user: User | null): void => { 
-      if (user) { 
-        this.primaryUser = user;
-        console.log(user);
-        this.resolveUserImage();
-      }
-    });
-  }
 
   async resolveUserImage() {
     try {
@@ -46,13 +34,23 @@ export class DashboardComponent implements OnInit, AfterViewInit{
     }
   }
 
-  ngAfterViewInit() {
+  async ngAfterViewInit() {
+
+    //this.listenForNewMessages();
+    this.loginReg.userData$.subscribe((user: User | null): void => {
+      if (user) {
+        this.primaryUser = user;
+        console.log(user);
+        this.resolveUserImage();
+      }
+    });
+
     var glide = new Glide('.glide', {
       type: 'carousel',
       autoplay: 1,
       animationDuration: 4500,
       animationTimingFunc: 'linear',
-      perView:2.5,
+      perView: 2.5,
       breakpoints: {
         1024: {
           perView: 2
@@ -79,7 +77,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
     });
   }
 
- listenForNewMessages() {
+ /*async listenForNewMessages() {
     this.messengerService.getMessages().subscribe(async(messages) => {
       const mess = messages.messagesList[messages.messagesList.length - 1];
       console.log('MessageSender', mess.senderId)
@@ -88,8 +86,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
         console.log('UserGot:', user)
         this.messengerService.addNotification(mess.messageContent, user.userDisplayName);
       })
-      //this.messengerService.addNotification(mess.messageContent);
     })
-  }
+  }*/
 
 }
