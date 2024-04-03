@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ForumService } from '../services/forum.service';
 import Forum from '../../models/forum';
@@ -18,7 +18,7 @@ import { and } from 'firebase/firestore/lite';
   styleUrls: ['./forums.component.scss']
 })
 
-export class ForumsComponent implements OnInit {
+export class ForumsComponent implements OnInit, AfterViewInit {
   selectedThread: Thread | null = null;
   forumThreads: Thread[] = [];
   newCommentContent: string = '';
@@ -67,6 +67,10 @@ export class ForumsComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+
+  }
+
+  async ngAfterViewInit(): Promise<void> {
     this.loadForumData();
     this.initNewThreadForm();
     this.loadCurrentUser();

@@ -37,7 +37,9 @@ export class MessengerService {
 
   constructor(private firestore: AngularFirestore,
     private loginRegService: LoginRegisterService,
-  ) { }
+   
+  ) {
+  }
 
   // Saves the last selected contact
   setContact(oldID: string) {
@@ -45,9 +47,7 @@ export class MessengerService {
   }
 
   getMessages(): Observable<any> {
-    const auth = getAuth();
-    const user = auth.currentUser?.uid;
-    this.demoPrimaryUserId = user + '';
+    const user = this.loginRegService.getUserId();
 
     // Gets the document in the Messages collection for the current user
     const userDocRef = doc(getFirestore(), 'Messages/' + user);

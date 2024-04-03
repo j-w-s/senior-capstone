@@ -25,7 +25,6 @@ export class AuthGuard implements CanActivate {
       if (userDetails && (userDetails.userAccountType as number == expectedRole as number)) {
         return true;
       } else {
-        // If not authenticated or does not have the correct role, redirect to unauthorized page
         this.router.navigate(['/unauthorized']);
         return false;
       }

@@ -4,11 +4,13 @@
     "\\animal-web-app",
     "\\animal-web-app\\src",
     "\\animal-web-app\\src\\app",
-    "\\animal-web-app\\src\\app\\groups-page",
-    "\\animal-web-app\\src\\app\\navbar",
+    "\\animal-web-app\\src\\app\\alerts",
+    "\\animal-web-app\\src\\app\\auth",
+    "\\animal-web-app\\src\\app\\dashboard",
+    "\\animal-web-app\\src\\app\\messenger",
     "\\animal-web-app\\src\\app\\services",
-    "\\animal-web-app\\src\\models"
+    "\\animal-web-app\\src\\app\\settings"
   ],
-  "SelectedNode": "\\animal-web-app\\src\\models\\appointment.ts",
+  "SelectedNode": "\\animal-web-app\\src\\app\\messenger\\messenger.component.ts",
   "PreviewInSolutionExplorer": false
 }
