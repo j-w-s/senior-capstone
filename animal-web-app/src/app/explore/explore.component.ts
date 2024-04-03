@@ -67,7 +67,8 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     this.addAnimalModal.nativeElement.checked = false;
     this.animalCreateForm = new FormGroup({
       animalId: new FormControl(this.generateUUID(), Validators.required),
-      owner: new FormControl(this.currentUser.firstName + ' ' + this.currentUser.lastName, Validators.required),
+      userId: new FormControl(this.generateUUID(), Validators.required),
+      ownerName: new FormControl(this.currentUser.firstName + ' ' + this.currentUser.lastName, Validators.required),
       animalType: new FormControl('', Validators.required),
       animalBreed: new FormControl([''], Validators.required),
       animalName: new FormControl('', Validators.required),
@@ -95,7 +96,8 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     private storage: AngularFireStorage) {
     this.animalCreateForm = this.fb.group({
       animalId: new FormControl('', Validators.required),
-      owner: new FormControl(''),
+      userId: new FormControl('', Validators.required),
+      ownerName: new FormControl(''),
       animalType: new FormControl('', Validators.required),
       animalBreed: new FormControl([''], Validators.required),
       animalName: new FormControl('', Validators.required),
@@ -128,7 +130,8 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     this.selectedAnimal = animal;
     this.animalCreateForm.setValue({
       animalId: this.selectedAnimal.animalId,
-      owner: this.selectedAnimal.owner,
+      userId: this.selectedAnimal.userId,
+      ownerName: this.selectedAnimal.ownerName,
       animalType: this.selectedAnimal.animalType,
       animalBreed: this.selectedAnimal.animalBreed,
       animalName: this.selectedAnimal.animalName,
@@ -172,7 +175,8 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   createNewSetup(): void {
     this.animalCreateForm = new FormGroup({
       animalId: new FormControl(this.generateUUID(), Validators.required),
-      owner: new FormControl(this.currentUser.firstName + ' ' + this.currentUser.lastName, Validators.required),
+      userId: new FormControl(this.generateUUID(), Validators.required),
+      ownerName: new FormControl(this.currentUser.firstName + ' ' + this.currentUser.lastName, Validators.required),
       animalType: new FormControl('', Validators.required),
       animalBreed: new FormControl([''], Validators.required),
       animalName: new FormControl('', Validators.required),
