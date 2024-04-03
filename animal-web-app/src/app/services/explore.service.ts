@@ -77,7 +77,8 @@ export class ExploreService {
     for (let i = 0; i < 30; i++) {
       const animal: Animal = {
         animalId: faker.datatype.uuid(),
-        owner: faker.name.firstName() + faker.name.lastName(),
+        userId: faker.datatype.uuid(),
+        ownerName: faker.name.firstName() + faker.name.lastName(),
         animalType: faker.animal.type(),
         animalBreed: faker.random.words(3).split(' '),
         animalName: faker.name.lastName(),
