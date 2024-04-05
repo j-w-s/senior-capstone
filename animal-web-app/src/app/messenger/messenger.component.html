@@ -57,15 +57,15 @@
         </div>
       </div>
       <h2 *ngIf="selectedContact" class="text-right justify-between w-1/2 flex items-center gap-4 p-4">
-        <input #threadName type="text" id="threadName" placeholder="Enter message content..." class="block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
-        <button type="submit" class="btn btn-primary">Search</button>
+        <input #searchInput type="text" id="searchInput" placeholder="Search messages..." class="block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm" (input)="filterMessages(searchInput.value)">
+        <button type="submit" class="btn btn-primary" (click)="filterMessages(searchInput.value)">Search</button>
       </h2>
     </div>
     <!-- End TOP BAR -->
     <!-- Chat Log -->
     <div class="overflow-y-auto w-full h-5/8 flex flex-col bg-white bg-base-200" #chatLog>
-      <ng-container *ngIf="messages$ | async as messages; else noMessages">
-        <div *ngFor="let message of messages.messagesList" class="h-5/8 w-full flex flex-col px-6 py-2 m-auto"
+      <ng-container *ngIf="filteredMessages$ | async as messages; else noMessages">
+        <div *ngFor="let message of messages" class="h-5/8 w-full flex flex-col px-6 py-2 m-auto"
              [class.chat-end]="message.senderId == this.messengerService.demoPrimaryUserId"
              [class.chat-start]="message.senderId != this.messengerService.demoPrimaryUserId">
           <div class="chat-header">

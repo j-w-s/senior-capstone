@@ -204,6 +204,7 @@ export class ForumsComponent implements OnInit, AfterViewInit {
     if (trimmedSearch === '') {
       this.forumThreads = [...this.originalForumThreads];
     }
+    console.log("Filtered content")
   }
   editThread(): void {
     const thread = this.selectedThread!;
