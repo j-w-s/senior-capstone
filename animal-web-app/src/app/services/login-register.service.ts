@@ -54,6 +54,8 @@ export class LoginRegisterService implements OnDestroy {
     // Stores the resolved list of owned groups
     let returnedOwnedGroups: Group[] = [];
 
+    // Makes sure there are ownedGroups
+    if(ownedGroups != undefined)
     // Loops through document references
     for(let i = 0; i < ownedGroups.length; i++)
     {
