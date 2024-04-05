@@ -1,6 +1,7 @@
 import UserPreferences from './user-preferences';
 import UserRating from './user-ratings';
 import Animal from './animal';
+import { DocumentReference } from '@angular/fire/compat/firestore';
 
 interface User {
   userId: string;
@@ -16,5 +17,6 @@ interface User {
   userRatings: UserRating[];
   petsOwned: Animal[];
   petsLost: Animal[];
+  ownedGroups: DocumentReference[];
 }
 export default User;
