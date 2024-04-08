@@ -57,7 +57,7 @@
         </div>
       </div>
       <h2 *ngIf="selectedContact" class="text-right justify-between w-1/2 flex items-center gap-4 p-4">
-        <input #searchInput type="text" id="searchInput" placeholder="Search messages..." class="block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm" (input)="filterMessages(searchInput.value)">
+        <input #searchInput type="text" id="searchInput" placeholder="Search messages..." class="block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
         <button type="submit" class="btn btn-primary" (click)="filterMessages(searchInput.value)">Search</button>
       </h2>
     </div>
