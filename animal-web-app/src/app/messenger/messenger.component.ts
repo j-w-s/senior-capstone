@@ -57,7 +57,6 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
  }
 
   ngOnInit(): void {
-    this.filterMessages(this.initialSearchQuery);
   }
 
   async ngAfterViewInit(): Promise<void> {
@@ -101,6 +100,8 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
     this.cdr.detectChanges();
+
+    this.filterMessages(this.initialSearchQuery);
   }
 
   // used to add a new contact to the users contact list
