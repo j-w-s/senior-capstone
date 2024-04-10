@@ -1,16 +1,9 @@
-import { group } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { DocumentReference } from '@angular/fire/compat/firestore';
-import { doc, getFirestore } from 'firebase/firestore';
-import { getDownloadURL, getStorage, ref } from 'firebase/storage';
-import { Observable, Subject, Subscription, takeUntil } from 'rxjs';
-import Animal from '../../models/animal';
-import BusinessRating from '../../models/business-ratings';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import Group from '../../models/group';
 import GroupUser from '../../models/groupUsers';
 import User from '../../models/user';
-import UserPreferences from '../../models/user-preferences';
-import UserRating from '../../models/user-ratings';
 import { GroupsService } from '../services/groups.service';
 import { LoginRegisterService } from '../services/login-register.service';
 
