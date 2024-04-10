@@ -17,6 +17,7 @@ interface User {
   userRatings: UserRating[];
   petsOwned: Animal[];
   petsLost: Animal[];
-  ownedGroups: DocumentReference[];
+  userGroups: DocumentReference[],
+  userOwnedGroups: DocumentReference[];
 }
 export default User;
