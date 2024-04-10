@@ -119,26 +119,6 @@
                     <th>Image</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      Owner
-                    </td>
-                    <td>
-                      <div>
-                        <div class="font-bold">{{ owner?.userFirstName }} {{ owner?.userLastName }}</div>
-                      </div>
-                    </td>
-                    <td>{{ owner?.userDisplayName }}</td>
-                    <td>
-                      <div class="avatar">
-                        <div class="mask mask-squircle w-12 h-12">
-                          <img [src]="owner?.userImage" alt="User Image" />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
 
                 <tbody>
                   <tr *ngFor="let user of users; let i = index">
@@ -216,29 +196,10 @@
                     <th>Edit Info</th>
                     <th>Delete Group</th>
                     <th>Update Permissions</th>
+                    <th>Is Owner</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <div>
-                      <td>
-                        <div class="flex items-center gap-3">
-                          <div class="avatar">
-                            <div class="mask mask-squircle w-12 h-12">
-                              <img [src]="owner?.userImage" />
-                            </div>
-                          </div>
-                          <div>
-                            <div class="font-bold">{{ this.owner?.userFirstName }} {{ this.owner?.userLastName }}</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        {{ this.owner?.userDisplayName }}
-                      </td>
-                    </div>
-                  </tr>
-                </tbody>
+
 
                 <tbody>
                   <tr *ngFor="let userInGroup of this.cachedGroup.groupUsers">
@@ -276,6 +237,9 @@
                     </td>
                     <td>
                       <input class="checkbox" type="checkbox" [name]="userInGroup.userDocRef.path + '_updatePermissionsPerm'" [checked]="userInGroup.updatePermissionsPerm">
+                    </td>
+                    <td>
+                      <input class="checkbox" (change)="onOwnerCheckboxChange($event, userInGroup.userDocRef.path.split('/')[1])" type="checkbox" [name]="userInGroup.userDocRef.path + '_isOwnerPerm'" [checked]="userInGroup.isOwner">
                     </td>
                     
                   </tr>

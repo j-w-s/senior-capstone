@@ -5,7 +5,7 @@ import { UserService } from './user.service';
 import User from '../../models/user';
 import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 import { AngularFirestore, DocumentData, DocumentReference } from '@angular/fire/compat/firestore';
-import { Group } from '../groups-page/groups-page.component';
+import Group from '../../models/group';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +32,7 @@ export class LoginRegisterService implements OnDestroy {
         (await this.userService.getUserData()).pipe(takeUntil(this.destroyed$)).subscribe((data: User) => {
           this.userData = data;
           this.userDataSubject.next(data);
-          this.resolveOwnedGroups(this.userData.ownedGroups).then((returnedOwnedGroups) => {
+          this.resolveOwnedGroups(this.userData.userOwnedGroups).then((returnedOwnedGroups) => {
             this.userOwnedGroups = returnedOwnedGroups
           });
         });
@@ -100,7 +100,7 @@ export class LoginRegisterService implements OnDestroy {
             petsOwned: [],
             petsLost: [],
             userGroups: [],
-            ownedGroups: [],
+            userOwnedGroups: [],
           });
           console.log("User Account Created!");
 
