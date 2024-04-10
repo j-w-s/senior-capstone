@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { getAuth } from "firebase/auth";
 import { LoginRegisterService } from './login-register.service';
 import { AngularFirestore, DocumentReference } from '@angular/fire/compat/firestore';
-import { combineLatest, Observable, Subscriber, switchMap } from 'rxjs';
+import { combineLatest, Observable, switchMap } from 'rxjs';
 import { arrayUnion } from '@angular/fire/firestore';
-import { arrayRemove, getDoc, getFirestore, onSnapshot, updateDoc } from 'firebase/firestore';
-import { doc, DocumentSnapshot, DocumentData } from '@angular/fire/firestore';
+import { arrayRemove, getFirestore, onSnapshot } from 'firebase/firestore';
+import { doc, DocumentData } from '@angular/fire/firestore';
 import User from '../../models/user';
 import Group from '../../models/group';
 import GroupUser from '../../models/groupUsers';
