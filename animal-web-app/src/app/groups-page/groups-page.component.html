@@ -54,39 +54,87 @@
       <div class="flex flex-row justify-between">
         <!-- Display selected group info -->
         <div class="w-1/2 p-4 items-center justify-center mx-auto">
-          <!-- Group Name Display -->
-          <div class="form-control w-full">
-            <label class="label">
-              <span class="label-text">Group Name</span>
-            </label>
-            <input [(ngModel)]="selectedGroup.groupName" type="text" class="input input-bordered w-full" />
-          </div>
-
-          <!-- Group Description Display -->
-          <div class="form-control w-full mt-4">
-            <label class="label">
-              <span class="label-text">Group Description</span>
-            </label>
-            <textarea [(ngModel)]="selectedGroup.groupDescription" class="textarea textarea-bordered"></textarea>
-          </div>
-
-          <!-- Group Location Display -->
-          <div class="form-control w-full mt-4">
-            <label class="label">
-              <span class="label-text">Group Location</span>
-            </label>
-            <div class="flex flex-row">
-              <input [(ngModel)]="selectedGroup.groupCity" type="text" placeholder="City" class="input input-bordered w-full mr-2" />
-              <input [(ngModel)]="selectedGroup.groupState" type="text" placeholder="State" class="input input-bordered w-full " />
+          <form [formGroup]="selectedGroupForm">
+            <!-- Display selected group info here -->
+            <div class="m-4 rounded">
+              <!-- Users profile image and change button for it-->
+              <div class="form-control p-4">
+                <label class="label" for="userImage">Photo</label>
+                <div class="mt-2 flex items-center gap-x-3">
+                  <div class="avatar rounded">
+                    <figure class="w-20 h-20 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 bg-black">
+                      <img [src]="this.selectedGroup.groupImage" alt="Group Photo">
+                    </figure>
+                  </div>
+                  <input type="file" class="file-input w-full max-w-xs" id="imageUpload" hidden (change)="updatePhoto($event)" />
+                </div>
+                <div class="max-w-xs flex flex-row mt-2">
+                  <label for="imageUpload" class="btn btn-secondary">Change</label>
+                </div>
+              </div>
+              <!-- Group Name Create-->
+              <label for="groupName" class="block mt-4 text-sm font-medium text-text-black">Group Name</label>
+              <input type="text" [(ngModel)]="selectedGroup.groupName" id="groupName" formControlName="groupName" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+              <div *ngIf="selectedGroupForm.get('groupName')?.invalid && selectedGroupForm.get('groupName')?.touched" class="text-red-500 text-xs mt-1">
+                Group Name must contain 3+ characters.
+              </div>
+             
+  
+              <!-- Group Description Create -->
+              <label for="groupDescription" class="block mt-4 text-sm font-medium text-text-black">Group Description</label>
+              <textarea type="text" [(ngModel)]="selectedGroup.groupDescription" id="groupDescription" formControlName="groupDescription" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm textarea textarea-bordered"></textarea>
+              <div *ngIf="selectedGroupForm.get('groupDescription')?.invalid && selectedGroupForm.get('groupDescription')?.touched" class="text-red-500 text-xs mt-1">
+                Group Description is required.
+              </div>
+              
+  
+              <!-- Group Location Create -->
+              <div class="flex flex-row label">
+                <div class="flex flex-col">
+                  <label for="groupCity" class="block mt-4 text-sm font-medium text-text-black">Group City</label>
+                  <input type="text" [(ngModel)]="selectedGroup.groupCity" id="groupCity" formControlName="groupCity" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+                  <div *ngIf="selectedGroupForm.get('groupCity')?.invalid && selectedGroupForm.get('groupCity')?.touched" class="text-red-500 text-xs mt-1">
+                    Group city is required.
+                  </div>
+                </div> 
+  
+                <div>
+                  <label for="groupStreetAddress" class="block mt-4 text-sm font-medium text-text-black">Group Street Address</label>
+                  <input type="text" [(ngModel)]="selectedGroup.groupStreetAddress" id="groupStreetAddress" formControlName="groupStreetAddress" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+                  <div *ngIf="selectedGroupForm.get('groupStreetAddress')?.invalid && selectedGroupForm.get('groupStreetAddress')?.touched" class="text-red-500 text-xs mt-1">
+                    Group street address is required.
+                  </div>
+                </div>
+              </div>
+  
+              <!-- Group Contact Create -->
+              <div class="flex flex-row label">
+                <div class="flex flex-col">
+                  <label for="groupPhoneNumber" class="block mt-4 text-sm font-medium text-text-black">Group Phone Number</label>
+                  <input type="text" [(ngModel)]="selectedGroup.groupPhoneNumber" id="groupPhoneNumber" formControlName="groupPhoneNumber" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+                  <div *ngIf="selectedGroupForm.get('groupPhoneNumber')?.invalid && selectedGroupForm.get('groupPhoneNumber')?.touched" class="text-red-500 text-xs mt-1">
+                    Group phonenumber is required.
+                  </div>
+                </div> 
+  
+                <div>
+                  <label for="groupEmail" class="block mt-4 text-sm font-medium text-text-black">Group Email</label>
+                  <input type="text" [(ngModel)]="selectedGroup.groupEmail" id="groupEmail" formControlName="groupEmail" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+                  <div *ngIf="selectedGroupForm.get('groupEmail')?.invalid && selectedGroupForm.get('groupEmail')?.touched" class="text-red-500 text-xs mt-1">
+                    Group email is required.
+                  </div>
+                </div>
+              </div>
+  
+              <div class="flex justify-center gap-4 mt-4">
+                <button class="btn btn-primary" (click)="updateGroup(selectedGroup)">Update Group</button>
+                <button class="btn btn-accent" onclick="deleteGroup_modal.showModal()">
+                  Delete Group
+                </button>
+              </div>
+              
             </div>
-          </div>
-
-          <div class="flex justify-end gap-4 mt-4">
-            <button class="btn btn-primary" (click)="updateGroup(selectedGroup)">Update Group</button>
-            <button class="btn btn-accent" onclick="deleteGroup_modal.showModal()">
-              Delete Group
-            </button>
-          </div>
+          </form>
         </div>
         <!-- Display selected group users -->
         <div class="w-1/2 p-4 items-center justify-center mx-auto">
@@ -267,42 +315,115 @@
       </div>
 
       <div class="flex flex-row justify-center" style="gap: 80px;">
-        <!-- Display selected group info here -->
-        <div class="m-4 rounded">
-          <!-- Group Name Create-->
-          <label class="form-control w-full max-w-xs">
-            <div class="label">
-              <span class="label-text">Group Name</span>
-            </div>
-            <input #groupNameInput type="text" class="input input-bordered w-full max-w-xs" />
-          </label>
-          <br>
+        <form [formGroup]="groupCreationForm">
+          <!-- Display selected group info here -->
+          <div class="m-4 rounded">
+            <div *ngIf="!this.selectingGroupPicture">
+              <!-- Group Name Create-->
+              <label for="groupName" class="block mt-4 text-sm font-medium text-text-black">Group Name</label>
+              <input type="text" id="groupName" formControlName="groupName" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+              <div *ngIf="groupCreationForm.get('groupName')?.invalid && groupCreationForm.get('groupName')?.touched" class="text-red-500 text-xs mt-1">
+                Group Name must contain 3+ characters.
+              </div>
+            
 
-          <!-- Group Description Create -->
-          <label class="form-control w-full max-w-xs">
-            <div class="label">
-              <span class="label-text">Group Description</span>
-            </div>
-            <textarea #groupDescriptionInput class="textarea textarea-bordered"></textarea>
-          </label>
-          <br>
+              <!-- Group Description Create -->
+              <label for="groupDescription" class="block mt-4 text-sm font-medium text-text-black">Group Description</label>
+              <textarea type="text" id="groupDescription" formControlName="groupDescription" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm textarea textarea-bordered"></textarea>
+              <div *ngIf="groupCreationForm.get('groupDescription')?.invalid && groupCreationForm.get('groupDescription')?.touched" class="text-red-500 text-xs mt-1">
+                Group Description is required.
+              </div>
+              
 
-          <!-- Group Location Create -->
-          <label class="form-control w-full max-w-xs">
-            <div class="flex flex-row label">
-              <span class="label-text">Group City</span>
-              <span class="label-text">Group State</span>
-            </div>
-            <div class="flex flex-row">
-              <input #groupCityInput type="text" class="input input-bordered w-full max-w-xs" />
-              <input #groupStateInput type="text" class="input input-bordered w-full max-w-xs" />
-            </div>
-          </label>
-          <br>
+              <!-- Group Location Create -->
+              <div class="flex flex-row label">
+                <div class="flex flex-col">
+                  <label for="groupCity" class="block mt-4 text-sm font-medium text-text-black">Group City</label>
+                  <input type="text" id="groupCity" formControlName="groupCity" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+                  <div *ngIf="groupCreationForm.get('groupCity')?.invalid && groupCreationForm.get('groupCity')?.touched" class="text-red-500 text-xs mt-1">
+                    Group city is required.
+                  </div>
+                </div> 
 
-          <button class="btn btn-primary w-full max-w-xs" (click)="createGroup(groupNameInput.value, groupDescriptionInput.value, groupCityInput.value, groupStateInput.value)">Create Group</button>
+                <div>
+                  <label for="groupStreetAddress" class="block mt-4 text-sm font-medium text-text-black">Group Street Address</label>
+                  <input type="text" id="groupStreetAddress" formControlName="groupStreetAddress" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+                  <div *ngIf="groupCreationForm.get('groupStreetAddress')?.invalid && groupCreationForm.get('groupStreetAddress')?.touched" class="text-red-500 text-xs mt-1">
+                    Group street address is required.
+                  </div>
+                </div>
+              </div>
 
-        </div>
+              <!-- Group Contact Create -->
+              <div class="flex flex-row label">
+                <div class="flex flex-col">
+                  <label for="groupPhoneNumber" class="block mt-4 text-sm font-medium text-text-black">Group Phone Number</label>
+                  <input type="text" id="groupPhoneNumber" formControlName="groupPhoneNumber" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+                  <div *ngIf="groupCreationForm.get('groupPhoneNumber')?.invalid && groupCreationForm.get('groupPhoneNumber')?.touched" class="text-red-500 text-xs mt-1">
+                    Group phonenumber is required.
+                  </div>
+                </div> 
+
+                <div>
+                  <label for="groupEmail" class="block mt-4 text-sm font-medium text-text-black">Group Email</label>
+                  <input type="text" id="groupEmail" formControlName="groupEmail" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+                  <div *ngIf="groupCreationForm.get('groupEmail')?.invalid && groupCreationForm.get('groupEmail')?.touched" class="text-red-500 text-xs mt-1">
+                    Group email is required.
+                  </div>
+                </div>
+              </div>
+
+              <button class="btn btn-primary w-full max-w-xs" (click)="this.selectingGroupPicture = true">Select Image</button>
+
+            </div>
+
+            <div *ngIf="selectingGroupPicture">
+              <!-- PICTURE SCREEN-->
+              <div class="container w-full h-96 items-center mt-4">
+
+                <div class="flex mx-auto my-auto">
+
+                  <!-- Image Selection -->
+                  <div class="w-1/2 p-4 h-full">
+                    <h2 class="text-2xl font-semibold mb-2 text-center">Choose Avatar</h2>
+                    <div class="flex flex-col items-center">
+
+                      <!-- Default Images -->
+                      <div *ngFor="let imageUrl of defaultImages; let i = index" class="cursor-pointer">
+                        <img [src]="imageUrl" (click)="onImageSelected(imageUrl)" class="avatar w-16 h-16 rounded-full object-cover mt-2">
+                      </div>
+
+                      <!-- Upload Image -->
+                      <label class="btn btn-secondary mt-8" for="uploadImage">
+                        Upload Image
+                        <input type="file" id="uploadImage" (change)="onFileSelected($event)" class="hidden" accept="image/*">
+                      </label>
+                    </div>
+
+                  </div>
+
+                  <div class="divider divider-horizontal divider-accent"></div>
+
+                  <!-- Image Preview -->
+                  <div class="w-1/2 p-4 items-center text-center">
+                    <h2 class="text-2xl font-semibold mb-2 text-center">Profile Preview</h2>
+                    <div class="avatar">
+                      <div class="mb-4">
+                        <img [src]="tempImageUrl || defaultImages[0]" class="w-32 h-32 rounded-full object-cover">
+                      </div>
+                    </div>
+                    <!-- <p>{{ registerForm.get('username')?.value }}</p> -->
+                  </div>
+
+                </div>
+              </div>
+
+              <button class="btn btn-primary w-full max-w-xs" (click)="createGroup()">Create Group</button>
+            
+            </div>
+
+          </div>
+        </form>
       </div>
 
     </section>
