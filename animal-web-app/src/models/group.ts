@@ -8,12 +8,13 @@ interface Group {
     groupName: string,
     groupDescription: string,
     groupCity: string,
-    groupState: string,
   
-    groupAddress: string,
+    groupStreetAddress: string,
+    groupPhoneNumber: string,
+    groupEmail: string,
+
     groupBeacons: DocumentReference[],
     groupRating: BusinessRating[],
-    groupContactInfo: string,
   
     groupUsers: GroupUser[],
 }

@@ -1,57 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { DocumentReference } from '@angular/fire/compat/firestore';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { finalize, Observable, Subject, takeUntil } from 'rxjs';
 import Group from '../../models/group';
 import GroupUser from '../../models/groupUsers';
 import User from '../../models/user';
 import { GroupsService } from '../services/groups.service';
 import { LoginRegisterService } from '../services/login-register.service';
-
-/*
-export interface User {
-  userId: string;
-  userFirstName: string;
-  userLastName: string;
-  userPhoneNumber: string;
-  userEmail: string;
-  userDisplayName: string;
-  userBiography: string;
-  userImage: string;
-  userAccountType?: number;
-  userPreferences: UserPreferences;
-  userRatings: UserRating[];
-  petsOwned: Animal[];
-  petsLost: Animal[];
-  userGroups: DocumentReference[],
-  userOwnedGroups: DocumentReference[],
-}
-
-
-export interface GroupUser {
-  userDocRef: DocumentReference,
-  addUserPerm: boolean,
-  removeUserPerm: boolean,
-  updateGroupPerm: boolean,
-  deleteGroupPerm: boolean,
-  updatePermissionsPerm: boolean,
-  isOwner: boolean,
-}
-
-export interface Group {
-  groupId: string,
-  groupImage: string,
-  groupName: string,
-  groupDescription: string,
-  groupCity: string,
-
-  groupAddress: string,
-  groupBeacons: DocumentReference[],
-  groupRating: BusinessRating[],
-  groupContactInfo: string,
-
-  groupUsers: GroupUser[],
-}
-*/
 
 @Component({
   selector: 'app-groups-page',
@@ -69,12 +25,45 @@ export class GroupsPageComponent implements OnInit {
   managePermissions = false;
   cachedGroup: Group | null = null;
 
+  groupCreationForm: FormGroup;
+  selectedGroupForm: FormGroup;
+  selectingGroupPicture: boolean = false;
+  tempImageUrl: string = '';
+  defaultImages: string[] = [];
+  usingDefaultImage = false;
+
   private destroy$ = new Subject<void>();
 
   
-  constructor(private groupService: GroupsService, private loginRegService: LoginRegisterService) { }
+  constructor(
+    private groupService: GroupsService, 
+    private loginRegService: LoginRegisterService, 
+    private fb: FormBuilder,
+    private storage: AngularFireStorage,
+    ) 
+    {
+      this.groupCreationForm = this.fb.group({
+        groupName: ['', [Validators.required, Validators.minLength(3)]],
+        groupDescription: ['', Validators.required],
+        groupCity: ['', Validators.required],
+        groupStreetAddress: ['', Validators.required],
+        groupPhoneNumber: ['', [Validators.required, Validators.pattern('[0-9]{10}')]],
+        groupEmail: ['', [Validators.required, Validators.email]],
+      });
+
+      this.selectedGroupForm = this.fb.group({
+        groupName: ['', [Validators.required, Validators.minLength(3)]],
+        groupDescription: ['', Validators.required],
+        groupCity: ['', Validators.required],
+        groupStreetAddress: ['', Validators.required],
+        groupPhoneNumber: ['', [Validators.required, Validators.pattern('[0-9]{10}')]],
+        groupEmail: ['', [Validators.required, Validators.email]],
+      });
+
+   }
 
   ngOnInit(): void {
+    this.loadDefaultImages();
     // Subscribes the listeners to get the groups from the databse
     // Returns the groups in the database whenever there is an update
     this.groupService.getGroups().then(async (observable$: Observable<Group[]>) => {
@@ -90,6 +79,7 @@ export class GroupsPageComponent implements OnInit {
             if(this.groups[i].groupId == this.selectedGroup.groupId) {
               this.selectGroup(this.groups[i])
               console.log('Reselected Group')
+              break;
             }
           }
         }
@@ -144,6 +134,7 @@ export class GroupsPageComponent implements OnInit {
 
   goBack2() {
     this.creatingGroup = false;
+    this.selectingGroupPicture = false;
   }
 
   gotoCreateGroup() {
@@ -170,7 +161,7 @@ export class GroupsPageComponent implements OnInit {
   }
 
   // Function to create a group from the input fields in the Group Creation Section
-  createGroup(name: string, description: string, city: string, state: string) {
+  createGroup() {
     // Gets the document reference to the current signed in user to be the owner in the group
     const ownerDocRef = this.groupService.getOwnerDocRef()
 
@@ -187,15 +178,15 @@ export class GroupsPageComponent implements OnInit {
     // Create a new Group to send and store in the database
     const newGroup: Group = {
       groupId: "",
-      groupName: name,
-      groupDescription: description,
-      groupImage: "https://t4.ftcdn.net/jpg/03/03/72/11/360_F_303721150_Uo6hxtfQVe7B9uxjwPLbgJ0eStClh0r2.jpg",
-      groupCity: city,
-      groupState: state,
-      groupAddress: "",
+      groupName: this.groupCreationForm.get('groupName')?.value,
+      groupDescription: this.groupCreationForm.get('groupDescription')?.value,
+      groupImage: this.tempImageUrl,
+      groupCity: this.groupCreationForm.get('groupCity')?.value,
+      groupStreetAddress: this.groupCreationForm.get('groupStreetAddress')?.value,
+      groupPhoneNumber: this.groupCreationForm.get('groupPhoneNumber')?.value,
+      groupEmail: this.groupCreationForm.get('groupEmail')?.value,
       groupBeacons: [],
       groupRating: [],
-      groupContactInfo: "",
       groupUsers: [firstUser],
     }
 
@@ -207,6 +198,7 @@ export class GroupsPageComponent implements OnInit {
       this.groupService.addGroupToOwnersDocument(ownerDocRef, newGroupDocRef);
     });
     this.creatingGroup = false;
+    this.selectingGroupPicture = false;
 
   }
 
@@ -330,5 +322,86 @@ export class GroupsPageComponent implements OnInit {
         }
       }
     } 
+  }
+
+  async onFileSelected(event: Event) {
+    //this.usingDefaultImage = false;
+    const fileInput = event.target as HTMLInputElement;
+    if (fileInput.files && fileInput.files.length >  0) {
+      const file = fileInput.files[0];
+      const filePath = `userGroupPhotos/${Date.now()}_${file.name}`;
+      const fileRef = this.storage.ref(filePath);
+      const task = fileRef.put(file);
+  
+      task.snapshotChanges().pipe(
+        finalize(() => fileRef.getDownloadURL().subscribe(url => {
+          console.log(url);
+          if (this.tempImageUrl != '') {
+            // If an image was previously selected, delete it
+            if(this.usingDefaultImage == true)
+            {
+              
+            }
+            else {
+              const existingImageRef = this.storage.refFromURL(this.tempImageUrl);
+              existingImageRef.delete().subscribe(() => {
+                console.log('Existing image deleted');
+              }, error => {
+                console.error('Error deleting existing image:', error);
+              });
+            }
+            
+          }
+          this.tempImageUrl = url; // Update the temporary image URL
+        }))
+      ).subscribe();
+    }
+    // Save the img url to the group doc
+  }
+
+  loadDefaultImages() {
+    const defaultImagesRef = this.storage.ref('defaultGroupPhotos');
+    console.log('Trying...')
+    defaultImagesRef.listAll().subscribe(res => {
+      console.log(res)
+      res.items.forEach(itemRef => {
+        itemRef.getDownloadURL().then(url => {
+          console.log('Image name:', itemRef.name); // Log the name of the image
+          console.log(url)
+          this.defaultImages.push(url);
+        });
+      });
+    });
+  }
+
+  onImageSelected(imageUrl: string) {
+    this.usingDefaultImage = true;
+    this.tempImageUrl = imageUrl
+    console.log('Changed url', imageUrl)
+  }
+
+  updatePhoto(event: Event) {
+    const file = (event.target as HTMLInputElement)?.files?.[0];
+    //let imageUrl!: string;
+    if (file) {
+      const filePath = `uploads/${Date.now()}_${file.name}`;
+      const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, file);
+
+      // Get notified when the download URL is available
+      task.snapshotChanges().pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe(url => {
+            console.log('File available at', url);
+            //this.profileForm?.get('userImage')?.setValue(url);
+            if(this.selectedGroup)
+            this.selectedGroup.groupImage = url;
+
+            this.groupService.updateGroup(this.selectedGroup as Group, this.selectedGroup?.groupId as string)
+          });
+        })
+      ).subscribe();
+    }
+    
   }
 }
