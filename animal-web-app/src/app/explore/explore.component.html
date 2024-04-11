@@ -229,12 +229,12 @@
     </div>
     <div class="bg-base-200 p-4 flex flex-col items-center">
       <!-- Animal Type dropdown -->
-      <select #animalTypeSelect (change)="dropdownFilter($event, animalTypeSelect.value)" class="form-select w-full m-2 max-w-xs px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+      <select #animalTypeSelect (change)="dropdownFilter($event, animalTypeSelect.value, 'type')" class="form-select w-full m-2 max-w-xs px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
         <option value="">Select Animal Type</option>
         <option *ngFor="let type of uniqueTypes" [value]="type">{{type}}</option>
       </select>
       <!-- Animal Breed dropdown-->
-      <select #animalBreedSelect (change)="dropdownFilter($event, animalBreedSelect.value)" class="form-select w-full max-w-xs px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+      <select #animalBreedSelect (change)="dropdownFilter($event, animalBreedSelect.value, 'breed')" class="form-select w-full max-w-xs px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
         <option value="">Select Animal Breed</option>
         <option *ngFor="let type of uniqueBreeds" [value]="type">{{type}}</option>
       </select>
