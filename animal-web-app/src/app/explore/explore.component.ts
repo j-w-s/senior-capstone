@@ -44,9 +44,14 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   displayModal = false;
   showKebabModal = false;
   selectedAnimal: Animal | null = null;
+  modalAnimal: Animal | null = null;
 
   currentUserId!: string;
   currentUser!: any;
+
+  selectedAnimalType: string = '';
+  selectedAnimalBreed: string = '';
+  cachedAnimals: Animal[] = [];
 
   dropdownVisible = false;
 
@@ -58,7 +63,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     imgUrl: any;
     user: any;
     db: any;
-
+  @ViewChild('petModal') petModal!: ElementRef;
   openModal(): void {
     this.addAnimalModal.nativeElement.checked = true;
   }
@@ -67,7 +72,8 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     this.addAnimalModal.nativeElement.checked = false;
     this.animalCreateForm = new FormGroup({
       animalId: new FormControl(this.generateUUID(), Validators.required),
-      owner: new FormControl(this.currentUser.firstName + ' ' + this.currentUser.lastName, Validators.required),
+      userId: new FormControl(this.generateUUID(), Validators.required),
+      ownerName: new FormControl(this.currentUser.firstName + ' ' + this.currentUser.lastName, Validators.required),
       animalType: new FormControl('', Validators.required),
       animalBreed: new FormControl([''], Validators.required),
       animalName: new FormControl('', Validators.required),
@@ -95,7 +101,8 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     private storage: AngularFireStorage) {
     this.animalCreateForm = this.fb.group({
       animalId: new FormControl('', Validators.required),
-      owner: new FormControl(''),
+      userId: new FormControl('', Validators.required),
+      ownerName: new FormControl(''),
       animalType: new FormControl('', Validators.required),
       animalBreed: new FormControl([''], Validators.required),
       animalName: new FormControl('', Validators.required),
@@ -128,7 +135,8 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     this.selectedAnimal = animal;
     this.animalCreateForm.setValue({
       animalId: this.selectedAnimal.animalId,
-      owner: this.selectedAnimal.owner,
+      userId: this.selectedAnimal.userId,
+      ownerName: this.selectedAnimal.ownerName,
       animalType: this.selectedAnimal.animalType,
       animalBreed: this.selectedAnimal.animalBreed,
       animalName: this.selectedAnimal.animalName,
@@ -172,7 +180,8 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   createNewSetup(): void {
     this.animalCreateForm = new FormGroup({
       animalId: new FormControl(this.generateUUID(), Validators.required),
-      owner: new FormControl(this.currentUser.firstName + ' ' + this.currentUser.lastName, Validators.required),
+      userId: new FormControl(this.generateUUID(), Validators.required),
+      ownerName: new FormControl(this.currentUser.firstName + ' ' + this.currentUser.lastName, Validators.required),
       animalType: new FormControl('', Validators.required),
       animalBreed: new FormControl([''], Validators.required),
       animalName: new FormControl('', Validators.required),
@@ -270,9 +279,28 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   }
 
   //Function called by dropdown to actually filter cards shown
-  dropdownFilter(event: any, type: any) {
+  dropdownFilter(event: any, type: any, filterType: string) {
     console.log("Filter by: ", type);
-    this.searchTerm = type;
+    if(filterType === 'type'){
+      this.selectedAnimalType = type;
+    } else if (filterType === 'breed'){
+      this.selectedAnimalBreed = type;
+    }
+    this.filterAnimals();
+  }
+
+  filterAnimals() {
+    //Filters cachedAnimals based on the dropdown selections
+   const filteredAnimals = this.cachedAnimals.filter(animal => {
+      const typeMatches = !this.selectedAnimalType || animal.animalType?.toLowerCase() === this.selectedAnimalType.toLowerCase();
+      const breedMatches = !this.selectedAnimalBreed || (Array.isArray(animal.animalBreed) && animal.animalBreed.some(breed => breed.toLowerCase() === this.selectedAnimalBreed.toLowerCase()));
+      return typeMatches && breedMatches;
+   });
+
+   // Update the displayed animals based on the filtered list
+   this.animals = filteredAnimals;
+   // Optionally, re-calculate total pages and other related properties
+   this.totalPages = Math.ceil(this.animals.length / this.cardsPerPage);
   }
 
   //Allows Clear Filter button to clear any filtering being done
@@ -283,6 +311,17 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     //Resets the dropdown filters to show no choice selected
     this.animalTypeSelect.nativeElement.value = '';
     this.animalBreedSelect.nativeElement.value = '';
+    //Resets the filter logic to filtering nothing
+    this.selectedAnimalBreed = '';
+    this.selectedAnimalType = '';
+    //Resets the display of the posts
+    this.animals = this.cachedAnimals;
+  }
+
+  openPetModal(animal: Animal): void{
+    this.modalAnimal = animal;
+    console.log('Selected Animal:', this.modalAnimal);
+    this.petModal.nativeElement.showModal();
   }
 
   getTotalPagesArray(): number[] {
@@ -307,6 +346,8 @@ export class ExploreComponent implements OnInit, AfterViewInit {
 
     this.animalsSubscription = this.animals$.subscribe((animals: Animal[]) => {
       this.animals = animals;
+      //Used to help with filtering animals
+      this.cachedAnimals = animals;
       this.totalPages = Math.ceil(this.animals.length / this.cardsPerPage);
 
       // create a list of unique types for all categories

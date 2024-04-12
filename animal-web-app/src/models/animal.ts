@@ -1,6 +1,7 @@
 interface Animal {
   animalId: string;
-  owner?: string;
+  userId: string;
+  ownerName?: string;
   animalType?: string;
   animalBreed?: string[];
   animalName?: string;

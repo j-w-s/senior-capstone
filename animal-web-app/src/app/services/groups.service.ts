@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { getAuth } from "firebase/auth";
 import { LoginRegisterService } from './login-register.service';
 import { AngularFirestore, DocumentReference } from '@angular/fire/compat/firestore';
-import { combineLatest, Observable, Subscriber, switchMap } from 'rxjs';
+import { combineLatest, Observable, switchMap } from 'rxjs';
 import { arrayUnion } from '@angular/fire/firestore';
-import { arrayRemove, getDoc, getFirestore, onSnapshot, updateDoc } from 'firebase/firestore';
-import { doc, DocumentSnapshot, DocumentData } from '@angular/fire/firestore';
-import { Group, GroupUser, User } from '../groups-page/groups-page.component';
+import { arrayRemove, getFirestore, onSnapshot } from 'firebase/firestore';
+import { doc, DocumentData } from '@angular/fire/firestore';
+import User from '../../models/user';
+import Group from '../../models/group';
+import GroupUser from '../../models/groupUsers';
 
 @Injectable({
  providedIn: 'root'
@@ -59,16 +60,9 @@ export class GroupsService {
   }
 
   // Returns an array of users and a User object for owner
-  async getUserData(group: Group): Promise<[User[], User | null]> {
+  async getUserData(group: Group): Promise<User[]> {
     let users: User[] = [];
     let owner: User | null = null;
-
-    // Finds the user document corresponding to group.groupOwner document reference
-    const split = group.groupOwner.path.split("/")[1];
-    await this.db.collection('User').ref.where('userId', '==', split).get().then(querySnapshot => {
-      let docData = querySnapshot.docs[0];
-      owner = docData.data() as User;
-    });
 
     // Loops through the group uses and uses their document references to get the user documents
     for(let i = 0; i < group.groupUsers.length; i++)
@@ -81,7 +75,7 @@ export class GroupsService {
     }
 
     // Returns the Array and User Object
-    return [users, owner];
+    return users;
   }
  
   // Function to update users permissions
@@ -118,11 +112,12 @@ export class GroupsService {
     })
   }
 
-  // Adds a user document reference to the groupOwner field the Groups document
-  addOwner(ownerDocRef: DocumentReference, groupDocRef: DocumentReference) {
+  // Adds group document reference to userGroups field and userOwnedGroups field
+  addGroupToOwnersDocument(ownerDocRef: DocumentReference, groupDocRef: DocumentReference) {
     console.log('Adding the new group doc ref to the users groups')
     this.db.doc(ownerDocRef).update({
-      userGroups: arrayUnion(groupDocRef)
+      userGroups: arrayUnion(groupDocRef),
+      userOwnedGroups:  arrayUnion(groupDocRef),
     });
   }
 
@@ -150,7 +145,7 @@ export class GroupsService {
     });
 
     // Finds and removes the userMap that matches the userDocRef found from the username
-    const updatedUsers = group.groupUsers.filter(userMap => userMap.userDocRef.path !== userDocRef.path);
+    const updatedUsers = group.groupUsers.filter((userMap: GroupUser) => (userMap.userDocRef.path !== userDocRef.path || userMap.isOwner === true));
 
     // Remove from Groups doc in groupUsers field
     this.db.collection('Groups').doc(group.groupId).update({
@@ -174,16 +169,12 @@ export class GroupsService {
     // Get the groups document reference
     const groupDocRef = this.db.firestore.collection('Groups').doc(group.groupId);
 
-    // Remove from the owner user document
-    this.db.collection('User').doc(group.groupOwner.path.split("/")[1]).update({
-      userGroups: arrayRemove(groupDocRef)
-    });
-
     // Loop through users and remove the group from the userGroups
     for(let i = 0; i < group.groupUsers.length; i++)
     {
       this.db.collection('User').doc(group.groupUsers[i].userDocRef.path.split("/")[1]).update({
-        userGroups: arrayRemove(groupDocRef)
+        userGroups: arrayRemove(groupDocRef),
+        userOwnedGroups: arrayRemove(groupDocRef)
       });
     }
   }
@@ -209,6 +200,7 @@ export class GroupsService {
       updateGroupPerm: false,
       deleteGroupPerm: false,
       updatePermissionsPerm: false,
+      isOwner: false,
     }
 
     this.db.doc(groupDocRef).update({
@@ -218,6 +210,27 @@ export class GroupsService {
     // Add group doc ref to user documents userGroups field
     this.db.doc(userDocRef).update({
       userGroups: arrayUnion(groupDocRef)
+    });
+  }
+
+  updateOwnedGroups(newOwner: DocumentReference, groupId: string, prevOwner: DocumentReference) {
+    // Gets the document reference for the group
+    const groupDocRef = this.db.firestore.collection('Groups').doc(groupId);
+
+    console.log('New Owner: ', prevOwner.path)
+    // Gets the user document reference
+    const userDocRef = this.db.firestore.collection('User').doc(newOwner.path.split("/")[1]);
+    // Get previous owner document reference
+    const prevUserDocRef = this.db.firestore.collection('User').doc(prevOwner.path.split("/")[1]);
+
+    // Put groupDocRef in newOwner document 'userOwnedGroups' field
+    this.db.doc(userDocRef).update({
+      userOwnedGroups: arrayUnion(groupDocRef)
+    });
+
+    // Remove groupDocRef from previous owners document 'userOwnedGroups' field
+    this.db.doc(prevUserDocRef).update({
+      userOwnedGroups: arrayRemove(groupDocRef)
     });
   }
  }

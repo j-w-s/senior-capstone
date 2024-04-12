@@ -4,6 +4,8 @@ import { doc, getDoc, getFirestore, setDoc } from '@angular/fire/firestore';
 import { UserService } from './user.service';
 import User from '../../models/user';
 import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
+import { AngularFirestore, DocumentData, DocumentReference } from '@angular/fire/compat/firestore';
+import Group from '../../models/group';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +18,10 @@ export class LoginRegisterService implements OnDestroy {
   private userDataSubject = new BehaviorSubject<User | null>(null);
   public userData$: Observable<User | null> = this.userDataSubject.asObservable();
   public userData!: User;
+  public userOwnedGroups!: Group[];
   private destroyed$ = new Subject<void>();
 
-  constructor(public userService: UserService) {
+  constructor(public userService: UserService, private db: AngularFirestore) {
     const auth = getAuth();
     this.auth = auth;
     onAuthStateChanged(auth, async (user) => {
@@ -29,6 +32,9 @@ export class LoginRegisterService implements OnDestroy {
         (await this.userService.getUserData()).pipe(takeUntil(this.destroyed$)).subscribe((data: User) => {
           this.userData = data;
           this.userDataSubject.next(data);
+          this.resolveOwnedGroups(this.userData.userOwnedGroups).then((returnedOwnedGroups) => {
+            this.userOwnedGroups = returnedOwnedGroups
+          });
         });
       } else {
         this.isLoggedIn = false;
@@ -41,6 +47,30 @@ export class LoginRegisterService implements OnDestroy {
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
+  }
+
+  // Function to get the owned groups document data from a document reference
+  async resolveOwnedGroups(ownedGroups: DocumentReference[]): Promise<Group[]> {
+    // Stores the resolved list of owned groups
+    let returnedOwnedGroups: Group[] = [];
+
+    // Makes sure there are ownedGroups
+    if(ownedGroups != undefined)
+    // Loops through document references
+    for(let i = 0; i < ownedGroups.length; i++)
+    {
+      try {
+        // Gets document data as 'Group' and pushes it to the returnedOwnedGroups array
+        const ownedGroupsDoc = await getDoc(ownedGroups[i]);
+        if(ownedGroupsDoc.exists()) {
+          returnedOwnedGroups.push(ownedGroupsDoc.data() as Group)
+        }
+      }
+      catch (error) {
+        console.error("Error getting document:", error)
+      }
+    }
+    return returnedOwnedGroups;
   }
 
   async registerUser(email: string, password: string, firstname: string, lastname: string, phonenumber: string, username: string, image: string): Promise<any> {
@@ -64,12 +94,13 @@ export class LoginRegisterService implements OnDestroy {
             userDisplayName: username,
             userBiography: '',
             userImage: image,
-            userAccountType: "1",
+            userAccountType: 1,
             userPreferences: [],
             userRatings: [],
             petsOwned: [],
             petsLost: [],
             userGroups: [],
+            userOwnedGroups: [],
           });
           console.log("User Account Created!");
 
