@@ -45,12 +45,22 @@ export class MapComponent implements AfterViewInit {
   averageRating: number = 0;
   averageRatingStars: string[] = [];
 
+  showForm: boolean = false;
+  comment: string = '';
+  rating: number = 1;
+  commentForm: FormGroup;
+
   constructor(private mapService: MapService,
     private fb: FormBuilder,
     private firestore: AngularFirestore,
     private storage: AngularFireStorage,
     private groupsService: GroupsService,
   ) {
+
+    this.commentForm = this.fb.group({
+      comment: ['', Validators.required],
+      rating: [1, Validators.required]
+    });
 
     this.createBeaconForm = new FormGroup({
       beaconType: new FormControl(''),
@@ -300,6 +310,7 @@ export class MapComponent implements AfterViewInit {
           console.error(`No BeaconMarker found with ID: ${beaconMarkerDocumentId}`);
         }
       });
+      this.openForm();
     })
 
 
@@ -329,6 +340,31 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
+  // Method to open the form when a beacon is clicked
+  openForm(): void {
+    this.showForm = true;
+  }
+
+  // Method to close the form
+  closeForm(): void {
+    this.showForm = false;
+    // Reset form values
+    this.comment = '';
+    this.rating = 1;
+    this.commentForm.reset();
+  }
+
+  // Method to submit the form
+  submitForm(): void {
+    if (this.commentForm.valid) {
+      // Submit logic here, e.g., send comment and rating to backend
+      console.log('Comment:', this.comment);
+      console.log('Rating:', this.rating);
+      // Close the form after submission
+      this.closeForm();
+    }
+  }
+
 }
 
 class CustomMarker extends L.Marker {
@@ -338,4 +374,6 @@ class CustomMarker extends L.Marker {
     super(latlng, options);
     this.beaconData = options?.beaconData;
   }
+
+
 }

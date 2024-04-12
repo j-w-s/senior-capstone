@@ -137,7 +137,7 @@
         </label>
         <div class="avatar rounded">
           <figure class="w-20 h-20 rounded-full">
-            <img [src]="imgUrl" alt="User Photo">
+            <img [src]="imgUrl" alt="Animal Photo">
           </figure>
         </div>
         <input type="file" class="file-input w-full max-w-xs" id="imageUpload" hidden (change)="updatePhoto($event)" required />
@@ -280,24 +280,9 @@
           />
           <div class="p-4">
             <div class="font-bold text-xl mb-2">{{ animal.animalName }}</div>
-            <p class="text-base">
-              Owner: {{ animal.ownerName }} Type: {{ animal.animalType }} Breed: {{
-                animal.animalBreed ? animal.animalBreed.join(', ') : ''
-              }}
-              Weight: {{ animal.animalWeight }} Sex: {{ animal.animalSex }}
-              Temperament: {{
-                animal.temperament ? animal.temperament.join(', ') : ''
-              }}
-              About: {{ animal.about }} Location: {{ animal.location }} Zip Code: {{
-                animal.zipCode
-              }}
-              Adoption Status: {{ animal.adoptionStatus }} Date Of Birth: {{
-                animal.dateOfBirth
-              }}
-              Color: {{ animal.color }} Vaccination Status: {{
-                animal.vaccinationStatus
-              }}
-            </p>
+            <div class="font-bold text-xl mb-2 owner-name">
+              Owner: {{ animal.ownerName }} 
+            </div>
             <!-- Dropdown Menu -->
             <div class="absolute right-0 top-0">
               <button tabindex="0"

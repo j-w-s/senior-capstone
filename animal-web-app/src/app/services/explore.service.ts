@@ -17,10 +17,12 @@ export class ExploreService {
     private loginRegisterService: LoginRegisterService) { }
 
   getAnimals(): Observable<Animal[]> {
-    return this.firestore.collection<Animal>('Animal').valueChanges().pipe(
-      tap((animals: Animal[]) => {
-        this.animalsSubject.next(animals);
-      })
+    return this.firestore.collection<Animal>('Animal', ref => ref.orderBy('dateOfBirth')).stateChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Animal;
+        const id = a.payload.doc.id;
+        return { id, ...data };
+      }))
     );
   }
 
