@@ -216,7 +216,7 @@
         <button class="btn btn-primary" type="submit" [disabled]="!animalCreateForm.valid">
           {{ selectedAnimal ? 'Update' : 'Add Animal' }}
         </button>
-        <button class="btn btn-neutral" onclick="animalCreateForm.close()">Cancel</button>
+        <button class="btn btn-accent" onclick="animalCreateForm.close()">Cancel</button>
       </div>
     </form>
   </div>
@@ -303,7 +303,7 @@
               <button tabindex="0"
                       class="btn btn-ghost mt-1 mr-1"
                       (click)="toggleDropdown()"
-                      [disabled]="this.currentUser.firstName + ' ' + this.currentUser.lastName !== animal.ownerName">
+                      [disabled]="this.loginRegService.userData.userId !== animal.userId">
 
                 &#x22EE;
               </button>
