@@ -404,8 +404,8 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       console.log('Animal deleted successfully');
       // Manually remove the deleted animal from the component's state
       this.animals = this.animals.filter(a => a.animalId !== animal.animalId);
-      // Optionally, re-calculate total pages and other related properties
-      this.totalPages = Math.ceil(this.animals.length / this.cardsPerPage);
+      // Trigger change detection manually to ensure the view is updated
+      this.cdr.detectChanges();
     }).catch(error => {
       console.error('Error deleting animal:', error);
     });

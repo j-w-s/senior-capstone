@@ -17,3 +17,9 @@
   top: 100%;
   z-index: 20;
 }
+
+.owner-name:hover {
+  overflow: visible;
+  white-space: normal;
+  width: auto;
+}
