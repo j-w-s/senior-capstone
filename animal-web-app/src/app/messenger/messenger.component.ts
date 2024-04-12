@@ -4,7 +4,7 @@ import Message from "../../models/message";
 import User from "../../models/user";
 import { ViewChild, ElementRef, Renderer2 } from "@angular/core";
 import { v4 as uuidv4 } from "uuid";
-import { Observable, Subject, Subscription, takeUntil, from, forkJoin, of, BehaviorSubject } from "rxjs";
+import { Observable, Subject, Subscription, takeUntil, from, forkJoin, of, BehaviorSubject, combineLatest } from "rxjs";
 import { GroupsService } from "../services/groups.service";
 import { LoginRegisterService } from "../services/login-register.service";
 import Messages from "../../models/messages";
@@ -27,9 +27,12 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
   public contactsList: any[] = [];
   public selectedConversation: any[] = [];
   public notifications = new BehaviorSubject<string[]>([]);
+  private searchQuery$ = new BehaviorSubject<string>('');
+  initialSearchQuery: string = '';
 
   messages$!: Observable<any>;
   messagesSubscription: Subscription | undefined;
+  filteredMessages$!: Observable<Message[]>;
 
   selectedConversation$: Observable<Message[]> | undefined;
   public primaryUser: User | null = null;
@@ -89,12 +92,16 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
       })
     );
 
+
+
     this.messagesSubscription = this.messages$.subscribe({
       error: (err) => {
         console.error("Error fetching messages:", err);
       }
     });
     this.cdr.detectChanges();
+
+    this.filterMessages(this.initialSearchQuery);
   }
 
   // used to add a new contact to the users contact list
@@ -108,6 +115,29 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.cdRef.detectChanges();
     this.selectedConversation$ = this.filterMessagesForSelectedContact();
     this.scrollDown();
+  }
+
+  filterMessages(search: string): void {
+    const trimmedSearch = search.trim();
+    // Filter messages based on the search query
+    this.filteredMessages$ = this.messages$.pipe(
+      map(messagesData => {
+        if (trimmedSearch === '') {
+          return messagesData.messagesList;
+        } else {
+          return messagesData.messagesList.filter((message: Message) =>
+            message.messageContent.toLowerCase().includes(trimmedSearch.toLowerCase())
+          );
+        }
+      })
+    );
+    this.updateSearchQuery(search);
+  }
+
+
+  // Function to update the search query
+  updateSearchQuery(searchQuery: string): void {
+    this.searchQuery$.next(searchQuery);
   }
 
   // Helper function to filter messages for the selected contact
