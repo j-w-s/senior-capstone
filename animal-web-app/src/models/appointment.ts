@@ -1,9 +1,11 @@
 import User from './user';
 
 interface Appointment {
-  parties: User[];
-  appointmentTime: Date;
+  userDisplayName: string;
+  appointmentDate: Date;
   appointmentLocation: string;
-  active: boolean;
+  appointmentCreator: string;
+  notes: string;
 }
-export default Appointment;
+
+export default Appointment
