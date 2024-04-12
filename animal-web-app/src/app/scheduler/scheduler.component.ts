@@ -1,12 +1,18 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { LoginRegisterService } from '../services/login-register.service';
+import { SchedulerService } from '../services/scheduler.service';
+import { finalize, Observable, Subscription } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { v4 as uuidv4 } from 'uuid';
+import Appointment from '../../models/appointment';
+import User from '../../models/user';
 
 @Component({
   selector: 'app-scheduler',
   templateUrl: './scheduler.component.html',
   styleUrl: './scheduler.component.scss'
 })
-export class SchedulerComponent {
+export class SchedulerComponent implements OnInit {
   currentMonth = new Date().getMonth();
   currentYear = new Date().getFullYear();
   items: { [key: string]: any[] } = {};
@@ -15,12 +21,34 @@ export class SchedulerComponent {
   day: any;
   month: any;
   year: any;
-  constructor(private fb: FormBuilder) {
+  userAppointments: Appointment[] = []
+  constructor(private fb: FormBuilder, public loginRegService: LoginRegisterService, public schedulerService: SchedulerService) {
     this.appointmentForm = this.fb.group({
       userDisplayName: ['', Validators.required],
       appointmentDate: ['', Validators.required],
+      appointmentLocation: ['', Validators.required],
+      appointmentCreator: [this.loginRegService.userData.userId, Validators.required],
       notes: ['']
     });
+  }
+
+  ngOnInit() {
+    const userDetails = this.loginRegService.loadUserDetailsFromCache("") as User;
+    if (userDetails.appointments) {
+      this.userAppointments = userDetails.appointments;
+      console.log(this.userAppointments);
+    }
+  }
+
+  checkAppointmentExists(date: string): boolean {
+    return this.userAppointments.some(appointment => appointment.appointmentDate as unknown as string === date);
+  }
+
+  formatDate(year: number, month: number, day: number): string {
+    const formattedMonth = month + 1;
+    const formattedDay = day < 10 ? `0${day}` : day;
+    const formattedMonthStr = formattedMonth < 10 ? `0${formattedMonth}` : formattedMonth;
+    return `${year}-${formattedMonthStr}-${formattedDay}`;
   }
 
   getDaysInMonth(month: number, year: number): number {
@@ -54,10 +82,8 @@ export class SchedulerComponent {
   }
 
   onSubmit() {
-    if (this.appointmentForm.valid) {
-      console.log(this.appointmentForm.value);
-      // Handle form submission here
-      this.showModal = false;
-    }
+    console.log(this.appointmentForm.value);
+    let poop = this.schedulerService.createAppointment(this.appointmentForm.value as Appointment);
+    this.showModal = false;
   }
 }
