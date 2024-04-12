@@ -181,7 +181,7 @@
           <div class="mb-4">
             <label for="comment" class="block text-sm font-medium text-gray-700">Comment:</label>
             <textarea id="comment" name="comment" class="form-textarea mt-1 block w-full" [(ngModel)]="comment" formControlName="comment"></textarea>
-            <div *ngIf="commentForm.get('comment').errors?.required" class="text-red-500">Comment is required.</div>
+            <div *ngIf="commentForm.get('comment')?.errors?.['required']" class="text-red-500">Comment is required</div>
           </div>
           <!-- Rating input -->
           <div class="mb-4">
@@ -193,8 +193,7 @@
               <option value="4">4</option>
               <option value="5">5</option>
             </select>
-            <div *ngIf="commentForm.get('rating').errors?.required" class="text-red-500">Rating is required.</div>
-          </div>
+            <div *ngIf="commentForm.get('rating')?.errors?.['required']" class="text-red-500">Rating is required</div>          </div>
           <!-- Submit button -->
           <div class="flex justify-end">
             <button type="submit" class="btn btn-primary">Submit</button>
