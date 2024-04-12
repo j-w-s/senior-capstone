@@ -5,7 +5,7 @@
     <div class="w-full h-1/8 bg-white flex flex-row justify-between">
       <div class="bg-white p-4 flex w-full flex-row justify-between">
         <h2 class="text-left justify-between w-full flex items-center gap-4 p-4">Contacts</h2>
-        <div class="bg-white p-4 flex flex-row w-full mr-2 justify-between">
+        <div class="bg-white p-4 flex flex-row w-full mr-2 justify-between w-full">
           <input #contactInput type="text" id="addContact" placeholder="Enter contact username..." class="block w-full p-2 gap-4 mr-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
           <button type="submit" class="btn btn-primary" (click)="addContact(contactInput.value)">Add</button>
         </div>

@@ -216,7 +216,7 @@
         <button class="btn btn-primary" type="submit" [disabled]="!animalCreateForm.valid">
           {{ selectedAnimal ? 'Update' : 'Add Animal' }}
         </button>
-        <button class="btn btn-neutral" onclick="animalCreateForm.close()">Cancel</button>
+        <button class="btn btn-accent" onclick="animalCreateForm.close()">Cancel</button>
       </div>
     </form>
   </div>
@@ -271,6 +271,7 @@
           <div
             *ngFor="let animal of getDisplayedCards()"
             class="card bg-white overflow-hidden m-2 h-3/4 auto-rows-auto"
+            (click)="openPetModal(animal)"
           >
           <img
             class="w-full h-48 object-cover"
@@ -302,7 +303,7 @@
               <button tabindex="0"
                       class="btn btn-ghost mt-1 mr-1"
                       (click)="toggleDropdown()"
-                      [disabled]="this.currentUser.firstName + ' ' + this.currentUser.lastName !== animal.ownerName">
+                      [disabled]="this.loginRegService.userData.userId !== animal.userId">
 
                 &#x22EE;
               </button>
@@ -369,3 +370,19 @@
     </div>
   </div>
 </div>
+
+<!-- Modal for pet info when clicking on a pet posting-->
+<dialog #petModal id="petModal" class="modal">
+  <div class="modal-box">
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    </form>
+    <h2 class="text-xl font-bold">{{ modalAnimal?.animalName }}</h2>
+    <p>Owner: {{ modalAnimal?.ownerName }}</p>
+    <p>Type: {{ modalAnimal?.animalType }}</p>
+    <p>Breed: {{ modalAnimal?.animalBreed }}</p>
+    <p>Gender: {{ modalAnimal?.animalSex }}</p>
+    <p>Weight: {{ modalAnimal?.animalWeight }}</p>
+    <p>Temperament: {{ modalAnimal?.temperament }}</p>
+  </div>
+</dialog>

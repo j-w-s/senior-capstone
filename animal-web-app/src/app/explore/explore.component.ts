@@ -44,6 +44,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   displayModal = false;
   showKebabModal = false;
   selectedAnimal: Animal | null = null;
+  modalAnimal: Animal | null = null;
 
   currentUserId!: string;
   currentUser!: any;
@@ -62,7 +63,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     imgUrl: any;
     user: any;
     db: any;
-
+  @ViewChild('petModal') petModal!: ElementRef;
   openModal(): void {
     this.addAnimalModal.nativeElement.checked = true;
   }
@@ -71,7 +72,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     this.addAnimalModal.nativeElement.checked = false;
     this.animalCreateForm = new FormGroup({
       animalId: new FormControl(this.generateUUID(), Validators.required),
-      userId: new FormControl(this.generateUUID(), Validators.required),
+      userId: new FormControl(this.loginRegService.userData.userId, Validators.required),
       ownerName: new FormControl(this.currentUser.firstName + ' ' + this.currentUser.lastName, Validators.required),
       animalType: new FormControl('', Validators.required),
       animalBreed: new FormControl([''], Validators.required),
@@ -95,7 +96,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     this.dropdownVisible = !this.dropdownVisible;
   }
 
-  constructor(private exploreService: ExploreService, private cdr: ChangeDetectorRef, private fb: FormBuilder, private loginRegService: LoginRegisterService,
+  constructor(private exploreService: ExploreService, private cdr: ChangeDetectorRef, private fb: FormBuilder, public loginRegService: LoginRegisterService,
 
     private storage: AngularFireStorage) {
     this.animalCreateForm = this.fb.group({
@@ -179,7 +180,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   createNewSetup(): void {
     this.animalCreateForm = new FormGroup({
       animalId: new FormControl(this.generateUUID(), Validators.required),
-      userId: new FormControl(this.generateUUID(), Validators.required),
+      userId: new FormControl(this.loginRegService.userData.userId, Validators.required),
       ownerName: new FormControl(this.currentUser.firstName + ' ' + this.currentUser.lastName, Validators.required),
       animalType: new FormControl('', Validators.required),
       animalBreed: new FormControl([''], Validators.required),
@@ -315,6 +316,12 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     this.selectedAnimalType = '';
     //Resets the display of the posts
     this.animals = this.cachedAnimals;
+  }
+
+  openPetModal(animal: Animal): void{
+    this.modalAnimal = animal;
+    console.log('Selected Animal:', this.modalAnimal);
+    this.petModal.nativeElement.showModal();
   }
 
   getTotalPagesArray(): number[] {
