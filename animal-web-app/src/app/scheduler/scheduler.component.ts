@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-scheduler',
@@ -8,9 +9,23 @@ import { Component } from '@angular/core';
 export class SchedulerComponent {
   currentMonth = new Date().getMonth();
   currentYear = new Date().getFullYear();
-  items: { [key: string]: any[] } = {}; 
+  items: { [key: string]: any[] } = {};
+  showModal: boolean = false;
+  appointmentForm: FormGroup;
+  day: any;
+  month: any;
+  year: any;
+  constructor(private fb: FormBuilder) {
+    this.appointmentForm = this.fb.group({
+      userDisplayName: ['', Validators.required],
+      appointmentDate: ['', Validators.required],
+      notes: ['']
+    });
+  }
 
   getDaysInMonth(month: number, year: number): number {
+    this.month = month;
+    this.year = year;
     return new Date(year, month, 0).getDate();
   }
 
@@ -35,6 +50,14 @@ export class SchedulerComponent {
   }
 
   selectDay(day: number): void {
-    console.log(`Selected day: ${day}`);
+    this.day = day;
+  }
+
+  onSubmit() {
+    if (this.appointmentForm.valid) {
+      console.log(this.appointmentForm.value);
+      // Handle form submission here
+      this.showModal = false;
+    }
   }
 }
