@@ -22,6 +22,7 @@ export class SchedulerComponent implements OnInit {
   month: any;
   year: any;
   userAppointments: Appointment[] = []
+  scheduleAppointments: Appointment[] = [];
   constructor(private fb: FormBuilder, public loginRegService: LoginRegisterService, public schedulerService: SchedulerService) {
     this.appointmentForm = this.fb.group({
       userDisplayName: ['', Validators.required],
@@ -30,6 +31,16 @@ export class SchedulerComponent implements OnInit {
       appointmentCreator: [this.loginRegService.userData.userId, Validators.required],
       notes: ['']
     });
+  }
+
+  openModal(): void {
+    const showScheduleModal = document.getElementById('showScheduleModal') as HTMLInputElement;
+    showScheduleModal.checked = true;
+  }
+
+  closeModal(): void {
+    const showScheduleModal = document.getElementById('showScheduleModal') as HTMLInputElement;
+    showScheduleModal.checked = false;
   }
 
   ngOnInit() {
@@ -49,6 +60,14 @@ export class SchedulerComponent implements OnInit {
     const formattedDay = day < 10 ? `0${day}` : day;
     const formattedMonthStr = formattedMonth < 10 ? `0${formattedMonth}` : formattedMonth;
     return `${year}-${formattedMonthStr}-${formattedDay}`;
+  }
+
+  getAppointmentsForDate(year: number, month: number, day: number): void {
+    const appointmentDate = this.formatDate(year, month, day);
+    console.log(appointmentDate);
+    this.scheduleAppointments = this.userAppointments.filter(appointment => {
+      return appointment.appointmentDate as unknown as string === appointmentDate;
+    });
   }
 
   getDaysInMonth(month: number, year: number): number {
