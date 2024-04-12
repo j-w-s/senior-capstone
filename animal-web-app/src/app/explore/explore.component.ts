@@ -44,6 +44,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   displayModal = false;
   showKebabModal = false;
   selectedAnimal: Animal | null = null;
+  modalAnimal: Animal | null = null;
 
   currentUserId!: string;
   currentUser!: any;
@@ -62,7 +63,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     imgUrl: any;
     user: any;
     db: any;
-
+  @ViewChild('petModal') petModal!: ElementRef;
   openModal(): void {
     this.addAnimalModal.nativeElement.checked = true;
   }
@@ -315,6 +316,12 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     this.selectedAnimalType = '';
     //Resets the display of the posts
     this.animals = this.cachedAnimals;
+  }
+
+  openPetModal(animal: Animal): void{
+    this.modalAnimal = animal;
+    console.log('Selected Animal:', this.modalAnimal);
+    this.petModal.nativeElement.showModal();
   }
 
   getTotalPagesArray(): number[] {
