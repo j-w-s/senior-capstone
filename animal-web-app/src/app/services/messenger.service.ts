@@ -127,7 +127,7 @@ export class MessengerService {
   }
 
   async addMessage(message: Message, contact: string): Promise<any> {
-    const docRef = this.firestore.collection('Messages').doc(this.demoPrimaryUserId);
+    const docRef = this.firestore.collection('Messages').doc(this.loginRegService.getUserId());
     const docSnapshot = await docRef.get().toPromise();
 
     // Check if the document exists

@@ -188,6 +188,7 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
         });
       });
     }
+    console.log("Message Sent");
   }
 
   trackByFn(index: number, contact: User): string {
