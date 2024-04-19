@@ -280,9 +280,9 @@
           />
           <div class="p-4">
             <div class="font-bold text-xl mb-2">{{ animal.animalName }}</div>
-            <div class="font-bold text-xl mb-2 owner-name">
-              Owner: {{ animal.ownerName }} 
-            </div>
+            <div class="font-bold text-xl mb-2 owner-name"> Owner: {{ animal.ownerName }} </div>
+            <div class="font-bold text-xl mb-2 animal-type"> Type: {{ animal.animalType }} </div>
+            <div class="font-bold text-xl mb-2 animal-breed"> Breed: {{ animal.animalBreed }} </div>
             <!-- Dropdown Menu -->
             <div class="absolute right-0 top-0">
               <button tabindex="0"
@@ -292,24 +292,18 @@
 
                 &#x22EE;
               </button>
-              <ul
-                *ngIf="dropdownVisible"
-                class="dropdown-content z-[20] menu p-2 shadow bg-white rounded-box w-52"
-              >
+              <ul *ngIf="dropdownVisible"
+                  class="dropdown-content z-[20] menu p-2 shadow bg-white rounded-box w-52">
                 <div class="edit-button items-center justify-center">
-                  <button
-                    class="btn btn-ghost w-full text-center"
-                    onclick="animalCreateModal.show()"
-                    (click)="editAnimal(animal)"
-                  >
+                  <button class="btn btn-ghost w-full text-center"
+                          onclick="animalCreateModal.show()"
+                          (click)="editAnimal(animal)">
                     Edit
                   </button>
                 </div>
                 <div class="edit-button items-center justify-center">
-                  <button
-                    class="btn btn-ghost w-full text-center"
-                    (click)="deleteAnimalFromCollection(animal); toggleDropdown()"
-                  >
+                  <button class="btn btn-ghost w-full text-center"
+                          (click)="deleteAnimalFromCollection(animal); toggleDropdown()">
                     Delete
                   </button>
                 </div>
