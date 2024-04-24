@@ -22,7 +22,7 @@ export class DocumentTemplateCreatorComponent implements OnInit,OnDestroy{
   previousIndex = 0;
 
   selectedDocumentTemplate: DocumentTemplate | null = null;
-  userWhoReceivedDocumentTemplate: User[] = [];
+  usersWhoReceivedDocumentTemplate: User[] = [];
 
   documentForm!: FormGroup;
   documentFieldsForm!: FormGroup;
@@ -47,6 +47,7 @@ export class DocumentTemplateCreatorComponent implements OnInit,OnDestroy{
           await observable$.pipe(takeUntil(this.destroy$)).subscribe(async (groupDocumentTemplates: DocumentTemplate[]) => {
             this.groupDocumentTemplates = groupDocumentTemplates;
             console.log('Got group document templates')
+            console.log(this.groupDocumentTemplates)
           });
         });
       });
@@ -60,11 +61,13 @@ export class DocumentTemplateCreatorComponent implements OnInit,OnDestroy{
     });
 
     this.documentForm = this.fb.group({
-      templateName: [''],
-      templateDescription: [''],
       ownerId: [''],
       templateId: [''],
+      templateName: [''],
+      templateDescription: [''],
       fields: this.fb.array([]),
+      sentTemplateToUser: [],
+      receievedDocumentFromUser: [],
     });
     this.documentFieldsForm = this.fb.group({
       name: [''],
@@ -109,11 +112,35 @@ export class DocumentTemplateCreatorComponent implements OnInit,OnDestroy{
   }
 
   viewTemplates(index: number, template: DocumentTemplate) {
-    this.userWhoReceivedDocumentTemplate = []
+    this.usersWhoReceivedDocumentTemplate = []
     this.previousIndex = this.pageIndex
     this.pageIndex = index;
     this.selectedDocumentTemplate = template;
 
-    //this.getUserWhoReceivedTemplate()
+    this.getUserWhoReceivedTemplate()
   }
+
+  sendTemplates() {
+    // Retrieve the usernames from the input field
+    const usernamesInput = document.getElementById('usernames') as HTMLInputElement;
+    const usernames = usernamesInput.value.split(',').map(username => username.trim());
+   
+    // Send out document template to all usernames provided
+    usernames.forEach(username => {
+       console.log(`Sending template to: ${username}`);
+       // Your sending logic here
+       this.documentService.sendDocumentTemplateToUser(username, this.selectedDocumentTemplate as DocumentTemplate)
+    });
+  }
+
+  getUserWhoReceivedTemplate() {
+    if(this.selectedDocumentTemplate && this.selectedDocumentTemplate.sentTemplateToUser != null)
+    this.selectedDocumentTemplate.sentTemplateToUser.forEach(async docRef => {
+      await this.documentService.getUserWhoReceivedTemplate(docRef).then((userData) => {
+        this.usersWhoReceivedDocumentTemplate.push(userData)
+      })
+    })
+  }
+
+  
 }
