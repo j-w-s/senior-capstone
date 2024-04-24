@@ -51,6 +51,7 @@ import { AuthguardService } from './services/authguard.service';
 import { UnathorizedComponent } from './unathorized/unathorized.component';
 import { AlertsComponent } from './alerts/alerts.component';
 import { SchedulerComponent } from './scheduler/scheduler.component';
+import { DocumentTemplateCreatorComponent } from './document-template-creator/document-template-creator.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { SchedulerComponent } from './scheduler/scheduler.component';
     MapComponent,
     UnathorizedComponent,
     AlertsComponent,
-    SchedulerComponent
+    SchedulerComponent,
+    DocumentTemplateCreatorComponent
   ],
   imports: [
     BrowserModule,
