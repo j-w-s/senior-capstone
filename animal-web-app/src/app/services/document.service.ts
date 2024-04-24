@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentData, DocumentReference } from '@angular/fire/compat/firestore';
 import { FormGroup } from '@angular/forms';
 import { getAuth } from 'firebase/auth';
-import { arrayUnion, doc, getFirestore, onSnapshot } from 'firebase/firestore';
+import { arrayUnion, doc, getDoc, getFirestore, onSnapshot } from 'firebase/firestore';
 import { combineLatest, filter, Observable, of, switchMap } from 'rxjs';
 import DocumentTemplate from '../../models/document-template';
 import Group from '../../models/group';
+import User from '../../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -93,29 +94,60 @@ export class DocumentService {
   }
 
   createNewGroupDocumentTemplate(templateData: FormGroup, groupId: string) {
-    return this.db.collection('DocumentTemplates').add({
+    const newDocumentRef = this.db.collection('DocumentTemplates').doc();
+    newDocumentRef.set({
       ...templateData.value,
       type: 'group'
-    }).then(docRef => {
-      // Update the Groups document with the new template reference
-      return this.db.collection('Groups').doc(groupId).update({
-        groupDocumentTemplates: arrayUnion(docRef)
-      });
+    });
+
+    this.db.collection('Groups').doc(groupId).update({
+      groupDocumentTemplates: arrayUnion(newDocumentRef.ref)
+    });
+
+    return newDocumentRef.update({
+      templateId: newDocumentRef.ref.id
     });
   }
 
   createNewUserDocumentTemplate(templateData: FormGroup) {
     const auth = getAuth();
     const user = auth.currentUser?.uid;
-    return this.db.collection('DocumentTemplate').add({
+    const newDocumentRef = this.db.collection('DocumentTemplates').doc();
+    newDocumentRef.set({
       ...templateData.value,
       ownerId: user,
       type: 'user'
-    }).then(docRef => {
-      // Update the Groups document with the new template reference
-      return this.db.collection('User').doc(user).update({
-        userDocumentTemplates: arrayUnion(docRef)
-      });
     });
+
+    this.db.collection('User').doc(user).update({
+      userDocumentTemplates: arrayUnion(newDocumentRef.ref)
+    });
+
+    return newDocumentRef.update({
+      templateId: newDocumentRef.ref.id
+    });
+  }
+
+  async sendDocumentTemplateToUser(username: string, form: DocumentTemplate) {
+    let userDocRef: DocumentReference | any = null;
+    console.log('Sent form: ', form)
+    // Gets User DocumentReference based on their username
+    await this.db.collection('User').ref.where('userDisplayName', '==', username).get().then(querySnapshot => {
+      let docData = querySnapshot.docs[0];
+      userDocRef = docData.ref;
+    });
+
+    this.db.doc(userDocRef).update({
+      receivedDocumentTemplates: arrayUnion(form.templateId) 
+    });
+
+    this.db.collection('DocumentTemplates').doc(form.templateId).update({
+      sentTemplateToUser: arrayUnion(userDocRef)
+    });
+  }
+
+  async getUserWhoReceivedTemplate(docRef: DocumentReference): Promise<User> {
+    const docSnap = await getDoc(docRef);
+    return docSnap.data() as User;
   }
 }

@@ -13,7 +13,7 @@
       <div class="flex flex-row">
   
         <!-- Group Templates -->
-        <div class="w-1/2" *ngIf="ownedGroups">
+        <div class="w-1/2" *ngIf="ownedGroups && groupDocumentTemplates != []">
           <div *ngFor="let group of ownedGroups">
             <h2>{{ group.groupName }}</h2>
             <div *ngFor="let template of groupDocumentTemplates">
@@ -93,7 +93,15 @@
                       <input type="text" formControlName="name" [formGroup]="documentFieldsForm" class="mt-2 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
                     </td>
                     <td class="border px-4 py-2">
-                      <input type="text" formControlName="type" [formGroup]="documentFieldsForm" class="mt-2 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+                        <select class="select select-bordered w-full max-w-xs" formControlName="type" [formGroup]="documentFieldsForm">
+                            <option disabled selected>Select The Value Type</option>
+                            <option>Text</option>
+                            <option>PhoneNumber</option>
+                            <option>Email</option>
+                            <option>Address</option>
+                            <option>SSN</option>
+                        </select>
+                      <!--<input type="text" formControlName="type" [formGroup]="documentFieldsForm" class="mt-2 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">-->
                     </td>
                     <td class="border px-4 py-2">
                       <button class="btn" type="button" (click)="addNewField()">Add Field</button>
@@ -182,7 +190,15 @@
                       <input type="text" formControlName="name" [formGroup]="documentFieldsForm" class="mt-2 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
                     </td>
                     <td class="border px-4 py-2">
-                      <input type="text" formControlName="type" [formGroup]="documentFieldsForm" class="mt-2 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+                        <select class="select select-bordered w-full max-w-xs" formControlName="type" [formGroup]="documentFieldsForm">
+                            <option disabled selected>Select The Value Type</option>
+                            <option>Text</option>
+                            <option>PhoneNumber</option>
+                            <option>Email</option>
+                            <option>Address</option>
+                            <option>SSN</option>
+                        </select>
+                      <!--<input type="text" formControlName="type" [formGroup]="documentFieldsForm" class="mt-2 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm"> -->
                     </td>
                     <td class="border px-4 py-2">
                       <button class="btn" type="button" (click)="addNewField()">Add Field</button>
@@ -231,7 +247,7 @@
     
       <!-- Button to send the templates -->
       <div class="mt-4">
-        <!-- <button class="btn btn-primary" (click)="sendTemplates()">Send Templates</button> -->
+        <button class="btn btn-primary" (click)="sendTemplates()">Send Templates</button>
       </div>
   
       <!-- Carousel to display users -->
@@ -248,7 +264,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let user of userWhoReceivedDocumentTemplate">
+            <tr *ngFor="let user of usersWhoReceivedDocumentTemplate">
               <td class="border px-4 py-2">{{ user.userFirstName }}</td>
               <td class="border px-4 py-2">{{ user.userLastName }}</td>
               <td class="border px-4 py-2">{{ user.userDisplayName }}</td>
