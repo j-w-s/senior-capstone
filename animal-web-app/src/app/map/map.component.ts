@@ -310,7 +310,6 @@ export class MapComponent implements AfterViewInit {
           console.error(`No BeaconMarker found with ID: ${beaconMarkerDocumentId}`);
         }
       });
-      this.openForm();
     })
 
 
