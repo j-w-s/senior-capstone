@@ -3,7 +3,7 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
 import { doc, getDoc, getFirestore, setDoc } from '@angular/fire/firestore';
 import { UserService } from './user.service';
 import User from '../../models/user';
-import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject, takeUntil } from 'rxjs';
 import { AngularFirestore, DocumentData, DocumentReference } from '@angular/fire/compat/firestore';
 import Group from '../../models/group';
 
@@ -20,6 +20,7 @@ export class LoginRegisterService implements OnDestroy {
   public userData!: User;
   public userOwnedGroups!: Group[];
   private destroyed$ = new Subject<void>();
+  public userOwnedGroupsSubject = new BehaviorSubject<Group[]>([]);
 
   constructor(public userService: UserService, private db: AngularFirestore) {
     const auth = getAuth();
@@ -33,7 +34,9 @@ export class LoginRegisterService implements OnDestroy {
           this.userData = data;
           this.userDataSubject.next(data);
           this.resolveOwnedGroups(this.userData.userOwnedGroups).then((returnedOwnedGroups) => {
-            this.userOwnedGroups = returnedOwnedGroups
+            this.userOwnedGroups = returnedOwnedGroups;
+            // Update the BehaviorSubject with the new value
+            this.userOwnedGroupsSubject.next(this.userOwnedGroups);
           });
         });
       } else {
