@@ -178,6 +178,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   }
 
   createNewSetup(): void {
+    this.imgUrl = null;
     this.animalCreateForm = new FormGroup({
       animalId: new FormControl(this.generateUUID(), Validators.required),
       userId: new FormControl(this.loginRegService.userData.userId, Validators.required),
@@ -222,23 +223,22 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     let animalTemps = Array.isArray(formValues.temperament) ? formValues.temperament : formValues.temperament.split(/[\s,]+/);
 
     // get the image file from the event
-    let imageFiles = formValues.images;
+    //let imageFiles = formValues.images;
 
     // prepare an array to hold the image URLs
-    const image = [imageFiles]
+    //const image = [imageFiles]
 
     // add the image URLs to the form values
-    //formValues.images = imageUrls;
+    formValues.images = this.imgUrl;
 
-    delete formValues.animalBreed;
-    delete formValues.temperament;
-    delete formValues.images;
+    //delete formValues.animalBreed;
+    //delete formValues.temperament;
+    //delete formValues.images;
 
     this.exploreService.createAnimal({
       ...formValues,
       animalBreed: animalBreeds,
       temperament: animalTemps,
-      images: image,
     });
   }
 
