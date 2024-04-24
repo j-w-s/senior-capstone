@@ -188,6 +188,7 @@ export class GroupsPageComponent implements OnInit {
       groupBeacons: [],
       groupRating: [],
       groupUsers: [firstUser],
+      groupDocumentTemplates: [],
     }
 
     // Calls service function to create the group

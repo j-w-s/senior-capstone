@@ -17,6 +17,7 @@ interface Group {
     groupRating: BusinessRating[],
   
     groupUsers: GroupUser[],
+    groupDocumentTemplates: DocumentReference[],
 }
 
 export default Group;
