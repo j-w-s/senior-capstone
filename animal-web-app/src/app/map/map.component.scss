@@ -23,3 +23,20 @@ p:hover {
   flex-direction: row;
   align-items: center;
 }
+
+.sidebar-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 25%; /* Adjust this value according to your sidebar width */
+  right: 0;
+  overflow-y: auto;
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity as needed */
+  z-index: 10; /* Ensure the form is above other sidebar content */
+}
+
+.sidebar-overlay .bg-white {
+  position: relative;
+  z-index: 11; /* Ensure the form content is above the overlay */
+}
+
