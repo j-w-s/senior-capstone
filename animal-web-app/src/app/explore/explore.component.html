@@ -32,17 +32,6 @@
                class="input input-bordered w-full text-black"
                [disabled]="true" />
       </div>
-      <!-- Animal Name -->
-      <div class="form-control w-full">
-        <label for="animalName" class="label">
-          <span class="label-text">Animal Name</span>
-        </label>
-        <input type="text"
-               id="animalName"
-               formControlName="animalName"
-               class="input input-bordered w-full text-black"
-               required />
-      </div>
       <!-- Owner Name -->
       <div class="form-control w-full">
         <label for="ownerName" class="label">
@@ -65,6 +54,17 @@
                class="input input-bordered w-full text-black"
                required />
       </div>
+      <!-- Animal Name -->
+      <div class="form-control w-full">
+        <label for="animalName" class="label">
+          <span class="label-text">Animal Name</span>
+        </label>
+        <input type="text"
+               id="animalName"
+               formControlName="animalName"
+               class="input input-bordered w-full text-black"
+               required />
+      </div>
       <!-- Animal Breed -->
       <div class="form-control w-full">
         <label for="animalBreed" class="label">
@@ -73,17 +73,6 @@
         <input type="text"
                id="animalBreed"
                formControlName="animalBreed"
-               class="input input-bordered w-full text-black"
-               required />
-      </div>
-      <!-- Color -->
-      <div class="form-control w-full">
-        <label for="color" class="label">
-          <span class="label-text">Color</span>
-        </label>
-        <input type="text"
-               id="color"
-               formControlName="color"
                class="input input-bordered w-full text-black"
                required />
       </div>
@@ -129,6 +118,17 @@
                   formControlName="about"
                   class="textarea textarea-bordered w-full text-black"
                   required></textarea>
+      </div>
+      <!-- Images -->
+      <div class="form-control w-full">
+        <label for="images" class="label">
+          <span class="label-text">Images</span>
+        </label>
+        <input type="text"
+               id="images"
+               formControlName="images"
+               class="input input-bordered w-full text-black"
+               required />
       </div>
       <!-- Primary Image -->
       <div class="form-control w-full">
@@ -186,6 +186,17 @@
         <input type="date"
                id="dateOfBirth"
                formControlName="dateOfBirth"
+               class="input input-bordered w-full text-black"
+               required />
+      </div>
+      <!-- Color -->
+      <div class="form-control w-full">
+        <label for="color" class="label">
+          <span class="label-text">Color</span>
+        </label>
+        <input type="text"
+               id="color"
+               formControlName="color"
                class="input input-bordered w-full text-black"
                required />
       </div>
@@ -269,8 +280,9 @@
           />
           <div class="p-4">
             <div class="font-bold text-xl mb-2">{{ animal.animalName }}</div>
-            <div class="text-xl mb-2 owner-name"> Owner: {{ animal.ownerName }} </div>
-            <div class="text-xl mb-2 animal-type"> Type: {{ animal.animalType }} </div>
+            <div class="font-bold text-xl mb-2 owner-name"> Owner: {{ animal.ownerName }} </div>
+            <div class="font-bold text-xl mb-2 animal-type"> Type: {{ animal.animalType }} </div>
+            <div class="font-bold text-xl mb-2 animal-breed"> Breed: {{ animal.animalBreed }} </div>
             <!-- More Info Button -->
             <button class="absolute bottom-2 right-2 btn btn-primary text-sm px-2 py-1" (click)="openPetModal(animal)">More info</button>
             <!-- Dropdown Menu -->
