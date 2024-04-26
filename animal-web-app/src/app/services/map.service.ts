@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { AngularFirestore, DocumentReference } from '@angular/fire/compat/firestore';
+import { AngularFirestore, DocumentReference, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import BeaconMarker from '../../models/beacon-marker';
 import Beacon from '../../models/beacon';
-import { doc, getFirestore } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, onSnapshot, doc, arrayUnion } from 'firebase/firestore';
+import BusinessRating from '../../models/business-ratings';
 
 @Injectable({
   providedIn: 'root'
@@ -47,4 +48,39 @@ export class MapService {
     await this.firestore.collection('Beacon').add(beacon);
   }
 
+  async addBusinessRating(beaconMarkerId: string, rating: BusinessRating): Promise<void> {
+    try {
+      const docRef = this.firestore.collection('Beacon-Marker').doc(beaconMarkerId);
+
+      // Subscribe to the Observable to get the DocumentSnapshot
+      docRef.get().subscribe(docSnapshot => {
+        if (docSnapshot.exists) {
+          // Use a type assertion to tell TypeScript that the data is of type BeaconMarker
+          const docData = docSnapshot.data() as BeaconMarker;
+
+          // Now you can safely access the ratings property
+          if (!docData.ratings) {
+            // If the document does not have the 'ratings' attribute,
+            // initialize it with an empty array
+            docRef.set({ ratings: [] }, { merge: true });
+          }
+
+          // Now, add the new rating to the 'ratings' array
+          docRef.update({
+            ratings: arrayUnion(rating)
+          });
+
+          console.log('Rating added successfully.');
+        } else {
+          console.error('Document not found');
+        }
+      }, error => {
+        console.error('Error adding rating:', error);
+      });
+    } catch (error) {
+      console.error('Error adding rating:', error);
+      throw error; // Rethrow the error to handle it in the component
+    }
+  }
 }
+
