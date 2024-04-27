@@ -1,17 +1,19 @@
-<div class="">
-
+<div class="flex-grow card flex flex-col w-full max-h-screen min-w-screen min-h-screen lg:flex-row bg-base-100 p-0 m-0">
+  <!-- Main Content -->
+  <div class="w-full h-7/8 flex flex-col justify-center items-center bg-base-200">
     <!-- Display the main page section for application template creation -->
-    <section *ngIf="pageIndex == 0">
-      <button class="btn" (click)="updatePageIndex(1)">Application Templates for Groups</button>
-      <button class="btn" (click)="updatePageIndex(2)">Application Templates for Indivduals</button>
+    <section *ngIf="pageIndex == 0" class="w-full p-6">
+      <div class="flex justify-center">
+        <button class="btn btn-neutral m-4 p6" (click)="updatePageIndex(1)">Application Templates for Groups</button>
+        <button class="btn btn-accent m-4 p6" (click)="updatePageIndex(2)">Application Templates for Individuals</button>
+      </div>
     </section>
-  
+
     <!-- Display the application templates relating to owned groups -->
-    <section *ngIf="pageIndex == 1">
+    <section *ngIf="pageIndex == 1" class="w-full container  overflow-y-auto p-6">
       <!-- Put already made group application templates on the left -->
-      <button class="btn" (click)="updatePageIndex(0)">Back</button>
+      <button class="btn btn-neutral" (click)="updatePageIndex(0)">Back</button>
       <div class="flex flex-row">
-  
         <!-- Group Templates -->
         <div class="w-1/2" *ngIf="ownedGroups && groupDocumentTemplates != []">
           <div *ngFor="let group of ownedGroups">
@@ -29,20 +31,16 @@
                 </div>
               </div>
             </div>
-  
             <ng-template #noTemplates>
               <p>No templates exist for this group.</p>
             </ng-template>
           </div>
-  
           <h1 *ngIf="ownedGroups === null">Loading Groups...</h1>
         </div>
-  
-  
+
         <!-- Group Template Creation -->
         <div class="w-1/2">
           <h2>Create New Application Template</h2>
-  
           <!-- Select group to create template for -->
           <form [formGroup]="documentForm">
             <div class="w-1/2 pr-2 flex-col">
@@ -52,22 +50,16 @@
                 <option *ngFor="let group of ownedGroups" [value]="group.groupId">{{ group.groupName }}</option>
               </select>
             </div>
-  
             <!-- Template Name -->
             <div class="mb-4">
               <label for="templateName" class="block mt-4 text-sm font-medium text-text-black">Template Name</label>
               <input type="text" id="templateName" name="templateName" formControlName="templateName" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm" required>
-              <!--<div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched" class="text-red-500 text-xs mt-1">
-                Username must contain 3+ characters.
-              </div>-->
             </div>
-  
             <!-- Template Description -->
             <div class="mb-4">
               <label for="templateDescription" class="block mt-4 text-sm font-medium text-text-black">Template Description</label>
               <textarea type="text" id="templateDescription" name="templateDescription" formControlName="templateDescription" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm textarea textarea-bordered" required></textarea>
             </div>
-  
             <!-- Template Fields -->
             <div [formGroup]="documentFieldsForm" class="overflow-x-auto">
               <table class="table-auto w-full">
@@ -84,7 +76,7 @@
                     <td class="border px-4 py-2">{{ field?.get('name')?.value }}</td>
                     <td class="border px-4 py-2">{{ field?.get('type')?.value }}</td>
                     <td class="border px-4 py-2">
-                      <button class="btn btn-red" (click)="removeField(i)">Remove</button>
+                      <button class="btn btn-accent" (click)="removeField(i)">Remove</button>
                     </td>
                   </tr>
                   <!-- New row for adding new fields -->
@@ -93,36 +85,33 @@
                       <input type="text" formControlName="name" [formGroup]="documentFieldsForm" class="mt-2 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
                     </td>
                     <td class="border px-4 py-2">
-                        <select class="select select-bordered w-full max-w-xs" formControlName="type" [formGroup]="documentFieldsForm">
-                            <option disabled selected>Select The Value Type</option>
-                            <option>Text</option>
-                            <option>PhoneNumber</option>
-                            <option>Email</option>
-                            <option>Address</option>
-                            <option>SSN</option>
-                        </select>
-                      <!--<input type="text" formControlName="type" [formGroup]="documentFieldsForm" class="mt-2 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">-->
+                      <select class="select select-bordered w-full max-w-xs" formControlName="type" [formGroup]="documentFieldsForm">
+                        <option disabled selected>Select The Value Type</option>
+                        <option>Text</option>
+                        <option>PhoneNumber</option>
+                        <option>Email</option>
+                        <option>Address</option>
+                        <option>SSN</option>
+                      </select>
                     </td>
                     <td class="border px-4 py-2">
-                      <button class="btn" type="button" (click)="addNewField()">Add Field</button>
+                      <button class="btn btn-secondary" type="button" (click)="addNewField()">Add Field</button>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
-  
-            <button class= "btn" type="submit" (click)="createNewGroupDocumentTemplate()">Create Template</button>
+            <button class="btn btn-secondary" type="submit" (click)="createNewGroupDocumentTemplate()">Create Template</button>
           </form>
         </div>
       </div>
     </section>
-  
+
     <!-- Display the application templates relating to the User -->
-    <section *ngIf="pageIndex == 2">
-      <button class="btn" (click)="updatePageIndex(0)">Back</button>
+    <section *ngIf="pageIndex == 2" class="w-full container overflow-y-auto p-6">
+      <button class="btn btn-neutral" (click)="updatePageIndex(0)">Back</button>
       <!-- Put already made group application templates on the left -->
       <div class="flex flex-row">
-  
         <!-- Users Templates -->
         <div class="w-1/2" *ngIf="userDocumentTemplates">
           <div *ngFor="let template of userDocumentTemplates">
@@ -135,36 +124,24 @@
                 </div>
               </div>
             </div>
-  
-            <ng-template #noTemplates>
-              <p>No templates exist for this group.</p>
-            </ng-template>
           </div>
         </div>
-  
-  
+
         <!-- User Template Creation -->
         <div class="w-1/2">
           <h2>Create New Application Template</h2>
-  
           <!-- Select group to create template for -->
           <form [formGroup]="documentForm">
-  
             <!-- Template Name -->
             <div class="mb-4">
               <label for="templateName" class="block mt-4 text-sm font-medium text-text-black">Template Name</label>
               <input type="text" id="templateName" name="templateName" formControlName="templateName" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm" required>
-              <!--<div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched" class="text-red-500 text-xs mt-1">
-                Username must contain 3+ characters.
-              </div>-->
             </div>
-  
             <!-- Template Description -->
             <div class="mb-4">
               <label for="templateDescription" class="block mt-4 text-sm font-medium text-text-black">Template Description</label>
               <textarea type="text" id="templateDescription" name="templateDescription" formControlName="templateDescription" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm textarea textarea-bordered" required></textarea>
             </div>
-  
             <!-- Template Fields -->
             <div [formGroup]="documentFieldsForm" class="overflow-x-auto">
               <table class="table-auto w-full">
@@ -181,7 +158,7 @@
                     <td class="border px-4 py-2">{{ field?.get('name')?.value }}</td>
                     <td class="border px-4 py-2">{{ field?.get('type')?.value }}</td>
                     <td class="border px-4 py-2">
-                      <button class="btn btn-red" (click)="removeField(i)">Remove</button>
+                      <button class="btn btn-accent" (click)="removeField(i)">Remove</button>
                     </td>
                   </tr>
                   <!-- New row for adding new fields -->
@@ -190,35 +167,33 @@
                       <input type="text" formControlName="name" [formGroup]="documentFieldsForm" class="mt-2 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
                     </td>
                     <td class="border px-4 py-2">
-                        <select class="select select-bordered w-full max-w-xs" formControlName="type" [formGroup]="documentFieldsForm">
-                            <option disabled selected>Select The Value Type</option>
-                            <option>Text</option>
-                            <option>PhoneNumber</option>
-                            <option>Email</option>
-                            <option>Address</option>
-                            <option>SSN</option>
-                        </select>
-                      <!--<input type="text" formControlName="type" [formGroup]="documentFieldsForm" class="mt-2 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm"> -->
+                      <select class="select select-bordered w-full max-w-xs" formControlName="type" [formGroup]="documentFieldsForm">
+                        <option disabled selected>Select The Value Type</option>
+                        <option>Text</option>
+                        <option>PhoneNumber</option>
+                        <option>Email</option>
+                        <option>Address</option>
+                        <option>SSN</option>
+                      </select>
                     </td>
                     <td class="border px-4 py-2">
-                      <button class="btn" type="button" (click)="addNewField()">Add Field</button>
+                      <button class="btn btn-secondary" type="button" (click)="addNewField()">Add Field</button>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
-  
-            <button class= "btn" type="submit" (click)="createNewUserDocumentTemplate()">Create Template</button>
+            <button class="btn btn-secondary" type="submit" (click)="createNewUserDocumentTemplate()">Create Template</button>
           </form>
         </div>
       </div>
     </section>
-  
+
     <!-- Section To View and Send Templates to Users -->
     <section *ngIf="pageIndex == 3">
       <h2>View and Send Templates</h2>
-      <button class="btn btn-primary" (click)="updatePageIndex(previousIndex)">Back</button>
-    
+      <button class="btn btn-neutral" (click)="updatePageIndex(previousIndex)">Back</button>
+
       <!-- Display the fields and types of the selected template -->
       <div *ngIf="selectedDocumentTemplate">
         <h3>{{ selectedDocumentTemplate.templateName }}</h3>
@@ -238,18 +213,18 @@
           </tbody>
         </table>
       </div>
-    
+
       <!-- Input field for entering usernames -->
       <div class="mt-4">
         <label for="usernames" class="block mt-4 text-sm font-medium text-text-black">Enter Usernames (comma-separated):</label>
         <input type="text" id="usernames" name="usernames" class="mt-2 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
       </div>
-    
+
       <!-- Button to send the templates -->
       <div class="mt-4">
         <button class="btn btn-primary" (click)="sendTemplates()">Send Templates</button>
       </div>
-  
+
       <!-- Carousel to display users -->
       <div class="mt-4">
         <table class="table-auto w-full">
@@ -277,10 +252,9 @@
           </tbody>
         </table>
       </div>
-    
-      <button class="btn btn-primary" (click)="updatePageIndex(1)">Back</button>
+
+      <button class="btn btn-neutral" (click)="updatePageIndex(1)">Back</button>
     </section>
-  
-</div>
-  
-  
+
+  </div>
+
