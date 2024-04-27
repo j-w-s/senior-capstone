@@ -59,16 +59,71 @@
             </div>
           </div>
         </div>
+
         <div *ngIf="this.showModal" class="card w-full bg-base-100 shadow-xl">
-          <div class="bg-white  m-2 p-4">
-            <button class="btn btn-secondary" (click)="openForm()">
-              Add Comment & Rating
-            </button>
+          <div class="card-body">
+            <!-- Other beacon details -->
+            <!-- Ratings/comments section -->
+            <div *ngIf="this.selectedBeaconData.ratings.length > 0">
+              <h3 class="card-title">Ratings & Comments</h3>
+              <ul>
+                <li *ngFor="let rating of this.selectedBeaconData.ratings">
+                  <!-- Display the rating value -->
+                  <div>Rating: {{ rating.ratingValue }}</div>
+                  <!-- Display the comment -->
+                  <div>Comment: {{ rating.comment }}</div>
+                  <!-- Add any other information you want to display -->
+                </li>
+              </ul>
+            </div>
+            <div *ngIf="this.selectedBeaconData.ratings.length === 0">
+              <p>No ratings available.</p>
+            </div>
           </div>
-        </div>
+          </div>
+          <div *ngIf="this.showModal" class="card w-full bg-base-100 shadow-xl">
+            <div class="bg-white p-4">
+              <button class="btn btn-secondary" (click)="openForm()">
+                Add Comment & Rating
+              </button>
+            </div>
+          </div>
       </ul>
     </div>
   </div>
+
+  <div *ngIf="showForm" class="sidebar-overlay">
+    <div class="bg-white p-8 rounded-lg">
+      <h2 class="text-xl font-semibold mb-4">Add Comment and Rating</h2>
+      <form [formGroup]="commentForm" (ngSubmit)="submitForm()">
+        <!-- Comment input -->
+        <div class="mb-4">
+          <label for="comment" class="block text-sm font-medium text-gray-700">Comment:</label>
+          <textarea id="comment" name="comment" class="form-textarea mt-1 block w-full" [(ngModel)]="comment" formControlName="comment"></textarea>
+          <div *ngIf="commentForm.get('comment')?.errors?.['required']" class="text-red-500">Comment is required</div>
+        </div>
+        <!-- Rating input -->
+        <div class="mb-4">
+          <label for="rating" class="block text-sm font-medium text-gray-700">Rating:</label>
+          <select id="rating" name="rating" class="form-select mt-1 block w-full" [(ngModel)]="rating" formControlName="rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <div *ngIf="commentForm.get('rating')?.errors?.['required']" class="text-red-500">Rating is required</div>
+        </div>
+        <!-- Submit button -->
+        <div class="flex justify-end">
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" class="btn btn-secondary ml-2" (click)="closeForm()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
 
   <!-- divider between side bar and main content-->
   <div class="divider lg:divider-horizontal"></div>
@@ -182,35 +237,3 @@
 </label>
 
 
-
-
-<div *ngIf="showForm" class="sidebar-overlay">
-  <div class="bg-white p-8 rounded-lg">
-    <h2 class="text-xl font-semibold mb-4">Add Comment and Rating</h2>
-    <form [formGroup]="commentForm" (ngSubmit)="submitForm()">
-      <!-- Comment input -->
-      <div class="mb-4">
-        <label for="comment" class="block text-sm font-medium text-gray-700">Comment:</label>
-        <textarea id="comment" name="comment" class="form-textarea mt-1 block w-full" [(ngModel)]="comment" formControlName="comment"></textarea>
-        <div *ngIf="commentForm.get('comment')?.errors?.['required']" class="text-red-500">Comment is required</div>
-      </div>
-      <!-- Rating input -->
-      <div class="mb-4">
-        <label for="rating" class="block text-sm font-medium text-gray-700">Rating:</label>
-        <select id="rating" name="rating" class="form-select mt-1 block w-full" [(ngModel)]="rating" formControlName="rating">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-        </select>
-        <div *ngIf="commentForm.get('rating')?.errors?.['required']" class="text-red-500">Rating is required</div>
-      </div>
-      <!-- Submit button -->
-      <div class="flex justify-end">
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <button type="button" class="btn btn-neutral ml-2" (click)="closeForm()">Close</button>
-      </div>
-    </form>
-  </div>
-</div>

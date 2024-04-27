@@ -265,4 +265,8 @@ export class LoginRegisterService implements OnDestroy {
       console.error('Error signing out: ', error);
     })
   }
+
+  getUserDataSubject() {
+    return this.userDataSubject
+  }
 }

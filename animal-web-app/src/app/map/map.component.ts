@@ -49,6 +49,7 @@ export class MapComponent implements AfterViewInit {
   comment: string = '';
   rating: number = 1;
   commentForm: FormGroup;
+  documentID: any;
 
   constructor(private mapService: MapService,
     private fb: FormBuilder,
@@ -68,7 +69,7 @@ export class MapComponent implements AfterViewInit {
       geoCoordinates: new FormControl('', Validators.required),
       markerId: new FormControl('', Validators.required),
       address: new FormControl('', Validators.required),
-      images: this.fb.array([], Validators.required), 
+      images: this.fb.array([], Validators.required),
       contactInformation: new FormControl('', Validators.required),
       about: new FormControl('', Validators.required),
     });
@@ -193,7 +194,7 @@ export class MapComponent implements AfterViewInit {
     this.beaconMarkersSubscription = this.beaconMarkers$.subscribe((beaconMarkers: BeaconMarker[]) => {
       this.beaconMarkers = beaconMarkers;
       console.log(this.beaconMarkers);
-      this.initMap(); 
+      this.initMap();
     })
   }
 
@@ -260,7 +261,7 @@ export class MapComponent implements AfterViewInit {
         marker.addTo(this.map);
         this.markers.push(marker);
       }
-      catch{
+      catch {
 
       }
     });
@@ -295,6 +296,8 @@ export class MapComponent implements AfterViewInit {
           this.currentSlideIndex = 0;
           this.images = this.selectedBeaconData.images;
           this.updateStars();
+          this.documentID = beaconMarkerDocumentId;
+          console.log(this.documentID);
           this.firestore.collection('BusinessRating').doc(beaconMarkerDocumentId).ref.get().then(doc => {
 
             if (doc.exists) {
@@ -353,17 +356,37 @@ export class MapComponent implements AfterViewInit {
     this.commentForm.reset();
   }
 
-  // Method to submit the form
   submitForm(): void {
     if (this.commentForm.valid) {
-      // Submit logic here, e.g., send comment and rating to backend
-      console.log('Comment:', this.comment);
-      console.log('Rating:', this.rating);
-      // Close the form after submission
-      this.closeForm();
+      const comment = this.commentForm.get('comment')?.value;
+      const ratingValue = this.commentForm.get('rating')?.value;
+
+      // Assuming you have a selected beacon data stored in this.selectedBeaconData
+      if (this.selectedBeaconData) {
+        const ratedBy = ''; // You need to specify the user who is rating, e.g., current user ID
+        const timeSent = new Date(); // Current timestamp
+
+        // Construct a new BusinessRating object
+        const businessRating: BusinessRating = {
+          ratingId: uuidv4(),
+          ratedBy: ratedBy,
+          ratingValue: ratingValue,
+          comment: comment,
+          timeSent: timeSent
+        };
+        // Update Firestore document with the new rating and comment
+        this.mapService.addBusinessRating(this.documentID, businessRating)
+          .then(() => {
+            console.log('Comment and rating submitted successfully');
+            // Reset the form after submission
+            this.commentForm.reset();
+          })
+          .catch(error => {
+            console.error('Error submitting comment and rating:', error);
+          });
+      }
     }
   }
-
 }
 
 class CustomMarker extends L.Marker {

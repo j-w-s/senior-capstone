@@ -82,7 +82,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       animalSex: new FormControl('', Validators.required),
       temperament: new FormControl([''], Validators.required),
       about: new FormControl('', Validators.required),
-      images: new FormControl([], Validators.required),
+      images: new FormControl([]),
       primaryImage: new FormControl(0, Validators.required),
       location: new FormControl('', Validators.required),
       zipCode: new FormControl(0, Validators.required),
@@ -111,7 +111,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       animalSex: new FormControl('', Validators.required),
       temperament: new FormControl([''], Validators.required),
       about: new FormControl('', Validators.required),
-      images: new FormControl([], Validators.required),
+      images: new FormControl([]),
       primaryImage: new FormControl(0, Validators.required),
       location: new FormControl('', Validators.required),
       zipCode: new FormControl(0, Validators.required),
@@ -191,7 +191,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       animalSex: new FormControl('', Validators.required),
       temperament: new FormControl([''], Validators.required),
       about: new FormControl('', Validators.required),
-      images: new FormControl([], Validators.required),
+      images: new FormControl([]),
       primaryImage: new FormControl(0, Validators.required),
       location: new FormControl('', Validators.required),
       zipCode: new FormControl(0, Validators.required),
@@ -202,18 +202,6 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     });
   }
 
-  /*async handleFileInput(files: File[]) {
-    const promises = [];
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const filePath = `/images/${Date.now()}_${file.name}`;
-      const fileRef = this.storage.ref(filePath);
-      const task = this.storage.upload(filePath, file);
-
-      promises.push(task.snapshotChanges().pipe(finalize(() => fileRef.getDownloadURL())).toPromise());
-    }
-    return Promise.all(promises);
-  }*/
 
   async addAnimalToCollection(): Promise<void> {
     // get the form values
@@ -223,18 +211,8 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     let animalBreeds = Array.isArray(formValues.animalBreed) ? formValues.animalBreed : formValues.animalBreed.split(/[\s,]+/);
     let animalTemps = Array.isArray(formValues.temperament) ? formValues.temperament : formValues.temperament.split(/[\s,]+/);
 
-    // get the image file from the event
-    //let imageFiles = formValues.images;
-
-    // prepare an array to hold the image URLs
-    //const image = [imageFiles]
-
     // add the image URLs to the form values
     formValues.images = this.imgUrl;
-
-    //delete formValues.animalBreed;
-    //delete formValues.temperament;
-    //delete formValues.images;
 
     this.exploreService.createAnimal({
       ...formValues,
