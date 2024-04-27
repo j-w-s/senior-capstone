@@ -36,12 +36,13 @@ export class DocumentService {
     const groups$ = groupDoc$.pipe(
       switchMap(groupData => {
         const groupDocRefArray = groupData['groupDocumentTemplates'];
-        console.log('The Ref array: ', groupDocRefArray)
+        //console.log('The Ref array: ', groupDocRefArray)
         let groupObservables;
         if(groupDocRefArray) {
           groupObservables = groupDocRefArray.map((groupRef: DocumentReference) => {
             return new Observable<DocumentTemplate>(observer => {
               const unsubscribe = onSnapshot(doc(getFirestore(), groupRef.path), (doc) => {
+                //console.log('Got new doc template: ', doc.data())
                 observer.next(doc.data() as DocumentTemplate);
               });
               return unsubscribe;
@@ -95,19 +96,19 @@ export class DocumentService {
     return groups$
   }
 
-  createNewGroupDocumentTemplate(templateData: FormGroup, groupId: string) {
+  async createNewGroupDocumentTemplate(templateData: FormGroup, groupId: string) {
     const newDocumentRef = this.db.collection('DocumentTemplates').doc();
-    newDocumentRef.set({
+    await newDocumentRef.set({
       ...templateData.value,
       type: 'group'
     });
 
-    this.db.collection('Groups').doc(groupId).update({
-      groupDocumentTemplates: arrayUnion(newDocumentRef.ref)
+    await newDocumentRef.update({
+      templateId: newDocumentRef.ref.id
     });
 
-    return newDocumentRef.update({
-      templateId: newDocumentRef.ref.id
+    await this.db.collection('Groups').doc(groupId).update({
+      groupDocumentTemplates: arrayUnion(newDocumentRef.ref)
     });
   }
 
