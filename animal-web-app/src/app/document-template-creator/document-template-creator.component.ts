@@ -45,7 +45,12 @@ export class DocumentTemplateCreatorComponent implements OnInit,OnDestroy{
         // Get the document templates for each group
         this.documentService.getGroupDocumentTemplates(group.groupId).then(async (observable$: Observable<DocumentTemplate[]>) => {
           await observable$.pipe(takeUntil(this.destroy$)).subscribe(async (groupDocumentTemplates: DocumentTemplate[]) => {
-            this.groupDocumentTemplates = groupDocumentTemplates;
+            console.log('The returned group templates: ', groupDocumentTemplates)
+
+            const filteredGroups = this.groupDocumentTemplates.filter((template) => template.ownerId != groupDocumentTemplates[0].ownerId)
+
+            this.groupDocumentTemplates = [...filteredGroups, ...groupDocumentTemplates];
+
             console.log('Got group document templates')
             console.log(this.groupDocumentTemplates)
           });
@@ -102,13 +107,41 @@ export class DocumentTemplateCreatorComponent implements OnInit,OnDestroy{
   }
 
   createNewGroupDocumentTemplate() {
-    console.log(this.documentForm.value)
+    //console.log(this.documentForm.value)
     this.documentService.createNewGroupDocumentTemplate(this.documentForm, this.documentForm.get('ownerId')?.value)
+    this.documentFieldsForm = this.fb.group({
+      name: [''],
+      type: ['']
+     });
+     
+    this.documentForm = this.fb.group({
+      ownerId: [''],
+      templateId: [''],
+      templateName: [''],
+      templateDescription: [''],
+      fields: this.fb.array([]),
+      sentTemplateToUser: [],
+      receievedDocumentFromUser: [],
+    });
   }
 
   createNewUserDocumentTemplate() {
     console.log(this.documentForm.value)
     this.documentService.createNewUserDocumentTemplate(this.documentForm)
+    this.documentFieldsForm = this.fb.group({
+      name: [''],
+      type: ['']
+     });
+
+    this.documentForm = this.fb.group({
+      ownerId: [''],
+      templateId: [''],
+      templateName: [''],
+      templateDescription: [''],
+      fields: this.fb.array([]),
+      sentTemplateToUser: [],
+      receievedDocumentFromUser: [],
+    });
   }
 
   viewTemplates(index: number, template: DocumentTemplate) {
