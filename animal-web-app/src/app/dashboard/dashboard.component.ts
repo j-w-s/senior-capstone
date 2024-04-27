@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { MessengerService } from '../services/messenger.service';
+import { NotificationsService } from '../services/notifications.service';
 import { getAuth } from 'firebase/auth';
 import User from '../../models/user';
 import { GroupsService } from '../services/groups.service';
@@ -15,12 +16,13 @@ export class DashboardComponent implements AfterViewInit{
 
   // stores the primary User that is logged in
   public primaryUser: User | null = null;
-  notifications: string[][] = [];
+  public notifications: { userId: string; notificationMessage: string }[] = [];
 
   constructor(
     public messengerService: MessengerService,
     private groupsService: GroupsService,
-    public loginReg: LoginRegisterService
+    public loginReg: LoginRegisterService,
+    public notService: NotificationsService,
   ) { }
 
   async resolveUserImage() {
@@ -40,8 +42,11 @@ export class DashboardComponent implements AfterViewInit{
     this.loginReg.userData$.subscribe((user: User | null): void => {
       if (user) {
         this.primaryUser = user;
-        console.log(user);
         this.resolveUserImage();
+        this.notService.getUserNotifications(this.primaryUser.userId).subscribe(notifications => {
+          this.notifications = [].concat(...notifications);
+          console.log(this.notifications);
+        });
       }
     });
 
@@ -77,16 +82,8 @@ export class DashboardComponent implements AfterViewInit{
     });
   }
 
- /*async listenForNewMessages() {
-    this.messengerService.getMessages().subscribe(async(messages) => {
-      const mess = messages.messagesList[messages.messagesList.length - 1];
-      console.log('MessageSender', mess.senderId)
-      
-      await this.messengerService.getUserById2(mess.senderId).then((user) => {
-        console.log('UserGot:', user)
-        this.messengerService.addNotification(mess.messageContent, user.userDisplayName);
-      })
-    })
-  }*/
+  addContact(userId: string): void {
+    this.messengerService.addContactById(userId);
+  }
 
 }

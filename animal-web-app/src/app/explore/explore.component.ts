@@ -11,6 +11,7 @@ import { finalize, Observable, Subscription } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { v4 as uuidv4 } from 'uuid';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { NotificationsService } from '../services/notifications.service';
 
 @Component({
   selector: 'app-explore',
@@ -96,7 +97,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     this.dropdownVisible = !this.dropdownVisible;
   }
 
-  constructor(private exploreService: ExploreService, private cdr: ChangeDetectorRef, private fb: FormBuilder, public loginRegService: LoginRegisterService,
+  constructor(private exploreService: ExploreService, public notService: NotificationsService, private cdr: ChangeDetectorRef, private fb: FormBuilder, public loginRegService: LoginRegisterService,
 
     private storage: AngularFireStorage) {
     this.animalCreateForm = this.fb.group({
@@ -466,4 +467,16 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       userImage: url
     });
   }
+
+  sendNotification(): void {
+    const senderId = this.currentUserId;
+    const receiverId = this.modalAnimal?.userId;
+    const message = "Hey! Contact me -- I'm interested!";
+    if (receiverId) {
+      this.notService.sendUserNotification(senderId, receiverId, message);
+    } else {
+      console.error('Receiver ID is not available');
+    }
+  }
+
 }

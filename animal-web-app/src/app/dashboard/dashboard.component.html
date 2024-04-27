@@ -13,13 +13,9 @@
     <div class="w-full h-7/8 bg-white flex flex-col no-scrollbar">
       <div class="carousel carousel-vertical p-4 flex flex-col w-full h-full overflow-y-auto no-scrollbar bg-base-200 text-base-content">
         <ng-container *ngFor="let notification of notifications">
-          <a class="carousel-item h-auto max-h-48 btn bg-base-100 p-4 m-2">
-            <div class="card card-side w-full h-auto">
-              <div class="card-body">
-                <h2 class="card-title">From: {{ notification[0] }}</h2>
-                <p>Message: {{ notification[1] }}</p>
-              </div>
-            </div>
+          <a (click)="addContact(notification.userId)" class="carousel-item h-auto max-h-48 btn bg-white justify-center items-center p-4 m-2">
+            User ID: {{ notification.userId }} <br />
+            Notification Message: {{ notification.notificationMessage }}
           </a>
         </ng-container>
       </div>
