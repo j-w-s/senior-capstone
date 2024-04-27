@@ -52,6 +52,7 @@ import { UnathorizedComponent } from './unathorized/unathorized.component';
 import { AlertsComponent } from './alerts/alerts.component';
 import { SchedulerComponent } from './scheduler/scheduler.component';
 import { DocumentTemplateCreatorComponent } from './document-template-creator/document-template-creator.component';
+import { DocumentsComponent } from './documents/documents.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { DocumentTemplateCreatorComponent } from './document-template-creator/do
     UnathorizedComponent,
     AlertsComponent,
     SchedulerComponent,
-    DocumentTemplateCreatorComponent
+    DocumentTemplateCreatorComponent,
+    DocumentsComponent
   ],
   imports: [
     BrowserModule,
