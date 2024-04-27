@@ -17,6 +17,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { UnathorizedComponent } from './unathorized/unathorized.component';
 import { SchedulerComponent } from './scheduler/scheduler.component';
 import { DocumentTemplateCreatorComponent } from './document-template-creator/document-template-creator.component';
+import { DocumentsComponent } from './documents/documents.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -33,6 +34,7 @@ const routes: Routes = [
   { path: 'unauthorized', component: UnathorizedComponent },
   { path: 'scheduler', component: SchedulerComponent, canActivate: [AuthGuard], data: { expectedRole: 1 } },
   { path: 'document-creator', component: DocumentTemplateCreatorComponent, canActivate: [AuthGuard], data: { expectedRole: 1 } },
+  { path: 'document-editor', component: DocumentsComponent, canActivate: [AuthGuard], data: { expectedRole: 1 } },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
