@@ -324,7 +324,15 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     this.animals$ = this.exploreService.getAnimals();
 
     this.animalsSubscription = this.animals$.subscribe((animals: Animal[]) => {
-      this.animals = animals;
+      if(animals.length == 1) {
+        const filteredOut = this.animals.filter(animal => animal.animalId != animals[0].animalId)
+
+        this.animals = [...filteredOut, animals[0]]
+      }
+      else {
+        this.animals = animals
+      }
+      
       //Used to help with filtering animals
       this.cachedAnimals = animals;
       this.totalPages = Math.ceil(this.animals.length / this.cardsPerPage);
