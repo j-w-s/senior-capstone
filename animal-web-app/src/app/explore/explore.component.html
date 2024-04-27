@@ -269,7 +269,7 @@
         <div *ngFor="let animal of getDisplayedCards()"
              class="card bg-white overflow-hidden m-2 h-6/7 auto-rows-auto">
           <img class="w-full h-48 object-cover"
-               [src]="animal.images[animal.primaryImage]"
+               [src]="animal.images"
                [alt]="animal.animalName" />
           <div class="p-4">
             <div class="font-bold mb-2">{{ animal.animalName }}</div>
