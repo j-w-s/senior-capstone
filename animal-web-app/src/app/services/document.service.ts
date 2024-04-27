@@ -241,9 +241,18 @@ export class DocumentService {
  }
 
  async submitDocumentToSender(document: DocumentStructure) {
+  this.updateDocument(document);
+  
   const auth = getAuth();
   const user = auth.currentUser?.uid;
   const userRef = this.db.collection('User').doc(user);
+  const newDocRef = this.db.collection('DocumentTemplates').doc(document.generatedFromTemplate)
+  const newRef = this.db.collection('Documents').doc(document.documentId)
+
+  const t = {
+    userDocRef: userRef.ref,
+    submittedDocRef: newRef.ref,
+  }
 
   if (user) {
     await userRef.update({
@@ -252,8 +261,8 @@ export class DocumentService {
     });
   }
 
-  this.db.collection('DocumentTemplates').doc(document.generatedFromTemplate).update({
-    receivedDocumentFromUser: arrayUnion(userRef.ref)
+  newDocRef.update({
+    receivedDocumentFromUser: arrayUnion(t)
   })
  }
 
