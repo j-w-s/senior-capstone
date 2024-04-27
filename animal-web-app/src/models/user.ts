@@ -22,5 +22,8 @@ interface User {
   userOwnedGroups: DocumentReference[];
   appointments?: Appointment[]; 
   userDocumentTemplates: DocumentReference[],
+  receivedDocumentTemplates: string[],
+  workingOnDocuments: string[]
+  submittedDocuments: string[]
 }
 export default User;
