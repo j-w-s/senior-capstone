@@ -256,4 +256,12 @@ export class DocumentService {
     receivedDocumentFromUser: arrayUnion(userRef.ref)
   })
  }
+
+ async getSubmittedDocument(docRef: DocumentReference): Promise<DocumentStructure> {
+
+  const docRefs = doc(this.db.firestore, "Documents", docRef.path.split('/')[1]);
+  const docs = await getDoc(docRefs);
+
+  return (docs.data() as DocumentStructure);
+ }
 }
