@@ -193,9 +193,9 @@ export class DocumentTemplateCreatorComponent implements OnInit,OnDestroy{
   }
 
   viewSubmittedDocument(userId: string) {
-    this.selectedDocumentTemplate?.receivedDocumentFromUser.forEach(map => {
+    this.selectedDocumentTemplate?.receivedDocumentFromUser.forEach(async map => {
       if(map.userDocRef.path.split('/')[1] == userId) {
-        this.documentService.getSubmittedDocument(map.submittedDocRef).then(doc => {
+        await this.documentService.getSubmittedDocument(map.submittedDocRef).then(doc => {
           this.selectedDocument = doc;
         });
       }
