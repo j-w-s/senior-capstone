@@ -388,6 +388,11 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   }
 
   deleteAnimalFromCollection(animal: Animal): void {
+    if (!animal.animalId) {
+      console.error('Animal ID is undefined');
+      return;
+    }
+
     this.exploreService.deleteAnimal(animal).then(() => {
       console.log('Animal deleted successfully');
       // Manually remove the deleted animal from the component's state
