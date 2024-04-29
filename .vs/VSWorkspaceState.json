@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\animal-web-app",
+    "\\animal-web-app\\src",
+    "\\animal-web-app\\src\\app",
+    "\\animal-web-app\\src\\app\\groups-page",
+    "\\animal-web-app\\src\\app\\map",
+    "\\animal-web-app\\src\\app\\messenger",
+    "\\animal-web-app\\src\\app\\services",
+    "\\animal-web-app\\src\\app\\settings",
+    "\\animal-web-app\\src\\models"
+  ],
+  "SelectedNode": "\\animal-web-app\\src\\app\\explore\\explore.component.scss",
+  "PreviewInSolutionExplorer": false
+}
