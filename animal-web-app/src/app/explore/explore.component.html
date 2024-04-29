@@ -11,28 +11,7 @@
       <form [formGroup]="animalCreateForm"
             (ngSubmit)="addAnimalToCollection(); closeModal();"
             class="w-full" method="dialog">
-        <!-- Animal ID -->
-        <div class="form-control w-full">
-          <label for="animalId" class="label">
-            <span class="label-text">Animal ID</span>
-          </label>
-          <input type="text"
-                 id="animalId"
-                 formControlName="animalId"
-                 class="input input-bordered w-full text-black"
-                 [disabled]="true" />
-        </div>
-        <!-- User ID -->
-        <div class="form-control w-full">
-          <label for="userId" class="label">
-            <span class="label-text">User ID</span>
-          </label>
-          <input type="text"
-                 id="userId"
-                 formControlName="userId"
-                 class="input input-bordered w-full text-black"
-                 [disabled]="true" />
-        </div>
+        
         <!-- Animal Name -->
         <div class="form-control w-full">
           <label for="animalName" class="label">
