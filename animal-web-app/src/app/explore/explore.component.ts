@@ -54,7 +54,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   selectedAnimalBreed: string = '';
   cachedAnimals: Animal[] = [];
 
-  dropdownVisible = false;
+  dropdownVisible: string | null = null;
 
   isModalOpen = false;
   @ViewChild('addAnimalModal', { static: false }) addAnimalModal!: ElementRef;
@@ -93,8 +93,9 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     });
   }
 
-  toggleDropdown() {
-    this.dropdownVisible = !this.dropdownVisible;
+  toggleDropdown(animalId: string | null): void {
+    this.dropdownVisible = this.dropdownVisible === animalId ? null : animalId;
+    //this.dropdownVisible = !this.dropdownVisible;
   }
 
   constructor(private exploreService: ExploreService, public notService: NotificationsService, private cdr: ChangeDetectorRef, private fb: FormBuilder, public loginRegService: LoginRegisterService,

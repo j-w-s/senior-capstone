@@ -282,12 +282,12 @@
             <div class="absolute right-0 top-0">
               <button tabindex="0"
                       class="btn btn-ghost mt-1 mr-1"
-                      (click)="toggleDropdown()"
+                      (click)="toggleDropdown(animal.animalId)"
                       [disabled]="this.loginRegService.userData.userId !== animal.userId">
 
                 &#x22EE;
               </button>
-              <ul *ngIf="dropdownVisible"
+              <ul *ngIf="dropdownVisible === animal.animalId"
                   class="dropdown-content z-[20] menu p-2 shadow bg-white rounded-box w-52">
                 <div class="edit-button items-center justify-center">
                   <button class="btn btn-ghost w-full text-center"
@@ -298,7 +298,7 @@
                 </div>
                 <div class="edit-button items-center justify-center">
                   <button class="btn btn-ghost w-full text-center"
-                          (click)="deleteAnimalFromCollection(animal); toggleDropdown()">
+                          (click)="deleteAnimalFromCollection(animal); toggleDropdown(animal.animalId)">
                     Delete
                   </button>
                 </div>
