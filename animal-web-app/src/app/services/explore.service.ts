@@ -17,7 +17,7 @@ export class ExploreService {
     private loginRegisterService: LoginRegisterService) { }
 
   getAnimals(): Observable<Animal[]> {
-    return this.firestore.collection<Animal>('Animal', ref => ref.orderBy('dateOfBirth')).stateChanges().pipe(
+    return this.firestore.collection<Animal>('Animal', ref => ref.orderBy('dateOfBirth')).snapshotChanges().pipe(
       map(actions => actions.map(a => {
         const data = a.payload.doc.data() as Animal;
         const id = a.payload.doc.id;
@@ -26,21 +26,10 @@ export class ExploreService {
     );
   }
 
-  async deleteAnimal(animal: Animal): Promise<Observable<Animal>> {
-    return from(this.firestore.collection<Animal>('Animal').doc(animal.animalId).delete()).pipe(
-      tap(() => {
-        console.log(`Deleted animal with ID: ${animal.animalId}`);
-        // Update the local state to reflect the deletion
-        const currentAnimals = this.animalsSubject.getValue();
-        const updatedAnimals = currentAnimals.filter(a => a.animalId !== animal.animalId);
-        this.animalsSubject.next(updatedAnimals);
-      }),
-      catchError(error => {
-        console.error(`Failed to delete animal with ID: ${animal.animalId}`, error);
-        return throwError(error);
-      }),
-      map(() => animal)
-    );
+  async deleteAnimal(animal: Animal): Promise<void> {
+    const animalDocRef = await this.firestore.collection('Animal').ref.where('animalId', '==', animal.animalId).get().then(querySnapshot => {
+      querySnapshot.docs[0].ref.delete()
+     });
   }
 
   async updateAnimal(animal: Animal): Promise<void> {

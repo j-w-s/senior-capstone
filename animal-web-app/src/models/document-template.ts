@@ -1,6 +1,11 @@
 import { DocumentReference } from "@angular/fire/compat/firestore";
 import DocumentTemplateFields from "./document-template-fields";
 
+interface t {
+  userDocRef: DocumentReference,
+  submittedDocRef: DocumentReference,
+}
+
 interface DocumentTemplate {
   ownerId: string,
   templateId: string,
@@ -9,6 +14,6 @@ interface DocumentTemplate {
   templateDescription: string,
   fields: DocumentTemplateFields[]
   sentTemplateToUser: DocumentReference[],
-  receievedDocumentFromUser: string[],
+  receivedDocumentFromUser: t[],
 }
 export default DocumentTemplate;

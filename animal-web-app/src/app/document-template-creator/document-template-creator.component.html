@@ -88,10 +88,6 @@
                       <select class="select select-bordered w-full max-w-xs" formControlName="type" [formGroup]="documentFieldsForm">
                         <option disabled selected>Select The Value Type</option>
                         <option>Text</option>
-                        <option>PhoneNumber</option>
-                        <option>Email</option>
-                        <option>Address</option>
-                        <option>SSN</option>
                       </select>
                     </td>
                     <td class="border px-4 py-2">
@@ -170,10 +166,6 @@
                       <select class="select select-bordered w-full max-w-xs" formControlName="type" [formGroup]="documentFieldsForm">
                         <option disabled selected>Select The Value Type</option>
                         <option>Text</option>
-                        <option>PhoneNumber</option>
-                        <option>Email</option>
-                        <option>Address</option>
-                        <option>SSN</option>
                       </select>
                     </td>
                     <td class="border px-4 py-2">
@@ -192,7 +184,6 @@
     <!-- Section To View and Send Templates to Users -->
     <section *ngIf="pageIndex == 3">
       <h2>View and Send Templates</h2>
-      <button class="btn btn-neutral" (click)="updatePageIndex(previousIndex)">Back</button>
 
       <!-- Display the fields and types of the selected template -->
       <div *ngIf="selectedDocumentTemplate">
@@ -244,9 +235,10 @@
               <td class="border px-4 py-2">{{ user.userLastName }}</td>
               <td class="border px-4 py-2">{{ user.userDisplayName }}</td>
               <td class="border px-4 py-2">Yes</td> <!-- Assuming the template was sent -->
-              <!--<td class="border px-4 py-2">{{ user.documentSubmitted ? 'Yes' : 'No' }}</td>-->
-              <td class="border px-4 py-2">
-                <!--<button class="btn" [disabled]="!user.documentSubmitted" (click)="viewDocument(user)">View Document</button>-->
+              <td *ngIf="(this.usersWhoSubmittedDocuments == [])" class="border px-4 py-2">No</td>
+              <td *ngIf="this.usersWhoSubmittedDocuments.includes(user.userId)" class="border px-4 py-2">Yes</td>
+              <td *ngIf="this.usersWhoSubmittedDocuments.includes(user.userId)" class="border px-4 py-2">
+                <button class="btn" (click)="viewSubmittedDocument(user.userId)">View Document</button>
               </td>
             </tr>
           </tbody>
@@ -256,5 +248,18 @@
       <button class="btn btn-neutral" (click)="updatePageIndex(1)">Back</button>
     </section>
 
-  </div>
-
+    <!-- Section To Review Submitted Documents-->
+    <section *ngIf="pageIndex == 4">
+      <button class="btn" (click)="updatePageIndex(3)">Back</button>
+      <h2>Viewing Submitted Document: {{ selectedDocument?.documentName }}</h2>
+      <form>
+          <div *ngFor="let field of selectedDocument?.fields">
+              <label class="block mt-4 text-sm font-medium text-text-black">{{ field.name }}</label>
+              <input disabled [type]="field.type" [(ngModel)]="field.value" name="{{ field.name }}" class="mt-2 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+          </div>
+      </form>
+    </section>
+  
+</div>
+  
+  

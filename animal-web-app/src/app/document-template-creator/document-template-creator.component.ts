@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Observable, Subject, Subscription, takeUntil } from 'rxjs';
+import DocumentStructure from '../../models/document-structure';
 import DocumentTemplate from '../../models/document-template';
 import Group from '../../models/group';
 import User from '../../models/user';
@@ -22,7 +23,9 @@ export class DocumentTemplateCreatorComponent implements OnInit,OnDestroy{
   previousIndex = 0;
 
   selectedDocumentTemplate: DocumentTemplate | null = null;
+  selectedDocument: DocumentStructure | null = null;
   usersWhoReceivedDocumentTemplate: User[] = [];
+  usersWhoSubmittedDocuments: string[] = ['s']
 
   documentForm!: FormGroup;
   documentFieldsForm!: FormGroup;
@@ -72,7 +75,7 @@ export class DocumentTemplateCreatorComponent implements OnInit,OnDestroy{
       templateDescription: [''],
       fields: this.fb.array([]),
       sentTemplateToUser: [],
-      receievedDocumentFromUser: [],
+      receivedDocumentFromUser: [],
     });
     this.documentFieldsForm = this.fb.group({
       name: [''],
@@ -87,7 +90,9 @@ export class DocumentTemplateCreatorComponent implements OnInit,OnDestroy{
   }
 
   updatePageIndex(newIndex: number) {
-    this.previousIndex = this.pageIndex;
+    if(this.pageIndex != 4) {
+      this.previousIndex = this.pageIndex;
+    }
     this.pageIndex = newIndex;
     console.log('Update index:', this.pageIndex)
   }
@@ -121,7 +126,7 @@ export class DocumentTemplateCreatorComponent implements OnInit,OnDestroy{
       templateDescription: [''],
       fields: this.fb.array([]),
       sentTemplateToUser: [],
-      receievedDocumentFromUser: [],
+      receivedDocumentFromUser: [],
     });
   }
 
@@ -140,7 +145,7 @@ export class DocumentTemplateCreatorComponent implements OnInit,OnDestroy{
       templateDescription: [''],
       fields: this.fb.array([]),
       sentTemplateToUser: [],
-      receievedDocumentFromUser: [],
+      receivedDocumentFromUser: [],
     });
   }
 
@@ -151,6 +156,7 @@ export class DocumentTemplateCreatorComponent implements OnInit,OnDestroy{
     this.selectedDocumentTemplate = template;
 
     this.getUserWhoReceivedTemplate()
+    this.getUserWhoSentDocument()
   }
 
   sendTemplates() {
@@ -173,6 +179,29 @@ export class DocumentTemplateCreatorComponent implements OnInit,OnDestroy{
         this.usersWhoReceivedDocumentTemplate.push(userData)
       })
     })
+  }
+
+  getUserWhoSentDocument() {
+    this.usersWhoSubmittedDocuments = []
+    if(this.selectedDocumentTemplate?.receivedDocumentFromUser)
+    {
+      console.log('Doc from User: ', this.selectedDocumentTemplate?.receivedDocumentFromUser)
+      this.selectedDocumentTemplate?.receivedDocumentFromUser.forEach(docRef => {
+        this.usersWhoSubmittedDocuments.push(docRef.userDocRef.path.split('/')[1])
+      })
+    }
+  }
+
+  viewSubmittedDocument(userId: string) {
+    this.selectedDocumentTemplate?.receivedDocumentFromUser.forEach(async map => {
+      if(map.userDocRef.path.split('/')[1] == userId) {
+        await this.documentService.getSubmittedDocument(map.submittedDocRef).then(doc => {
+          this.selectedDocument = doc;
+        });
+      }
+    })
+
+    this.updatePageIndex(4)
   }
 
   
