@@ -54,7 +54,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   selectedAnimalBreed: string = '';
   cachedAnimals: Animal[] = [];
 
-  dropdownVisible = false;
+  dropdownVisible: string | null = null;
 
   isModalOpen = false;
   @ViewChild('addAnimalModal', { static: false }) addAnimalModal!: ElementRef;
@@ -79,7 +79,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       animalBreed: new FormControl([''], Validators.required),
       animalName: new FormControl('', Validators.required),
       animalWeight: new FormControl(0, Validators.required),
-      animalSex: new FormControl('', Validators.required),
+      animalSex: new FormControl(''),
       temperament: new FormControl([''], Validators.required),
       about: new FormControl('', Validators.required),
       images: new FormControl([]),
@@ -93,8 +93,9 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     });
   }
 
-  toggleDropdown() {
-    this.dropdownVisible = !this.dropdownVisible;
+  toggleDropdown(animalId: string | null): void {
+    this.dropdownVisible = this.dropdownVisible === animalId ? null : animalId;
+    //this.dropdownVisible = !this.dropdownVisible;
   }
 
   constructor(private exploreService: ExploreService, public notService: NotificationsService, private cdr: ChangeDetectorRef, private fb: FormBuilder, public loginRegService: LoginRegisterService,
@@ -108,7 +109,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       animalBreed: new FormControl([''], Validators.required),
       animalName: new FormControl('', Validators.required),
       animalWeight: new FormControl(0, Validators.required),
-      animalSex: new FormControl('', Validators.required),
+      animalSex: new FormControl(''),
       temperament: new FormControl([''], Validators.required),
       about: new FormControl('', Validators.required),
       images: new FormControl([]),
@@ -188,7 +189,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       animalBreed: new FormControl([''], Validators.required),
       animalName: new FormControl('', Validators.required),
       animalWeight: new FormControl(0, Validators.required),
-      animalSex: new FormControl('', Validators.required),
+      animalSex: new FormControl(''),
       temperament: new FormControl([''], Validators.required),
       about: new FormControl('', Validators.required),
       images: new FormControl([]),
@@ -324,7 +325,15 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     this.animals$ = this.exploreService.getAnimals();
 
     this.animalsSubscription = this.animals$.subscribe((animals: Animal[]) => {
-      this.animals = animals;
+      if(animals.length == 1) {
+        const filteredOut = this.animals.filter(animal => animal.animalId != animals[0].animalId)
+
+        this.animals = [...filteredOut, animals[0]]
+      }
+      else {
+        this.animals = animals
+      }
+      
       //Used to help with filtering animals
       this.cachedAnimals = animals;
       this.totalPages = Math.ceil(this.animals.length / this.cardsPerPage);
@@ -379,6 +388,11 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   }
 
   deleteAnimalFromCollection(animal: Animal): void {
+    if (!animal.animalId) {
+      console.error('Animal ID is undefined');
+      return;
+    }
+
     this.exploreService.deleteAnimal(animal).then(() => {
       console.log('Animal deleted successfully');
       // Manually remove the deleted animal from the component's state
