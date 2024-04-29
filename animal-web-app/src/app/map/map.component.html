@@ -60,6 +60,27 @@
           </div>
         </div>
         <div *ngIf="this.showModal" class="card w-full bg-base-100 shadow-xl">
+          <div class="card-body">
+            <!-- Other beacon details -->
+            <!-- Ratings/comments section -->
+            <div *ngIf="this.selectedBeaconData.ratings.length > 0">
+              <h3 class="card-title">Ratings & Comments</h3>
+              <ul>
+                <li *ngFor="let rating of this.selectedBeaconData.ratings">
+                  <!-- Display the rating value -->
+                  <div>Rating: {{ rating.ratingValue }}</div>
+                  <!-- Display the comment -->
+                  <div>Comment: {{ rating.comment }}</div>
+                  <!-- Add any other information you want to display -->
+                </li>
+              </ul>
+            </div>
+            <div *ngIf="this.selectedBeaconData.ratings.length === 0">
+              <p>No ratings available.</p>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="this.showModal" class="card w-full bg-base-100 shadow-xl">
           <div class="bg-white p-4">
             <button class="btn btn-secondary" (click)="openForm()">
               Add Comment & Rating
