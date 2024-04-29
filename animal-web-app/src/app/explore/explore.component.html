@@ -8,210 +8,210 @@
         {{ selectedAnimal ? 'Edit Animal' : 'Add New Animal' }}
       </h2>
 
-      <form [formGroup]="animalCreateForm"
-            (ngSubmit)="addAnimalToCollection(); closeModal();"
-            class="w-full" method="dialog">
-        <!-- Animal ID -->
-        <div class="form-control w-full">
-          <label for="animalId" class="label">
-            <span class="label-text">Animal ID</span>
-          </label>
-          <input type="text"
-                 id="animalId"
-                 formControlName="animalId"
-                 class="input input-bordered w-full text-black"
-                 [disabled]="true" />
+    <form [formGroup]="animalCreateForm"
+          (ngSubmit)="addAnimalToCollection(); closeModal();"
+          class="w-full" method="dialog">
+      <!-- Animal ID -->
+      <div class="form-control w-full">
+        <label for="animalId" class="label">
+          <span class="label-text">Animal ID</span>
+        </label>
+        <input type="text"
+               id="animalId"
+               formControlName="animalId"
+               class="input input-bordered w-full text-black"
+               [disabled]="true" />
+      </div>
+      <!-- User ID -->
+      <div class="form-control w-full">
+        <label for="userId" class="label">
+          <span class="label-text">User ID</span>
+        </label>
+        <input type="text"
+               id="userId"
+               formControlName="userId"
+               class="input input-bordered w-full text-black"
+               [disabled]="true" />
+      </div>
+      <!-- Owner Name -->
+      <div class="form-control w-full">
+        <label for="ownerName" class="label">
+          <span class="label-text">Owner Name</span>
+        </label>
+        <input type="text"
+               id="ownerName"
+               formControlName="ownerName"
+               class="input input-bordered w-full text-black"
+               required />
+      </div>
+      <!-- Animal Type -->
+      <div class="form-control w-full">
+        <label for="animalType" class="label">
+          <span class="label-text">Animal Type</span>
+        </label>
+        <input type="text"
+               id="animalType"
+               formControlName="animalType"
+               class="input input-bordered w-full text-black"
+               required />
+      </div>
+      <!-- Animal Name -->
+      <div class="form-control w-full">
+        <label for="animalName" class="label">
+          <span class="label-text">Animal Name</span>
+        </label>
+        <input type="text"
+               id="animalName"
+               formControlName="animalName"
+               class="input input-bordered w-full text-black"
+               required />
+      </div>
+      <!-- Animal Breed -->
+      <div class="form-control w-full">
+        <label for="animalBreed" class="label">
+          <span class="label-text">Animal Breed</span>
+        </label>
+        <input type="text"
+               id="animalBreed"
+               formControlName="animalBreed"
+               class="input input-bordered w-full text-black"
+               required />
+      </div>
+      <!-- Animal Weight -->
+      <div class="form-control w-full">
+        <label for="animalWeight" class="label">
+          <span class="label-text">Animal Weight</span>
+        </label>
+        <input type="number"
+               id="animalWeight"
+               formControlName="animalWeight"
+               class="input input-bordered w-full text-black"
+               required />
+      </div>
+      <!-- Animal Sex -->
+      <div class="form-control w-full">
+        <label for="animalSex" class="label">
+          <span class="label-text">Animal Sex</span>
+        </label>
+        <input type="text"
+               id="animalSex"
+               formControlName="animalSex"
+               class="input input-bordered w-full text-black"
+               required />
+      </div>
+      <!-- Temperament -->
+      <div class="form-control w-full">
+        <label for="temperament" class="label">
+          <span class="label-text">Temperament</span>
+        </label>
+        <input type="text"
+               id="temperament"
+               formControlName="temperament"
+               class="input input-bordered w-full text-black"
+               required />
+      </div>
+      <!-- About -->
+      <div class="form-control w-full">
+        <label for="about" class="label">
+          <span class="label-text">About</span>
+        </label>
+        <textarea id="about"
+                  formControlName="about"
+                  class="textarea textarea-bordered w-full text-black"
+                  required></textarea>
+      </div>
+      <!-- Images -->
+      <div class="form-control w-full">
+        <label for="images" class="label">
+          <span class="label-text">Images</span>
+        </label>
+        <input type="text"
+               id="images"
+               formControlName="images"
+               class="input input-bordered w-full text-black"
+               required />
+      </div>
+      <!-- Primary Image -->
+      <div class="form-control w-full">
+        <label for="primaryImage" class="label">
+          <span class="label-text">Primary Image</span>
+        </label>
+        <div class="avatar rounded">
+          <figure class="w-20 h-20 rounded-full">
+            <img [src]="imgUrl" alt="Animal Photo">
+          </figure>
         </div>
-        <!-- User ID -->
-        <div class="form-control w-full">
-          <label for="userId" class="label">
-            <span class="label-text">User ID</span>
-          </label>
-          <input type="text"
-                 id="userId"
-                 formControlName="userId"
-                 class="input input-bordered w-full text-black"
-                 [disabled]="true" />
+        <input type="file" class="file-input w-full max-w-xs" id="imageUpload" hidden (change)="updatePhoto($event)" required />
+        <div class="max-w-xs flex flex-row mt-2">
+          <label for="imageUpload" class="btn btn-secondary">Upload Image</label>
         </div>
-        <!-- Owner Name -->
-        <div class="form-control w-full">
-          <label for="ownerName" class="label">
-            <span class="label-text">Owner Name</span>
-          </label>
-          <input type="text"
-                 id="ownerName"
-                 formControlName="ownerName"
-                 class="input input-bordered w-full text-black"
-                 required />
-        </div>
-        <!-- Animal Type -->
-        <div class="form-control w-full">
-          <label for="animalType" class="label">
-            <span class="label-text">Animal Type</span>
-          </label>
-          <input type="text"
-                 id="animalType"
-                 formControlName="animalType"
-                 class="input input-bordered w-full text-black"
-                 required />
-        </div>
-        <!-- Animal Name -->
-        <div class="form-control w-full">
-          <label for="animalName" class="label">
-            <span class="label-text">Animal Name</span>
-          </label>
-          <input type="text"
-                 id="animalName"
-                 formControlName="animalName"
-                 class="input input-bordered w-full text-black"
-                 required />
-        </div>
-        <!-- Animal Breed -->
-        <div class="form-control w-full">
-          <label for="animalBreed" class="label">
-            <span class="label-text">Animal Breed</span>
-          </label>
-          <input type="text"
-                 id="animalBreed"
-                 formControlName="animalBreed"
-                 class="input input-bordered w-full text-black"
-                 required />
-        </div>
-        <!-- Animal Weight -->
-        <div class="form-control w-full">
-          <label for="animalWeight" class="label">
-            <span class="label-text">Animal Weight</span>
-          </label>
-          <input type="number"
-                 id="animalWeight"
-                 formControlName="animalWeight"
-                 class="input input-bordered w-full text-black"
-                 required />
-        </div>
-        <!-- Animal Sex -->
-        <div class="form-control w-full">
-          <label for="animalSex" class="label">
-            <span class="label-text">Animal Sex</span>
-          </label>
-          <input type="text"
-                 id="animalSex"
-                 formControlName="animalSex"
-                 class="input input-bordered w-full text-black"
-                 required />
-        </div>
-        <!-- Temperament -->
-        <div class="form-control w-full">
-          <label for="temperament" class="label">
-            <span class="label-text">Temperament</span>
-          </label>
-          <input type="text"
-                 id="temperament"
-                 formControlName="temperament"
-                 class="input input-bordered w-full text-black"
-                 required />
-        </div>
-        <!-- About -->
-        <div class="form-control w-full">
-          <label for="about" class="label">
-            <span class="label-text">About</span>
-          </label>
-          <textarea id="about"
-                    formControlName="about"
-                    class="textarea textarea-bordered w-full text-black"
-                    required></textarea>
-        </div>
-        <!-- Images -->
-        <div class="form-control w-full">
-          <label for="images" class="label">
-            <span class="label-text">Images</span>
-          </label>
-          <input type="text"
-                 id="images"
-                 formControlName="images"
-                 class="input input-bordered w-full text-black"
-                 required />
-        </div>
-        <!-- Primary Image -->
-        <div class="form-control w-full">
-          <label for="primaryImage" class="label">
-            <span class="label-text">Primary Image</span>
-          </label>
-          <div class="avatar rounded">
-            <figure class="w-20 h-20 rounded-full">
-              <img [src]="imgUrl" alt="Animal Photo">
-            </figure>
-          </div>
-          <input type="file" class="file-input w-full max-w-xs" id="imageUpload" hidden (change)="updatePhoto($event)" required />
-          <div class="max-w-xs flex flex-row mt-2">
-            <label for="imageUpload" class="btn btn-secondary">Upload Image</label>
-          </div>
-        </div>
-        <!-- Location -->
-        <div class="form-control w-full">
-          <label for="location" class="label">
-            <span class="label-text">Location</span>
-          </label>
-          <input type="text"
-                 id="location"
-                 formControlName="location"
-                 class="input input-bordered w-full text-black"
-                 required />
-        </div>
-        <!-- Zip Code -->
-        <div class="form-control w-full">
-          <label for="zipCode" class="label">
-            <span class="label-text">Zip Code</span>
-          </label>
-          <input type="number"
-                 id="zipCode"
-                 formControlName="zipCode"
-                 class="input input-bordered w-full text-black"
-                 required />
-        </div>
-        <!-- Adoption Status -->
-        <div class="form-control w-full">
-          <label for="adoptionStatus" class="label">
-            <span class="label-text">Adoption Status</span>
-          </label>
-          <input type="number"
-                 id="adoptionStatus"
-                 formControlName="adoptionStatus"
-                 class="input input-bordered w-full text-black"
-                 required />
-        </div>
-        <!-- Date Of Birth -->
-        <div class="form-control w-full">
-          <label for="dateOfBirth" class="label">
-            <span class="label-text">Date Of Birth</span>
-          </label>
-          <input type="date"
-                 id="dateOfBirth"
-                 formControlName="dateOfBirth"
-                 class="input input-bordered w-full text-black"
-                 required />
-        </div>
-        <!-- Color -->
-        <div class="form-control w-full">
-          <label for="color" class="label">
-            <span class="label-text">Color</span>
-          </label>
-          <input type="text"
-                 id="color"
-                 formControlName="color"
-                 class="input input-bordered w-full text-black"
-                 required />
-        </div>
-        <!-- Vaccination Status -->
-        <div class="form-control w-full">
-          <label for="vaccinationStatus" class="label">
-            <span class="label-text">Vaccination Status</span>
-          </label>
-          <input type="text"
-                 id="vaccinationStatus"
-                 formControlName="vaccinationStatus"
-                 class="input input-bordered w-full text-black"
-                 required />
-        </div>
+      </div>
+      <!-- Location -->
+      <div class="form-control w-full">
+        <label for="location" class="label">
+          <span class="label-text">Location</span>
+        </label>
+        <input type="text"
+               id="location"
+               formControlName="location"
+               class="input input-bordered w-full text-black"
+               required />
+      </div>
+      <!-- Zip Code -->
+      <div class="form-control w-full">
+        <label for="zipCode" class="label">
+          <span class="label-text">Zip Code</span>
+        </label>
+        <input type="number"
+               id="zipCode"
+               formControlName="zipCode"
+               class="input input-bordered w-full text-black"
+               required />
+      </div>
+      <!-- Adoption Status -->
+      <div class="form-control w-full">
+        <label for="adoptionStatus" class="label">
+          <span class="label-text">Adoption Status</span>
+        </label>
+        <input type="number"
+               id="adoptionStatus"
+               formControlName="adoptionStatus"
+               class="input input-bordered w-full text-black"
+               required />
+      </div>
+      <!-- Date Of Birth -->
+      <div class="form-control w-full">
+        <label for="dateOfBirth" class="label">
+          <span class="label-text">Date Of Birth</span>
+        </label>
+        <input type="date"
+               id="dateOfBirth"
+               formControlName="dateOfBirth"
+               class="input input-bordered w-full text-black"
+               required />
+      </div>
+      <!-- Color -->
+      <div class="form-control w-full">
+        <label for="color" class="label">
+          <span class="label-text">Color</span>
+        </label>
+        <input type="text"
+               id="color"
+               formControlName="color"
+               class="input input-bordered w-full text-black"
+               required />
+      </div>
+      <!-- Vaccination Status -->
+      <div class="form-control w-full">
+        <label for="vaccinationStatus" class="label">
+          <span class="label-text">Vaccination Status</span>
+        </label>
+        <input type="text"
+               id="vaccinationStatus"
+               formControlName="vaccinationStatus"
+               class="input input-bordered w-full text-black"
+               required />
+      </div>
 
         <div class="modal-action">
           <button class="btn btn-primary" type="submit" [disabled]="!animalCreateForm.valid">
@@ -275,10 +275,10 @@
                [src]="animal.images[animal.primaryImage]"
                [alt]="animal.animalName" />
           <div class="p-4">
-            <div class="font-bold mb-2">{{ animal.animalName }}</div>
-            <div class="mb-2 owner-name"> Owner: {{ animal.ownerName }} </div>
-            <div class="mb-2 animal-type"> Type: {{ animal.animalType }} </div>
-            <div class="mb-2 animal-breed"> Breed: {{ animal.animalBreed }} </div>
+            <div class="font-bold text-xl mb-2">{{ animal.animalName }}</div>
+            <div class="font-bold text-xl mb-2 owner-name"> Owner: {{ animal.ownerName }} </div>
+            <div class="font-bold text-xl mb-2 animal-type"> Type: {{ animal.animalType }} </div>
+            <div class="font-bold text-xl mb-2 animal-breed"> Breed: {{ animal.animalBreed }} </div>
             <!-- More Info Button -->
             <button class="absolute bottom-2 right-2 btn btn-primary text-sm px-2 py-1" (click)="openPetModal(animal)">More info</button>
             <!-- Dropdown Menu -->
@@ -358,4 +358,3 @@
     <button class="btn btn-secondary" (click)="this.sendNotification();">Interested? Notify Owner</button>
   </div>
 </dialog>
-
