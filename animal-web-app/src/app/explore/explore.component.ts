@@ -452,11 +452,15 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   }
 
   sendNotification(): void {
+    const sender = this.currentUser;
+    const senderImage = sender.userImage;
+    const senderName = sender.userDisplayName;
     const senderId = this.currentUserId;
     const receiverId = this.modalAnimal?.userId;
-    const message = "Hey! Contact me -- I'm interested!";
+    const post = this.modalAnimal?.animalName;
+    const message = `Hey! I'm interested in your post about ${post}. Contact me!`;
     if (receiverId) {
-      this.notService.sendUserNotification(senderId, receiverId, message);
+      this.notService.sendUserNotification(senderId, receiverId, message, senderImage, senderName);
     } else {
       console.error('Receiver ID is not available');
     }
