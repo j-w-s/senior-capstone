@@ -204,6 +204,12 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       ...formValues,
       animalBreed: animalBreeds,
       temperament: animalTemps,
+    }).then(() => {
+      // Close the modal after successfully adding the animal
+      const modalToggle = document.getElementById('addAnimalModal') as HTMLInputElement;
+      modalToggle.checked = false;
+    }).catch(error => {
+      console.log('Error adding animal');
     });
   }
 
