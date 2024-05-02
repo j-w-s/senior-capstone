@@ -49,7 +49,7 @@
       <div class="grid grid-rows-2 grid-cols-4 items-center gap-y-2 overflow-hidden">
         <div *ngFor="let animal of getDisplayedCards()"
              class="card bg-white overflow-hidden m-2 h-6/7 auto-rows-auto">
-          <img class="w-full h-96 object-cover"
+          <img class="w-full h-[250px] object-cover"
                [src]="animal.images"
                [alt]="animal.animalName" />
           <div class="p-4">
