@@ -65,32 +65,18 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     user: any;
     db: any;
   @ViewChild('petModal') petModal!: ElementRef;
+
   openModal(): void {
-    this.addAnimalModal.nativeElement.checked = true;
+    this.createNewSetup();
+    const modalToggle = document.getElementById('addAnimalModal') as HTMLInputElement;
+    modalToggle.checked = true;
   }
 
-  closeModal(): void {
-    this.addAnimalModal.nativeElement.checked = false;
-    this.animalCreateForm = new FormGroup({
-      animalId: new FormControl(this.generateUUID(), Validators.required),
-      userId: new FormControl(this.loginRegService.userData.userId, Validators.required),
-      ownerName: new FormControl(this.currentUser.firstName + ' ' + this.currentUser.lastName, Validators.required),
-      animalType: new FormControl('', Validators.required),
-      animalBreed: new FormControl([''], Validators.required),
-      animalName: new FormControl('', Validators.required),
-      animalWeight: new FormControl(0, Validators.required),
-      animalSex: new FormControl(''),
-      temperament: new FormControl([''], Validators.required),
-      about: new FormControl('', Validators.required),
-      images: new FormControl([]),
-      primaryImage: new FormControl(0, Validators.required),
-      location: new FormControl('', Validators.required),
-      zipCode: new FormControl(0, Validators.required),
-      adoptionStatus: new FormControl(0, Validators.required),
-      dateOfBirth: new FormControl(new Date(), Validators.required),
-      color: new FormControl(''),
-      vaccinationStatus: new FormControl(false)
-    });
+  closeModal(event: Event): void {
+    event.preventDefault();
+    const modalToggle = document.getElementById('addAnimalModal') as HTMLInputElement;
+    modalToggle.checked = false;
+    this.createNewSetup();
   }
 
   toggleDropdown(animalId: string | null): void {
@@ -181,28 +167,27 @@ export class ExploreComponent implements OnInit, AfterViewInit {
 
   createNewSetup(): void {
     this.imgUrl = null;
-    this.animalCreateForm = new FormGroup({
-      animalId: new FormControl(this.generateUUID(), Validators.required),
-      userId: new FormControl(this.loginRegService.userData.userId, Validators.required),
-      ownerName: new FormControl(this.currentUser.firstName + ' ' + this.currentUser.lastName, Validators.required),
-      animalType: new FormControl('', Validators.required),
-      animalBreed: new FormControl([''], Validators.required),
-      animalName: new FormControl('', Validators.required),
-      animalWeight: new FormControl(0, Validators.required),
-      animalSex: new FormControl(''),
-      temperament: new FormControl([''], Validators.required),
-      about: new FormControl('', Validators.required),
-      images: new FormControl([]),
-      primaryImage: new FormControl(0, Validators.required),
-      location: new FormControl('', Validators.required),
-      zipCode: new FormControl(0, Validators.required),
-      adoptionStatus: new FormControl(0, Validators.required),
-      dateOfBirth: new FormControl(new Date(), Validators.required),
-      color: new FormControl(''),
-      vaccinationStatus: new FormControl(false)
+    this.animalCreateForm.reset({
+      animalId: this.generateUUID(),
+      userId: this.loginRegService.userData.userId,
+      ownerName: this.currentUser.firstName + ' ' + this.currentUser.lastName,
+      animalType: '',
+      animalBreed: '',
+      animalName: '',
+      animalWeight: 0,
+      animalSex: '',
+      temperament: '',
+      about: '',
+      images: [],
+      primaryImage: 0,
+      location: '',
+      zipCode: 0,
+      adoptionStatus: 0,
+      dateOfBirth: new Date(),
+      color: '',
+      vaccinationStatus: false
     });
   }
-
 
   async addAnimalToCollection(): Promise<void> {
     // get the form values
