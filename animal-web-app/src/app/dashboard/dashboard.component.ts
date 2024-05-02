@@ -16,7 +16,9 @@ export class DashboardComponent implements AfterViewInit{
 
   // stores the primary User that is logged in
   public primaryUser: User | null = null;
-  public notifications: { userId: string; notificationMessage: string }[] = [];
+  public notifications: {
+    userId: string, notificationMessage: string, userName: string,
+    userImage: string, }[] = [];
 
   constructor(
     public messengerService: MessengerService,
