@@ -1,265 +1,278 @@
-<div class="flex-grow card flex flex-col w-full max-h-screen min-w-screen min-h-screen lg:flex-row bg-base-100 p-0 m-0">
-  <!-- Main Content -->
-  <div class="w-full h-7/8 flex flex-col justify-center items-center bg-base-200">
-    <!-- Display the main page section for application template creation -->
-    <section *ngIf="pageIndex == 0" class="w-full p-6">
-      <div class="flex justify-center">
-        <button class="btn btn-neutral m-4 p6" (click)="updatePageIndex(1)">Application Templates for Groups</button>
-        <button class="btn btn-accent m-4 p6" (click)="updatePageIndex(2)">Application Templates for Individuals</button>
-      </div>
-    </section>
+<div class="flex-grow flex flex-col w-full max-h-screen min-w-screen lg:flex-row bg-base-100 p-0 m-0">
 
-    <!-- Display the application templates relating to owned groups -->
-    <section *ngIf="pageIndex == 1" class="w-full container  overflow-y-auto p-6">
-      <!-- Put already made group application templates on the left -->
-      <button class="btn btn-neutral" (click)="updatePageIndex(0)">Back</button>
-      <div class="flex flex-row">
-        <!-- Group Templates -->
-        <div class="w-1/2" *ngIf="ownedGroups && groupDocumentTemplates != []">
-          <div *ngFor="let group of ownedGroups">
-            <h2>{{ group.groupName }}</h2>
-            <div *ngFor="let template of groupDocumentTemplates">
-              <div *ngIf="template.ownerId == group.groupId">
+  <!-- Main Content -->
+  <div class="w-full h-dvh flex flex-col bg-base-200">
+    <div class="flex justify-between items-center p-4 h-1/8 w-full bg-white">
+      <div class="flex justify-between items-center w-1/2">
+        <h2 class="text-left justify-between w-full flex items-center gap-4 p-4">Document Creation</h2>
+      </div>
+    </div>
+
+    <div class="w-full h-6/8 flex flex-row bg-base-200 justify-center items-center">
+      <!-- Document Creation Section -->
+      <div class="flex flex-col w-50dvw h-50dvh bg-white mx-2 my-2">
+        <!-- Display the main page section for application template creation -->
+        <section *ngIf="pageIndex == 0" class="w-full p-6">
+          <div class="flex justify-center">
+            <button class="btn btn-neutral m-4 p6" (click)="updatePageIndex(1)">Application Templates for Groups</button>
+            <button class="btn btn-accent m-4 p6" (click)="updatePageIndex(2)">Application Templates for Individuals</button>
+          </div>
+        </section>
+
+        <!-- Display the application templates relating to owned groups -->
+        <section *ngIf="pageIndex == 1" class="w-full container  overflow-y-auto p-6">
+          <!-- Put already made group application templates on the left -->
+          <button class="btn btn-neutral" (click)="updatePageIndex(0)">Back</button>
+          <div class="flex flex-row">
+            <!-- Group Templates -->
+            <div class="w-1/2" *ngIf="ownedGroups && groupDocumentTemplates != []">
+              <div *ngFor="let group of ownedGroups" class="py-2">
+                <h2>{{ group.groupName }}</h2>
+                <div *ngFor="let template of groupDocumentTemplates">
+                  <div *ngIf="template.ownerId == group.groupId">
+                    <div class="card w-96 bg-base-100 shadow-xl m-2">
+                      <div class="card-body">
+                        <h2 class="card-title">{{ template.templateName }}</h2>
+                        <p>{{ template.templateDescription }}</p>
+                        <div class="card-actions justify-end">
+                          <button class="btn btn-primary" (click)="viewTemplates(3,template)">View & Send</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <ng-template #noTemplates>
+                  <p>No templates exist for this group.</p>
+                </ng-template>
+              </div>
+              <h1 *ngIf="ownedGroups === null">Loading Groups...</h1>
+            </div>
+
+            <!-- Group Template Creation -->
+            <div class="w-1/2">
+              <h2>Create New Application Template</h2>
+              <!-- Select group to create template for -->
+              <form [formGroup]="documentForm">
+                <div class="w-1/2 pr-2 flex-col">
+                  <label for="ownerId" class="block mt-4 text-sm font-medium text-text-black">Group</label>
+                  <select class="m-4 select select-bordered w-full max-w-xs" id="ownerId" value="Select" name="ownerId" formControlName="ownerId" required>
+                    <option disabled selected>Select A Group</option>
+                    <option *ngFor="let group of ownedGroups" [value]="group.groupId">{{ group.groupName }}</option>
+                  </select>
+                </div>
+                <!-- Template Name -->
+                <div class="mb-4">
+                  <label for="templateName" class="block mt-4 text-sm font-medium text-text-black">Template Name</label>
+                  <input type="text" id="templateName" name="templateName" formControlName="templateName" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm" required>
+                </div>
+                <!-- Template Description -->
+                <div class="mb-4">
+                  <label for="templateDescription" class="block mt-4 text-sm font-medium text-text-black">Template Description</label>
+                  <textarea type="text" id="templateDescription" name="templateDescription" formControlName="templateDescription" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm textarea textarea-bordered" required></textarea>
+                </div>
+                <!-- Template Fields -->
+                <div [formGroup]="documentFieldsForm" class="overflow-x-auto">
+                  <table class="table-auto w-full">
+                    <thead>
+                      <tr>
+                        <th class="px-4 py-2">Field Name</th>
+                        <th class="px-4 py-2">Field Type</th>
+                        <th class="px-4 py-2">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- Existing code for displaying existing fields -->
+                      <tr *ngFor="let field of fields.controls; let i = index">
+                        <td class="border px-4 py-2">{{ field?.get('name')?.value }}</td>
+                        <td class="border px-4 py-2">{{ field?.get('type')?.value }}</td>
+                        <td class="border px-4 py-2">
+                          <button class="btn btn-accent" (click)="removeField(i)">Remove</button>
+                        </td>
+                      </tr>
+                      <!-- New row for adding new fields -->
+                      <tr>
+                        <td class="border px-4 py-2">
+                          <input type="text" formControlName="name" [formGroup]="documentFieldsForm" class="mt-2 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+                        </td>
+                        <td class="border px-4 py-2">
+                          <select class="select select-bordered w-full max-w-xs" formControlName="type" [formGroup]="documentFieldsForm">
+                            <option disabled selected>Select The Value Type</option>
+                            <option>Text</option>
+                          </select>
+                        </td>
+                        <td class="border px-4 py-2">
+                          <button class="btn btn-secondary" type="button" (click)="addNewField()">Add Field</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="flex justify-end py-2">
+                  <button class="btn btn-secondary" type="submit" (click)="createNewGroupDocumentTemplate()">Create Template</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- Display the application templates relating to the User -->
+        <section *ngIf="pageIndex == 2" class="w-full container overflow-y-auto p-6">
+          <button class="btn btn-neutral" (click)="updatePageIndex(0)">Back</button>
+          <!-- Put already made group application templates on the left -->
+          <div class="flex flex-row">
+            <!-- Users Templates -->
+            <div class="w-1/2" *ngIf="userDocumentTemplates">
+              <div *ngFor="let template of userDocumentTemplates">
                 <div class="card w-96 bg-base-100 shadow-xl">
                   <div class="card-body">
                     <h2 class="card-title">{{ template.templateName }}</h2>
                     <p>{{ template.templateDescription }}</p>
-                    <div class="card-actions justify-end">
+                    <div class="card-actions justify-end m-2">
                       <button class="btn btn-primary" (click)="viewTemplates(3,template)">View & Send</button>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <ng-template #noTemplates>
-              <p>No templates exist for this group.</p>
-            </ng-template>
-          </div>
-          <h1 *ngIf="ownedGroups === null">Loading Groups...</h1>
-        </div>
 
-        <!-- Group Template Creation -->
-        <div class="w-1/2">
-          <h2>Create New Application Template</h2>
-          <!-- Select group to create template for -->
-          <form [formGroup]="documentForm">
-            <div class="w-1/2 pr-2 flex-col">
-              <label for="ownerId" class="block mt-4 text-sm font-medium text-text-black">Group</label>
-              <select class="m-4 select select-bordered w-full max-w-xs" id="ownerId" value="Select" name="ownerId" formControlName="ownerId" required>
-                <option disabled selected>Select A Group</option>
-                <option *ngFor="let group of ownedGroups" [value]="group.groupId">{{ group.groupName }}</option>
-              </select>
-            </div>
-            <!-- Template Name -->
-            <div class="mb-4">
-              <label for="templateName" class="block mt-4 text-sm font-medium text-text-black">Template Name</label>
-              <input type="text" id="templateName" name="templateName" formControlName="templateName" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm" required>
-            </div>
-            <!-- Template Description -->
-            <div class="mb-4">
-              <label for="templateDescription" class="block mt-4 text-sm font-medium text-text-black">Template Description</label>
-              <textarea type="text" id="templateDescription" name="templateDescription" formControlName="templateDescription" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm textarea textarea-bordered" required></textarea>
-            </div>
-            <!-- Template Fields -->
-            <div [formGroup]="documentFieldsForm" class="overflow-x-auto">
-              <table class="table-auto w-full">
-                <thead>
-                  <tr>
-                    <th class="px-4 py-2">Field Name</th>
-                    <th class="px-4 py-2">Field Type</th>
-                    <th class="px-4 py-2">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- Existing code for displaying existing fields -->
-                  <tr *ngFor="let field of fields.controls; let i = index">
-                    <td class="border px-4 py-2">{{ field?.get('name')?.value }}</td>
-                    <td class="border px-4 py-2">{{ field?.get('type')?.value }}</td>
-                    <td class="border px-4 py-2">
-                      <button class="btn btn-accent" (click)="removeField(i)">Remove</button>
-                    </td>
-                  </tr>
-                  <!-- New row for adding new fields -->
-                  <tr>
-                    <td class="border px-4 py-2">
-                      <input type="text" formControlName="name" [formGroup]="documentFieldsForm" class="mt-2 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
-                    </td>
-                    <td class="border px-4 py-2">
-                      <select class="select select-bordered w-full max-w-xs" formControlName="type" [formGroup]="documentFieldsForm">
-                        <option disabled selected>Select The Value Type</option>
-                        <option>Text</option>
-                      </select>
-                    </td>
-                    <td class="border px-4 py-2">
-                      <button class="btn btn-secondary" type="button" (click)="addNewField()">Add Field</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <button class="btn btn-secondary" type="submit" (click)="createNewGroupDocumentTemplate()">Create Template</button>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <!-- Display the application templates relating to the User -->
-    <section *ngIf="pageIndex == 2" class="w-full container overflow-y-auto p-6">
-      <button class="btn btn-neutral" (click)="updatePageIndex(0)">Back</button>
-      <!-- Put already made group application templates on the left -->
-      <div class="flex flex-row">
-        <!-- Users Templates -->
-        <div class="w-1/2" *ngIf="userDocumentTemplates">
-          <div *ngFor="let template of userDocumentTemplates">
-            <div class="card w-96 bg-base-100 shadow-xl">
-              <div class="card-body">
-                <h2 class="card-title">{{ template.templateName }}</h2>
-                <p>{{ template.templateDescription }}</p>
-                <div class="card-actions justify-end">
-                  <button class="btn btn-primary" (click)="viewTemplates(3,template)">View & Send</button>
+            <!-- User Template Creation -->
+            <div class="w-1/2">
+              <h2>Create New Application Template</h2>
+              <!-- Select group to create template for -->
+              <form [formGroup]="documentForm">
+                <!-- Template Name -->
+                <div class="mb-4">
+                  <label for="templateName" class="block mt-4 text-sm font-medium text-text-black">Template Name</label>
+                  <input type="text" id="templateName" name="templateName" formControlName="templateName" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm" required>
                 </div>
-              </div>
+                <!-- Template Description -->
+                <div class="mb-4">
+                  <label for="templateDescription" class="block mt-4 text-sm font-medium text-text-black">Template Description</label>
+                  <textarea type="text" id="templateDescription" name="templateDescription" formControlName="templateDescription" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm textarea textarea-bordered" required></textarea>
+                </div>
+                <!-- Template Fields -->
+                <div [formGroup]="documentFieldsForm" class="overflow-x-auto">
+                  <table class="table-auto w-full">
+                    <thead>
+                      <tr>
+                        <th class="px-4 py-2">Field Name</th>
+                        <th class="px-4 py-2">Field Type</th>
+                        <th class="px-4 py-2">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- Existing code for displaying existing fields -->
+                      <tr *ngFor="let field of fields.controls; let i = index">
+                        <td class="border px-4 py-2">{{ field?.get('name')?.value }}</td>
+                        <td class="border px-4 py-2">{{ field?.get('type')?.value }}</td>
+                        <td class="border px-4 py-2">
+                          <button class="btn btn-accent" (click)="removeField(i)">Remove</button>
+                        </td>
+                      </tr>
+                      <!-- New row for adding new fields -->
+                      <tr>
+                        <td class="border px-4 py-2">
+                          <input type="text" formControlName="name" [formGroup]="documentFieldsForm" class="mt-2 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+                        </td>
+                        <td class="border px-4 py-2">
+                          <select class="select select-bordered w-full max-w-xs" formControlName="type" [formGroup]="documentFieldsForm">
+                            <option disabled selected>Select The Value Type</option>
+                            <option>Text</option>
+                          </select>
+                        </td>
+                        <td class="border px-4 py-2">
+                          <button class="btn btn-secondary" type="button" (click)="addNewField()">Add Field</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="flex justify-end m-2">
+                  <button class="btn btn-secondary" type="submit" (click)="createNewUserDocumentTemplate()">Create Template</button>
+                </div>
+              </form>
             </div>
           </div>
-        </div>
+        </section>
 
-        <!-- User Template Creation -->
-        <div class="w-1/2">
-          <h2>Create New Application Template</h2>
-          <!-- Select group to create template for -->
-          <form [formGroup]="documentForm">
-            <!-- Template Name -->
-            <div class="mb-4">
-              <label for="templateName" class="block mt-4 text-sm font-medium text-text-black">Template Name</label>
-              <input type="text" id="templateName" name="templateName" formControlName="templateName" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm" required>
+        <!-- Section To View and Send Templates -->
+        <section *ngIf="pageIndex == 3" class="bg-white p-4">
+          <button class="btn btn-neutral" (click)="updatePageIndex(1)">Back</button>
+          <h2 class="text-2xl font-bold mb-4">View and Send Templates</h2>
+          <!-- Display the fields and types of the selected template -->
+          <div *ngIf="selectedDocumentTemplate" class="bg-base-white p-4 rounded-lg shadow-md mb-4">
+            <h3 class="text-xl font-semibold mb-2">{{ selectedDocumentTemplate.templateName }}</h3>
+            <p class="text-gray-600 mb-4">{{ selectedDocumentTemplate.templateDescription }}</p>
+            <table class="table-auto w-full">
+              <thead>
+                <tr>
+                  <th class="px-4 py-2">Field Name</th>
+                  <th class="px-4 py-2">Field Type</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let field of selectedDocumentTemplate.fields">
+                  <td class="border px-4 py-2">{{ field.name }}</td>
+                  <td class="border px-4 py-2">{{ field.type }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Input field for entering usernames -->
+          <div class="mt-4">
+            <label for="usernames" class="block text-sm font-medium text-gray-700">Enter Usernames (comma-separated):</label>
+            <input type="text" id="usernames" name="usernames" class="mt-2 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          </div>
+
+          <!-- Button to send the templates -->
+          <div class="mt-4">
+            <button class="btn btn-primary" (click)="sendTemplates()">Send Templates</button>
+          </div>
+
+          <!-- Carousel to display users -->
+          <div class="mt-4">
+            <table class="table-auto w-full">
+              <thead>
+                <tr>
+                  <th class="px-4 py-2">First Name</th>
+                  <th class="px-4 py-2">Last Name</th>
+                  <th class="px-4 py-2">Username</th>
+                  <th class="px-4 py-2">Template Sent</th>
+                  <th class="px-4 py-2">Document Submitted</th>
+                  <th class="px-4 py-2">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of usersWhoReceivedDocumentTemplate">
+                  <td class="border px-4 py-2">{{ user.userFirstName }}</td>
+                  <td class="border px-4 py-2">{{ user.userLastName }}</td>
+                  <td class="border px-4 py-2">{{ user.userDisplayName }}</td>
+                  <td class="border px-4 py-2">Yes</td> <!-- Assuming the template was sent -->
+                  <td *ngIf="(this.usersWhoSubmittedDocuments == [])" class="border px-4 py-2">No</td>
+                  <td *ngIf="this.usersWhoSubmittedDocuments.includes(user.userId)" class="border px-4 py-2">Yes</td>
+                  <td *ngIf="this.usersWhoSubmittedDocuments.includes(user.userId)" class="border px-4 py-2">
+                    <button class="btn btn-secondary" (click)="viewSubmittedDocument(user.userId)">View Document</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Section To Review Submitted Documents -->
+        <section *ngIf="pageIndex == 4" class="bg-white p-4">
+          <button class="btn btn-neutral mb-4" (click)="updatePageIndex(3)">Back</button>
+          <h2 class="text-2xl font-bold mb-4">Viewing Submitted Document: {{ selectedDocument?.documentName }}</h2>
+          <form>
+            <div *ngFor="let field of selectedDocument?.fields" class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">{{ field.name }}</label>
+              <input disabled [type]="field.type" [(ngModel)]="field.value" name="{{ field.name }}" class="mt-2 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             </div>
-            <!-- Template Description -->
-            <div class="mb-4">
-              <label for="templateDescription" class="block mt-4 text-sm font-medium text-text-black">Template Description</label>
-              <textarea type="text" id="templateDescription" name="templateDescription" formControlName="templateDescription" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm textarea textarea-bordered" required></textarea>
-            </div>
-            <!-- Template Fields -->
-            <div [formGroup]="documentFieldsForm" class="overflow-x-auto">
-              <table class="table-auto w-full">
-                <thead>
-                  <tr>
-                    <th class="px-4 py-2">Field Name</th>
-                    <th class="px-4 py-2">Field Type</th>
-                    <th class="px-4 py-2">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- Existing code for displaying existing fields -->
-                  <tr *ngFor="let field of fields.controls; let i = index">
-                    <td class="border px-4 py-2">{{ field?.get('name')?.value }}</td>
-                    <td class="border px-4 py-2">{{ field?.get('type')?.value }}</td>
-                    <td class="border px-4 py-2">
-                      <button class="btn btn-accent" (click)="removeField(i)">Remove</button>
-                    </td>
-                  </tr>
-                  <!-- New row for adding new fields -->
-                  <tr>
-                    <td class="border px-4 py-2">
-                      <input type="text" formControlName="name" [formGroup]="documentFieldsForm" class="mt-2 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
-                    </td>
-                    <td class="border px-4 py-2">
-                      <select class="select select-bordered w-full max-w-xs" formControlName="type" [formGroup]="documentFieldsForm">
-                        <option disabled selected>Select The Value Type</option>
-                        <option>Text</option>
-                      </select>
-                    </td>
-                    <td class="border px-4 py-2">
-                      <button class="btn btn-secondary" type="button" (click)="addNewField()">Add Field</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <button class="btn btn-secondary" type="submit" (click)="createNewUserDocumentTemplate()">Create Template</button>
           </form>
-        </div>
+        </section>
+
       </div>
-    </section>
-
-    <!-- Section To View and Send Templates to Users -->
-    <section *ngIf="pageIndex == 3">
-      <h2>View and Send Templates</h2>
-
-      <!-- Display the fields and types of the selected template -->
-      <div *ngIf="selectedDocumentTemplate">
-        <h3>{{ selectedDocumentTemplate.templateName }}</h3>
-        <p>{{ selectedDocumentTemplate.templateDescription }}</p>
-        <table class="table-auto w-full">
-          <thead>
-            <tr>
-              <th class="px-4 py-2">Field Name</th>
-              <th class="px-4 py-2">Field Type</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let field of selectedDocumentTemplate.fields">
-              <td class="border px-4 py-2">{{ field.name }}</td>
-              <td class="border px-4 py-2">{{ field.type }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Input field for entering usernames -->
-      <div class="mt-4">
-        <label for="usernames" class="block mt-4 text-sm font-medium text-text-black">Enter Usernames (comma-separated):</label>
-        <input type="text" id="usernames" name="usernames" class="mt-2 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
-      </div>
-
-      <!-- Button to send the templates -->
-      <div class="mt-4">
-        <button class="btn btn-primary" (click)="sendTemplates()">Send Templates</button>
-      </div>
-
-      <!-- Carousel to display users -->
-      <div class="mt-4">
-        <table class="table-auto w-full">
-          <thead>
-            <tr>
-              <th class="px-4 py-2">First Name</th>
-              <th class="px-4 py-2">Last Name</th>
-              <th class="px-4 py-2">Username</th>
-              <th class="px-4 py-2">Template Sent</th>
-              <th class="px-4 py-2">Document Submitted</th>
-              <th class="px-4 py-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let user of usersWhoReceivedDocumentTemplate">
-              <td class="border px-4 py-2">{{ user.userFirstName }}</td>
-              <td class="border px-4 py-2">{{ user.userLastName }}</td>
-              <td class="border px-4 py-2">{{ user.userDisplayName }}</td>
-              <td class="border px-4 py-2">Yes</td> <!-- Assuming the template was sent -->
-              <td *ngIf="(this.usersWhoSubmittedDocuments == [])" class="border px-4 py-2">No</td>
-              <td *ngIf="this.usersWhoSubmittedDocuments.includes(user.userId)" class="border px-4 py-2">Yes</td>
-              <td *ngIf="this.usersWhoSubmittedDocuments.includes(user.userId)" class="border px-4 py-2">
-                <button class="btn" (click)="viewSubmittedDocument(user.userId)">View Document</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <button class="btn btn-neutral" (click)="updatePageIndex(1)">Back</button>
-    </section>
-
-    <!-- Section To Review Submitted Documents-->
-    <section *ngIf="pageIndex == 4">
-      <button class="btn" (click)="updatePageIndex(3)">Back</button>
-      <h2>Viewing Submitted Document: {{ selectedDocument?.documentName }}</h2>
-      <form>
-          <div *ngFor="let field of selectedDocument?.fields">
-              <label class="block mt-4 text-sm font-medium text-text-black">{{ field.name }}</label>
-              <input disabled [type]="field.type" [(ngModel)]="field.value" name="{{ field.name }}" class="mt-2 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
-          </div>
-      </form>
-    </section>
-  
+    </div>
+  </div>
 </div>
-  
-  
