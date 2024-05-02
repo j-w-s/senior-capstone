@@ -344,17 +344,20 @@ export class MapComponent implements AfterViewInit {
 
   // Method to open the form when a beacon is clicked
   openForm(): void {
-    this.showForm = true;
+    const modalToggle = document.getElementById('modal-toggle') as HTMLInputElement;
+    modalToggle.checked = true;
   }
 
   // Method to close the form
   closeForm(): void {
-    this.showForm = false;
+    const modalToggle = document.getElementById('modal-toggle') as HTMLInputElement;
+    modalToggle.checked = false;
     // Reset form values
     this.comment = '';
     this.rating = 1;
     this.commentForm.reset();
   }
+
 
   submitForm(): void {
     if (this.commentForm.valid) {

@@ -183,9 +183,9 @@
 
 
 
-
-<div *ngIf="showForm" class="sidebar-overlay">
-  <div class="bg-white p-8 rounded-lg">
+<input type="checkbox" id="modal-toggle" class="modal-toggle" />
+<div class="modal">
+  <div class="modal-box">
     <h2 class="text-xl font-semibold mb-4">Add Comment and Rating</h2>
     <form [formGroup]="commentForm" (ngSubmit)="submitForm()">
       <!-- Comment input -->
