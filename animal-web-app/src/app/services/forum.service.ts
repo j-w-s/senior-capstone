@@ -46,7 +46,7 @@ comments$: Observable<Comment[]> = this.commentsSubject.asObservable();
         // If the thread does not have an ID, it's a new thread
         const docRef = await this.firestore.collection('Thread').add(thread);
         const threadId = docRef.id; // Get the Firestore-assigned document ID
-        await docRef.set({ comments: [] });
+        await docRef.update({ comments: [] });
         console.log('Thread added successfully with ID:', threadId);
 
         // Update the thread document with the Firestore-assigned ID
