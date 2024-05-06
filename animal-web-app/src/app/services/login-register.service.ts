@@ -170,6 +170,8 @@ export class LoginRegisterService implements OnDestroy {
     return signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user.uid;
+        const userId = this.getUserId();
+        this.saveUserDetailsToCache(userId, this.userData);
         console.log('User was signed in!');
       })
       .catch((error) => {
