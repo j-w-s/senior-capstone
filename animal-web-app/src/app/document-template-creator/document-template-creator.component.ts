@@ -103,9 +103,6 @@ export class DocumentTemplateCreatorComponent implements OnInit,OnDestroy{
       name: [''],
       type: ['']
      });
-    if(this.pageIndex != 4) {
-      this.previousIndex = this.pageIndex;
-    }
     this.pageIndex = newIndex;
     console.log('Update index:', this.pageIndex)
   }
