@@ -66,15 +66,19 @@
     <div class="overflow-y-auto w-full h-5/8 flex flex-col bg-white bg-base-200" #chatLog>
       <ng-container *ngIf="filteredMessages$ | async as messages; else noMessages">
         <div *ngFor="let message of messages" class="h-5/8 w-full flex flex-col px-6 py-2 m-auto"
-             [class.chat-end]="message.senderId == this.messengerService.demoPrimaryUserId"
-             [class.chat-start]="message.senderId != this.messengerService.demoPrimaryUserId">
-          <div class="chat-header">
-            {{ message.senderId == this.messengerService.demoPrimaryUserId ? 'Me' : selectedContact?.userFirstName + ' ' + selectedContact?.userLastName }}
+             [class.chat-end]="message.senderId == this.primaryUser.userId"
+             [class.chat-start]="message.senderId != this.primaryUser.userId">
+          <div *ngIf="(message.senderId == this.primaryUser.userId && message.receiverId == this.selectedContact?.userId) ||
+          (message.receiverId == this.primaryUser.userId && message.senderId == this.selectedContact?.userId)">
+            <div class="chat-header">
+              {{ message.senderId == this.primaryUser.userId ? 'Me' : selectedContact?.userFirstName + ' ' + selectedContact?.userLastName }}
+            </div>
+            <div class="chat-bubble bg-white text-black">{{ message.messageContent }}</div>
+            <div class="chat-footer opacity-50">
+              Delivered
+            </div>
           </div>
-          <div class="chat-bubble bg-white text-black">{{ message.messageContent }}</div>
-          <div class="chat-footer opacity-50">
-            Delivered
-          </div>
+
         </div>
       </ng-container>
       <ng-template #noMessages>

@@ -74,10 +74,12 @@ export class DocumentsComponent implements OnInit,OnDestroy{
 
   updateDocument(selectedDocument: DocumentStructure) {
     this.documentService.updateDocument(selectedDocument)
+    this.updatePageIndex(0)
   }
 
   submitDocumentToSender(selectedDocument: DocumentStructure) {
     this.documentService.submitDocumentToSender(selectedDocument)
+    this.updatePageIndex(0)
   }
 
 }
