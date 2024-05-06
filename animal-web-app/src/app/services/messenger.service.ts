@@ -126,50 +126,40 @@ export class MessengerService {
     }
   }
 
-  async addContactById(userId: string) {
-    const auth = getAuth();
-    const currUser = auth.currentUser?.uid;
+  async addContactById(userId: string): Promise<void> {
+    try {
+      const auth = getAuth();
+      const currUser = auth.currentUser?.uid;
 
-    // Query the 'User' collection for a document where 'userId' equals the input userId
-    const userQuery = this.firestore.collection('User', ref => ref.where('userId', '==', userId));
-    let newContact: DocumentReference | any = null;
+      const userQuery = this.firestore.collection('User', ref => ref.where('userId', '==', userId));
+      let newContact: DocumentReference | any = null;
 
-    await userQuery.get().toPromise().then((querySnapshot: any) => {
-      if (!querySnapshot.empty) {
+      const querySnapshot = await userQuery.get().toPromise();
+      if (querySnapshot) {
         let docData = querySnapshot.docs[0];
         newContact = docData.ref;
         console.log('User found: ', docData.data());
       } else {
         console.log('No user found with the given userId!');
       }
-    }).catch((error) => {
-      console.error('Error querying user: ', error);
-    });
 
-    console.log(newContact);
-    if (newContact != null) {
-      // Adds current user to new contact's contacts
-      const userDocRef = this.firestore.doc('Messages/' + newContact.path.split('/')[1]);
-      userDocRef.set({
-        contactsList: arrayUnion(this.firestore.doc('User/' + currUser).ref)
-      }, { merge: true }).then(() => {
-        console.log('Document successfully updated or created!');
-      }).catch((error) => {
-        console.error('Error updating or creating document: ', error);
-      });
+      console.log(newContact);
+      if (newContact != null) {
+        const userDocRef = this.firestore.doc('Messages/' + newContact.path.split('/')[1]);
+        await userDocRef.set({
+          contactsList: arrayUnion(this.firestore.doc('User/' + currUser).ref)
+        }, { merge: true });
 
-      // Adds new contact to current users contacts
-      const currUserDocRef = this.firestore.doc('Messages/' + currUser);
-      currUserDocRef.set({
-        contactsList: arrayUnion(newContact)
-      }, { merge: true }).then(() => {
-        console.log('Document successfully updated or created!');
-      }).catch((error) => {
-        console.error('Error updating or creating document: ', error);
-      });
+        const currUserDocRef = this.firestore.doc('Messages/' + currUser);
+        await currUserDocRef.set({
+          contactsList: arrayUnion(newContact)
+        }, { merge: true });
+      }
+    } catch (error) {
+      console.error('Error in addContactById: ', error);
+      throw error; // Rethrow the error to be caught by the caller
     }
   }
-
 
   async addMessage(message: Message, contact: string): Promise<any> {
     const docRef = this.firestore.collection('Messages').doc(this.loginRegService.getUserId());

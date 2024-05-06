@@ -9,6 +9,7 @@ import { GroupsService } from "../services/groups.service";
 import { LoginRegisterService } from "../services/login-register.service";
 import Messages from "../../models/messages";
 import { doc, getDoc } from "firebase/firestore";
+import { ActivatedRoute, Router } from '@angular/router';
 import { map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
@@ -43,6 +44,8 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
     private groupsService: GroupsService,
     public loginReg: LoginRegisterService,
     private cdRef: ChangeDetectorRef,
+    private route: ActivatedRoute,
+    private router: Router,
   ) { }
 
  ngOnDestroy(): void {
@@ -92,15 +95,31 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
       })
     );
 
-
-
     this.messagesSubscription = this.messages$.subscribe({
       error: (err) => {
         console.error("Error fetching messages:", err);
       }
     });
-    this.cdr.detectChanges();
 
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation) {
+      const state = navigation.extras.state as { userId: string };
+      if (state && state.userId) {
+        console.log('Navigation state with userId:', state.userId);
+        this.messengerService.getUserById2(state.userId).then(sender => {
+          if (sender) {
+            console.log('Selected contact set:', sender);
+            this.selectedContact = sender;
+          } else {
+            console.error('No user found with the given userId:', state.userId);
+          }
+        }).catch(error => {
+          console.error('Error fetching user:', error);
+        });
+      }
+    }
+
+    this.cdr.detectChanges();
     this.filterMessages(this.initialSearchQuery);
   }
 

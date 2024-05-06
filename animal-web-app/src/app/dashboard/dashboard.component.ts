@@ -4,8 +4,10 @@ import { NotificationsService } from '../services/notifications.service';
 import { getAuth } from 'firebase/auth';
 import User from '../../models/user';
 import { GroupsService } from '../services/groups.service';
+import { AlertsService } from '../services/alerts.service';
 import Glide from '@glidejs/glide';
 import { LoginRegisterService } from '../services/login-register.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,13 +20,15 @@ export class DashboardComponent implements AfterViewInit{
   public primaryUser: User | null = null;
   public notifications: {
     userId: string, notificationMessage: string, userName: string,
-    userImage: string, }[] = [];
+    userImage: string, disabled: boolean, notificationId: string}[] = [];
 
   constructor(
     public messengerService: MessengerService,
     private groupsService: GroupsService,
     public loginReg: LoginRegisterService,
     public notService: NotificationsService,
+    private router: Router,
+    private alertsService: AlertsService,
   ) { }
 
   async resolveUserImage() {
@@ -84,8 +88,17 @@ export class DashboardComponent implements AfterViewInit{
     });
   }
 
-  addContact(userId: string): void {
-    this.messengerService.addContactById(userId);
+  async addContact(userId: string, notificationId: string): Promise<void> {
+    try {
+      await this.messengerService.addContactById(userId);
+      this.alertsService.show('success', 'Contact added successfully. Redirecting you to the messenger.');
+      setTimeout(() => {
+        
+        this.router.navigate(['/messenger'], { state: { userId: userId } });
+      }, 3000);
+    } catch (error) {
+      this.alertsService.show('error', 'There was an error adding the contact. Please try again.');
+    }
   }
 
 }

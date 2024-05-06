@@ -1,0 +1,249 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\user.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\services\\user.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\dashboard\\dashboard.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\dashboard\\dashboard.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\dashboard\\dashboard.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\dashboard\\dashboard.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\explore\\explore.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\explore\\explore.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\notifications.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\services\\notifications.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\messenger\\messenger.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\messenger\\messenger.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\messenger\\messenger.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\messenger\\messenger.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\login\\login.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\login\\login.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\explore\\explore.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\explore\\explore.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\messenger.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\services\\messenger.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\login-register.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\services\\login-register.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\dashboard\\dashboard.component.scss||{181FE41B-5A5D-479F-9F8F-BF665F4EBC2A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\dashboard\\dashboard.component.scss||{181FE41B-5A5D-479F-9F8F-BF665F4EBC2A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\authguard.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\services\\authguard.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\user.service.spec.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:animal-web-app\\src\\app\\services\\user.service.spec.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "user.service.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\user.service.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\services\\user.service.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\user.service.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\services\\user.service.ts",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAADwAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-05-02T20:47:52.289Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "dashboard.component.html",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\dashboard\\dashboard.component.html",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\dashboard\\dashboard.component.html",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\dashboard\\dashboard.component.html",
+              "RelativeToolTip": "animal-web-app\\src\\app\\dashboard\\dashboard.component.html",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAABRAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-05-02T20:21:45.547Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "dashboard.component.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\dashboard\\dashboard.component.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\dashboard\\dashboard.component.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\dashboard\\dashboard.component.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\dashboard\\dashboard.component.ts",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAAABMAAAAUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-05-02T20:23:53.895Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "explore.component.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\explore\\explore.component.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\explore\\explore.component.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\explore\\explore.component.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\explore\\explore.component.ts",
+              "ViewState": "AQIAALkBAAAAAAAAAAAAAMkBAAAoAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-05-02T20:14:02.125Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "notifications.service.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\notifications.service.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\services\\notifications.service.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\notifications.service.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\services\\notifications.service.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-05-02T20:17:38.545Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "messenger.component.html",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\messenger\\messenger.component.html",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\messenger\\messenger.component.html",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\messenger\\messenger.component.html",
+              "RelativeToolTip": "animal-web-app\\src\\app\\messenger\\messenger.component.html",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABsAAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-05-02T20:24:41.23Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "messenger.component.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\messenger\\messenger.component.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\messenger\\messenger.component.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\messenger\\messenger.component.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\messenger\\messenger.component.ts",
+              "ViewState": "AQIAAF0AAAAAAAAAAAAAAHcAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-05-03T18:43:39.451Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "login.component.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\login\\login.component.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\login\\login.component.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\login\\login.component.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\login\\login.component.ts",
+              "ViewState": "AQIAACUAAAAAAAAAAAAQwC0AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-05-03T19:04:44.456Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "explore.component.html",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\explore\\explore.component.html",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\explore\\explore.component.html",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\explore\\explore.component.html",
+              "RelativeToolTip": "animal-web-app\\src\\app\\explore\\explore.component.html",
+              "ViewState": "AQIAAPwAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-05-02T20:13:57.722Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "messenger.service.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\messenger.service.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\services\\messenger.service.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\messenger.service.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\services\\messenger.service.ts",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAAOQAAAAuAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-05-02T20:49:19.658Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "login-register.service.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\login-register.service.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\services\\login-register.service.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\login-register.service.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\services\\login-register.service.ts",
+              "ViewState": "AQIAAPEAAAAAAAAAAAAQwPAAAAAUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-05-02T20:48:50.339Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "dashboard.component.scss",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\dashboard\\dashboard.component.scss",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\dashboard\\dashboard.component.scss",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\dashboard\\dashboard.component.scss",
+              "RelativeToolTip": "animal-web-app\\src\\app\\dashboard\\dashboard.component.scss",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002663|",
+              "WhenOpened": "2024-05-03T18:41:31.34Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "authguard.service.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\authguard.service.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\services\\authguard.service.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\authguard.service.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\services\\authguard.service.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-05-02T20:49:18.26Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "user.service.spec.ts",
+              "DocumentMoniker": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\user.service.spec.ts",
+              "RelativeDocumentMoniker": "animal-web-app\\src\\app\\services\\user.service.spec.ts",
+              "ToolTip": "C:\\Users\\AceFo\\source\\repos\\animal-adopt\\animal-web-app\\src\\app\\services\\user.service.spec.ts",
+              "RelativeToolTip": "animal-web-app\\src\\app\\services\\user.service.spec.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2024-05-02T20:47:51.555Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

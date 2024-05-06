@@ -11,12 +11,14 @@ export class NotificationsService {
 
   constructor(private firestore: AngularFirestore) { }
 
-  sendUserNotification(senderId: string, receiverId: string, senderMessage: string, senderImage: any, senderName: string): Promise<void> {
+  sendUserNotification(senderId: string, receiverId: string, senderMessage: string, senderImage: any, senderName: string, notificationId: string): Promise<void> {
     const notification = {
       userId: senderId,
       userImage: senderImage,
       userName: senderName,
-      notificationMessage: senderMessage
+      notificationMessage: senderMessage,
+      disabled: false,
+      notificationId: notificationId,
     };
     return this.firestore.collection('User').doc(receiverId).update({
       notifications: arrayUnion(notification)
