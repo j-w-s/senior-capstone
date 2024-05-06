@@ -36,7 +36,7 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
   filteredMessages$!: Observable<Message[]>;
 
   selectedConversation$: Observable<Message[]> | undefined;
-  public primaryUser: User | null = null;
+  public primaryUser!: User;
   constructor(
     public messengerService: MessengerService,
     private cdr: ChangeDetectorRef,
@@ -184,7 +184,7 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.newMessage && this.selectedContact) {
       const newMessage: Message = {
         messageId: uuidv4(),
-        senderId: this.messengerService.demoPrimaryUserId,
+        senderId: this.primaryUser.userId,
         receiverId: this.selectedContact.userId,
         messageContent: this.newMessage,
         timeSent: new Date(),

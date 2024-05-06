@@ -90,9 +90,19 @@ export class DocumentTemplateCreatorComponent implements OnInit,OnDestroy{
   }
 
   updatePageIndex(newIndex: number) {
-    if(this.pageIndex != 4) {
-      this.previousIndex = this.pageIndex;
-    }
+    this.documentForm = this.fb.group({
+      ownerId: [''],
+      templateId: [''],
+      templateName: [''],
+      templateDescription: [''],
+      fields: this.fb.array([]),
+      sentTemplateToUser: [],
+      receivedDocumentFromUser: [],
+    });
+    this.documentFieldsForm = this.fb.group({
+      name: [''],
+      type: ['']
+     });
     this.pageIndex = newIndex;
     console.log('Update index:', this.pageIndex)
   }

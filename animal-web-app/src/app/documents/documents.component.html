@@ -10,94 +10,96 @@
 
     <div class="w-full h-6/8 flex flex-row bg-base-200 justify-center items-center">
       <!-- Section to display received application templates -->
-      <section *ngIf="pageIndex == 0">
-        <section *ngIf="receivedTemplates != []">
-          <h2>Document Templates Sent To You:</h2>
-          <div>
-            <div class="carousel rounded-box bg-black w-full min-h-[20vh]">
-              <div class="carousel-item">
-                <div class="card m-2 w-75 h-[20vh] bg-base-100 shadow-xl" *ngFor="let template of receivedTemplates">
-                  <div class="card-body">
-                    <h2 class="card-title">{{ template.templateName }}</h2>
-                    <p>{{ template.templateDescription }}</p>
-                    <div class="card-actions justify-end">
-                      <button class="btn btn-primary" (click)="generateDocumentFromTemplate(template)">Start Filling Out Template!</button>
+      <div class="flex flex-col w-50dvw h-50dvh bg-white mx-2 my-2">
+        <section *ngIf="pageIndex == 0">
+          <section *ngIf="receivedTemplates != []">
+            <h2>Document Templates Sent To You:</h2>
+            <div>
+              <div class="carousel rounded-box bg-black w-full min-h-[20vh]">
+                <div class="carousel-item">
+                  <div class="card m-2 w-75 h-[20vh] bg-base-100 shadow-xl" *ngFor="let template of receivedTemplates">
+                    <div class="card-body">
+                      <h2 class="card-title">{{ template.templateName }}</h2>
+                      <p>{{ template.templateDescription }}</p>
+                      <div class="card-actions justify-end">
+                        <button class="btn btn-primary" (click)="generateDocumentFromTemplate(template)">Start Filling Out Template!</button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <!-- Section to display documents being worked on -->
-        <section *ngIf="workingDocs != []">
-          <h2>Your Documents Being Worked On:</h2>
-          <div>
-            <div class="carousel rounded-box bg-black w-full min-h-[20vh]">
-              <div class="carousel-item" *ngFor="let doc of workingDocs">
-                <div class="card m-2 w-75 h-[20vh] bg-base-100 shadow-xl">
-                  <div class="card-body">
-                    <h2 class="card-title">{{ doc.documentName }}</h2>
-                    <p>{{ doc.documentDescription }}</p>
-                    <div class="card-actions justify-end">
-                      <button class="btn btn-primary" (click)="viewDoc(doc, 1)">Continue Working!</button>
+          <!-- Section to display documents being worked on -->
+          <section *ngIf="workingDocs != []">
+            <h2>Your Documents Being Worked On:</h2>
+            <div>
+              <div class="carousel rounded-box bg-black w-full min-h-[20vh]">
+                <div class="carousel-item" *ngFor="let doc of workingDocs">
+                  <div class="card m-2 w-75 h-[20vh] bg-base-100 shadow-xl">
+                    <div class="card-body">
+                      <h2 class="card-title">{{ doc.documentName }}</h2>
+                      <p>{{ doc.documentDescription }}</p>
+                      <div class="card-actions justify-end">
+                        <button class="btn btn-primary" (click)="viewDoc(doc, 1)">Continue Working!</button>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="card-body"></div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Section to display sent application documents -->
-        <section *ngIf="sentDocs != []">
-          <h2>Submitted Documents:</h2>
-          <div>
-            <div class="carousel rounded-box bg-black w-full min-h-[20vh]">
-              <div class="carousel-item" *ngFor="let doc of sentDocs">
-                <div class="card m-2 w-75 h-[20vh] bg-base-100 shadow-xl">
-                  <div class="card-body">
-                    <h2 class="card-title">{{ doc.documentName }}</h2>
-                    <p>{{ doc.documentDescription }}</p>
-                    <div class="card-actions justify-end">
-                      <button class="btn btn-primary" (click)="viewDoc(doc, 2)">View!</button>
-                    </div>
-                  </div>
+                  <div class="card-body"></div>
                 </div>
               </div>
             </div>
-          </div>
+          </section>
+
+          <!-- Section to display sent application documents -->
+          <section *ngIf="sentDocs != []">
+            <h2>Submitted Documents:</h2>
+            <div>
+              <div class="carousel rounded-box bg-black w-full min-h-[20vh]">
+                <div class="carousel-item" *ngFor="let doc of sentDocs">
+                  <div class="card m-2 w-75 h-[20vh] bg-base-100 shadow-xl">
+                    <div class="card-body">
+                      <h2 class="card-title">{{ doc.documentName }}</h2>
+                      <p>{{ doc.documentDescription }}</p>
+                      <div class="card-actions justify-end">
+                        <button class="btn btn-primary" (click)="viewDoc(doc, 2)">View!</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
         </section>
-      </section>
 
-      <!-- Section to edit the selected document -->
-      <section *ngIf="pageIndex == 1">
-        <button class="btn" (click)="updatePageIndex(0)">Back</button>
-        <h2>Editing Document: {{ selectedDocument.documentName }}</h2>
-        <form>
-          <div *ngFor="let field of selectedDocument.fields">
-            <label class="block mt-4 text-sm font-medium text-text-black">{{ field.name }}</label>
-            <input [type]="field.type" [(ngModel)]="field.value" name="{{ field.name }}" class="mt-2 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
-          </div>
-          <button class="btn" type="submit" (click)="updateDocument(selectedDocument)">Save Document</button>
-          <button class="btn" type="submit" (click)="submitDocumentToSender(selectedDocument)">Submit Document</button>
-        </form>
+        <!-- Section to edit the selected document -->
+        <section *ngIf="pageIndex == 1">
+          <button class="btn btn-neutral" (click)="updatePageIndex(0)">Back</button>
+          <h2>Editing Document: {{ selectedDocument.documentName }}</h2>
+          <form>
+            <div *ngFor="let field of selectedDocument.fields">
+              <label class="block mt-4 text-sm font-medium text-text-black">{{ field.name }}</label>
+              <input [type]="field.type" [(ngModel)]="field.value" name="{{ field.name }}" class="mt-2 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+            </div>
+            <button class="btn" type="submit" (click)="updateDocument(selectedDocument)">Save Document</button>
+            <button class="btn" type="submit" (click)="submitDocumentToSender(selectedDocument)">Submit Document</button>
+          </form>
 
-      </section>
+        </section>
 
-      <!-- Section To Review Submitted Documents -->
-      <section *ngIf="pageIndex == 2">
-        <button class="btn" (click)="updatePageIndex(0)">Back</button>
-        <h2>Viewing Submitted Document: {{ selectedDocument.documentName }}</h2>
-        <form>
-          <div *ngFor="let field of selectedDocument.fields">
-            <label class="block mt-4 text-sm font-medium text-text-black">{{ field.name }}</label>
-            <input disabled [type]="field.type" [(ngModel)]="field.value" name="{{ field.name }}" class="mt-2 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
-          </div>
-        </form>
-      </section>
+        <!-- Section To Review Submitted Documents -->
+        <section *ngIf="pageIndex == 2" class="bg-white p-4">
+          <button class="btn btn-neutral mb-4" (click)="updatePageIndex(0)">Back</button>
+          <h2 class="text-2xl font-bold mb-4">Viewing Submitted Document: {{ selectedDocument.documentName }}</h2>
+          <form>
+            <div *ngFor="let field of selectedDocument.fields" class="mb-4">
+              <label class="block mt-4 text-sm font-medium text-text-black">{{ field.name }}</label>
+              <input disabled [type]="field.type" [(ngModel)]="field.value" name="{{ field.name }}" class="mt-2 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+            </div>
+          </form>
+        </section>
+      </div>
     </div>
 
   </div>

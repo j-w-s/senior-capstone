@@ -197,7 +197,13 @@
 
         <!-- Section To View and Send Templates -->
         <section *ngIf="pageIndex == 3" class="bg-white p-4">
-          <button class="btn btn-neutral" (click)="updatePageIndex(1)">Back</button>
+          <div *ngIf="this.selectedDocumentTemplate?.type == 'group'">
+            <button class="btn btn-neutral" (click)="updatePageIndex(1)">Back</button>
+          </div>
+          <div *ngIf="this.selectedDocumentTemplate?.type == 'user'">
+            <button class="btn btn-neutral" (click)="updatePageIndex(2)">Back</button>
+          </div>
+          
           <h2 class="text-2xl font-bold mb-4">View and Send Templates</h2>
           <!-- Display the fields and types of the selected template -->
           <div *ngIf="selectedDocumentTemplate" class="bg-base-white p-4 rounded-lg shadow-md mb-4">
