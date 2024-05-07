@@ -73,4 +73,5 @@ export class SchedulerService {
       return { success: false, message: 'Failed to create appointment.', error };
     }
   }
+
 }

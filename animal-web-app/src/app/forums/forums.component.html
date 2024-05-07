@@ -116,8 +116,8 @@
       </div>
 
       <div class="modal-action">
-        <button class="btn btn-primary" type="submit" [disabled]="!newThreadForm.valid">Add Thread</button>
-        <button class="btn btn-neutral" (click)="closeModal()">Cancel</button>
+        <button class="btn btn-primary" type="submit" [disabled]="!newThreadForm.valid || !newThreadForm.touched">Update Thread</button>
+        <button class="btn btn-accent" (click)="closeModal()">Cancel</button>
       </div>
     </form>
   </label>
@@ -140,8 +140,8 @@
       </div>
 
       <div class="modal-action">
-        <button class="btn btn-primary" type="submit" [disabled]="!editCommentForm.valid">Save Comment</button>
-        <button class="btn btn-neutral" (click)="closeEditCommentModal()">Cancel</button>
+        <button class="btn btn-primary" type="submit" [disabled]="!editCommentForm.valid || !editCommentForm.touched">Update Comment</button>
+        <button class="btn btn-accent" (click)="closeEditCommentModal()">Cancel</button>
       </div>
     </form>
   </label>

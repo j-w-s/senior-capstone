@@ -24,22 +24,32 @@
 
                 <!-- Row 1 -->
                 <div class="flex justify-between">
-                  <div class="w-1/2 pr-2">
+                  <div class="w-full pr-2">
                     <label for="username" class="block mt-4 text-sm font-medium text-text-black">Username</label>
                     <input type="text" id="username" formControlName="username" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
                     <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched" class="text-red-500 text-xs mt-1">
                       Username must contain 3+ characters.
                     </div>
                   </div>
-                  <div class="w-1/2 pl-2">
+                </div>
+                <!-- Row 2 -->
+                <div class="flex justify-between mt-4">
+                  <div class="w-1/2 pr-2">
                     <label for="password" class="block mt-4 text-sm font-medium text-text-black">Password</label>
                     <input type="password" id="password" formControlName="password" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
                     <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="text-red-500 text-xs mt-1">
                       Password must contain 8+ characters.
                     </div>
                   </div>
+                  <div class="w-1/2 pl-2">
+                    <label for="passwordCheck" class="block mt-4 text-sm font-medium text-text-black">Password Check</label>
+                    <input type="password" id="passwordCheck" formControlName="passwordCheck" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+                    <div *ngIf="registerForm.get('passwordCheck')?.invalid && registerForm.get('passwordCheck')?.touched && registerForm.get('password') !== registerForm.get('passwordCheck')" class="text-red-500 text-xs mt-1">
+                      Password must match.
+                    </div>
+                  </div>
                 </div>
-                <!-- Row 2 -->
+                <!-- Row 3 -->
                 <div class="flex justify-between mt-4">
                   <div class="w-1/2 pr-2">
                     <label for="firstname" class="block mt-4 text-sm font-medium text-text-black">First Name</label>
@@ -56,26 +66,24 @@
                     </div>
                   </div>
                 </div>
-                <!-- Row 3 -->
+                <!-- Row 4 -->
                 <div class="flex justify-between mt-4">
-                  <div class="w-full pr-2">
+                  <div class="w-1/2 pr-2">
                     <label for="email" class="block mt-4 text-sm font-medium text-text-black">Email</label>
                     <input type="email" id="email" formControlName="email" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
                     <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="text-red-500 text-xs mt-1">
                       Email is required.
                     </div>
                   </div>
-                </div>
-                <!-- Row 4 -->
-                <div class="flex justify-between mt-4">
-                  <div class="w-full pr-2">
-                    <label for="phonenumber" class="block text-sm font-medium text-black">Phone Number</label>
+                  <div class="w-1/2 pl-2">
+                    <label for="phonenumber" class="block mt-4 text-sm font-medium text-text-black">Phone Number</label>
                     <input type="tel" id="phonenumber" formControlName="phonenumber" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
                     <div *ngIf="registerForm.get('phonenumber')?.invalid && registerForm.get('phonenumber')?.touched" class="text-red-500 text-xs mt-1">
                       Phone number is required.
                     </div>
                   </div>
                 </div>
+
               </div>
 
               <!-- PICTURE SCREEN-->
@@ -122,7 +130,7 @@
             <div class="container w-full mt-8">
 
               <div class="container w-full flex justify-between mt-2" *ngIf="!this.profileSetupToggle">
-                <button (click)="this.profileSetupToggle = !this.profileSetupToggle" class="btn btn-neutral w-full ml-auto" [disabled]="registerForm.invalid || !registerForm.touched">Next</button>
+                <button (click)="this.profileSetupToggle = !this.profileSetupToggle" class="btn btn-neutral w-full ml-auto" [disabled]="registerForm.invalid || !registerForm.touched && registerForm.get('password') !== registerForm.get('passwordCheck')">Next</button>
               </div>
 
               <div class="container w-full flex justify-between mt-2" *ngIf="this.profileSetupToggle">
