@@ -16,19 +16,17 @@
       <div class="carousel carousel-vertical p-4 flex flex-col w-full h-full overflow-y-auto bg-base-200 text-base-content">
         <ng-container *ngIf="contacts$ | async as contacts">
           <ng-container *ngFor="let contact of contacts">
-            <a class="carousel-item h-auto max-h-48 btn bg-base-100 p-4 m-2"
+            <a class="carousel-item h-auto max-h-48 btn bg-base-100 p-4 m-2 flex items-center"
                [class.btn-disabled]="selectedContact?.userId === contact.userId"
-               [class.btn-active]="selectedContact?.userId !== contact.userId">
-              <div class="card card-side w-full h-auto"
-                   (click)="selectContact(contact)">
-                <div class="flex items-center gap-4 p-4">
-                  <img class="w-12 h-12 rounded-full" [src]="contact.userImage" />
-                  <div class="flex flex-col">
-                    <strong>{{ contact.userFirstName }} {{ contact.userLastName }}</strong>
-                    <span>
-                      <p>{{ contact.userBiography | slice:0:20 }}</p>
-                    </span>
-                  </div>
+               [class.btn-active]="selectedContact?.userId !== contact.userId"
+               (click)="selectContact(contact)">
+              <div class="card card-side w-full h-auto flex items-center">
+                <img class="w-12 h-12 rounded-full mr-4" [src]="contact.userImage" />
+                <div class="flex flex-col">
+                  <h3 class="text-lg font-semibold">{{contact.userFirstName}} {{contact.userLastName}}</h3>
+                  <span class="text-sm text-gray-500">
+                    <p>{{ contact.userBiography | slice:0:20 }}...</p>
+                  </span>
                 </div>
               </div>
             </a>
@@ -47,11 +45,11 @@
     <div class="w-full h-1/8 bg-white flex flex-row justify-between">
       <div *ngIf="selectedContact" class="w-1/2 flex flex-row items-center">
         <div class="flex items-center gap-4 p-4">
-          <img class="w-20 h-20 rounded-full" [src]="selectedContact.userImage">
+          <img class="w-20 h-20 rounded-full" [src]="selectedContact.userImage" />
           <div class="flex flex-col">
-            <h2>{{selectedContact.userFirstName}} {{selectedContact.userLastName}}</h2>
-            <span>
-              <p>{{ selectedContact.userBiography | slice:0:20 }}</p>
+            <h2 class="text-xl">{{selectedContact.userFirstName}} {{selectedContact.userLastName}}</h2>
+            <span class="text-sm opacity-50">
+              <p>{{ selectedContact.userBiography | slice:0:20 }}...</p>
             </span>
           </div>
         </div>
@@ -65,26 +63,42 @@
     <!-- Chat Log -->
     <div class="overflow-y-auto w-full h-5/8 flex flex-col bg-white bg-base-200" #chatLog>
       <ng-container *ngIf="filteredMessages$ | async as messages; else noMessages">
-        <div *ngFor="let message of messages" class="h-5/8 w-full flex flex-col px-6 py-2 m-auto"
+        <div *ngFor="let message of messages" class="w-full flex flex-col px-6 py-2 m-auto"
              [class.chat-end]="message.senderId == this.primaryUser.userId"
              [class.chat-start]="message.senderId != this.primaryUser.userId">
           <div *ngIf="(message.senderId == this.primaryUser.userId && message.receiverId == this.selectedContact?.userId) ||
-          (message.receiverId == this.primaryUser.userId && message.senderId == this.selectedContact?.userId)">
-            <div class="chat-header">
-              {{ message.senderId == this.primaryUser.userId ? 'Me' : selectedContact?.userFirstName + ' ' + selectedContact?.userLastName }}
-            </div>
-            <div class="chat-bubble bg-white text-black">{{ message.messageContent }}</div>
-            <div class="chat-footer opacity-50">
-              Delivered
+      (message.receiverId == this.primaryUser.userId && message.senderId == this.selectedContact?.userId)">
+            <!-- Chat Container -->
+            <div class="chat flex flex-row items-end" [class.flex-row-reverse]="message.senderId != this.primaryUser.userId">
+              <!-- Chat Content -->
+              <div class="flex flex-col">
+                <!-- Chat Header -->
+                <div class="chat-header">
+                  {{ message.senderId == this.primaryUser.userId ? 'Me' : selectedContact?.userFirstName + ' ' + selectedContact?.userLastName }}
+                </div>
+                <!-- Chat Bubble -->
+                <div class="chat-bubble bg-white text-black p-2 rounded-lg shadow-md m-1">{{ message.messageContent }}</div>
+                <!-- Chat Footer -->
+                <div class="chat-footer text-xs opacity-50">
+                  Delivered
+                </div>
+              </div>
+              <!-- Chat Image -->
+              <div class="chat-image avatar mr-4">
+                <div class="w-10 rounded-full">
+                  <img alt="User Avatar" [src]="selectedContact?.userImage" />
+                </div>
+              </div>
             </div>
           </div>
-
         </div>
       </ng-container>
+
       <ng-template #noMessages>
         <div>No messages yet</div>
       </ng-template>
     </div>
+
     <!-- End Chat Log -->
     <!-- Message Input -->
     <div *ngIf="selectedContact" class="justify-between w-full bg-white h-1/8 flex items-center gap-4 p-4">

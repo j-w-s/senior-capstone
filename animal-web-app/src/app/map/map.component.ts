@@ -260,6 +260,7 @@ export class MapComponent implements AfterViewInit {
         marker.beaconData = beacon;
         marker.addTo(this.map);
         this.markers.push(marker);
+        console.log(marker)
       }
       catch {
 

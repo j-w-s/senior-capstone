@@ -6,7 +6,7 @@ import User from '../../models/user';
 import { AngularFirestore, DocumentReference } from '@angular/fire/compat/firestore';
 import { LoginRegisterService } from './login-register.service';
 import { getAuth } from 'firebase/auth';
-import { arrayUnion, doc, getFirestore, onSnapshot } from 'firebase/firestore';
+import { arrayUnion, doc, getDoc, getFirestore, onSnapshot } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref } from 'firebase/storage';
 
 @Injectable({
@@ -70,6 +70,27 @@ export class MessengerService {
     });
   }
 
+  async getContacts(): Promise<any> {
+    const user = this.loginRegService.getUserId();
+
+    // Gets the document in the Messages collection for the current user
+    const userDocRef = doc(getFirestore(), 'Messages/' + user);
+
+    try {
+      const docSnapshot = await getDoc(userDocRef);
+      if (docSnapshot.exists()) {
+        // Extract the 'contactsList' property from the document data
+        const contactsList = docSnapshot.data()['contactsList'];
+        return contactsList;
+      } else {
+        console.log("No such document!");
+        return null; // Optionally handle the case where the document does not exist
+      }
+    } catch (error) {
+      console.error("Error fetching document:", error);
+      throw error; // Rethrow the error to be handled by the caller
+    }
+  }
   // Resolves the image path to the URL for the image in firebase storage
   resolveProfilePicture(user: User | null): Promise<string> {
     const storage = getStorage();
@@ -226,12 +247,34 @@ export class MessengerService {
   }
 
   // Returns a user object based on the userId given
-  async getUserById2(userId: string): Promise<User> {
-    // query the 'User' collection where 'userId' equals the provided userId
-    const querySnapshot = await this.firestore.collection('User', ref => ref.where('userId', '==', userId)).get().toPromise();
+  async getUserById2(userId: string): Promise<User | null> {
+    try {
+      // Query the 'User' collection where 'userId' equals the provided userId
+      const querySnapshot = await this.firestore.collection('User', ref => ref.where('userId', '==', userId)).get().toPromise();
 
-    // if documents were found, return the first 'User' object
-    return querySnapshot?.docs[0].data() as User;
+      // Check if querySnapshot and querySnapshot.docs are defined before proceeding
+      if (querySnapshot && querySnapshot.docs) {
+        // If documents were found, return the first 'User' object
+        if (querySnapshot.docs.length > 0) {
+          return querySnapshot.docs[0].data() as User;
+        }
+        // If no documents were found, log the message and return null
+        else {
+          console.log(`No user found with userId: ${userId}`);
+          return null;
+        }
+      }
+      // If querySnapshot or querySnapshot.docs are undefined, log an error and return null
+      else {
+        console.error("Error: querySnapshot or querySnapshot.docs is undefined.");
+        return null;
+      }
+    }
+    catch (error) {
+      // Handle any errors that occur during the query
+      console.error("Error fetching user by ID:", error);
+      return null; // Return null or a default value indicating an error occurred
+    }
   }
 
   getNotifications() {

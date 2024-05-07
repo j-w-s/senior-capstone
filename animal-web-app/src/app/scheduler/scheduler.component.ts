@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginRegisterService } from '../services/login-register.service';
 import { SchedulerService } from '../services/scheduler.service';
-import { finalize, Observable, Subscription } from 'rxjs';
+import { finalize, Observable, of, Subscription } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { v4 as uuidv4 } from 'uuid';
 import Appointment from '../../models/appointment';
 import User from '../../models/user';
+import { MessengerService } from '../services/messenger.service';
+import { AlertsService } from '../services/alerts.service';
 
 @Component({
   selector: 'app-scheduler',
@@ -21,9 +23,13 @@ export class SchedulerComponent implements OnInit {
   day: any;
   month: any;
   year: any;
-  userAppointments: Appointment[] = []
+  userAppointments: Appointment[] = [];
   scheduleAppointments: Appointment[] = [];
-  constructor(private fb: FormBuilder, public loginRegService: LoginRegisterService, public schedulerService: SchedulerService) {
+  userContacts!: any;
+  contactNames!: any[];
+  appointmentsForSelectedDate$: Observable<Appointment[]> | undefined;
+
+  constructor(private fb: FormBuilder, public loginRegService: LoginRegisterService, public schedulerService: SchedulerService, public messengerService: MessengerService, public alertsService: AlertsService) {
     this.appointmentForm = this.fb.group({
       userDisplayName: ['', Validators.required],
       appointmentDate: ['', Validators.required],
@@ -43,8 +49,32 @@ export class SchedulerComponent implements OnInit {
     showScheduleModal.checked = false;
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     const userDetails = this.loginRegService.loadUserDetailsFromCache("") as User;
+    const userId = userDetails.userId;
+    const userContactIds = [];
+    this.userContacts = [];
+    this.userContacts = await this.messengerService.getContacts() as any[];
+    for (const contact of this.userContacts) {
+      const id = contact._key.path.segments[contact._key.path.segments.length - 1];
+      console.log(id); // This prints the ID of each contact
+      userContactIds.push(id);
+    }
+
+    this.contactNames = [];
+
+    // Iterate over userContactIds and fetch user data
+    for (const contactId of userContactIds) {
+      const user = await this.messengerService.getUserById2(contactId);
+      // Extract userDisplayName and push it into the userDisplayNames array
+      if (user) {
+        this.contactNames.push(user.userDisplayName);
+      }
+    }
+
+    // Log the array of user display names
+    console.log(this.contactNames);
+
     if (userDetails.appointments) {
       this.userAppointments = userDetails.appointments;
       console.log(this.userAppointments);
@@ -62,12 +92,12 @@ export class SchedulerComponent implements OnInit {
     return `${year}-${formattedMonthStr}-${formattedDay}`;
   }
 
-  getAppointmentsForDate(year: number, month: number, day: number): void {
+  getAppointmentsForDate(year: number, month: number, day: number): Observable<Appointment[]> {
     const appointmentDate = this.formatDate(year, month, day);
-    console.log(appointmentDate);
-    this.scheduleAppointments = this.userAppointments.filter(appointment => {
+    const appointments = this.userAppointments.filter(appointment => {
       return appointment.appointmentDate as unknown as string === appointmentDate;
     });
+    return of(appointments);
   }
 
   getDaysInMonth(month: number, year: number): number {
@@ -98,11 +128,20 @@ export class SchedulerComponent implements OnInit {
 
   selectDay(day: number): void {
     this.day = day;
+    this.appointmentsForSelectedDate$ = this.getAppointmentsForDate(this.currentYear, this.currentMonth, day);
   }
 
   onSubmit() {
-    console.log(this.appointmentForm.value);
-    let poop = this.schedulerService.createAppointment(this.appointmentForm.value as Appointment);
-    this.showModal = false;
+    let createdAppointment = this.schedulerService.createAppointment(this.appointmentForm.value as Appointment);
+
+    createdAppointment.then(() => {
+      this.appointmentForm.reset();
+      this.alertsService.show('success', 'Appointment created successfully.');
+      setTimeout(() => {
+      }, 3000);
+    }).catch((error) => {
+      this.alertsService.show('error', 'There was an error creating your appointment. Please try again.');
+    });
   }
+
 }

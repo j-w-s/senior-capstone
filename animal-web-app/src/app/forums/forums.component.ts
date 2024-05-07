@@ -11,6 +11,7 @@ import { LoginRegisterService } from '../services/login-register.service';
 import { v4 as uuidv4 } from 'uuid';
 import { ChangeDetectorRef } from '@angular/core';
 import { and } from 'firebase/firestore/lite';
+import { AlertsService } from '../services/alerts.service';
 
 @Component({
   selector: 'app-forums',
@@ -49,6 +50,7 @@ export class ForumsComponent implements OnInit, AfterViewInit {
   }
 
   constructor(private forumService: ForumService,
+    public alertsService: AlertsService,
     private formBuilder: FormBuilder, private loginRegService: LoginRegisterService) {
     this.comments$ = new Observable<Comment[]>();
     this.initNewThreadForm();
@@ -131,11 +133,15 @@ export class ForumsComponent implements OnInit, AfterViewInit {
           Edited: false
         };
         await this.forumService.addThread(threadData);
-        this.resetForm();
-        this.closeModal();
+        this.alertsService.show('success', 'Thread created successfully.');
+        setTimeout(() => {
+          this.resetForm();
+          this.closeModal();
+        }, 3000);
       }
     } catch (error) {
       console.error('Error adding/updating thread:', error);
+      this.alertsService.show('error', 'There was an error creating your thread. Please try again.');
     }
   }
 
@@ -167,12 +173,20 @@ export class ForumsComponent implements OnInit, AfterViewInit {
         await this.forumService.addComment(this.selectedThread, newComment);
         this.selectedThread.comments.push(newComment);
         this.newCommentContent = '';
+
+        // Show success alert and reset form
+        this.alertsService.show('success', 'Comment added successfully.');
+        setTimeout(() => {
+          // Reset the form or perform any other action after a delay
+          this.newCommentContent = ''; // Reset the comment content
+        }, 3000);
       } catch (error) {
         console.error('Error getting current user:', error);
+        // Show error alert
+        this.alertsService.show('error', 'There was an error adding your comment. Please try again.');
       }
     }
   }
-
 
   loadComments(thread: Thread): void {
     console.log(thread);
@@ -247,11 +261,18 @@ export class ForumsComponent implements OnInit, AfterViewInit {
             messageContent: this.editCommentForm.get('content')?.value
           };
           await this.forumService.updateComment(this.selectedThread!, updatedComment);
-          this.closeEditCommentModal();
-        // Update the UI to reflect the changes
+          // Show success alert
+          this.alertsService.show('success', 'Comment updated successfully.');
+          setTimeout(() => {
+            // Close the edit comment modal and perform any other UI updates
+            this.closeEditCommentModal();
+            // Optionally, refresh the UI to reflect the changes
+          }, 3000);
         }
       } catch (error) {
         console.error('Error updating comment:', error);
+        // Show error alert
+        this.alertsService.show('error', 'There was an error updating your comment. Please try again.');
       }
     }
   }
