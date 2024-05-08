@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { LoginRegisterService } from '../services/login-register.service';
 import { SchedulerService } from '../services/scheduler.service';
 import { finalize, Observable, of, Subscription } from 'rxjs';
@@ -14,7 +14,7 @@ import { AlertsService } from '../services/alerts.service';
   templateUrl: './scheduler.component.html',
   styleUrl: './scheduler.component.scss'
 })
-export class SchedulerComponent implements OnInit {
+export class SchedulerComponent implements AfterViewInit {
   currentMonth = new Date().getMonth();
   currentYear = new Date().getFullYear();
   items: { [key: string]: any[] } = {};
@@ -49,9 +49,10 @@ export class SchedulerComponent implements OnInit {
     showScheduleModal.checked = false;
   }
 
-  async ngOnInit() {
-    const userDetails = this.loginRegService.loadUserDetailsFromCache("") as User;
-    const userId = userDetails.userId;
+  async ngAfterViewInit() {
+    let user = this.loginRegService.loadUserDetailsFromCache("") as User;
+    const userId = user.userId;
+    const userDetails = await this.messengerService.getUserById2(userId);
     const userContactIds = [];
     this.userContacts = [];
     this.userContacts = await this.messengerService.getContacts() as any[];
@@ -75,7 +76,7 @@ export class SchedulerComponent implements OnInit {
     // Log the array of user display names
     console.log(this.contactNames);
 
-    if (userDetails.appointments) {
+    if (userDetails && userDetails.appointments) {
       this.userAppointments = userDetails.appointments;
       console.log(this.userAppointments);
     }
@@ -137,6 +138,7 @@ export class SchedulerComponent implements OnInit {
     createdAppointment.then(() => {
       this.appointmentForm.reset();
       this.alertsService.show('success', 'Appointment created successfully.');
+      this.refreshUserAppointments();
       setTimeout(() => {
       }, 3000);
     }).catch((error) => {
@@ -144,4 +146,12 @@ export class SchedulerComponent implements OnInit {
     });
   }
 
+  async refreshUserAppointments() {
+    const userId = this.loginRegService.userData.userId;
+    const userDetails = await this.messengerService.getUserById2(userId);
+    if (userDetails && userDetails.appointments) {
+      this.userAppointments = userDetails.appointments;
+      console.log(this.userAppointments);
+    }
+  }
 }

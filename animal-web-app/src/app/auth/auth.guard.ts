@@ -21,7 +21,7 @@ export class AuthGuard implements CanActivate {
     const expectedRole = next.data['expectedRole'];
     const currentUser = this.loginRegService.currentUser;
     const userDetails = this.loginRegService.loadUserDetailsFromCache(currentUser);
-    if (this.router.navigated) {
+    if (!this.router.navigated) {
       if (userDetails && (userDetails.userAccountType as number == expectedRole as number)) {
         return true;
       } else {

@@ -147,7 +147,7 @@ export class MessengerService {
     }
   }
 
-  async addContactById(userId: string): Promise<void> {
+  async addContactById(userId: string, newMessage: Message): Promise<void> {
     try {
       const auth = getAuth();
       const currUser = auth.currentUser?.uid;
@@ -176,6 +176,7 @@ export class MessengerService {
           contactsList: arrayUnion(newContact)
         }, { merge: true });
       }
+      await this.addMessage(newMessage, userId);
     } catch (error) {
       console.error('Error in addContactById: ', error);
       throw error; // Rethrow the error to be caught by the caller
@@ -207,29 +208,26 @@ export class MessengerService {
   }
 
 
-  // adds the message to the user it was sent to as well in there messagesList
   async addToOtherUser(message: Message, contact: string): Promise<any> {
     const docRef = this.firestore.collection('Messages').doc(contact);
     const docSnapshot = await docRef.get().toPromise();
-    const messageAsMessageList: Message[] = [];
-    messageAsMessageList.push(message);
 
-    // check if the document exists
+    // Check if the document exists
     if (docSnapshot?.exists) {
-      
-      // if it exists, fetch the existing 'Messages' object
+      // If it exists, fetch the existing 'Messages' object
       const existingConversation: Messages = docSnapshot.data() as Messages;
 
-      // append the new messages to the existing 'messagesList'
-      existingConversation.messagesList = [...existingConversation.messagesList, ...messageAsMessageList];
+      // Append the new messages to the existing 'messagesList'
+      const updatedMessagesList = [...existingConversation.messagesList, message];
 
-      // save the updated 'Messages' object back to Firestore
-      const result = await docRef.update(existingConversation);
-
+      // Save the updated 'messagesList' back to Firestore
+      await docRef.update({ messagesList: updatedMessagesList });
     } else {
-      return;
+      // If the document does not exist, create a new one with the message
+      await docRef.set({ messagesList: [message] });
     }
   }
+
 
   // Returns a user object based on the userId given
   async getUserById(userId: string): Promise<User | null> {

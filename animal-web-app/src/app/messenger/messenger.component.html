@@ -61,7 +61,7 @@
     </div>
     <!-- End TOP BAR -->
     <!-- Chat Log -->
-    <div class="overflow-y-auto w-full h-5/8 flex flex-col bg-white bg-base-200" #chatLog>
+    <div *ngIf="!this.isLoading" class="overflow-y-auto w-full h-5/8 flex flex-col bg-white bg-base-200" #chatLog>
       <ng-container *ngIf="filteredMessages$ | async as messages; else noMessages">
         <div *ngFor="let message of messages" class="w-full flex flex-col px-6 py-2 m-auto"
              [class.chat-end]="message.senderId == this.primaryUser.userId"
@@ -86,7 +86,7 @@
               <!-- Chat Image -->
               <div class="chat-image avatar mr-4">
                 <div class="w-10 rounded-full">
-                  <img alt="User Avatar" [src]="selectedContact?.userImage" />
+                  <img alt="User Avatar" [src]="message.senderId == this.primaryUser.userId ? this.primaryUser.userImage : selectedContact?.userImage" />
                 </div>
               </div>
             </div>
@@ -95,8 +95,21 @@
       </ng-container>
 
       <ng-template #noMessages>
-        <div>No messages yet</div>
+        <div class="card mx-auto w-full max-w-5xl shadow-xl">
+          <div class="grid md:grid-cols-1 grid-cols-1 bg-base-100 rounded-xl">
+            <!-- Message Section -->
+            <div class="items-center justify-center flex flex-col py-24 px-10">
+              <h1 class="mb-5 text-6xl font-bold text-center">Oops!</h1>
+              <h3 class="mb-5 text-2xl font-bold text-center">No Messages Found</h3>
+              <p class="mb-5 text-lg text-center">
+                It seems like there are no messages to display. Try refreshing if you have existing conversations.
+              </p>
+              <button class="btn btn-secondary" (click)="setUpMessenger()">Refresh</button>
+            </div>
+          </div>
+        </div>
       </ng-template>
+
     </div>
 
     <!-- End Chat Log -->

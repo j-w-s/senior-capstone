@@ -17,7 +17,7 @@ import { map, switchMap, tap } from 'rxjs/operators';
   templateUrl: "./messenger.component.html",
   styleUrls: ["./messenger.component.scss"],
 })
-export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
+export class MessengerComponent implements OnDestroy, OnInit {
   @ViewChild("chatLog") chatLog!: ElementRef;
   selectedContact: User | null = null;
   newMessage: string = "";
@@ -37,6 +37,8 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   selectedConversation$: Observable<Message[]> | undefined;
   public primaryUser!: User;
+  isLoading: boolean = true;
+
   constructor(
     public messengerService: MessengerService,
     private cdr: ChangeDetectorRef,
@@ -56,13 +58,14 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
     // Unsubscribe from the messages$ subscription if it exists
     if (this.messagesSubscription) {
       this.messagesSubscription.unsubscribe();
-    }
+   }
  }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    const setup = await this.setUpMessenger();
   }
 
-  async ngAfterViewInit(): Promise<void> {
+  async setUpMessenger(): Promise<void> {
 
     this.loginReg.userData$.subscribe((user: User | null): void => {
       if (user) {
@@ -121,6 +124,7 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.cdr.detectChanges();
     this.filterMessages(this.initialSearchQuery);
+    this.isLoading = false;
   }
 
   // used to add a new contact to the users contact list
