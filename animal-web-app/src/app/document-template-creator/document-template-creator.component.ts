@@ -214,5 +214,12 @@ export class DocumentTemplateCreatorComponent implements OnInit,OnDestroy{
     this.updatePageIndex(4)
   }
 
+  getResponsesAsCSV(): void {
+    this.usersWhoReceivedDocumentTemplate.forEach(user => user.where(this.usersWhoSubmittedDocuments.includes(user.userId))
+    => {
+
+      });
+    )
+  }
   
 }

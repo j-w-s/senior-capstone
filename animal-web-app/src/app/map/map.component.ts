@@ -239,24 +239,21 @@ export class MapComponent implements AfterViewInit {
       L.marker(beaconCoords[i]).addTo(map);
     } */
 
-    // define beacon icon
-    var beaconIcon = L.icon({
-      iconUrl: 'assets/marker.png', // icon asset
-      iconSize: [64, 64], // size of the icon
-      iconAnchor: [32, 64], // point of the icon corresp. to marker's location
-      popupAnchor: [0, -64] // point from which the popup should open relative to the iconAnchor
-    });
-
     this.beacons.forEach(beacon => {
       console.log(beacon);
+      const beaconIconURL = `assets/marker-${beacon.beaconColor}.png`;
+      var beaconIcon = L.icon({
+        iconUrl: beaconIconURL, // icon asset
+        iconSize: [64, 64], // size of the icon
+        iconAnchor: [32, 64], // point of the icon corresp. to marker's location
+        popupAnchor: [0, -64] // point from which the popup should open relative to the iconAnchor
+      });
       try {
         // Directly access the properties using dot notation
         var latitude = beacon.geoCoordinates._lat;
         var longitude = beacon.geoCoordinates._long;
-        console.log(latitude, longitude);
-
         var beaconCoords: L.LatLngTuple = [latitude, longitude];
-        var marker = new CustomMarker(beaconCoords, { icon: beaconIcon, beaconData: beacon });
+        var marker = new CustomMarker(beaconCoords, { icon: beaconIcon, beaconData: beacon as Beacon });
         marker.beaconData = beacon;
         marker.addTo(this.map);
         this.markers.push(marker);
@@ -274,12 +271,23 @@ export class MapComponent implements AfterViewInit {
 
       // update each marker
       this.markers.forEach((marker) => {
+        console.log(marker);
+        console.log(marker);
+        console.log((marker as CustomMarker).beaconData);
+
+        var beaconData = (marker as CustomMarker).beaconData;
+        var beaconIconURL = `assets/marker-.png`;
+        if (beaconData) {
+          beaconIconURL = `assets/marker-${beaconData.beaconColor}.png`;
+        }
+
         marker.setIcon(L.icon({
-          iconUrl: 'assets/marker.png',
+          iconUrl: beaconIconURL,
           iconSize: [markerSize, markerSize],
           iconAnchor: [markerSize / 2, markerSize],
           popupAnchor: [0, -markerSize]
         }));
+        console.log(marker);
       });
     });
 
@@ -399,6 +407,7 @@ class CustomMarker extends L.Marker {
   constructor(latlng: L.LatLngExpression, options?: L.MarkerOptions & { beaconData?: Beacon }) {
     super(latlng, options);
     this.beaconData = options?.beaconData;
+
   }
 
 
