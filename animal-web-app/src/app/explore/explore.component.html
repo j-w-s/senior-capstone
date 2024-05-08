@@ -27,13 +27,11 @@
 
   <!-- Profile Tab Content -->
   <div class="w-full h-dvh flex flex-col bg-base-200">
-    <div class="flex justify-between items-center p-4 h-1/8 w-full bg-white">
-      <div class="flex justify-between items-center w-1/2">
+    <div class="flex justify-end items-center p-4 h-1/8 w-full bg-white">
+      <div class="flex justify-between items-center w-1/2 gap-2">
         <button class="btn btn-secondary" (click)="this.openModal();">
           Create
         </button>
-      </div>
-      <div class="flex justify-between items-center w-1/2">
         <input #searchInput
                type="text"
                placeholder="Search animals..."
@@ -48,8 +46,8 @@
     <div class="w-full h-full flex flex-col bg-base-200">
       <div class="grid grid-rows-2 grid-cols-4 items-center gap-y-2 overflow-hidden">
         <div *ngFor="let animal of getDisplayedCards()"
-             class="card bg-white overflow-hidden m-2 h-6/7 auto-rows-auto">
-          <img class="w-full h-96 object-cover"
+             class="card min-h-1/2 max-h-1/2 bg-white overflow-hidden m-2 h-6/7 auto-rows-auto">
+          <img class="w-full h-48 object-cover"
                [src]="animal.images"
                [alt]="animal.animalName" />
           <div class="p-4">
@@ -133,7 +131,7 @@
     <p>Gender: {{ modalAnimal?.animalSex }}</p>
     <p>Weight: {{ modalAnimal?.animalWeight }}</p>
     <p>Temperament: {{ modalAnimal?.temperament }}</p>
-    <button class="btn btn-secondary" (click)="this.sendNotification();">Interested? Notify Owner</button>
+    <button class="btn btn-secondary" (click)="this.sendNotification();" [disabled]="modalAnimal?.userId === this.currentUserId">Interested? Notify Owner</button>
   </div>
 </dialog>
 

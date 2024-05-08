@@ -8,6 +8,8 @@ import { AlertsService } from '../services/alerts.service';
 import Glide from '@glidejs/glide';
 import { LoginRegisterService } from '../services/login-register.service';
 import { Router } from '@angular/router';
+import Message from '../../models/message';
+import { v4 as uuidv4 } from "uuid";
 
 @Component({
   selector: 'app-dashboard',
@@ -88,9 +90,17 @@ export class DashboardComponent implements AfterViewInit{
     });
   }
 
-  async addContact(userId: string, notificationId: string): Promise<void> {
+  async addContact(notification: any): Promise<void> {
+    const userId = notification.userId;
+    const newMessage: Message = {
+      messageId: uuidv4(),
+      senderId: userId,
+      receiverId: this.primaryUser ? this.primaryUser.userId : "", 
+      messageContent: notification.notificationMessage,
+      timeSent: new Date(),
+    };
     try {
-      await this.messengerService.addContactById(userId);
+      await this.messengerService.addContactById(userId, newMessage);
       this.alertsService.show('success', 'Contact added successfully. Redirecting you to the messenger.');
       setTimeout(() => {
         
