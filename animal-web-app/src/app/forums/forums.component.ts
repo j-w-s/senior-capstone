@@ -163,7 +163,8 @@ export class ForumsComponent implements OnInit, AfterViewInit {
           commentId: uuidv4() as string,
           messageContent: this.newCommentContent,
           timeSent: new Date(),
-          isReply: false
+          isReply: false,
+          commenter: this.primaryUser.userDisplayName,
         };
 
         if (!this.selectedThread.comments) {

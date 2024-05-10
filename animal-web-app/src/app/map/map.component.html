@@ -11,11 +11,11 @@
         </h2>
       </div>
     </div>
-    <div class="container flex-grow w-full h-full">
+    <div class="container col w-full max-h-screen overflow-y-auto">
       <ul class="menu p-4  w-full overflow-auto bg-base-200 text-base-content">
         <div *ngIf="this.showModal" class="card w-full bg-base-100 shadow-xl">
 
-          <div class="card-body">
+          <div class="card-body mb-2">
             <!-- ADDRESS (no names atm?) -->
             <h2 class="card-title">
               {{this.selectedBeaconData.address}}
@@ -212,7 +212,7 @@
       Add Comment and Rating
     </h2>
     <div class="mt-2 w-full container">
-      <form [formGroup]="commentForm" (ngSubmit)="submitForm()" class="p-4 pt-4 w-full">
+      <form [formGroup]="commentForm" (ngSubmit)="submitForm();" class="p-4 pt-4 w-full">
         <!-- Comment input -->
         <div class="mb-4">
           <label for="comment" class="block text-sm font-medium text-gray-700">Comment:</label>
@@ -222,7 +222,8 @@
         <!-- Rating input -->
         <div class="mb-4">
           <label for="rating" class="block text-sm font-medium text-gray-700">Rating:</label>
-          <select id="rating" name="rating" class="form-select select select-bordered select-primary mt-1 block w-full">
+          <select id="rating" name="rating" [(ngModel)]="rating" class="form-select select select-bordered select-primary mt-1 block w-full"
+                  formControlName="rating">
             <option value="" disabled selected>Select a rating</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -234,7 +235,7 @@
         </div>
         <!-- Submit button -->
         <div class="text-center justify-center items-center">
-          <button class="btn btn-primary" [disabled]="!this.commentForm.valid" (click)="closeForm();"type="submit">Submit</button>
+          <button class="btn btn-primary" [disabled]="!this.commentForm.valid" type="submit">Submit</button>
         </div>
       </form>
     </div>

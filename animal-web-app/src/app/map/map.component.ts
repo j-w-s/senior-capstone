@@ -432,6 +432,7 @@ export class MapComponent implements AfterViewInit, OnInit {
           });
       }
     }
+    this.closeForm();
   }
 }
 
