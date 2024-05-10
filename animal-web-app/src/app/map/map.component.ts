@@ -335,7 +335,6 @@ export class MapComponent implements AfterViewInit, OnInit {
           this.showModal = true;
           this.currentSlideIndex = 0;
           this.images = this.selectedBeaconData.images;
-          this.updateStars();
           this.documentID = beaconMarkerDocumentId;
           console.log(this.documentID);
           this.firestore.collection('BusinessRating').doc(beaconMarkerDocumentId).ref.get().then(doc => {
@@ -371,17 +370,6 @@ export class MapComponent implements AfterViewInit, OnInit {
     }
   }
 
-  async calculateAverageRating() {
-
-  }
-
-  updateStars() {
-    this.calculateAverageRating().then(averageRating => {
-      this.averageRating = 4;
-      this.averageRatingStars = Array(Math.round(this.averageRating)).fill("★");
-    });
-  }
-
   // Method to open the form when a beacon is clicked
   openForm(): void {
     const modalToggle = document.getElementById('commentModalToggle') as HTMLInputElement;
@@ -401,7 +389,18 @@ export class MapComponent implements AfterViewInit, OnInit {
     });
   }
 
-
+  calculateAverageRating(ratings: any[]): number {
+    if (ratings.length === 0) {
+      return 0;
+    }
+    let sum = 0;
+    let counter = 0;
+    for (let rating of ratings) { // Use 'ratings' parameter instead of 'this.selectedBeaconData.ratings'
+      sum += Number(rating.ratingValue); // Explicitly cast to number
+      counter += 1;
+    }
+    return sum / counter;
+  }
 
   submitForm(): void {
     if (this.commentForm.valid) {
