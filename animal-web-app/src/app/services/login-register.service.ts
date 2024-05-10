@@ -254,6 +254,21 @@ export class LoginRegisterService implements OnDestroy {
     }
   }
 
+  async updateDetails(uid: string): Promise<any> {
+    const db = getFirestore();
+    const userRef = doc(db, "User", uid);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+      const userDetails = userSnap.data();
+      localStorage.removeItem("user-details");
+      this.saveUserDetailsToCache(uid, userDetails);
+      return userDetails;
+    } else {
+      throw new Error('User does not exist');
+    }
+  }
+
   // method to check if user details are in the cache
   checkUserDetailsInCache(uid: string): any {
     return this.loadUserDetailsFromCache(uid);

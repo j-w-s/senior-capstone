@@ -71,6 +71,7 @@ export class SettingsComponent implements OnInit {
     this.currentModal = '';
     this.userService.updateUserProfileInformation(this.user, userDisplayName, userBiography, userImage).then(() => {
       this.alertsService.show('success', 'Your profile information has been updated successfully.');
+      this.loginRegService.updateDetails(this.user.userId);
       setTimeout(() => {
         this.currentModal = '';
       }, 3000);
@@ -87,6 +88,7 @@ export class SettingsComponent implements OnInit {
     this.currentModal = '';
     this.userService.updateUserAccountInformation(this.user, userFirstName, userLastName, userEmail, userZipCode).then(() => {
       this.alertsService.show('success', 'Your account information has been updated successfully.');
+      this.loginRegService.updateDetails(this.user.userId);
       setTimeout(() => {
         this.currentModal = '';
       }, 3000);
@@ -167,7 +169,5 @@ export class SettingsComponent implements OnInit {
       userImage: url
     });
   }
-
-
 
 }

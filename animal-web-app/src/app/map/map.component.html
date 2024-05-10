@@ -11,7 +11,7 @@
         </h2>
       </div>
     </div>
-    <div class="container flex-grow w-full h-full">
+    <div class="container flex-grow w-full h-full mb-4 overflow-y-auto">
       <ul class="menu p-4  w-full overflow-auto bg-base-200 text-base-content">
         <div *ngIf="this.showModal" class="card w-full bg-base-100 shadow-xl">
 
@@ -59,7 +59,7 @@
             </div>
           </div>
         </div>
-        <div *ngIf="this.showModal" class="card w-full bg-base-100 shadow-xl">
+        <div *ngIf="this.showModal" class="card w-full bg-base-100 shadow-xl mb-4 mt-4">
           <div class="card-body">
             <!-- Other beacon details -->
             <!-- Ratings/comments section -->
@@ -80,8 +80,8 @@
             </div>
           </div>
         </div>
-        <div *ngIf="this.showModal" class="card w-full bg-base-100 shadow-xl">
-          <div class="bg-white p-4">
+        <div *ngIf="this.showModal" class="card w-full bg-base-100 shadow-xl mb-4 items-center justify-center">
+          <div class="bg-white p-4 items-center justify-center">
             <button class="btn btn-secondary" (click)="openForm()">
               Add Comment & Rating
             </button>
@@ -188,7 +188,7 @@
         </div>
 
         <div class="text-center justify-center items-center">
-          <button class="btn btn-primary" type="submit">Add Beacon</button>
+          <button class="btn btn-primary" [disabled]="!this.createBeaconForm.valid" type="submit">Add Beacon</button>
         </div>
       </form>
     </div>
@@ -204,34 +204,67 @@
 
 
 
-<input type="checkbox" id="modal-toggle" class="modal-toggle" />
-<div class="modal">
-  <div class="modal-box">
-    <h2 class="text-xl font-semibold mb-4">Add Comment and Rating</h2>
-    <form [formGroup]="commentForm" (ngSubmit)="submitForm()">
-      <!-- Comment input -->
-      <div class="mb-4">
-        <label for="comment" class="block text-sm font-medium text-gray-700">Comment:</label>
-        <textarea id="comment" name="comment" class="form-textarea mt-1 block w-full" [(ngModel)]="comment" formControlName="comment"></textarea>
-        <div *ngIf="commentForm.get('comment')?.errors?.['required']" class="text-red-500">Comment is required</div>
-      </div>
-      <!-- Rating input -->
-      <div class="mb-4">
-        <label for="rating" class="block text-sm font-medium text-gray-700">Rating:</label>
-        <select id="rating" name="rating" class="form-select mt-1 block w-full" [(ngModel)]="rating" formControlName="rating">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-        </select>
-        <div *ngIf="commentForm.get('rating')?.errors?.['required']" class="text-red-500">Rating is required</div>
-      </div>
-      <!-- Submit button -->
-      <div class="flex justify-end">
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <button type="button" class="btn btn-neutral ml-2" (click)="closeForm()">Close</button>
-      </div>
-    </form>
+<input type="checkbox" id="commentModalToggle" class="modal-toggle" />
+<label for="commentModalToggle" class="modal cursor-pointer z-10">
+  <div class="modal-box reflective">
+    <h2 class="text-5xl font-bold text-center" id="modal-title">
+      Add Comment and Rating
+    </h2>
+    <div class="mt-2 w-full container">
+      <form [formGroup]="commentForm" (ngSubmit)="submitForm()" class="p-4 pt-4 w-full">
+        <!-- Comment input -->
+        <div class="mb-4">
+          <label for="comment" class="block text-sm font-medium text-gray-700">Comment:</label>
+          <textarea id="comment" name="comment" class="form-textarea mt-1 block w-full" [(ngModel)]="comment" formControlName="comment"></textarea>
+          <div *ngIf="commentForm.get('comment')?.errors?.['required']" class="text-red-500">Comment is required</div>
+        </div>
+        <!-- Rating input -->
+        <div class="mb-4">
+          <label for="rating" class="block text-sm font-medium text-gray-700">Rating:</label>
+          <select id="rating" name="rating" class="form-select select select-bordered select-primary mt-1 block w-full">
+            <option value="" disabled selected>Select a rating</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <div *ngIf="commentForm.get('rating')?.errors?.['required']" class="text-red-500">Rating is required</div>
+        </div>
+        <!-- Submit button -->
+        <div class="text-center justify-center items-center">
+          <button class="btn btn-primary" [disabled]="!this.commentForm.valid" (click)="closeForm();"type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+    <div class="modal-action items-center">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn btn-neutral" (click)="closeForm();">Close</button>
+      </form>
+    </div>
   </div>
-</div>
+</label>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var beaconTypeSelect = document.getElementById('beaconType');
+    var beaconColorSelect = document.getElementById('beaconColor');
+
+    function updateClassVariables(beaconType, beaconColor) {
+
+      this.beaconType = beaconType;
+      this.beaconColor = beaconColor;
+    }
+
+    beaconTypeSelect.addEventListener('change', function () {
+      var beaconType = this.value;
+      updateClassVariables.call(this, beaconType, this.beaconColor);
+    });
+
+    beaconColorSelect.addEventListener('change', function () {
+      var beaconColor = this.value;
+      updateClassVariables.call(this, this.beaconType, beaconColor);
+    });
+  });</script>

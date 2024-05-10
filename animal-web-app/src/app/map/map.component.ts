@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import { catchError, finalize, Observable, Subscription } from 'rxjs';
 import Beacon from '../../models/beacon';
@@ -14,14 +14,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { getStorage, deleteObject } from "firebase/storage";
 import { GeoPoint } from 'firebase/firestore';
-
+import { Renderer2, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements AfterViewInit {
+export class MapComponent implements AfterViewInit, OnInit {
 
   private map!: L.Map;
   private markers: L.Marker[] = [];
@@ -50,17 +50,20 @@ export class MapComponent implements AfterViewInit {
   rating: number = 1;
   commentForm: FormGroup;
   documentID: any;
+  beaconColor: string = "";
+  beaconType: number = 1;
 
   constructor(private mapService: MapService,
     private fb: FormBuilder,
     private firestore: AngularFirestore,
     private storage: AngularFireStorage,
     private groupsService: GroupsService,
+    private renderer: Renderer2, private el: ElementRef
   ) {
 
     this.commentForm = this.fb.group({
       comment: ['', Validators.required],
-      rating: [1, Validators.required]
+      rating: [1, Validators.required] 
     });
 
     this.createBeaconForm = new FormGroup({
@@ -101,6 +104,10 @@ export class MapComponent implements AfterViewInit {
     if (this.createBeaconForm.valid) {
       try {
         let coords = this.createBeaconForm.get('geoCoordinates')?.value;
+        let beaconColor = this.createBeaconForm.get('beaconColor')?.value;
+        let beaconType = this.createBeaconForm.get('beaconType')?.value;
+        console.log(beaconColor);
+        console.log(beaconType);
         coords = coords.split(", ");
         coords = { _lat: parseFloat(coords[0]), _long: parseFloat(coords[1]) };
         let markerId = this.createBeaconForm.get('markerId')?.value as string;
@@ -116,8 +123,8 @@ export class MapComponent implements AfterViewInit {
         console.log(beaconMarker)
         this.mapService.addBeaconMarker(beaconMarker).then(beaconMarkerRef => {
           const beacon: Beacon = {
-            beaconType: this.createBeaconForm.get('beaconType')?.value,
-            beaconColor: this.createBeaconForm.get('beaconColor')?.value,
+            beaconType: this.beaconType,
+            beaconColor: this.beaconColor,
             geoCoordinates: coords,
             beaconInformation: beaconMarkerRef,
             beaconMarkerId: markerId,
@@ -139,6 +146,30 @@ export class MapComponent implements AfterViewInit {
     const modalToggle = document.getElementById('createBeaconModalToggle') as HTMLInputElement;
     modalToggle.checked = false;
     this.resetForm();
+  }
+
+  ngOnInit(): void {
+    this.initializeBeaconSelections();
+  }
+
+  initializeBeaconSelections(): void {
+    const beaconTypeSelect = this.el.nativeElement.querySelector('#beaconType');
+    const beaconColorSelect = this.el.nativeElement.querySelector('#beaconColor');
+
+    const updateClassVariables = (beaconType: string, beaconColor: string) => {
+      this.beaconType = Number(beaconType); // Convert beaconType back to number after updating
+      this.beaconColor = beaconColor;
+    };
+
+    this.renderer.listen(beaconTypeSelect, 'change', (event) => {
+      const beaconType = (event.target as HTMLSelectElement).value;
+      updateClassVariables(beaconType.toString(), this.beaconColor); // Convert beaconType to string before passing
+    });
+
+    this.renderer.listen(beaconColorSelect, 'change', (event) => {
+      const beaconColor = (event.target as HTMLSelectElement).value;
+      updateClassVariables(this.beaconType.toString(), beaconColor); // Convert beaconType to string before passing
+    });
   }
 
   updatePhoto(event: Event) {
@@ -353,19 +384,23 @@ export class MapComponent implements AfterViewInit {
 
   // Method to open the form when a beacon is clicked
   openForm(): void {
-    const modalToggle = document.getElementById('modal-toggle') as HTMLInputElement;
+    const modalToggle = document.getElementById('commentModalToggle') as HTMLInputElement;
     modalToggle.checked = true;
   }
 
   // Method to close the form
   closeForm(): void {
-    const modalToggle = document.getElementById('modal-toggle') as HTMLInputElement;
+    const modalToggle = document.getElementById('commentModalToggle') as HTMLInputElement;
     modalToggle.checked = false;
     // Reset form values
     this.comment = '';
     this.rating = 1;
-    this.commentForm.reset();
+    this.commentForm = this.fb.group({
+      comment: ['', Validators.required],
+      rating: [1, Validators.required]
+    });
   }
+
 
 
   submitForm(): void {
