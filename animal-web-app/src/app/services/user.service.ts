@@ -69,7 +69,7 @@ export class UserService {
         userFirstName: firstName,
         userLastName: lastName,
         userEmail: email,
-        //userZipcode: zipcode
+        userZipcode: zipcode
       });
 
       console.log("User account updated successfully!");

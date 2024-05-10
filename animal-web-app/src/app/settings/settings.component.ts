@@ -84,7 +84,7 @@ export class SettingsComponent implements OnInit {
     const userFirstName = this.accountForm?.get('userFirstName')?.value;
     const userLastName = this.accountForm?.get('userLastName')?.value;
     const userEmail = this.accountForm?.get('userEmail')?.value;
-    const userZipCode = this.accountForm?.get('userZipCode')?.value;
+    const userZipCode = this.accountForm?.get('userZipcode')?.value as string;
     this.currentModal = '';
     this.userService.updateUserAccountInformation(this.user, userFirstName, userLastName, userEmail, userZipCode).then(() => {
       this.alertsService.show('success', 'Your account information has been updated successfully.');

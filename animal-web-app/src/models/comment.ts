@@ -5,5 +5,6 @@ interface Comment {
   timeSent: Date;
   isReply: boolean;
   replyTo?: string;
+  commenter: string;
 }
 export default Comment;

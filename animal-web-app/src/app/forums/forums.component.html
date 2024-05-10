@@ -22,10 +22,10 @@
     <div class="flex-1 w-1/2 carousel carousel-vertical p-4 flex flex-col overflow-y-auto no-scrollbar bg-white text-base-content mb-2">
       <div *ngFor="let thread of forumThreads" class="card card-side w-full h-auto mb-4 btn bg-base-100 cursor-pointer" (click)="onRowClick(thread)">
         <div class="card-body w-full flex flex-row justify-between">
-          <div class="ml-2">
+          <div class="justify-start m-2">
             <h2 class="card-title">{{ thread.title }}</h2>
             <p class="text-sm">Posted by {{ thread.publisher }}</p>
-            <p class="truncate">{{ thread.threadContent | slice:0:100 }}...</p>
+            <p class="truncate">{{ thread.threadContent | slice:0:70 }}...</p>
           </div>
 
           <div class="mr-2 w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center mr-4">
@@ -65,7 +65,7 @@
       <div *ngFor="let comment of selectedThreadComments">
         <div class="card bg-base-200 mb-4">
           <div class="card-body">
-            <p><b>From:</b> {{ comment?.userId }}</p>
+            <p><b>From:</b> {{ comment?.commenter }}</p>
             <p>{{ comment?.messageContent }}</p>
             <p><b>Time Sent:</b> {{ formatTimestamp(comment?.timeSent) | date: 'medium' }}</p>
           </div>
