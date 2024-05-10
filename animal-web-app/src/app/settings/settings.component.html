@@ -106,9 +106,6 @@
     <div *ngIf="selectedTab=='Account'" class="flex-grow w-full h-full">
       <form [formGroup]="accountForm" (ngSubmit)="onSubmit()" class="card h-full">
         <div class="card-body bg-base-200">
-          <div class="sm:flex sm:flex-row-reverse space-x-4">
-            <button (click)="openModal('Account Settings')" class="btn btn-secondary">Update</button>
-          </div>
           <!-- Account Tab Content -->
           <!-- Users first name and change button for it-->
           <div class="form-control p-4">
@@ -129,6 +126,9 @@
           <div class="form-control p-4">
             <label class="label" for="userZipcode">Zipcode</label>
             <input type="number" formControlName="userZipcode" id="userZipcode" class="input input-bordered">
+          </div>
+          <div class="p-4">
+            <button (click)="openModal('Account Settings')" class="btn btn-secondary">Update</button>
           </div>
         </div>
       </form>
