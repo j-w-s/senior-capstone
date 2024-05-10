@@ -11,7 +11,7 @@
         </h2>
       </div>
     </div>
-    <div class="container flex-grow w-full h-full mb-4 overflow-y-auto">
+    <div class="container flex-grow w-full h-full">
       <ul class="menu p-4  w-full overflow-auto bg-base-200 text-base-content">
         <div *ngIf="this.showModal" class="card w-full bg-base-100 shadow-xl">
 
@@ -38,8 +38,8 @@
 
             <!-- RATING -->
             <div class="flex flex-row">
-              <div class="rating flex flex-row" *ngFor="let star of averageRatingStars">
-                <input type="radio" name="rating-1" class="mask mask-star" />
+              <div class="rating flex flex-row">
+                <p>Average Rating: {{ calculateAverageRating(this.selectedBeaconData.ratings) }}</p>
               </div>
             </div>
 
@@ -59,7 +59,8 @@
             </div>
           </div>
         </div>
-        <div *ngIf="this.showModal" class="card w-full bg-base-100 shadow-xl mb-4 mt-4">
+        <div *ngIf="this.showModal" class="card w-full bg-base-100 shadow-xl mt-4">
+          <!-- Calculate and display the average rating -->
           <div class="card-body">
             <!-- Other beacon details -->
             <!-- Ratings/comments section -->
@@ -80,7 +81,7 @@
             </div>
           </div>
         </div>
-        <div *ngIf="this.showModal" class="card w-full bg-base-100 shadow-xl mb-4 items-center justify-center">
+        <div *ngIf="this.showModal" class="card w-full bg-base-100 shadow-xl mt-4 items-center justify-center">
           <div class="bg-white p-4 items-center justify-center">
             <button class="btn btn-secondary" (click)="openForm()">
               Add Comment & Rating
