@@ -1,0 +1,16 @@
+$color-lightest: #F5FFF2;
+$color-lighter: #EAF9E3;
+$color-medium: #C2D1B6;
+$color-darker: #6B7C56;
+$color-darkest: #22261A;
+
+.active {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.disabled {
+  color: #ccc;
+  cursor: not-allowed;
+  pointer-events: none;
+}

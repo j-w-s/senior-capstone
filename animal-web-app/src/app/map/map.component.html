@@ -1,0 +1,272 @@
+<app-alerts></app-alerts>
+<!-- NOTE TO SELF: don't forget to change widget routing later, placeholder atm due to component restrictions '-->
+<div class="flex-grow flex flex-col w-full max-h-screen min-w-screen lg:flex-row bg-base-100 p-0 m-0">
+
+  <div class="w-1/4 h-full flex flex-grow flex-col justify-center items-center bg-white">
+    <div class="w-full h-1/8 bg-white flex flex-row justify-between">
+      <div class="bg-white p-4">
+        <h2 class="text-left">
+          Map
+
+        </h2>
+      </div>
+    </div>
+    <div class="container col w-full max-h-screen overflow-y-auto">
+      <ul class="menu p-4  w-full overflow-auto bg-base-200 text-base-content">
+        <div *ngIf="this.showModal" class="card w-full bg-base-100 shadow-xl">
+
+          <div class="card-body mb-2">
+            <!-- ADDRESS (no names atm?) -->
+            <h2 class="card-title">
+              {{this.selectedBeaconData.address}}
+            </h2>
+
+            <!-- CAROUSEL -->
+            <div class="relative w-full">
+              <div class="carousel w-full">
+                <div *ngFor="let image of images; let i = index" [class.active]="i === currentSlideIndex" class="carousel-item relative w-full">
+                  <img [src]="images[currentSlideIndex]" class="w-full" />
+                  <div class="absolute flex justify-between transform -translate-y-1/2 left-2 right-25 top-1/2">
+                    <button class="z-10 btn btn-circle" *ngIf="currentSlideIndex >   0" (click)="changeSlide('prev'); $event.stopPropagation()">❮</button>
+                  </div>
+                  <div class="absolute flex justify-between transform -translate-y-1/2 left-25 right-2 top-1/2">
+                    <button class="z-10 btn btn-circle" *ngIf="currentSlideIndex < images.length -   1" (click)="changeSlide('next'); $event.stopPropagation()">❯</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- RATING -->
+            <div class="flex flex-row">
+              <div class="rating flex flex-row">
+                <p>Average Rating: {{ calculateAverageRating(this.selectedBeaconData.ratings) }}</p>
+              </div>
+            </div>
+
+            <!-- BIO -->
+            <p>
+              {{this.selectedBeaconData.about}}
+            </p>
+
+            <!-- CONTACT INFO AS TAGS -->
+            <div class="card-actions flex flex-row">
+
+              <ng-container *ngFor="let contact of this.selectedBeaconData.contactInformation">
+                <div class="badge badge-outline">
+                  {{contact}}
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="this.showModal" class="card w-full bg-base-100 shadow-xl mt-4">
+          <!-- Calculate and display the average rating -->
+          <div class="card-body">
+            <!-- Other beacon details -->
+            <!-- Ratings/comments section -->
+            <div *ngIf="this.selectedBeaconData.ratings.length > 0">
+              <h3 class="card-title">Ratings & Comments</h3>
+              <ul>
+                <li *ngFor="let rating of this.selectedBeaconData.ratings">
+                  <!-- Display the rating value -->
+                  <div>Rating: {{ rating.ratingValue }}</div>
+                  <!-- Display the comment -->
+                  <div>Comment: {{ rating.comment }}</div>
+                  <!-- Add any other information you want to display -->
+                </li>
+              </ul>
+            </div>
+            <div *ngIf="this.selectedBeaconData.ratings.length === 0">
+              <p>No ratings available.</p>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="this.showModal" class="card w-full bg-base-100 shadow-xl mt-4 items-center justify-center">
+          <div class="bg-white p-4 items-center justify-center">
+            <button class="btn btn-secondary" (click)="openForm()">
+              Add Comment & Rating
+            </button>
+          </div>
+        </div>
+      </ul>
+    </div>
+  </div>
+
+  <!-- divider between side bar and main content-->
+  <div class="divider lg:divider-horizontal"></div>
+
+  <!-- main content -->
+  <div class="container bg-base-200 h-full flex flex-col">
+
+    <!-- TOP BAR -->
+    <div class="w-full h-1/8 bg-white flex flex-row justify-between">
+
+      <div class="bg-white p-4">
+        <h2 class="text-left"></h2>
+      </div>
+
+      <div class="bg-white p-4">
+        <button class="btn btn-secondary" (click)="openModal(); resetForm();">
+          Create
+        </button>
+      </div>
+
+    </div>
+
+    <!-- MAP CONTAINER -->
+    <div class="w-full h-7/8 flex overflow-auto">
+
+      <div id="map" style="height: 100vh; overflow: hidden;"></div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<input type="checkbox" id="createBeaconModalToggle" class="modal-toggle">
+<label for="createBeaconModalToggle" class="modal cursor-pointer z-10">
+  <label class="modal-box relative" for="">
+    <h2 class="text-5xl font-bold text-center" id="modal-title">
+      Add New Beacon
+    </h2>
+    <div class="mt-2 w-full container">
+      <form [formGroup]="createBeaconForm" (ngSubmit)="addNewBeacon(); closeModal();" class="p-4 pt-4 w-full">
+        <!-- Beacon Type Input -->
+        <div class="mb-4">
+          <label for="beaconType" class="block text-sm font-medium text-gray-700">Beacon Type:</label>
+          <select id="beaconType" name="beaconType" class="form-select select select-bordered select-primary mt-1 block w-full">
+            <option value="" disabled selected>Select a beacon type</option>
+            <option value="1">1</option>
+            <option value="2" disabled>2</option>
+            <option value="3" disabled>3</option>
+            <option value="4" disabled>4</option>
+          </select>
+        </div>
+        <!-- Beacon Color Input -->
+        <div class="mb-4">
+          <label for="beaconColor" class="block text-sm font-medium text-gray-700">Beacon Color:</label>
+          <select id="beaconColor" name="beaconColor" class="form-select select select-bordered select-primary mt-1 block w-full">
+            <option value="" disabled selected>Select a color</option>
+            <option value="red">Red</option>
+            <option value="blue">Blue</option>
+            <option value="green">Green</option>
+            <option value="yellow">Yellow</option>
+          </select>
+        </div>
+        <!-- Geo Coordinates Input -->
+        <div class="mb-4">
+          <label for="geoCoordinates" class="block text-sm font-medium text-gray-700">Geo Coordinates</label>
+          <input type="text" id="geoCoordinates" formControlName="geoCoordinates" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+        </div>
+        <!-- Marker ID Input -->
+        <div class="mb-4">
+          <label for="markerId" class="block text-sm font-medium text-gray-700">Marker ID</label>
+          <input [disabled]="true" type="text" id="markerId" formControlName="markerId" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+        </div>
+        <!-- Address Input -->
+        <div class="mb-4">
+          <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+          <input type="text" id="address" formControlName="address" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+        </div>
+        <!-- Images Input -->
+        <div class="mb-4">
+          <label for="images" class="block text-sm font-medium text-gray-700">Images</label>
+          <!-- Hidden file input -->
+          <input multiple="multiple" type="file" class="file-input w-full max-w-xs" id="imageUpload" hidden (change)="updatePhoto($event)" formControlName="images" required />
+          <!-- Custom button to trigger file input -->
+          <button for="imageUpload" type="button" class="btn btn-primary" (click)="triggerFileInput()">Upload Image</button>
+        </div>
+        <!-- Contact Information Input -->
+        <div class="mb-4">
+          <label for="contactInformation" class="block text-sm font-medium text-gray-700">Contact Information</label>
+          <input type="text" id="contactInformation" formControlName="contactInformation" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required />
+        </div>
+        <!-- About Input -->
+        <div class="mb-4">
+          <label for="about" class="block text-sm font-medium text-gray-700">About</label>
+          <textarea id="about" formControlName="about" class="mt-4 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required></textarea>
+        </div>
+
+        <div class="text-center justify-center items-center">
+          <button class="btn btn-primary" [disabled]="!this.createBeaconForm.valid" type="submit">Add Beacon</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-action items-center">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn btn-neutral" (click)="closeModal();">Close</button>
+      </form>
+    </div>
+  </label>
+</label>
+
+
+
+<input type="checkbox" id="commentModalToggle" class="modal-toggle" />
+<label for="commentModalToggle" class="modal cursor-pointer z-10">
+  <div class="modal-box reflective">
+    <h2 class="text-5xl font-bold text-center" id="modal-title">
+      Add Comment and Rating
+    </h2>
+    <div class="mt-2 w-full container">
+      <form [formGroup]="commentForm" (ngSubmit)="submitForm();" class="p-4 pt-4 w-full">
+        <!-- Comment input -->
+        <div class="mb-4">
+          <label for="comment" class="block text-sm font-medium text-gray-700">Comment:</label>
+          <textarea id="comment" name="comment" class="form-textarea mt-1 block w-full" [(ngModel)]="comment" formControlName="comment"></textarea>
+          <div *ngIf="commentForm.get('comment')?.errors?.['required']" class="text-red-500">Comment is required</div>
+        </div>
+        <!-- Rating input -->
+        <div class="mb-4">
+          <label for="rating" class="block text-sm font-medium text-gray-700">Rating:</label>
+          <select id="rating" name="rating" [(ngModel)]="rating" class="form-select select select-bordered select-primary mt-1 block w-full"
+                  formControlName="rating">
+            <option value="" disabled selected>Select a rating</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <div *ngIf="commentForm.get('rating')?.errors?.['required']" class="text-red-500">Rating is required</div>
+        </div>
+        <!-- Submit button -->
+        <div class="text-center justify-center items-center">
+          <button class="btn btn-primary" [disabled]="!this.commentForm.valid" type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+    <div class="modal-action items-center">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn btn-neutral" (click)="closeForm();">Close</button>
+      </form>
+    </div>
+  </div>
+</label>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var beaconTypeSelect = document.getElementById('beaconType');
+    var beaconColorSelect = document.getElementById('beaconColor');
+
+    function updateClassVariables(beaconType, beaconColor) {
+
+      this.beaconType = beaconType;
+      this.beaconColor = beaconColor;
+    }
+
+    beaconTypeSelect.addEventListener('change', function () {
+      var beaconType = this.value;
+      updateClassVariables.call(this, beaconType, this.beaconColor);
+    });
+
+    beaconColorSelect.addEventListener('change', function () {
+      var beaconColor = this.value;
+      updateClassVariables.call(this, this.beaconType, beaconColor);
+    });
+  });</script>

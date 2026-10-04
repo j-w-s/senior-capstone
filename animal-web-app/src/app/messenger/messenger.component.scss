@@ -1,0 +1,21 @@
+
+
+.chat-log {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.chat-start {
+  align-self: flex-end;
+}
+
+.chat-end {
+  align-self: flex-start;
+}
+
+input {
+  white-space: nowrap;
+  overflow-x: auto;
+}
+

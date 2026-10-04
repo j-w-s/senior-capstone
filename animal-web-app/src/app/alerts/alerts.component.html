@@ -1,0 +1,7 @@
+<div *ngIf="(alertService.alert$ | async)?.show" [class]="alertClass" role="alert" class="alert alert-success fixed top-2 left-0 z-50 w-full">
+  <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+  </svg>
+  <span>{{ (alertService.alert$ | async)?.message }}</span>
+</div>
+
+

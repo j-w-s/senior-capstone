@@ -1,0 +1,36 @@
+.animal-info {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.dropdown-content {
+  position: absolute;
+  width: auto;
+  right: 0;
+  top: 100%;
+  z-index: 20;
+}
+
+.owner-name:hover {
+  overflow: visible;
+  white-space: normal;
+  width: auto;
+}
+
+.radio-label {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 3%;
+}
+
+.radio-input {
+  display: inline-block;
+  vertical-align: top;
+}

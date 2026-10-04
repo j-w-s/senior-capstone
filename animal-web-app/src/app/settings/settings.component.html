@@ -1,0 +1,139 @@
+<app-alerts></app-alerts>
+<div class="flex-grow flex flex-col w-full max-h-screen min-w-screen min-h-screen lg:flex-row bg-base-100 p-0 m-0">
+
+  <!-- Sidebar -->
+  <div class="w-1/4 h-full flex flex-col justify-center items-center bg-white">
+    <div class="w-full h-1/8 bg-white flex flex-row justify-between">
+      <div class="bg-white p-4">
+        <h2 class="text-left">Settings</h2>
+      </div>
+    </div>
+    <div class="container flex-grow w-full h-full">
+      <ul class="menu p-4 flex-grow w-full min-h-full bg-base-200 text-base-content">
+        <li>
+          <a routerLink="/settings" [class.active]="selectedTab==='Profile'" [class.disabled]="selectedTab==='Profile'" (click)="selectedTab!='Profile' && selectedTab='Profile'; $event.preventDefault()" [attr.aria-disabled]="selectedTab==='Profile' ? 'true' : 'false'">Profile</a>
+        </li>
+        <li>
+          <a routerLink="/settings" [class.active]="selectedTab==='Account'" [class.disabled]="selectedTab==='Account'" (click)="selectedTab!='Account' && selectedTab='Account'; $event.preventDefault()" [attr.aria-disabled]="selectedTab==='Account' ? 'true' : 'false'">Account</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- End Sidebar -->
+  <!-- Divider -->
+  <div class="divider lg:divider-horizontal"></div>
+
+  <!-- checkbox to control the modal -->
+  <input type="checkbox" id="modal-toggle" class="modal-toggle">
+
+  <!-- Modal to confirm change to USER PROFILE SETTINGS -->
+  <div class="modal" *ngIf="currentModal === 'Profile Settings'" id="profileSettings" tabindex="-1">
+    <div class="modal-box">
+      <h2 class="text-xl">Confirm Changes To Profile Settings</h2>
+      <p>Are you sure you want to make these changes?</p>
+      <div class="modal-action">
+        <label for="modal-toggle" class="btn btn-neutral">Cancel</label>
+        <button [disabled]="profileForm.invalid || !profileForm.touched" (click)="updateProfileSettings()" class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal to confirm change to USER ACCOUNT SETTINGS -->
+  <div class="modal" *ngIf="currentModal === 'Account Settings'" id="accountSettings" tabindex="-1">
+    <div class="modal-box">
+      <h2 class="text-xl">Confirm Changes To Account Settings</h2>
+      <p>Are you sure you want to make these changes?</p>
+      <div class="modal-action">
+        <label for="modal-toggle" class="btn btn-neutral">Cancel</label>
+        <button [disabled]="accountForm.invalid || !accountForm.touched" (click)="updateAccountSettings();" class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <!-- Main Content -->
+  <div class="w-3/4 h-7/8 flex flex-col justify-center items-center bg-base-200">
+    <!-- Top Bar -->
+    <div class="w-full h-1/8 bg-white flex flex-row justify-between">
+      <div class="bg-white p-4">
+        <h2 class="text-left">
+          <h2 class="text-left">{{selectedTab}}</h2>
+        </h2>
+      </div>
+    </div>
+
+
+    <!-- Profile Tab Content -->
+    <div *ngIf="selectedTab=='Profile' && imgUrl != ''" class="flex-grow w-full h-full">
+      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="card h-full">
+        <div class="card-body bg-base-200">
+          <!-- Profile Tab Content -->
+          <!-- Users profile image and change button for it-->
+          <div class="form-control p-4">
+            <label class="label" for="userImage">Photo</label>
+            <div class="mt-2 flex items-center gap-x-3">
+              <div class="avatar rounded">
+                <figure class="w-20 h-20 rounded-full">
+                  <img [src]="imgUrl" alt="User Photo">
+                </figure>
+              </div>
+              <input type="file" class="file-input w-full max-w-xs" id="imageUpload" hidden (change)="updatePhoto($event)" />
+            </div>
+            <div class="max-w-xs flex flex-row mt-2">
+              <label for="imageUpload" class="btn btn-secondary">Change</label>
+            </div>
+          </div>
+          <!-- Users display name and change button for it-->
+          <div class="form-control p-4">
+            <label class="label" for="userDisplayName">Display Name</label>
+            <input type="text" formControlName="userDisplayName" id="userDisplayName" class="input input-bordered">
+          </div>
+          <!-- Users biography and change button for it-->
+          <div class="form-control p-4">
+            <label class="label" for="userBiography">Biography</label>
+            <textarea formControlName="userBiography" id="userBiography" class="input input-bordered"></textarea>
+          </div>
+          <div class="p-4">
+            <button (click)="openModal('Profile Settings')" class="btn btn-secondary">Update</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Account Tab Content -->
+    <div *ngIf="selectedTab=='Account'" class="flex-grow w-full h-full">
+      <form [formGroup]="accountForm" (ngSubmit)="onSubmit()" class="card h-full">
+        <div class="card-body bg-base-200">
+          <!-- Account Tab Content -->
+          <!-- Users first name and change button for it-->
+          <div class="form-control p-4">
+            <label class="label" for="userFirstName">First Name</label>
+            <input type="text" formControlName="userFirstName" id="userFirstName" class="input input-bordered">
+          </div>
+          <!-- Users last name and change button for it-->
+          <div class="form-control p-4">
+            <label class="label" for="userLastName">Last Name</label>
+            <input type="text" formControlName="userLastName" id="userLastName" class="input input-bordered">
+          </div>
+          <!-- Users email and change button for it-->
+          <div class="form-control p-4">
+            <label class="label" for="userEmail">Email</label>
+            <input type="email" formControlName="userEmail" id="userEmail" class="input input-bordered">
+          </div>
+          <!-- Users zipcode and change button for it-->
+          <div class="form-control p-4">
+            <label class="label" for="userZipcode">Zipcode</label>
+            <input type="text" formControlName="userZipcode" id="userZipcode" class="input input-bordered">
+          </div>
+          <div class="p-4">
+            <button (click)="openModal('Account Settings')" class="btn btn-secondary">Update</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- End Main Content -->
+

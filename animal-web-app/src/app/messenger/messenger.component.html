@@ -1,0 +1,125 @@
+<app-alerts></app-alerts>
+<div class="flex-grow flex flex-col w-full max-h-screen min-w-screen lg:flex-row bg-base-100 p-0 m-0">
+  <!-- Sidebar -->
+  <div class="w-1/4 h-7/8 flex flex-col overflow-y-auto no-scrollbar">
+    <div class="w-full h-1/8 bg-white flex flex-row justify-between">
+      <div class="bg-white p-4 flex w-full flex-row justify-between">
+        <h2 class="text-left justify-between w-full flex items-center gap-4 p-4">Contacts</h2>
+        <div class="bg-white p-4 flex flex-row w-full mr-2 justify-between w-full">
+          <input #contactInput type="text" id="addContact" placeholder="Enter contact username..." class="block w-full p-2 gap-4 mr-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+          <button type="submit" class="btn btn-primary" (click)="addContact(contactInput.value)">Add</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full h-7/8 bg-white flex flex-col">
+      <div class="carousel carousel-vertical p-4 flex flex-col w-full h-full overflow-y-auto bg-base-200 text-base-content">
+        <ng-container *ngIf="contacts$ | async as contacts">
+          <ng-container *ngFor="let contact of contacts">
+            <a class="carousel-item h-auto max-h-48 btn bg-base-100 p-4 m-2 flex items-center"
+               [class.btn-disabled]="selectedContact?.userId === contact.userId"
+               [class.btn-active]="selectedContact?.userId !== contact.userId"
+               (click)="selectContact(contact)">
+              <div class="card card-side w-full h-auto flex items-center">
+                <img class="w-12 h-12 rounded-full mr-4" [src]="contact.userImage" />
+                <div class="flex flex-col">
+                  <h3 class="text-lg font-semibold">{{contact.userFirstName}} {{contact.userLastName}}</h3>
+                  <span class="text-sm text-gray-500">
+                    <p>{{ contact.userBiography | slice:0:20 }}...</p>
+                  </span>
+                </div>
+              </div>
+            </a>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <!-- End Sidebar -->
+  <!-- Divider -->
+  <div class="divider lg:divider-horizontal"></div>
+
+  <!-- Main Content -->
+  <div class="w-3/4 h-7/8 flex flex-col justify-center items-center bg-base-300">
+    <!-- TOP BAR -->
+    <div class="w-full h-1/8 bg-white flex flex-row justify-between">
+      <div *ngIf="selectedContact" class="w-1/2 flex flex-row items-center">
+        <div class="flex items-center gap-4 p-4">
+          <img class="w-20 h-20 rounded-full" [src]="selectedContact.userImage" />
+          <div class="flex flex-col">
+            <h2 class="text-xl">{{selectedContact.userFirstName}} {{selectedContact.userLastName}}</h2>
+            <span class="text-sm opacity-50">
+              <p>{{ selectedContact.userBiography | slice:0:20 }}...</p>
+            </span>
+          </div>
+        </div>
+      </div>
+      <h2 *ngIf="selectedContact" class="text-right justify-between w-1/2 flex items-center gap-4 p-4">
+        <input #searchInput type="text" id="searchInput" placeholder="Search messages..." class="block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+        <button type="submit" class="btn btn-primary" (click)="filterMessages(searchInput.value)">Search</button>
+      </h2>
+    </div>
+    <!-- End TOP BAR -->
+    <!-- Chat Log -->
+    <div *ngIf="!this.isLoading" class="overflow-y-auto w-full h-5/8 flex flex-col bg-white bg-base-200" #chatLog>
+      <ng-container *ngIf="filteredMessages$ | async as messages; else noMessages">
+        <div *ngFor="let message of messages" class="w-full flex flex-col px-6 py-2 m-auto"
+             [class.chat-end]="message.senderId == this.primaryUser.userId"
+             [class.chat-start]="message.senderId != this.primaryUser.userId">
+          <div *ngIf="(message.senderId == this.primaryUser.userId && message.receiverId == this.selectedContact?.userId) ||
+      (message.receiverId == this.primaryUser.userId && message.senderId == this.selectedContact?.userId)">
+            <!-- Chat Container -->
+            <div class="chat flex flex-row items-end" [class.flex-row-reverse]="message.senderId != this.primaryUser.userId">
+              <!-- Chat Content -->
+              <div class="flex flex-col">
+                <!-- Chat Header -->
+                <div class="chat-header">
+                  {{ message.senderId == this.primaryUser.userId ? 'Me' : selectedContact?.userFirstName + ' ' + selectedContact?.userLastName }}
+                </div>
+                <!-- Chat Bubble -->
+                <div class="chat-bubble bg-white text-black p-2 rounded-lg shadow-md m-1">{{ message.messageContent }}</div>
+                <!-- Chat Footer -->
+                <div class="chat-footer text-xs opacity-50">
+                  Delivered
+                </div>
+              </div>
+              <!-- Chat Image -->
+              <div class="chat-image avatar mr-4">
+                <div class="w-10 rounded-full">
+                  <img alt="User Avatar" [src]="message.senderId == this.primaryUser.userId ? this.primaryUser.userImage : selectedContact?.userImage" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #noMessages>
+        <div class="card mx-auto w-full max-w-5xl shadow-xl">
+          <div class="grid md:grid-cols-1 grid-cols-1 bg-base-100 rounded-xl">
+            <!-- Message Section -->
+            <div class="items-center justify-center flex flex-col py-24 px-10">
+              <h1 class="mb-5 text-6xl font-bold text-center">Oops!</h1>
+              <h3 class="mb-5 text-2xl font-bold text-center">No Messages Found</h3>
+              <p class="mb-5 text-lg text-center">
+                It seems like there are no messages to display. Try refreshing if you have existing conversations.
+              </p>
+              <button class="btn btn-secondary" (click)="setUpMessenger()">Refresh</button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+
+    </div>
+
+    <!-- End Chat Log -->
+    <!-- Message Input -->
+    <div *ngIf="selectedContact" class="justify-between w-full bg-white h-1/8 flex items-center gap-4 p-4">
+      <input [(ngModel)]="newMessage" class="block w-full p-2 gap-4 mr-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+      <button (click)="sendMessage()" class="btn btn-primary">Send</button>
+    </div>
+    <!-- End Message Input -->
+  </div>
+  <!-- End Main Content -->
+
+</div>

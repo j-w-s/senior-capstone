@@ -1,0 +1,84 @@
+<app-alerts></app-alerts>
+<div class="flex-grow flex flex-col min-h-screen min-w-screen bg-base-200 p-0 m-0 justify-center items-center">
+
+  <div class="card mx-auto w-full max-w-5xl shadow-xl">
+
+    <div class="grid md:grid-cols-2 grid-cols-1 bg-base-100 rounded-xl">
+
+      <div class="flex items-center justify-center bg-primary">
+        <img src="/assets/dog.svg" alt="Dog">
+      </div>
+
+      <div class='py-24 px-10'>
+
+        <h2 class='text-2xl font-semibold mb-2 text-center'>Login</h2>
+
+        <form [formGroup]="loginForm" (ngSubmit)="this.onLoginSubmit()">
+
+          <div class="mb-6">
+            <label for="usernameoremail" class="block mt-4 text-sm font-medium text-text-black">Username or Email</label>
+            <input type="text" id="usernameoremail" formControlName="usernameoremail" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+            <label for="password" class="block mt-4 text-sm font-medium text-black">Password</label>
+            <input type="password" id="password" formControlName="password" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+          </div>
+
+          <div class="container w-full mt-8">
+
+            <button type="submit" class="btn btn-primary w-1/2 mt-4" [disabled]="loginForm.invalid || !loginForm.touched">Login</button>
+
+            <a class="btn btn-neutral w-1/2 mt-4" onclick="forgot_modal.showModal()">Forgot Password?</a>
+
+            <div class='text-center mt-4'>
+
+              Don't have an account yet?
+
+              <a routerLink="/register">
+                <span class=" inline-block hover:underline hover:cursor-pointer transition duration-200">Register</span>
+              </a>
+
+            </div>
+
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<dialog id="forgot_modal" class="modal modal-bottom sm:modal-middle">
+
+  <div class="modal-box flex items-center justify-center bg-base-100">
+
+    <div class="w-1/2 px-4">
+      <form [formGroup]="forgotPasswordForm" (ngSubmit)="this.onForgotSubmit();" class="flex flex-col items-center">
+
+        <label for="email" class="block mt-4 text-sm font-medium text-text-black">Username or Email</label>
+        <input type="text" id="email" formControlName="email" class="mt-4 block w-full p-2 border border-black rounded-md shadow-sm focus:outline-none focus:ring-bg-primary focus:border-bg-primary sm:text-sm">
+
+        <button type="submit" class="btn w-full btn-primary mt-4">Send Instructions</button>
+
+      </form>
+
+      <button type="button" class="btn btn-neutral w-full mt-4" onclick="forgot_modal.close()">
+        Back to Login
+      </button>
+
+    </div>
+
+    <div class="divider lg:divider-horizontal divider-accent"></div>
+
+    <div class="w-1/2 px-4">
+
+      <h2 class="font-bold text-lg" style="text-align: center;">Recover Your Password</h2>
+      <p class="py-4" style="text-align: center;">Please enter the email address associated with your account and we'll send you an email with instructions to reset your password.</p>
+
+    </div>
+
+  </div>
+
+</dialog>
