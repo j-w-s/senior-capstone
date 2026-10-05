@@ -8,8 +8,6 @@
 
 # Animal Adopt | Pet Adoption and Rescue in Ruston<br/>Senior Capstone Project at Louisiana Tech University
 
-NOTE: The most recent commits were pushed to branch sprint-5.
-
 ## Links and Resources
   [Sprint Planning Spreadsheet](https://docs.google.com/spreadsheets/d/1_6T-ZQahHiYX3u0BWAZIKlBXlH1P0tN7j2BRdPc-34k/edit#gid=672367071)<br>
   [Documentation](https://animal-adopt.gitbook.io/animal-adopt/)
@@ -26,4 +24,7 @@ NOTE: The most recent commits were pushed to branch sprint-5.
 </a>
 <a href="https://github.com/cordusbailey02">
   <img src="https://avatars.githubusercontent.com/u/59886296?v=4" alt="cordusbailey02" width="50" height="50" style="border-radius: 50%;">
+</a>
+<a href="https://github.com/JackSulzer">
+  <img src="https://avatars.githubusercontent.com/u/85864424?v=4" alt="JackSulzer" width="50" height="50" style="border-radius: 50%;">
 </a>
