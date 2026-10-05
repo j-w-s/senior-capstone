@@ -45,3 +45,10 @@ Thumbs.db
 .firebase
 *-debug.log
 .runtimeconfig.json
+
+# Secrets - never commit these
+.env
+.env.local
+.env.*.local
+src/environments/environment.ts
+src/environments/environment.development.ts
